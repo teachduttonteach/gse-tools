@@ -9,6 +9,9 @@
     "https://www.googleapis.com/auth/presentations",
     "https://www.googleapis.com/auth/spreadsheets",
     "https://www.googleapis.com/auth/spreadsheets.readonly",
+    "https://www.googleapis.com/auth/calendar",
+    "https://www.googleapis.com/auth/calendar.readonly",
+    "https://www.google.com/calendar/feeds",
     "https://www.googleapis.com/auth/classroom.profile.emails",
     "https://www.googleapis.com/auth/classroom.profile.photos",
     "https://www.googleapis.com/auth/classroom.rosters",
@@ -20,18 +23,24 @@
     "https://www.googleapis.com/auth/classroom.announcements",
     "https://www.googleapis.com/auth/classroom.announcements.readonly",
     "https://www.googleapis.com/auth/classroom.topics",
-    "https://www.googleapis.com/auth/classroom.topics.readonly"
+    "https://www.googleapis.com/auth/classroom.topics.readonly",
+    "https://www.googleapis.com/auth/documents"
   ],
   "dependencies": {
     "enabledAdvancedServices": [{
       "userSymbol": "Classroom",
       "serviceId": "classroom",
       "version": "v1"
+    }],
+    "libraries": [{
+      "userSymbol": "cEs6Shim",
+      "libraryId": "1dvi84vwjD03YUc_-yp4D_fFjIXTK0J8Zk93qtNTPDI0xe2NO35XSv9em",
+      "version": "1"
     }]
   },
   "webapp": {
     "access": "ANYONE",
     "executeAs": "USER_DEPLOYING"
   },
-  "exceptionLogging": "STACKDRIVER",
+  "exceptionLogging": "STACKDRIVER"
 }

@@ -70,12 +70,231 @@
 				<h2>Index</h2>
 				<section class="tsd-panel tsd-index-panel">
 					<div class="tsd-index-content">
-						<section class="tsd-index-section tsd-is-not-exported">
-							<h3>Classes</h3>
+						<section class="tsd-index-section ">
+							<h3>Enumerations</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-class tsd-parent-kind-external-module tsd-is-not-exported"><a href="../classes/_classgs_.classgs.html" class="tsd-kind-icon">ClassGS</a></li>
+								<li class="tsd-kind-enum tsd-parent-kind-external-module"><a href="../enums/_classgs_.duedateorder.html" class="tsd-kind-icon">Due<wbr>Date<wbr>Order</a></li>
 							</ul>
 						</section>
+						<section class="tsd-index-section ">
+							<h3>Classes</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-class tsd-parent-kind-external-module"><a href="../classes/_classgs_.classgs.html" class="tsd-kind-icon">ClassGS</a></li>
+								<li class="tsd-kind-class tsd-parent-kind-external-module"><a href="../classes/_classgs_.classinfo.html" class="tsd-kind-icon">Class<wbr>Info</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
+							<h3>Type aliases</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-type-alias tsd-parent-kind-external-module"><a href="_classgs_.html#classdataparams" class="tsd-kind-icon">Class<wbr>Data<wbr>Params</a></li>
+								<li class="tsd-kind-type-alias tsd-parent-kind-external-module"><a href="_classgs_.html#coursework" class="tsd-kind-icon">Course<wbr>Work</a></li>
+								<li class="tsd-kind-type-alias tsd-parent-kind-external-module"><a href="_classgs_.html#material" class="tsd-kind-icon">Material</a></li>
+								<li class="tsd-kind-type-alias tsd-parent-kind-external-module"><a href="_classgs_.html#work-1" class="tsd-kind-icon">Work</a></li>
+							</ul>
+						</section>
+					</div>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Type aliases</h2>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-external-module">
+					<a name="classdataparams" class="tsd-anchor"></a>
+					<h3>Class<wbr>Data<wbr>Params</h3>
+					<div class="tsd-signature tsd-kind-icon">Class<wbr>Data<wbr>Params<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in ClassGS.ts:78</li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Type to hold the parameters for the convertClassroomData method</p>
+						</div>
+					</div>
+					<div class="tsd-type-declaration">
+						<h4>Type declaration</h4>
+						<ul class="tsd-parameters">
+							<li class="tsd-parameter">
+								<h5><span class="tsd-flag ts-flagOptional">Optional</span> due<wbr>Date<wbr>Delim<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></h5>
+								<div class="tsd-comment tsd-typography">
+									<div class="lead">
+										<p>the delimiter for the actual due date (default: &quot;/&quot;)</p>
+									</div>
+								</div>
+							</li>
+							<li class="tsd-parameter">
+								<h5><span class="tsd-flag ts-flagOptional">Optional</span> due<wbr>Date<wbr>Order<span class="tsd-signature-symbol">?: </span><a href="../enums/_classgs_.duedateorder.html" class="tsd-signature-type">DueDateOrder</a></h5>
+								<div class="tsd-comment tsd-typography">
+									<div class="lead">
+										<p>the order to write the due date (default MDY)</p>
+									</div>
+								</div>
+							</li>
+							<li class="tsd-parameter">
+								<h5><span class="tsd-flag ts-flagOptional">Optional</span> due<wbr>Date<wbr>String<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></h5>
+								<div class="tsd-comment tsd-typography">
+									<div class="lead">
+										<p>the prefix for the due date (default: &quot;Due Date:&quot;)</p>
+									</div>
+								</div>
+							</li>
+						</ul>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-external-module">
+					<a name="coursework" class="tsd-anchor"></a>
+					<h3>Course<wbr>Work</h3>
+					<div class="tsd-signature tsd-kind-icon">Course<wbr>Work<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in ClassGS.ts:12</li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Type to hold all of the coursework in an object</p>
+						</div>
+					</div>
+					<div class="tsd-type-declaration">
+						<h4>Type declaration</h4>
+						<ul class="tsd-parameters">
+							<li class="tsd-parameter">
+								<h5>level<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span></h5>
+								<div class="tsd-comment tsd-typography">
+									<div class="lead">
+										<p>default heading level from DocLevels (default: 2)</p>
+									</div>
+								</div>
+							</li>
+							<li class="tsd-parameter">
+								<h5>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
+								<div class="tsd-comment tsd-typography">
+									<div class="lead">
+										<p>name of the group (topic) for this coursework</p>
+									</div>
+								</div>
+							</li>
+							<li class="tsd-parameter">
+								<h5>work<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><a href="_classgs_.html#work-1" class="tsd-signature-type">Work</a><span class="tsd-signature-symbol">&gt;</span></h5>
+								<div class="tsd-comment tsd-typography">
+									<div class="lead">
+										<p>list of the coursework associated with this topic</p>
+									</div>
+								</div>
+							</li>
+						</ul>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-external-module">
+					<a name="material" class="tsd-anchor"></a>
+					<h3>Material</h3>
+					<div class="tsd-signature tsd-kind-icon">Material<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in ClassGS.ts:52</li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Type to hold associated class materials</p>
+						</div>
+					</div>
+					<div class="tsd-type-declaration">
+						<h4>Type declaration</h4>
+						<ul class="tsd-parameters">
+							<li class="tsd-parameter">
+								<h5><span class="tsd-flag ts-flagOptional">Optional</span> file<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></h5>
+								<div class="tsd-comment tsd-typography">
+									<div class="lead">
+										<p>url to the file in Drive (optional)</p>
+									</div>
+								</div>
+							</li>
+							<li class="tsd-parameter">
+								<h5><span class="tsd-flag ts-flagOptional">Optional</span> form<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></h5>
+								<div class="tsd-comment tsd-typography">
+									<div class="lead">
+										<p>url to the form in Drive (optional)</p>
+									</div>
+								</div>
+							</li>
+							<li class="tsd-parameter">
+								<h5><span class="tsd-flag ts-flagOptional">Optional</span> link<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></h5>
+								<div class="tsd-comment tsd-typography">
+									<div class="lead">
+										<p>url of the link (optional)</p>
+									</div>
+								</div>
+							</li>
+							<li class="tsd-parameter">
+								<h5>title<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
+								<div class="tsd-comment tsd-typography">
+									<div class="lead">
+										<p>title of the associated material</p>
+									</div>
+								</div>
+							</li>
+							<li class="tsd-parameter">
+								<h5><span class="tsd-flag ts-flagOptional">Optional</span> video<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></h5>
+								<div class="tsd-comment tsd-typography">
+									<div class="lead">
+										<p>YouTube link to the video (optional)</p>
+									</div>
+								</div>
+							</li>
+						</ul>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-external-module">
+					<a name="work-1" class="tsd-anchor"></a>
+					<h3>Work</h3>
+					<div class="tsd-signature tsd-kind-icon">Work<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in ClassGS.ts:30</li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>Type to hold an individual instance of course work</p>
+						</div>
+					</div>
+					<div class="tsd-type-declaration">
+						<h4>Type declaration</h4>
+						<ul class="tsd-parameters">
+							<li class="tsd-parameter">
+								<h5><span class="tsd-flag ts-flagOptional">Optional</span> description<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></h5>
+								<div class="tsd-comment tsd-typography">
+									<div class="lead">
+										<p>description of the task</p>
+									</div>
+								</div>
+							</li>
+							<li class="tsd-parameter">
+								<h5>due<wbr>Date<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
+								<div class="tsd-comment tsd-typography">
+									<div class="lead">
+										<p>due date for the task</p>
+									</div>
+								</div>
+							</li>
+							<li class="tsd-parameter">
+								<h5>materials<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><a href="_classgs_.html#material" class="tsd-signature-type">Material</a><span class="tsd-signature-symbol">&gt;</span></h5>
+								<div class="tsd-comment tsd-typography">
+									<div class="lead">
+										<p>array of materials associated with the task</p>
+									</div>
+								</div>
+							</li>
+							<li class="tsd-parameter">
+								<h5>title<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
+								<div class="tsd-comment tsd-typography">
+									<div class="lead">
+										<p>title of the task</p>
+									</div>
+								</div>
+							</li>
+						</ul>
 					</div>
 				</section>
 			</section>
@@ -87,7 +306,7 @@
 						<a href="../globals.html"><em>Globals</em></a>
 					</li>
 					<li class=" tsd-kind-external-module">
-						<a href="_calendarevent_.html">&quot;<wbr>Calendar<wbr>Event&quot;</a>
+						<a href="_calendareventgs_.html">&quot;<wbr>Calendar<wbr>EventGS&quot;</a>
 					</li>
 					<li class=" tsd-kind-external-module">
 						<a href="_calendargs_.html">&quot;<wbr>CalendarGS&quot;</a>
@@ -105,7 +324,7 @@
 						<a href="_drivegs_.html">&quot;<wbr>DriveGS&quot;</a>
 					</li>
 					<li class=" tsd-kind-external-module">
-						<a href="_formevent_.html">&quot;<wbr>Form<wbr>Event&quot;</a>
+						<a href="_formeventgs_.html">&quot;<wbr>Form<wbr>EventGS&quot;</a>
 					</li>
 					<li class=" tsd-kind-external-module">
 						<a href="_formsgs_.html">&quot;<wbr>FormsGS&quot;</a>
@@ -120,7 +339,10 @@
 						<a href="_questiontype_.html">&quot;<wbr>Question<wbr>Type&quot;</a>
 					</li>
 					<li class=" tsd-kind-external-module">
-						<a href="_sheetevent_.html">&quot;<wbr>Sheet<wbr>Event&quot;</a>
+						<a href="_samples_.html">&quot;<wbr>Samples&quot;</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="_sheeteventgs_.html">&quot;<wbr>Sheet<wbr>EventGS&quot;</a>
 					</li>
 					<li class=" tsd-kind-external-module">
 						<a href="_sheetgs_.html">&quot;<wbr>SheetGS&quot;</a>
@@ -129,13 +351,16 @@
 						<a href="_slidegs_.html">&quot;<wbr>SlideGS&quot;</a>
 					</li>
 					<li class=" tsd-kind-external-module">
-						<a href="_slidesgs_.html">&quot;<wbr>SlidesGS&quot;</a>
+						<a href="_slideshowgs_.html">&quot;<wbr>SlideshowGS&quot;</a>
 					</li>
 					<li class=" tsd-kind-external-module">
 						<a href="_spreadsheetgs_.html">&quot;<wbr>SpreadsheetGS&quot;</a>
 					</li>
 					<li class=" tsd-kind-external-module">
-						<a href="_gsapitopics_.html">&quot;gsapi<wbr>Topics&quot;</a>
+						<a href="_uigs_.html">&quot;<wbr>UiGS&quot;</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="_references_.html">&quot;references&quot;</a>
 					</li>
 					<li class=" tsd-kind-external-module">
 						<a href="_test_.html">&quot;test&quot;</a>
@@ -144,8 +369,26 @@
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
-					<li class=" tsd-kind-class tsd-parent-kind-external-module tsd-is-not-exported">
+					<li class=" tsd-kind-enum tsd-parent-kind-external-module">
+						<a href="../enums/_classgs_.duedateorder.html" class="tsd-kind-icon">Due<wbr>Date<wbr>Order</a>
+					</li>
+					<li class=" tsd-kind-class tsd-parent-kind-external-module">
 						<a href="../classes/_classgs_.classgs.html" class="tsd-kind-icon">ClassGS</a>
+					</li>
+					<li class=" tsd-kind-class tsd-parent-kind-external-module">
+						<a href="../classes/_classgs_.classinfo.html" class="tsd-kind-icon">Class<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module">
+						<a href="_classgs_.html#classdataparams" class="tsd-kind-icon">Class<wbr>Data<wbr>Params</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module">
+						<a href="_classgs_.html#coursework" class="tsd-kind-icon">Course<wbr>Work</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module">
+						<a href="_classgs_.html#material" class="tsd-kind-icon">Material</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-external-module">
+						<a href="_classgs_.html#work-1" class="tsd-kind-icon">Work</a>
 					</li>
 				</ul>
 			</nav>

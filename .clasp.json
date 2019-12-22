@@ -1,1 +1,5 @@
-{"scriptId":"1qNPRbBbOQhFX9sLa8LzH_YYcceEDSC6hgO9500fgTyFXMNXdoEcjqlPv","projectId":""}
+{
+    "scriptId":"1qNPRbBbOQhFX9sLa8LzH_YYcceEDSC6hgO9500fgTyFXMNXdoEcjqlPv",
+    "projectId":"",
+    "filePushOrder": ["src/UiGS.ts"]
+}

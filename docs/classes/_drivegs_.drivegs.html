@@ -69,6 +69,13 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>Class to provide access and functions to Google Drive</p>
+					</div>
+				</div>
+			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
@@ -81,88 +88,232 @@
 				<h2>Index</h2>
 				<section class="tsd-panel tsd-index-panel">
 					<div class="tsd-index-content">
-						<section class="tsd-index-section tsd-is-not-exported">
+						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-not-exported"><a href="_drivegs_.drivegs.html#getimageblob" class="tsd-kind-icon">get<wbr>Image<wbr>Blob</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-not-exported"><a href="_drivegs_.drivegs.html#getorcreatefile" class="tsd-kind-icon">get<wbr>OrCreate<wbr>File</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-not-exported"><a href="_drivegs_.drivegs.html#getrandompicture" class="tsd-kind-icon">get<wbr>Random<wbr>Picture</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_drivegs_.drivegs.html#getimageblob" class="tsd-kind-icon">get<wbr>Image<wbr>Blob</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_drivegs_.drivegs.html#getorcreatefilebyid" class="tsd-kind-icon">get<wbr>OrCreate<wbr>File<wbr>ById</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_drivegs_.drivegs.html#getorcreatefilebyname" class="tsd-kind-icon">get<wbr>OrCreate<wbr>File<wbr>ByName</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_drivegs_.drivegs.html#getorcreatefilefromtemplatebyid" class="tsd-kind-icon">get<wbr>OrCreate<wbr>File<wbr>From<wbr>Template<wbr>ById</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_drivegs_.drivegs.html#getorcreatefilefromtemplatebyname" class="tsd-kind-icon">get<wbr>OrCreate<wbr>File<wbr>From<wbr>Template<wbr>ByName</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="_drivegs_.drivegs.html#getrandompicture" class="tsd-kind-icon">get<wbr>Random<wbr>Picture</a></li>
 							</ul>
 						</section>
 					</div>
 				</section>
 			</section>
-			<section class="tsd-panel-group tsd-member-group tsd-is-not-exported">
+			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Methods</h2>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-not-exported">
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
 					<a name="getimageblob" class="tsd-anchor"></a>
 					<h3>get<wbr>Image<wbr>Blob</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-not-exported">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Image<wbr>Blob<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Blob</span></li>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Image<wbr>Blob<span class="tsd-signature-symbol">(</span>id<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Blob</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">boolean</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in DriveGS.ts:27</li>
+									<li>Defined in DriveGS.ts:44</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Get the data (blob) of a specified image</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>name: <span class="tsd-signature-type">string</span></h5>
+									<h5>id: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>the id of the image or false if it is an invalid image</p>
+									</div>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Blob</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Blob</span>
+								<span class="tsd-signature-symbol"> | </span>
+								<span class="tsd-signature-type">boolean</span>
+							</h4>
+							<p>the image blob</p>
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-not-exported">
-					<a name="getorcreatefile" class="tsd-anchor"></a>
-					<h3>get<wbr>OrCreate<wbr>File</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-not-exported">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>OrCreate<wbr>File<span class="tsd-signature-symbol">(</span>fileName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, templateName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">File</span></li>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="getorcreatefilebyid" class="tsd-anchor"></a>
+					<h3>get<wbr>OrCreate<wbr>File<wbr>ById</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>OrCreate<wbr>File<wbr>ById<span class="tsd-signature-symbol">(</span>fileId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, fileName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">File</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in DriveGS.ts:43</li>
+									<li>Defined in DriveGS.ts:132</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Determines if a file (by id) exists; if it doesn&#39;t creates it from a template, then return the file in either case</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>fileId: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>the id of the file</p>
+									</div>
+								</li>
+								<li>
+									<h5>fileName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>the name of the new file</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">File</span></h4>
+							<p>the file</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="getorcreatefilebyname" class="tsd-anchor"></a>
+					<h3>get<wbr>OrCreate<wbr>File<wbr>ByName</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>OrCreate<wbr>File<wbr>ByName<span class="tsd-signature-symbol">(</span>fileName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">File</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in DriveGS.ts:111</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Determines if a file (by name) exists; if it doesn&#39;t creates it from a template, then return the file in either case</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>fileName: <span class="tsd-signature-type">string</span></h5>
-								</li>
-								<li>
-									<h5>templateName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>the name of the file</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">File</span></h4>
+							<p>the file</p>
 						</li>
 					</ul>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-not-exported">
-					<a name="getrandompicture" class="tsd-anchor"></a>
-					<h3>get<wbr>Random<wbr>Picture</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-not-exported">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Random<wbr>Picture<span class="tsd-signature-symbol">(</span>folder<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></li>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="getorcreatefilefromtemplatebyid" class="tsd-anchor"></a>
+					<h3>get<wbr>OrCreate<wbr>File<wbr>From<wbr>Template<wbr>ById</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>OrCreate<wbr>File<wbr>From<wbr>Template<wbr>ById<span class="tsd-signature-symbol">(</span>fileId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, templateId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">File</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in DriveGS.ts:2</li>
+									<li>Defined in DriveGS.ts:86</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Determines if a file (by id) exists; if it doesn&#39;t creates it from a template, then return the file in either case</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>fileId: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>the name of the file</p>
+									</div>
+								</li>
+								<li>
+									<h5>templateId: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>the name of the template</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">File</span></h4>
+							<p>the file</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="getorcreatefilefromtemplatebyname" class="tsd-anchor"></a>
+					<h3>get<wbr>OrCreate<wbr>File<wbr>From<wbr>Template<wbr>ByName</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>OrCreate<wbr>File<wbr>From<wbr>Template<wbr>ByName<span class="tsd-signature-symbol">(</span>fileName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, templateName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">File</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in DriveGS.ts:65</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Determines if a file (by name) exists; if it doesn&#39;t creates it from a template, then return the file in either case</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>fileName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>the name of the file</p>
+									</div>
+								</li>
+								<li>
+									<h5>templateName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>the name of the template</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">File</span></h4>
+							<p>the file</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="getrandompicture" class="tsd-anchor"></a>
+					<h3>get<wbr>Random<wbr>Picture</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Random<wbr>Picture<span class="tsd-signature-symbol">(</span>folder<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Blob</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in DriveGS.ts:12</li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Gets a random picture from a specified folder</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>folder: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>the id of the folder that contains random pictures</p>
+									</div>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Blob</span></h4>
+							<p>the picture</p>
 						</li>
 					</ul>
 				</section>
@@ -175,7 +326,7 @@
 						<a href="../globals.html"><em>Globals</em></a>
 					</li>
 					<li class=" tsd-kind-external-module">
-						<a href="../modules/_calendarevent_.html">&quot;<wbr>Calendar<wbr>Event&quot;</a>
+						<a href="../modules/_calendareventgs_.html">&quot;<wbr>Calendar<wbr>EventGS&quot;</a>
 					</li>
 					<li class=" tsd-kind-external-module">
 						<a href="../modules/_calendargs_.html">&quot;<wbr>CalendarGS&quot;</a>
@@ -193,7 +344,7 @@
 						<a href="../modules/_drivegs_.html">&quot;<wbr>DriveGS&quot;</a>
 					</li>
 					<li class=" tsd-kind-external-module">
-						<a href="../modules/_formevent_.html">&quot;<wbr>Form<wbr>Event&quot;</a>
+						<a href="../modules/_formeventgs_.html">&quot;<wbr>Form<wbr>EventGS&quot;</a>
 					</li>
 					<li class=" tsd-kind-external-module">
 						<a href="../modules/_formsgs_.html">&quot;<wbr>FormsGS&quot;</a>
@@ -208,7 +359,10 @@
 						<a href="../modules/_questiontype_.html">&quot;<wbr>Question<wbr>Type&quot;</a>
 					</li>
 					<li class=" tsd-kind-external-module">
-						<a href="../modules/_sheetevent_.html">&quot;<wbr>Sheet<wbr>Event&quot;</a>
+						<a href="../modules/_samples_.html">&quot;<wbr>Samples&quot;</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/_sheeteventgs_.html">&quot;<wbr>Sheet<wbr>EventGS&quot;</a>
 					</li>
 					<li class=" tsd-kind-external-module">
 						<a href="../modules/_sheetgs_.html">&quot;<wbr>SheetGS&quot;</a>
@@ -217,13 +371,16 @@
 						<a href="../modules/_slidegs_.html">&quot;<wbr>SlideGS&quot;</a>
 					</li>
 					<li class=" tsd-kind-external-module">
-						<a href="../modules/_slidesgs_.html">&quot;<wbr>SlidesGS&quot;</a>
+						<a href="../modules/_slideshowgs_.html">&quot;<wbr>SlideshowGS&quot;</a>
 					</li>
 					<li class=" tsd-kind-external-module">
 						<a href="../modules/_spreadsheetgs_.html">&quot;<wbr>SpreadsheetGS&quot;</a>
 					</li>
 					<li class=" tsd-kind-external-module">
-						<a href="../modules/_gsapitopics_.html">&quot;gsapi<wbr>Topics&quot;</a>
+						<a href="../modules/_uigs_.html">&quot;<wbr>UiGS&quot;</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/_references_.html">&quot;references&quot;</a>
 					</li>
 					<li class=" tsd-kind-external-module">
 						<a href="../modules/_test_.html">&quot;test&quot;</a>
@@ -234,16 +391,25 @@
 				<ul class="before-current">
 				</ul>
 				<ul class="current">
-					<li class="current tsd-kind-class tsd-parent-kind-external-module tsd-is-not-exported">
+					<li class="current tsd-kind-class tsd-parent-kind-external-module">
 						<a href="_drivegs_.drivegs.html" class="tsd-kind-icon">DriveGS</a>
 						<ul>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-not-exported">
+							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="_drivegs_.drivegs.html#getimageblob" class="tsd-kind-icon">get<wbr>Image<wbr>Blob</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-not-exported">
-								<a href="_drivegs_.drivegs.html#getorcreatefile" class="tsd-kind-icon">get<wbr>OrCreate<wbr>File</a>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_drivegs_.drivegs.html#getorcreatefilebyid" class="tsd-kind-icon">get<wbr>OrCreate<wbr>File<wbr>ById</a>
 							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-not-exported">
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_drivegs_.drivegs.html#getorcreatefilebyname" class="tsd-kind-icon">get<wbr>OrCreate<wbr>File<wbr>ByName</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_drivegs_.drivegs.html#getorcreatefilefromtemplatebyid" class="tsd-kind-icon">get<wbr>OrCreate<wbr>File<wbr>From<wbr>Template<wbr>ById</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="_drivegs_.drivegs.html#getorcreatefilefromtemplatebyname" class="tsd-kind-icon">get<wbr>OrCreate<wbr>File<wbr>From<wbr>Template<wbr>ByName</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="_drivegs_.drivegs.html#getrandompicture" class="tsd-kind-icon">get<wbr>Random<wbr>Picture</a>
 							</li>
 						</ul>
