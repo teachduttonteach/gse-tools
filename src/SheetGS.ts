@@ -282,11 +282,8 @@ export class SheetGS {
      * @returns {SheetGS} the object for chaining
      */
     changeWorkingStatus(working: boolean, cell: Array<number> = [1,1], color: string = "#DD0000"): SheetGS {  
-      if (working) {
-        this._sheet.protect().setDomainEdit(false);
-      } else {
-        this._sheet.protect().remove();
-      }
+      if (working) this._sheet.protect().setDomainEdit(false);
+      else this._sheet.protect().remove();
       this.setBackground(cell[0], cell[1], color);
       return this;
     };
@@ -309,7 +306,7 @@ export class SheetGS {
      * Adds a value for the specified column and row beginning, and inserts a column if it doesn't exist
      * 
      * @param columnHeader the column name to match
-     * @param rowHeaders the beginning of the row to match
+     * @param {Array<string>} rowHeaders the beginning of the row to match
      * @param cellValue the value to put in
      * 
      * @returns {SheetGS} the object for chaining
