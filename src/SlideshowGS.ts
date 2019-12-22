@@ -11,6 +11,10 @@ export class SlideshowGS extends UiGS {
   _ui: GoogleAppsScript.Base.Ui;
   private _template: GoogleAppsScript.Slides.Presentation;
 
+  /**
+   * 
+   * @param id the id of the presentation
+   */
   constructor(id: string) {
     super();
     this._presentation = SlidesApp.openById(id);
