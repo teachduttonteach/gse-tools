@@ -1,5 +1,4 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
+import { MapGS } from "./MapGS";
 /**
  * Class to hold the Google Apps User Interface
  *
@@ -8,18 +7,18 @@ Object.defineProperty(exports, "__esModule", { value: true });
  * ui.addMenu("Bellwork", "Update", 'doUpdate');
  * ```
  */
-var UiGS = /** @class */ (function () {
-    function UiGS() {
-        this._menus = new Map();
+export class UiGS {
+    constructor() {
+        this._menus = new MapGS();
     }
     /**
      * Gets the underlying Google Apps Script object for direct access
      *
      * @returns {GoogleAppsScript.Base.Ui} the Ui object
      */
-    UiGS.prototype.getUiObject = function () {
+    getUiObject() {
         return this._ui;
-    };
+    }
     /**
      * Add a menu to the user interface
      *
@@ -33,25 +32,36 @@ var UiGS = /** @class */ (function () {
      *
      * @return {UiGS} the menu for chaining
      */
-    UiGS.prototype.addMenu = function (menuName, itemName, functionName) {
+    addMenu(menuName, itemName, functionName) {
         if ((menuName == "") || (itemName == "") || (functionName == ""))
             throw new Error("Name of menu, item and function must be defined in UiGS.addMenu()");
-        if (menuName in this._menus) {
-            var t_menu = this._menus.get(menuName);
-            if (t_menu == undefined)
-                throw new Error("Could not find menu (" + menuName + ") in UiGS.addMenu()");
+        let t_menu = this._menus.get(menuName);
+        if (t_menu != null) {
             t_menu.addItem(itemName, functionName).addToUi();
         }
         else {
             this._menus.set(menuName, this._ui.createMenu(menuName).addItem(itemName, functionName));
-            var t_menu = this._menus.get(menuName);
+            let t_menu = this._menus.get(menuName);
             if (t_menu == undefined)
                 throw new Error("Could not find menu (" + menuName + ") in UiGS.addMenu()");
             t_menu.addToUi();
         }
         return this;
-    };
+    }
     ;
-    return UiGS;
-}());
-exports.UiGS = UiGS;
+    showSidebar(displayText, title, buttons, width = 300) {
+        if (buttons != null) {
+            displayText += "<p><script>function closeThis(bool) { google.script.host.close(); }</script>";
+            for (let button of buttons) {
+                displayText += "<button type='button' onclick='";
+                if (button.wait == true)
+                    displayText += "this.innerHTML = \"Wait ...\"; this.disabled = true; ";
+                displayText += "google.script.run.";
+                if (button.close == true)
+                    displayText += "withSuccessHandler(closeThis).";
+                displayText += button.function + "();'>" + button.text + "</button> ";
+            }
+        }
+        this._ui.showSidebar(HtmlService.createHtmlOutput(displayText).setTitle(title).setWidth(width));
+    }
+}

@@ -1,23 +1,38 @@
 import { stringify } from "querystring";
 import { SpreadsheetGS } from "./SpreadsheetGS"
 
-/**
- * Enumeration to store the preferred date order, MD (Month Day) or DM (Day Month)
- */
-export enum DateOrder {MD, DM};
+export function benchmark(obj: object, method: string) {
+  Logger.log(obj.constructor.name + ": " + method);
+}
 
-/**
- * Enumeration to hold the due date order possibilities
- */
-export enum DueDateOrder {MDY, DMY, YMD, YDM, MD, DM, MY, YM};
+export const ONE_DAY = 24*60*60*1000;
 
 export function getDataSheet() {
   let _sheet: GoogleAppsScript.Spreadsheet.Spreadsheet;
   let _sheetList: GoogleAppsScript.Drive.FileIterator = DriveApp.getFilesByName(ScriptApp.getScriptId());
   if ((_sheetList == null) || (!_sheetList.hasNext())) _sheet = SpreadsheetApp.create(ScriptApp.getScriptId());
-  else _sheet = SpreadsheetApp.openById(_sheetList.next().getId());
+  else _sheet = SpreadsheetApp.open(_sheetList.next());
   return new SpreadsheetGS(_sheet);
 };
+
+export function setCache(key: string, value: any): void {
+  Logger.log("Setting cache of " + key + " to " + value);
+  let t_cache = CacheService.getScriptCache();
+  if (t_cache == null) throw new Error("Could not create CacheService in GroupCreator.displayGroupSet()");
+
+  t_cache.put(key, JSON.stringify(value));
+}
+
+export function getCache<T>(key: string): T {
+  let t_cache = CacheService.getScriptCache();
+  if (t_cache == null) throw new Error("Could not create CacheService in acceptGroups()");
+
+  let cachedInfo = t_cache.get(key);
+  if (cachedInfo == null) throw new Error("Could not find CachedInfo for minimum group set in acceptGroups()");
+
+  Logger.log("Getting cache of " + key + " = " + cachedInfo);
+  return JSON.parse(cachedInfo);
+}
 
 function getNameFromEmail(email: string) {
   var name = this.email.split("@")[0].split(".");
@@ -31,6 +46,7 @@ export function areDatesEqual(date1: Date, date2: Date, level: string = "YEAR") 
   if (level.toUpperCase() != "DAY") {
     if (date1.getUTCMonth() != date2.getUTCMonth()) return false;
   }
+
   return (date1.getUTCDate() == date2.getUTCDate());
 }
 

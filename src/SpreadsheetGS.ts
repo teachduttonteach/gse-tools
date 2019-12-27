@@ -1,6 +1,7 @@
 import { stringify } from "querystring";
 import { UiGS } from "./UiGS"
 import { SheetGS } from "./SheetGS"
+import { MapGS } from "./MapGS"
 
 /**
  * Gets the data from a Google Sheet and provides an interface to it in an efficient way.
@@ -16,17 +17,13 @@ export class SpreadsheetGS extends UiGS {
    * @param id the id of the Google Sheet to use
    */
   constructor();
-  constructor(id: object);
+  constructor(id: GoogleAppsScript.Spreadsheet.Spreadsheet);
   constructor(id: string);
-  constructor(id: number);
   constructor(id?: any) {
     super();
-    this._ui = SpreadsheetApp.getUi();
-    if ((id == null) || (typeof id === "string")) {
-      typeof id === "object" ? this._spreadsheet = id : this._spreadsheet = SpreadsheetApp.openById(id);
-    } else {
-      this._spreadsheet = SpreadsheetApp.getActive();
-    }
+    if (typeof id === "object") this._spreadsheet = id;
+    else if (typeof id === "string") this._spreadsheet = SpreadsheetApp.openById(id);
+    else this._spreadsheet = SpreadsheetApp.getActive();
 
     this._sheets = this._spreadsheet.getSheets();
     if (this._spreadsheet == null) throw new Error("Could not find spreadsheet in SpreadsheetGS()");
@@ -37,6 +34,11 @@ export class SpreadsheetGS extends UiGS {
       (this._sheets as { [key: string]: any })[t_sheet] = new SheetGS(s);
     }
     if (typeof id === "number") this._sheets[id];
+  }
+
+  activateUi(): SpreadsheetGS {
+    this._ui = SpreadsheetApp.getUi();
+    return this;
   }
 
   /**
@@ -52,31 +54,12 @@ export class SpreadsheetGS extends UiGS {
    * Get the data from the Spreadsheet as an object with rows (or columns) as the keys and columns (or rows) as the values
    * 
    * @param sheetName the sheet name
-   * @param rowFirst if true, rows will be the keys and columns will be the values
+   * @param rowFirst if true, rows will be the keys and columns will be in the values along with the value found at that cell
    * 
    * @returns the data object
    */
-  getDataAsObject(sheetName: string, rowFirst: boolean = true): Map<string, Map<string, string>> {
-    let dataSheet: SheetGS = this.getOrCreateSheet(sheetName);
-    let data: Map<string, Map<string, string>> = new Map();
-    if (rowFirst) {
-      for (let r: number = 2; r <= dataSheet.getLastRow(); r++) {
-        let rowData: Map<string, string> = new Map();
-        for (let c: number = 2; c <= dataSheet.getLastColumn(); c++) {
-          rowData.set(dataSheet.getValue(1, c), dataSheet.getValue(r, c));
-        }
-        data.set(dataSheet.getValue(r, 1), rowData);
-      }
-    } else {
-      for (let c: number = 2; c <= dataSheet.getLastColumn(); c++) {
-        var columnData: Map<string, string> = new Map();
-        for (let r: number = 2; r <= dataSheet.getLastRow(); r++) {
-          columnData.set(dataSheet.getValue(r, 1), dataSheet.getValue(r, c));
-        }
-        data.set(dataSheet.getValue(1, c), columnData);
-      }
-    }
-    return data;
+  getMapData(sheetName: string, rowFirst: boolean = true): MapGS<string, MapGS<string, string>> {
+    return this.getOrCreateSheet(sheetName).getMapData(rowFirst);
   };
   
   /**

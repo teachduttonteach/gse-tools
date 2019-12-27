@@ -1,3 +1,5 @@
+import { MapGS } from "./MapGS"
+
 /**
  * The cell range type for us in setting values
  */
@@ -30,9 +32,10 @@ type CellRange = {
 export class SheetGS {
     private _sheet: GoogleAppsScript.Spreadsheet.Sheet;
     private _data: any[][];
-    private _textFinder: Map<string, GoogleAppsScript.Spreadsheet.TextFinder>;
+    private _textFinder: MapGS<string, GoogleAppsScript.Spreadsheet.TextFinder>;
     private _lastRow: number;
     private _lastCol: number;
+    private _mapData: MapGS<string, MapGS<string, string>>;
 
     /**
      * Builds the SheetGS object
@@ -70,11 +73,53 @@ export class SheetGS {
     /**
      * Gets the value of the cell
      * 
-     * @param {number} row the row of the value
-     * @param {number} col the column of the value
+     * @param {number} row the row of the value, indexed at 1
+     * @param {number} col the column of the value, indexed at 1
      */
-    getValue(row: number, col: number) {
+    getValue(row: number, col: number): string {
       return this._data[row - 1][col - 1];
+    };
+    
+    /**
+     * Gets the values of the cells
+     * 
+     * @param {number} row the row of the value, indexed at 1
+     * @param {number} col the column of the value, indexed at 1
+     * @param {number} numRows the number of rows to get
+     * @param {number} numCols the number of columns to get
+     */
+    getValues(row: number, col: number, numRows: number, numCols: number): Array<Array<string>> {
+      let t_return: Array<Array<string>> = [[]];
+      for (let r = row; r < (row + numRows); r++) {
+        let t_columns: Array<string> = [];
+        for (let c = col; c < (col + numCols); c++) {
+          t_columns.push(this._data[r - 1][c - 1]);
+        }
+        t_return.push(t_columns);
+      }
+      return t_return;
+    };
+    
+    /**
+     * Gets the values of the cells
+     * 
+     * @param {number} row the row of the value, indexed at 1
+     * @param {number} col the column of the value, indexed at 1
+     * @param {number} numRows the number of rows to get
+     * @param {number} numCols the number of columns to get
+     * 
+     * @returns {MapGS<string, MapGS<string, string>>} a map object of rows with maps of columns
+     */
+    getMapValues(row: number, col: number, numRows: number, numCols: number): MapGS<string, MapGS<string, string>> {
+      let t_return: MapGS<string, MapGS<string, string>> = new MapGS();
+      for (let r = row; r < (row + numRows); r++) {
+        let t_columns: MapGS<string, string> = new MapGS();
+        for (let c = col; c < (col + numCols); c++) {
+          t_columns.set(this._data[0][c - 1], this._data[r - 1][c - 1]);
+        }
+        t_return.set(this._data[r - 1][0], t_columns);
+      }
+      return t_return;
     };
     
     /**
@@ -90,8 +135,23 @@ export class SheetGS {
         returnArray.push(r[numColumn - 1]);
       }
       return returnArray;
-    }
+    }    
     
+    /**
+    * Gets an entire column from the sheet
+    *
+    * @param {number} numColumn number of the column
+    * @return {MapGS<string, string>} the row names with column values
+    */
+    getMapColumn(numColumn: number): MapGS<string, string> {
+      if (numColumn < 1) throw new Error("numColumn must be greater than 0 in Sheet.getColumn");
+      let returnArray: MapGS<string, string> = new MapGS();
+      for (let r of this._data) {
+        returnArray.set(r[0], r[numColumn - 1]);
+      }
+      return returnArray;
+    }
+
     /**
      * Converts linebreaks in the string to an array
      * @param {number} row the row of the cell to convert
@@ -99,7 +159,7 @@ export class SheetGS {
      * 
      * @returns {SheetGS} the sheet for chaining
      */
-    convertLinebreaksToList(row: number, column: number): SheetGS {
+    convertLinebreaksToList(row: number, column: number): Array<string> {
       return this.getValue(row, column).split("\n");
     };
 
@@ -118,6 +178,18 @@ export class SheetGS {
       if (reset) this.resetData();
       return this;
     }
+
+    setMapValue(value: string, row: string, column: string, reset: boolean = true): SheetGS {
+      for (let r: number = 2; r <= this._lastRow; r++) {
+        if (this.getValue(r, 1) == row) {
+          for (let c: number = 2; c <= this._lastCol; c++) {
+            if (this.getValue(1, c) == column) this.setValue(value, r, c, reset);
+          }
+        }
+      }
+      return this;
+    }  
+
     
     /**
      * Set the values of cells for a range
@@ -130,8 +202,8 @@ export class SheetGS {
      * 
      * @returns {SheetGS} the object for chaining
      */
-    setValues(firstParam: string | Array<string> | CellRange, startRow: number = 1, startCol: number = 1, numRows: number = 1, numCols: number = 1): SheetGS {
-      let value: string | Array<string>;
+    setValues(firstParam: string | Array<string> | Array<Array<string>> | CellRange, startRow: number = 1, startCol: number = 1, numRows: number = 1, numCols: number = 1): SheetGS {
+      let value: string | Array<string> | Array<Array<string>>;
       if ((typeof firstParam === "object") && !(firstParam instanceof Array)) {
         startRow = firstParam.startRow;
         startCol = firstParam.startCol;
@@ -146,12 +218,101 @@ export class SheetGS {
       for (var i = startRow; i <= (startRow + numRows); i++) {
         for (var j = startCol; j <= (startCol + numCols); j++) {
           if (typeof value === "string") this.setValue(value, i, j, false);
-          else if (typeof value[i] === "string") this.setValue(value[i], i, j, false);
-          else this.setValue(value[i][j], i, j, false);
+          else {
+            let t_val = value[i];
+            if (typeof t_val === "string") this.setValue(t_val, i, j, false);
+            else this.setValue(t_val[j], i, j, false);
+          } 
         }
       }
       return this.resetData();
     }
+
+    setMapValues(value: string, rowValue: string, columnName: string, secondColumnName?: string, secondColumnValue?: string) {
+      var mapData = this.getMapData();
+      for (let row of mapData.getKeys()) {
+        let t_row = mapData.get(row);
+        if ((t_row != null) && (row == rowValue)) {
+          if ((secondColumnName != null) && (secondColumnValue != null)) {
+            if (t_row.get(secondColumnName) == secondColumnValue) {
+              this.setMapValue(value, rowValue, columnName);
+            }
+          } else {
+            this.setMapValue(value, rowValue, columnName);
+          }
+        } 
+      }
+      return this.resetData();
+    }
+  
+
+      /**
+   * Get the data from the Sheet as an object with rows (or columns) as the keys and columns (or rows) as the values
+   * 
+   * @param rowFirst if true, rows will be the keys and columns will be in the values along with the value found at that cell
+   * 
+   * @returns the data object
+   */
+  getMapData(rowFirst: boolean = true): MapGS<string, MapGS<string, string>> {
+    if (this._mapData != undefined) return this._mapData;
+    let data: MapGS<string, MapGS<string, string>> = new MapGS();
+    if (rowFirst) {
+      for (let r: number = 2; r <= this._lastRow; r++) {
+        let rowData: MapGS<string, string> = new MapGS();
+        for (let c: number = 2; c <= this._lastCol; c++) {
+          rowData.set(this.getValue(1, c), this.getValue(r, c));
+        }
+        data.set(this.getValue(r, 1), rowData);
+      }
+    } else {
+      for (let c: number = 2; c <= this._lastCol; c++) {
+        var columnData: MapGS<string, string> = new MapGS();
+        for (let r: number = 2; r <= this._lastRow; r++) {
+          columnData.set(this.getValue(r, 1), this.getValue(r, c));
+        }
+        data.set(this.getValue(1, c), columnData);
+      }
+    }
+    return data;
+  };
+
+  clear(row: number, col: number, numRows: number, numCols: number): void {
+    this.getObject().getRange(row, col, numRows, numCols).clearContent();    
+  }
+
+  getRecordsMatchingColumnValue(matchColumnName: string, matchColumnValue: string, returnColumnNames: Array<string>): Array<Array<string>> {
+    let data = this.getMapData();
+    let records: Array<Array<string>> = [[]];
+    for (let record of data.getKeys()) {
+      let t_record = data.get(record);
+      if ((t_record != null) && (t_record.get(matchColumnName) == matchColumnValue)) {
+        let t_recordsToPush: Array<string> = [];
+        for (let t_column of returnColumnNames) {
+          let t_colValue = t_record.get(t_column);
+          if (t_colValue != null) t_recordsToPush.push(t_colValue);
+        }
+        records.push(t_recordsToPush);
+      }
+    }
+    return records;
+  }
+    
+  getMapRecordsMatchingColumnValue(matchColumnName: string, matchColumnValue: string, returnColumnNames: Array<string>): MapGS<string, MapGS<string, string>> {
+    let data = this.getMapData();
+    let records: MapGS<string, MapGS<string, string>> = new MapGS();
+    for (let record of data.getKeys()) {
+      let t_record = data.get(record);
+      if ((t_record != null) && (t_record.get(matchColumnName) == matchColumnValue)) {
+        let t_recordsToPush: MapGS<string, string> = new MapGS();
+        for (let t_column of returnColumnNames) {
+          let t_colValue = t_record.get(t_column);
+          if (t_colValue != null) t_recordsToPush.set(t_column, t_colValue);
+        }
+        records.set(record, t_recordsToPush);
+      }
+    }
+    return records;
+  }
     
     /**
      * Skips blank rows at the beginning (or a specified location) in a sheet
@@ -240,6 +401,18 @@ export class SheetGS {
     getRowFromFind(findText: string, findNumber: number = 1): number {
       if (findText == "") throw new Error("Text must be defined in SheetGS.getRowFromFind()");
       return this.getCellFromFind(findText, findNumber).getRow();
+    }
+
+    getRow(rowNumber: number): Array<string> {
+      return this._data[rowNumber];
+    }
+    
+    getMapRow(rowNumber: number): MapGS<string, string> {
+      let t_return: MapGS<string, string> = new MapGS();
+      for (let c = 1; c < this.getLastColumn(); c++) {
+        t_return.set(this._data[0][c], this._data[rowNumber][c]);
+      }
+      return t_return;
     }
     
     /**

@@ -1,6 +1,4 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-var CalendarEventGS_1 = require("./CalendarEventGS");
+import { CalendarEventGS } from "./CalendarEventGS";
 /**
  * Class to hold properties and methods to manipulate the Google Calendar
  *
@@ -14,14 +12,14 @@ var CalendarEventGS_1 = require("./CalendarEventGS");
  * ```
  *
  */
-var CalendarGS = /** @class */ (function () {
+export class CalendarGS {
     /**
      * ```javascript
      * var gseCalendar = new gseTools.CalendarGS(calendarId);
      * ```
      * @param id the id for this Google Calendar
      */
-    function CalendarGS(id) {
+    constructor(id) {
         this._oneDay = 24 * 60 * 60 * 1000;
         this._dateToday = new Date();
         this._endDate = new Date();
@@ -36,9 +34,9 @@ var CalendarGS = /** @class */ (function () {
      *
      * @returns {GoogleAppsScript.Calendar.Calendar} the Calendar object
      */
-    CalendarGS.prototype.getObject = function () {
+    getObject() {
         return this._calendar;
-    };
+    }
     /**
      * Gets the upcoming events on the calendar
      * ```javascript
@@ -49,14 +47,13 @@ var CalendarGS = /** @class */ (function () {
      *
      * @return {Array<CalendarEventGS>} the list of calendar events
      */
-    CalendarGS.prototype.getUpcomingEvents = function (daysToLookAhead) {
+    getUpcomingEvents(daysToLookAhead) {
         this._endDate.setMilliseconds(this._dateToday.getMilliseconds() + (daysToLookAhead * this._oneDay));
-        for (var _i = 0, _a = this._calendar.getEvents(this._dateToday, this._endDate); _i < _a.length; _i++) {
-            var event_1 = _a[_i];
-            this._upcomingEventObjects.push(new CalendarEventGS_1.CalendarEventGS(event_1));
+        for (let event of this._calendar.getEvents(this._dateToday, this._endDate)) {
+            this._upcomingEventObjects.push(new CalendarEventGS(event));
         }
         return this._upcomingEventObjects;
-    };
+    }
     /**
      * Gets the upcoming due dates for events on the calendar
      * ```javascript
@@ -70,22 +67,21 @@ var CalendarGS = /** @class */ (function () {
      * ```
      *
      * @param daysToLookAhead the number of days ahead to find events on the calendar
-     * @param eventOptions options for displaying that there are no events and how to display the date; see above for defaults
+     * @param {DateParams} eventOptions options for displaying that there are no events and how to display the date; see above for defaults
      *
      * @return {string} the list of due dates as a string for use in Slides
      */
-    CalendarGS.prototype.getUpcomingDueDates = function (daysToLookAhead, eventOptions) {
-        var dueDates = "";
-        for (var _i = 0, _a = this.getUpcomingEvents(daysToLookAhead); _i < _a.length; _i++) {
-            var event_2 = _a[_i];
+    getUpcomingDueDates(daysToLookAhead, eventOptions) {
+        let dueDates = "";
+        for (let event of this.getUpcomingEvents(daysToLookAhead)) {
             if (dueDates != "")
                 dueDates += "\n";
-            dueDates += "\t" + event_2.getDate(eventOptions);
+            dueDates += "\t" + event.getDate(eventOptions);
         }
         if (dueDates == "")
             return "\t" + eventOptions.noEventString;
         return dueDates;
-    };
+    }
     ;
     /**
      * Gets the upcoming due dates for events on the calendar
@@ -100,19 +96,17 @@ var CalendarGS = /** @class */ (function () {
      * ```
      *
      * @param daysToLookAhead the number of days ahead to find events on the calendar
-     * @param eventOptions options for displaying that there are no events and how to display the date; see above for defaults
+     * @param {DateParams} eventOptions options for displaying that there are no events and how to display the date; see above for defaults
      *
      * @return {Array<string>} the list of due dates as an array
      */
-    CalendarGS.prototype.getUpcomingDueDatesList = function (daysToLookAhead, eventOptions, noEventString) {
-        if (noEventString === void 0) { noEventString = "None"; }
-        var dueDates = [];
-        for (var _i = 0, _a = this.getUpcomingEvents(daysToLookAhead); _i < _a.length; _i++) {
-            var event_3 = _a[_i];
-            dueDates.push(event_3.getDate(eventOptions));
+    getUpcomingDueDatesList(daysToLookAhead, eventOptions, noEventString = "None") {
+        let dueDates = [];
+        for (let event of this.getUpcomingEvents(daysToLookAhead)) {
+            dueDates.push(event.getDate(eventOptions));
         }
         return dueDates;
-    };
+    }
     ;
     /**
      * Get the id of the Google Calendar
@@ -123,9 +117,7 @@ var CalendarGS = /** @class */ (function () {
      *
      * @returns {string} the id of this Google Calendar
      */
-    CalendarGS.prototype.getId = function () {
+    getId() {
         return this._id;
-    };
-    return CalendarGS;
-}());
-exports.CalendarGS = CalendarGS;
+    }
+}

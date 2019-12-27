@@ -1,11 +1,7 @@
-import { DateOrder } from "./Properties"
 
 /**
  * Type to hold the parameters to print out the date for the calendar event
  * 
- * @param titlePrefix  (optional)
- * @param dateDelim 
- * @param dateOrder 
  */
 export type DateParams = {
     /**
@@ -19,7 +15,7 @@ export type DateParams = {
     /**
      * the order to display the date in
      */
-    dateOrder?: DateOrder,
+    dateOrder?: string,
     /**
      * what to print if there is no event for this day
      */
@@ -88,10 +84,10 @@ export class CalendarEventGS {
      * 
      * @returns {string} the string containing the date
      */
-    public getDate(firstParam?: DateOrder | DateParams, titlePrefix?: string, dateDelim?: string): string {
+    public getDate(firstParam?: string | DateParams, titlePrefix?: string, dateDelim?: string): string {
         
         // Get values out of array
-        let dateOrder: DateOrder = DateOrder.DM;
+        let dateOrder: string = "DM";
         if (typeof firstParam === "object") {
             if (titlePrefix == undefined) titlePrefix = firstParam.titlePrefix;
             if (dateDelim == undefined) dateDelim = firstParam.dateDelim;
@@ -103,11 +99,11 @@ export class CalendarEventGS {
         // Set default values
         if (titlePrefix == undefined) titlePrefix = " ";
         if (dateDelim == undefined) dateDelim = "/";
-        if (dateOrder == undefined) dateOrder = DateOrder.MD;
+        if (dateOrder == undefined) dateOrder = "MD";
 
         // Create and return the date
         let dateString: string = titlePrefix + this._title;
-        if (dateOrder == DateOrder.MD) {
+        if (dateOrder == "MD") {
             return this._month + dateDelim + this._date + dateString;
         } else {
             return this._date + dateDelim + this._month + dateString;

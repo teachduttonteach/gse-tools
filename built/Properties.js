@@ -1,23 +1,40 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-var SpreadsheetGS_1 = require("./SpreadsheetGS");
-function getDataSheet() {
-    var _sheet;
-    var _sheetList = DriveApp.getFilesByName(ScriptApp.getScriptId());
+import { SpreadsheetGS } from "./SpreadsheetGS";
+export function benchmark(obj, method) {
+    Logger.log(obj.constructor.name + ": " + method);
+}
+export const ONE_DAY = 24 * 60 * 60 * 1000;
+export function getDataSheet() {
+    let _sheet;
+    let _sheetList = DriveApp.getFilesByName(ScriptApp.getScriptId());
     if ((_sheetList == null) || (!_sheetList.hasNext()))
         _sheet = SpreadsheetApp.create(ScriptApp.getScriptId());
     else
-        _sheet = SpreadsheetApp.openById(_sheetList.next().getId());
-    return new SpreadsheetGS_1.SpreadsheetGS(_sheet);
+        _sheet = SpreadsheetApp.open(_sheetList.next());
+    return new SpreadsheetGS(_sheet);
 }
-exports.getDataSheet = getDataSheet;
 ;
+export function setCache(key, value) {
+    Logger.log("Setting cache of " + key + " to " + value);
+    let t_cache = CacheService.getScriptCache();
+    if (t_cache == null)
+        throw new Error("Could not create CacheService in GroupCreator.displayGroupSet()");
+    t_cache.put(key, JSON.stringify(value));
+}
+export function getCache(key) {
+    let t_cache = CacheService.getScriptCache();
+    if (t_cache == null)
+        throw new Error("Could not create CacheService in acceptGroups()");
+    let cachedInfo = t_cache.get(key);
+    if (cachedInfo == null)
+        throw new Error("Could not find CachedInfo for minimum group set in acceptGroups()");
+    Logger.log("Getting cache of " + key + " = " + cachedInfo);
+    return JSON.parse(cachedInfo);
+}
 function getNameFromEmail(email) {
     var name = this.email.split("@")[0].split(".");
     return [name[0].charAt(0).toUpperCase() + name[0].slice(1), name[1].charAt(0).toUpperCase() + name[1].slice(1)];
 }
-function areDatesEqual(date1, date2, level) {
-    if (level === void 0) { level = "YEAR"; }
+export function areDatesEqual(date1, date2, level = "YEAR") {
     if (level.toUpperCase() == "YEAR") {
         if (date1.getUTCFullYear() != date2.getUTCFullYear())
             return false;
@@ -28,17 +45,16 @@ function areDatesEqual(date1, date2, level) {
     }
     return (date1.getUTCDate() == date2.getUTCDate());
 }
-exports.areDatesEqual = areDatesEqual;
-var Features;
+export var Features;
 (function (Features) {
     Features["MULTISELECT_ENABLED"] = "MULTISELECT_ENABLED";
     Features["MINE_ONLY"] = "MINE_ONLY";
     Features["NAV_HIDDEN"] = "NAV_HIDDEN";
     Features["SIMPLE_UPLOAD_ENABLED"] = "SIMPLE_UPLOAD_ENABLED";
     Features["SUPPORT_DRIVES"] = "SUPPORT_DRIVES";
-})(Features = exports.Features || (exports.Features = {}));
+})(Features || (Features = {}));
 ;
-var MimeTypes;
+export var MimeTypes;
 (function (MimeTypes) {
     MimeTypes["AUDIO"] = "application/vnd.google-apps.audio";
     MimeTypes["DOCS"] = "application/vnd.google-apps.document";
@@ -56,10 +72,10 @@ var MimeTypes;
     MimeTypes["UNKNOWN"] = "application/vnd.google-apps.unknown";
     MimeTypes["VIDEO"] = "application/vnd.google-apps.video";
     MimeTypes["DRIVE_SDK"] = "application/vnd.google-apps.drive-sdk";
-})(MimeTypes = exports.MimeTypes || (exports.MimeTypes = {}));
+})(MimeTypes || (MimeTypes = {}));
 ;
-var Settings = /** @class */ (function () {
-    function Settings(name, docProperties) {
+export class Settings {
+    constructor(name, docProperties) {
         this._name = "SETTINGS";
         if (name)
             this._name = name;
@@ -67,40 +83,39 @@ var Settings = /** @class */ (function () {
         this._settings = new Map();
         if (docProperties) {
             this._scriptProperties = false;
-            var t_prop = PropertiesService.getDocumentProperties().getProperty(this._name);
+            let t_prop = PropertiesService.getDocumentProperties().getProperty(this._name);
             if (t_prop == null)
                 throw new Error("Could not find property in Settings()");
             this._settings = JSON.parse(t_prop);
         }
         else {
-            var t_prop = PropertiesService.getScriptProperties().getProperty(this._name);
+            let t_prop = PropertiesService.getScriptProperties().getProperty(this._name);
             if (t_prop == null)
                 throw new Error("Could not find property in Settings()");
             this._settings = JSON.parse(t_prop);
         }
     }
-    Settings.prototype.get = function (key) {
+    get(key) {
         if (key != null) {
             if (typeof key != "string") {
-                var settingsMap = new Map();
-                for (var _i = 0, key_1 = key; _i < key_1.length; _i++) {
-                    var i = key_1[_i];
-                    var t_value_1 = this._settings.get(i);
-                    if (t_value_1 == undefined)
+                let settingsMap = new Map();
+                for (let i of key) {
+                    let t_value = this._settings.get(i);
+                    if (t_value == undefined)
                         throw new Error("Key not found in Settings.get()");
-                    settingsMap.set(i, JSON.parse(t_value_1));
+                    settingsMap.set(i, JSON.parse(t_value));
                 }
                 return settingsMap;
             }
-            var t_value = this._settings.get(key);
+            let t_value = this._settings.get(key);
             if (t_value == undefined)
                 throw new Error("Key not found in Settings.get()");
             return JSON.parse(t_value);
         }
         throw new Error("Key not specified in Settings.get()");
-    };
+    }
     ;
-    Settings.prototype.set = function (key, value) {
+    set(key, value) {
         if (key) {
             for (var i = 0; i < key.length; i++) {
                 this._settings.set(key[i], JSON.stringify(value));
@@ -109,27 +124,23 @@ var Settings = /** @class */ (function () {
         else {
             this._settings.set(key, JSON.stringify(value));
         }
-    };
+    }
     ;
-    Settings.prototype.updateProperties = function () {
+    updateProperties() {
         var stringifiedValues = JSON.stringify(this._settings);
         if (this._scriptProperties)
             PropertiesService.getScriptProperties().setProperty(this._name, stringifiedValues);
         else
             PropertiesService.getDocumentProperties().setProperty(this._name, stringifiedValues);
-    };
+    }
     ;
-    return Settings;
-}());
-exports.Settings = Settings;
+}
 ;
-function updateTriggers(formId, functionName) {
+export function updateTriggers(formId, functionName) {
     // Update triggers for bellwork
-    for (var _i = 0, _a = ScriptApp.getProjectTriggers(); _i < _a.length; _i++) {
-        var t = _a[_i];
+    for (let t of ScriptApp.getProjectTriggers()) {
         if (t.getHandlerFunction() == functionName)
             ScriptApp.deleteTrigger(t);
     }
     ScriptApp.newTrigger(functionName).forForm(formId).onFormSubmit().create();
 }
-exports.updateTriggers = updateTriggers;

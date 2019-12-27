@@ -1,4 +1,4 @@
-let validImageTypes: Array<string> = ["image/png", "image/gif", "image/jpeg"];
+let ValidImageTypes: Array<string> = ["image/png", "image/gif", "image/jpeg"];
 
 /**
  * Class to provide access and functions to Google Drive
@@ -21,7 +21,7 @@ export class DriveGS {
     let allPictures: Array<GoogleAppsScript.Base.Blob> = [];
     while (dailyPictures.hasNext()) {
       let pic: GoogleAppsScript.Drive.File = dailyPictures.next();
-      if (pic.getMimeType() in validImageTypes) {
+      if (pic.getMimeType() in ValidImageTypes) {
         allPictures.push(pic.getAs("image/png"));
       }
     }
@@ -40,7 +40,7 @@ export class DriveGS {
   getImageBlob(id: string): GoogleAppsScript.Base.Blob | boolean {
     if (id == undefined) throw new Error("Id needs to defined for DriveGS.getImageBlob()");
     if (DriveApp.getFileById(id) == null) throw new Error("Could not file of id " + id + " in DriveGS.getImageBlob()");
-    if (DriveApp.getFileById(id).getMimeType() in validImageTypes) return DriveApp.getFileById(id).getBlob();
+    if (DriveApp.getFileById(id).getMimeType() in ValidImageTypes) return DriveApp.getFileById(id).getBlob();
     return false;
   };
   

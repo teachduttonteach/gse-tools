@@ -1,5 +1,3 @@
-import { DateOrder } from "./Properties"
-
 /**
  * Type to hold the options for the form event
  */
@@ -7,7 +5,7 @@ export type FormEventOptions = {
     /**
      * The order of the dates, MD or DM (default: MD)
      */
-    dateOrder?: DateOrder, 
+    dateOrder?: string, 
     /**
      * The delimiter for the date (default: "/")
      */
@@ -91,7 +89,7 @@ export class FormEventGS {
     fullDate(options?: FormEventOptions): string {
         if (options == null) options = {} as FormEventOptions;
         let {
-            dateOrder = DateOrder.MD,
+            dateOrder = "MD",
             dateDelimiter = "/",
             suffixDelimiter = "\n",
             suffixResponseNumber = 0,
@@ -99,7 +97,7 @@ export class FormEventGS {
         } = options;
 
         let [firstDate, secondDate] = [this._date.getMonth() + 1, this._date.getDate()];
-        if (dateOrder == DateOrder.DM) [firstDate, secondDate] = [this._date.getDate(), this._date.getMonth() + 1];
+        if (dateOrder == "DM") [firstDate, secondDate] = [this._date.getDate(), this._date.getMonth() + 1];
         
         let suffixBuilder = this._response.getItemResponses()[suffixResponseNumber];
         let suffix: string = "";

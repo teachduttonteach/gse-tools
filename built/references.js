@@ -7,7 +7,6 @@
 /// <reference path="DriveGS.ts" />
 /// <reference path="FormEventGS.ts" />
 /// <reference path="FormsGS.ts" />
-/// <reference path="gsapiTopics.ts" />
 /// <reference path="Properties.ts" />
 /// <reference path="QuestionType.ts" />
 /// <reference path="SheetEventGS.ts" />

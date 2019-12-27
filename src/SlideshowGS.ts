@@ -28,6 +28,7 @@ export class SlideshowGS extends UiGS {
    * @returns {SlideshowGS} the object for chaining
    */
   private _getAllSlides(): SlideshowGS {
+    this._allSlides = [];
     for (let s of this._presentation.getSlides()) {
       this._allSlides.push(new SlideGS(s));
     }
@@ -74,10 +75,9 @@ export class SlideshowGS extends UiGS {
    * 
    * @returns {SlideshowGS} the object for chaining
    */
-  changeSlidePicture(folder: string, slideNum: number = 1): SlideshowGS {
+  changeSlidePicture(folder: string, slide: SlideGS): SlideshowGS {
     if (folder != null) {
       let chosenPicture = new DriveGS().getRandomPicture(folder);
-      let slide: SlideGS = this.getSlide(slideNum);
       slide.positionPicture(slide.changePicture(chosenPicture));
     }
     return this;
@@ -113,7 +113,7 @@ export class SlideshowGS extends UiGS {
       } 
       else slideAdded = this._presentation.appendSlide(this._template.getSlides()[0]);
     } 
-    else slideAdded = this._presentation.appendSlide();    
+    else slideAdded = this._presentation.appendSlide(SlidesApp.PredefinedLayout.TITLE_AND_BODY);    
     return new SlideGS(slideAdded).setTitle(title).setBody(body).setNotes(type);
   };
   
@@ -156,9 +156,13 @@ export class SlideshowGS extends UiGS {
    * @returns {SlideGS} the requested slide
    */
   getSlideByType(typeTitle: string): SlideGS {
-    let slide: SlideGS = this.getSlideById(typeTitle);
-    if (slide == null) return this.addSlide(typeTitle, "", typeTitle);
-    return slide;
+    let slide: SlideGS;
+    for (let s of this._allSlides) {
+      let t_notes = s.getNotes();
+      Logger.log("Notes: '" + t_notes + "'");
+      if ((t_notes != null) && (t_notes != "") && (t_notes.substr(0, typeTitle.length) == typeTitle)) return s;
+    }
+    return this.addSlide(typeTitle, "", typeTitle);
   };
   
   /**

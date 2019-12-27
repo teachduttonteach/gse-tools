@@ -11,23 +11,25 @@ type TriggerRanges = {
  * 
  */
 export class SheetEventGS {
-    _sheet: SheetGS;
-    _sheetName: string;
-    _row: number;
-    _column: number;
-    _value: string;
-    _triggerRanges: TriggerRanges;
-    _triggerSheet: string;
-    _event: GoogleAppsScript.Events.SheetsOnEdit;
+    private _sheet: SheetGS;
+    private _sheetName: string;
+    private _row: number;
+    private _column: number;
+    private _value: string;
+    private _triggerRanges: TriggerRanges;
+    private _triggerSheet: string;
+    private _event: GoogleAppsScript.Events.SheetsOnEdit;
+    private _activeSheet: SpreadsheetGS;
     
     constructor(private event: GoogleAppsScript.Events.SheetsOnEdit) {
-        let spreadsheet = new SpreadsheetGS(event.source.getActiveSheet().getSheetId());
+        let spreadsheet = new SpreadsheetGS(event.source.getActiveSheet().getParent());
         this._sheet = spreadsheet.getSheet(event.source.getActiveSheet().getName());
         this._sheetName = event.source.getActiveSheet().getName();
         this._row = event.range.getRow();
         this._column = event.range.getColumn();
         this._value = event.range.getValue(); 
         this._event = event; 
+        this._activeSheet = spreadsheet;
     }
 
     /**
@@ -37,6 +39,22 @@ export class SheetEventGS {
      */
     getObject(): GoogleAppsScript.Events.SheetsOnEdit {
         return this._event;
+    }
+
+    getSheetName(): string {
+        return this._sheetName;
+    }
+
+    getSheet(): SheetGS {
+        return this._sheet;
+    }
+
+    getRow(): number {
+        return this._row;
+    }
+
+    getColumn(): number {
+        return this._column;
     }
 
     /**

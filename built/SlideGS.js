@@ -1,60 +1,54 @@
+import { QuestionType } from "./QuestionType";
 /**
  * Class to access methods and properties of individual Slides of Google Presentations
  */
-var SlideGS = /** @class */ (function () {
-    function SlideGS(slideObject) {
+export class SlideGS {
+    constructor(slideObject) {
         this._slide = slideObject;
         this._pageElements = this._slide.getPageElements();
-        this._dimensions.totalHeight = 400;
-        this._dimensions.totalWidth = 720;
-        this._dimensions.maxHeight = 300;
-        this._dimensions.maxWidth = 250;
-        this._dimensions.margin = 10;
+        this._dimensions = {};
     }
     /**
      * Gets the underlying Google Apps Script object for direct access
      *
-     * @returns the Slide object
+     * @returns {GoogleAppsScript.Slides.Slide} the Slide object
      */
-    SlideGS.prototype.getObject = function () {
+    getObject() {
         return this._slide;
-    };
+    }
     /**
      * Replaces the picture at the specified number (default 0) with the specified picture
      *
-     * @param picture the blob (data) holding the picture
+     * @param {GoogleAppsScript.Base.BlobSource} picture the blob (data) holding the picture
+     * @param {number} imageNumber the number of the image on the slide
      *
      * @returns {number} the number of the page element of the replaced picture
      */
-    SlideGS.prototype.replaceImage = function (picture, imageNumber) {
-        if (imageNumber === void 0) { imageNumber = 0; }
-        if (picture) {
-            var foundImages = 0;
-            for (var j = 0; j < this._pageElements.length; j++) {
-                if (this._pageElements[j].getPageElementType() == SlidesApp.PageElementType.IMAGE) {
-                    if (foundImages = imageNumber) {
-                        this._pageElements[j].asImage().replace(picture);
-                        return j;
-                    }
-                    else {
-                        foundImages++;
-                    }
+    replaceImage(picture, imageNumber = 0) {
+        if (picture == null)
+            throw new Error("Picture not defined in Slide.replaceImage");
+        let foundImages = 0;
+        for (var j = 0; j < this._pageElements.length; j++) {
+            if (this._pageElements[j].getPageElementType() == SlidesApp.PageElementType.IMAGE) {
+                if (foundImages == imageNumber) {
+                    this._pageElements[j].asImage().replace(picture);
+                    return j;
+                }
+                else {
+                    foundImages++;
                 }
             }
-            throw new Error("Could not find picture number " + imageNumber + " on slide in Slide.replaceImage");
         }
-        else {
-            throw new Error("Picture not defined in Slide.replaceImage");
-        }
-    };
+        throw new Error("Could not find picture number " + imageNumber + " on slide in Slide.replaceImage");
+    }
     /**
      * Get the speaker notes from the slide
      *
      * @returns {string} the speaker notes
      */
-    SlideGS.prototype.getNotes = function () {
+    getNotes() {
         return this._slide.getNotesPage().getSpeakerNotesShape().getText().asString();
-    };
+    }
     ;
     /**
      * Set the speaker notes to the specified text
@@ -63,15 +57,12 @@ var SlideGS = /** @class */ (function () {
      *
      * @returns {SlideGS} the object for chaining
      */
-    SlideGS.prototype.setNotes = function (text) {
-        if (text) {
-            this._slide.getNotesPage().getSpeakerNotesShape().getText().setText(text);
-            return this;
-        }
-        else {
+    setNotes(text) {
+        if (text == null)
             throw new Error("Notes text cannot be blank in Slide.setNotes");
-        }
-    };
+        this._slide.getNotesPage().getSpeakerNotesShape().getText().setText(text);
+        return this;
+    }
     ;
     /**
      * Sets the title of the slide
@@ -80,15 +71,12 @@ var SlideGS = /** @class */ (function () {
      *
      * @returns {SlideGS} the object for chaining
      */
-    SlideGS.prototype.setTitle = function (title) {
-        if (title) {
-            this._slide.getPlaceholder(SlidesApp.PlaceholderType.TITLE).asShape().getText().setText(title);
-            return this;
-        }
-        else {
+    setTitle(title) {
+        if (title == null)
             throw new Error("Slide title cannot be blank in Slide.setTitle");
-        }
-    };
+        this._slide.getPlaceholder(SlidesApp.PlaceholderType.TITLE).asShape().getText().setText(title);
+        return this;
+    }
     ;
     /**
      * Sets the body of the slide
@@ -97,15 +85,12 @@ var SlideGS = /** @class */ (function () {
      *
      * @returns {SlideGS} the object for chaining
      */
-    SlideGS.prototype.setBody = function (body) {
-        if (body) {
-            this._slide.getPlaceholder(SlidesApp.PlaceholderType.BODY).asShape().getText().setText(body);
-            return this;
-        }
-        else {
+    setBody(body) {
+        if (body == null)
             throw new Error("Body cannot be blank in Slide.setBody");
-        }
-    };
+        this._slide.getPlaceholder(SlidesApp.PlaceholderType.BODY).asShape().getText().setText(body);
+        return this;
+    }
     ;
     /**
      * Sets the body of the slide to a list
@@ -115,90 +100,80 @@ var SlideGS = /** @class */ (function () {
      *
      * @returns {SlideGS} the object for chaining
      */
-    SlideGS.prototype.setList = function (text, bulletType) {
-        if (bulletType === void 0) { bulletType = SlidesApp.ListPreset.DISC_CIRCLE_SQUARE; }
-        if (text) {
-            this._slide.getPlaceholder(SlidesApp.PlaceholderType.BODY).asShape().getText().setText(text).getListStyle().applyListPreset(bulletType);
-            return this;
-        }
-        else {
+    setList(text, bulletType = SlidesApp.ListPreset.DISC_CIRCLE_SQUARE) {
+        if (text == null)
             throw new Error("Text cannot be blank in Slide.setList");
-        }
-    };
+        this._slide.getPlaceholder(SlidesApp.PlaceholderType.BODY).asShape().getText().setText(text).getListStyle().applyListPreset(bulletType);
+        return this;
+    }
     ;
     /**
      * Add items to a list on a slide
      *
-     * @param questionOptions the options as a list of line breaks or an array
-     * @param bulletType the optional type of bullet for the list
+     * @param {string | Array<string>} questionOptions the options as a list of line breaks or an array
+     * @param {GoogleAppsScript.Slides.ListPreset} bulletType the optional type of bullet for the list
      *
      * @returns {SlideGS} the object for chaining
      */
-    SlideGS.prototype.addItems = function (questionOptions, bulletType) {
-        if (bulletType === void 0) { bulletType = SlidesApp.ListPreset.DISC_CIRCLE_SQUARE; }
-        var choices = [];
+    addItems(questionOptions, bulletType = SlidesApp.ListPreset.DISC_CIRCLE_SQUARE) {
+        let choices = [];
         if (typeof questionOptions !== "string")
             choices = questionOptions;
         else
             choices = questionOptions.split("\n");
-        var textRange = "";
-        for (var choice in choices) {
+        let textRange = "";
+        for (let choice in choices) {
             textRange += "\t" + choice + "\n";
         }
         this.setList(textRange, bulletType);
         return this;
-    };
+    }
     ;
     /**
      * Adds the item to the slide of a particular type
      *
      * @param type the type of item to add to the slide
-     * @param itemsToAdd the string or array of strings that holds the item data
-     * @param bulletType the optional type of bullet for the list
+     * @param {string | Array<string>} itemsToAdd the string or array of strings that holds the item data
+     * @param {GoogleAppsScript.Slides.ListPreset} bulletType the optional type of bullet for the list
      *
      * @returns {SlideGS} the object for chaining
      */
-    SlideGS.prototype.addItem = function (type, itemsToAdd, bulletType) {
-        if (bulletType === void 0) { bulletType = SlidesApp.ListPreset.DISC_CIRCLE_SQUARE; }
+    addItem(type, itemsToAdd, bulletType = SlidesApp.ListPreset.DISC_CIRCLE_SQUARE) {
         switch (type) {
-            case QUESTION_TYPE.TRUE_FALSE["string"]:
+            case QuestionType.TRUE_FALSE:
                 this.setBody("True or False?");
                 break;
-            case QUESTION_TYPE.MULTIPLE_CHOICE["string"]:
-            case QUESTION_TYPE.MULTIPLE_SELECT["string"]:
+            case QuestionType.MULTIPLE_CHOICE:
+            case QuestionType.MULTIPLE_SELECT:
                 this.addItems(itemsToAdd, bulletType);
                 break;
         }
         return this;
-    };
+    }
     ;
     /**
      * Change the picture displayed in the slide
      *
-     * @param chosenPictureBlob the blob (data) of the picture to add
+     * @param {GoogleAppsScript.Base.BlobSource} chosenPictureBlob the blob (data) of the picture to add
      * @param pictureNumber the number of the picture on the slide
      *
      * @returns {number} the number of the replaced page element
      */
-    SlideGS.prototype.changePicture = function (chosenPictureBlob, pictureNumber) {
-        if (pictureNumber === void 0) { pictureNumber = 0; }
-        if (chosenPictureBlob) {
-            var countPictures = 0;
-            for (var pictureId = 0; pictureId < this._pageElements.length; pictureId++) {
-                if (this._pageElements[pictureId].getPageElementType() == SlidesApp.PageElementType.IMAGE) {
-                    if (countPictures == pictureNumber) {
-                        this._pageElements[pictureId].asImage().replace(chosenPictureBlob);
-                        return pictureId;
-                    }
-                    countPictures++;
-                }
-            }
-            return -1;
-        }
-        else {
+    changePicture(chosenPictureBlob, pictureNumber = 0) {
+        if (chosenPictureBlob == null)
             throw new Error("Slide and blob of chosen picture need to be defined in Slides.changePicture");
+        let countPictures = 0;
+        for (var pictureId = 0; pictureId < this._pageElements.length; pictureId++) {
+            if (this._pageElements[pictureId].getPageElementType() == SlidesApp.PageElementType.IMAGE) {
+                if (countPictures == pictureNumber) {
+                    this._pageElements[pictureId].asImage().replace(chosenPictureBlob);
+                    return pictureId;
+                }
+                countPictures++;
+            }
         }
-    };
+        return -1;
+    }
     ;
     /**
      * Sets the dimensions of the slide for picture orientation
@@ -207,15 +182,12 @@ var SlideGS = /** @class */ (function () {
      *
      * @returns {SlideGS} the object for chaining
      */
-    SlideGS.prototype.setDimensions = function (dimensions) {
-        if (dimensions != undefined) {
-            this._dimensions = dimensions;
-            return this;
-        }
-        else {
+    setDimensions(dimensions) {
+        if (dimensions == undefined)
             throw new Error("Height and width of dimensions need to all be integers in Slides.setDimensions");
-        }
-    };
+        this._dimensions = dimensions;
+        return this;
+    }
     ;
     /**
      * Position the picture on the slide according to the size of the image
@@ -224,64 +196,59 @@ var SlideGS = /** @class */ (function () {
      * @param bottom whether or not to display the image aligned to the bottom (default true = bottom)
      * @param right whether or not to display the image aligned to the right (default true = right)
      */
-    SlideGS.prototype.positionPicture = function (id, bottom, right) {
-        if (bottom === void 0) { bottom = true; }
-        if (right === void 0) { right = true; }
-        if (typeof id === "number") {
-            if (this._pageElements) {
-                if (this._pageElements[id]) {
-                    var height = this._pageElements[id].getHeight();
-                    var width = this._pageElements[id].getWidth();
-                    if (height > width) {
-                        var newWidth = (this._dimensions["maxHeight"] / height) * width;
-                        this._pageElements[id].setWidth(newWidth);
-                        this._pageElements[id].setHeight(this._dimensions["maxHeight"]);
-                        if (right)
-                            this._pageElements[id].setLeft(this._dimensions["totalWidth"] - newWidth - this._dimensions["margin"]);
-                        else
-                            this._pageElements[id].setLeft(this._dimensions["margin"]);
-                        if (bottom)
-                            this._pageElements[id].setTop(this._dimensions["totalHeight"] - this._dimensions["maxHeight"] - this._dimensions["margin"]);
-                        else
-                            this._pageElements[id].setTop(this._dimensions["margin"]);
-                    }
-                    else {
-                        var newHeight = (this._dimensions["maxWidth"] / width) * height;
-                        this._pageElements[id].setHeight(newHeight);
-                        this._pageElements[id].setWidth(this._dimensions["maxWidth"]);
-                        if (bottom)
-                            this._pageElements[id].setTop(this._dimensions["totalHeight"] - newHeight - this._dimensions["margin"]);
-                        else
-                            this._pageElements[id].setTop(this._dimensions["margin"]);
-                        if (right)
-                            this._pageElements[id].setLeft(this._dimensions["totalWidth"] - this._dimensions["maxWidth"] - this._dimensions["margin"]);
-                        else
-                            this._pageElements[id].setLeft(this._dimensions["margin"]);
-                    }
-                    return this;
-                }
-                else {
-                    throw new Error("Could not get element id off of Slide object in Slides.positionPicture");
-                }
-            }
-            else {
-                throw new Error("Could not get slide specified by Slide object in Slides.positionPicture");
-            }
+    positionPicture(id, bottom = true, right = true) {
+        if (id == null)
+            throw new Error("ID and Slide need to be defined in SlidesGS.positionPicture()");
+        if (this._pageElements == null)
+            throw new Error("Could not get slide specified by Slide object in Slides.positionPicture");
+        if (this._pageElements[id] == null)
+            throw new Error("Could not get element id (" + id + ") off of Slide object in Slides.positionPicture");
+        let height = this._pageElements[id].getHeight();
+        let width = this._pageElements[id].getWidth();
+        let { maxHeight = 300, maxWidth = 250, totalHeight = 400, totalWidth = 720, margin = 10 } = this._dimensions;
+        if (height > width) {
+            var newWidth = (maxHeight / height) * width;
+            this._pageElements[id].setWidth(newWidth);
+            this._pageElements[id].setHeight(maxHeight);
+            if (right)
+                this._pageElements[id].setLeft(totalWidth - newWidth - margin);
+            else
+                this._pageElements[id].setLeft(margin);
+            if (bottom)
+                this._pageElements[id].setTop(totalHeight - maxHeight - margin);
+            else
+                this._pageElements[id].setTop(margin);
         }
         else {
-            throw new Error("ID and Slide need to be defined in Slides.positionPicture");
+            var newHeight = (maxWidth / width) * height;
+            this._pageElements[id].setHeight(newHeight);
+            this._pageElements[id].setWidth(maxWidth);
+            if (bottom)
+                this._pageElements[id].setTop(totalHeight - newHeight - margin);
+            else
+                this._pageElements[id].setTop(margin);
+            if (right)
+                this._pageElements[id].setLeft(totalWidth - maxWidth - margin);
+            else
+                this._pageElements[id].setLeft(margin);
         }
-    };
+        return this;
+    }
     ;
     /**
      * Get the page elements on the slide
      *
      * @returns the page elements
      */
-    SlideGS.prototype.getPageElements = function () {
+    getPageElements() {
         return this._pageElements;
-    };
+    }
     ;
-    return SlideGS;
-}());
+    /**
+     * Removes the current slide
+     */
+    remove() {
+        this._slide.remove();
+    }
+}
 ;

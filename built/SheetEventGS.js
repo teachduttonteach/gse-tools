@@ -1,40 +1,50 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-var SpreadsheetGS_1 = require("./SpreadsheetGS");
+import { SpreadsheetGS } from "./SpreadsheetGS";
 /**
  * Class to process Spreadsheet events (like onEdit, onChange)
  *
  */
-var SheetEventGS = /** @class */ (function () {
-    function SheetEventGS(event) {
+export class SheetEventGS {
+    constructor(event) {
         this.event = event;
-        var spreadsheet = new SpreadsheetGS_1.SpreadsheetGS(event.source.getActiveSheet().getSheetId());
+        let spreadsheet = new SpreadsheetGS(event.source.getActiveSheet().getParent());
         this._sheet = spreadsheet.getSheet(event.source.getActiveSheet().getName());
         this._sheetName = event.source.getActiveSheet().getName();
         this._row = event.range.getRow();
         this._column = event.range.getColumn();
         this._value = event.range.getValue();
         this._event = event;
+        this._activeSheet = spreadsheet;
     }
     /**
      * Gets the underlying Google Apps Script object for direct access
      *
      * @returns the Event object
      */
-    SheetEventGS.prototype.getObject = function () {
+    getObject() {
         return this._event;
-    };
+    }
+    getSheetName() {
+        return this._sheetName;
+    }
+    getSheet() {
+        return this._sheet;
+    }
+    getRow() {
+        return this._row;
+    }
+    getColumn() {
+        return this._column;
+    }
     /**
      * Check to see if the cell is in the specified trigger range
      *
      * @returns true or false
      */
-    SheetEventGS.prototype.checkCell = function () {
-        var _a;
-        var foundCell = false, foundColumn = false, foundRow = false;
+    checkCell() {
+        let foundCell = false, foundColumn = false, foundRow = false;
         if (this._triggerSheet == this._sheetName) {
-            var columns = void 0, rows = void 0;
-            _a = [this._triggerRanges.columns, this._triggerRanges.rows], columns = _a[0], rows = _a[1];
+            let columns, rows;
+            [columns, rows] = [this._triggerRanges.columns, this._triggerRanges.rows];
             columns.forEach(function (cRange) {
                 if ((cRange[0] <= this._column) && (this._column <= cRange[1])) {
                     foundColumn = true;
@@ -49,7 +59,7 @@ var SheetEventGS = /** @class */ (function () {
                 return true;
         }
         return false;
-    };
+    }
     /**
      * Gets the value from the underlying sheet
      *
@@ -58,15 +68,15 @@ var SheetEventGS = /** @class */ (function () {
      *
      * @returns the value of the cell
      */
-    SheetEventGS.prototype.getValue = function (row, col) {
+    getValue(row, col) {
         return this._sheet.getValue(row, col);
-    };
+    }
     /**
    * Adds sheet to the trigger
    *
    * @param name
    */
-    SheetEventGS.prototype.addSheetName = function (name) {
+    addSheetName(name) {
         if (name) {
             this._triggerSheet = name;
             return this;
@@ -74,23 +84,19 @@ var SheetEventGS = /** @class */ (function () {
         else {
             throw new Error("Sheet name is not found in Spreadsheet.addSheetName");
         }
-    };
+    }
     ;
-    SheetEventGS.prototype.addTriggerColumnRange = function (min, max) {
-        if (min === void 0) { min = 0; }
-        if (max === void 0) { max = 0; }
+    addTriggerColumnRange(min = 0, max = 0) {
         this.addTriggerRange(false, min, max);
         return this;
-    };
+    }
     ;
-    SheetEventGS.prototype.addTriggerRowRange = function (min, max) {
-        if (min === void 0) { min = 0; }
-        if (max === void 0) { max = 0; }
+    addTriggerRowRange(min = 0, max = 0) {
         this.addTriggerRange(true, min, max);
         return this;
-    };
+    }
     ;
-    SheetEventGS.prototype.addTriggerRange = function (forRow, min, max) {
+    addTriggerRange(forRow, min, max) {
         if (min instanceof Array) {
             for (var i = 0; i < min.length; i++) {
                 if (max instanceof Array) {
@@ -132,8 +138,6 @@ var SheetEventGS = /** @class */ (function () {
             }
         }
         return this;
-    };
+    }
     ;
-    return SheetEventGS;
-}());
-exports.SheetEventGS = SheetEventGS;
+}

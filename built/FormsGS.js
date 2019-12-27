@@ -1,49 +1,40 @@
-"use strict";
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    };
-    return function (d, b) {
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
-Object.defineProperty(exports, "__esModule", { value: true });
-var UiGS_1 = require("./UiGS");
+import { UiGS } from "./UiGS";
+import { QuestionType } from "./QuestionType";
 /**
  * Class to manipulate Google Forms
  */
-var FormsGS = /** @class */ (function (_super) {
-    __extends(FormsGS, _super);
-    function FormsGS(id) {
-        var _this = _super.call(this) || this;
-        if (id != "") {
-            _this._form = FormApp.openById(id);
-            if (_this._form == null)
-                throw new Error("Form not found with id " + id + " in Form()");
-            _this._ui = FormApp.getUi();
-            if (_this._ui == null)
-                throw new Error("Could not retrieve Ui in Form()");
-        }
-        else {
+export class FormsGS extends UiGS {
+    /**
+     *
+     * @param id the id of the form
+     */
+    constructor(id) {
+        super();
+        if (id == null)
             throw new Error("Form id needs to be defined in Form(): " + id);
-        }
-        if (_this._form == null)
-            throw new Error("Form not found in Form()");
-        return _this;
+        this._form = FormApp.openById(id);
+        if (this._form == null)
+            throw new Error("Form not found with id " + id + " in Form()");
+    }
+    /**
+     * Activate the form Ui for Ui manipulation
+     *
+     * @returns {FormsGS} the object for chaining
+     */
+    activateUi() {
+        this._ui = FormApp.getUi();
+        if (this._ui == null)
+            throw new Error("Could not retrieve Ui in Form()");
+        return this;
     }
     /**
      * Gets the underlying Google Apps Script object for direct access
      *
-     * @returns the Form object
+     * @returns {GoogleAppsScript.Forms.Form} the Google Form object
      */
-    FormsGS.prototype.getObject = function () {
+    getObject() {
         return this._form;
-    };
+    }
     /**
      * Convert a string to a list
      *
@@ -51,29 +42,31 @@ var FormsGS = /** @class */ (function (_super) {
      *
      * @returns {Array<string>} the list
      */
-    FormsGS.prototype.convertLinebreaksToList = function (text) {
+    convertLinebreaksToList(text) {
+        if ((text == null) || (text == ""))
+            return [];
         return text.split("\n");
-    };
+    }
     ;
     /**
      * Add an item to the form
      *
      * @param title title of the item
-     * @param questionType type of the item, contained in QUESTION_TYPE
+     * @param questionType type of the item, contained in QuestionType
      * @param optionsList list of options for multiple choice, select, or the columns for grid items
      * @param mcGridRowsList rows for grid items
      *
      * @returns {FormsGS} the object for chaining
      */
-    FormsGS.prototype.addItem = function (title, questionType, optionsList, mcGridRowsList) {
+    addItem(title, questionType, optionsList, mcGridRowsList) {
         switch (questionType) {
-            case QUESTION_TYPE.PARAGRAPH["string"]:
+            case QuestionType.PARAGRAPH:
                 this._form.addParagraphTextItem().setTitle(title);
                 break;
-            case QUESTION_TYPE.TRUE_FALSE["string"]:
+            case QuestionType.TRUE_FALSE:
                 this._form.addMultipleChoiceItem().setTitle(title).setChoiceValues(["True", "False"]);
                 break;
-            case QUESTION_TYPE.MULTIPLE_CHOICE["string"]:
+            case QuestionType.MULTIPLE_CHOICE:
                 this._form.addMultipleChoiceItem().setTitle(title);
                 if (optionsList == undefined)
                     throw new Error("Options list must be defined in FormsGS.addItem()");
@@ -82,7 +75,7 @@ var FormsGS = /** @class */ (function (_super) {
                 else
                     this.addMultipleChoice(title, optionsList);
                 break;
-            case QUESTION_TYPE.MULTIPLE_SELECT["string"]:
+            case QuestionType.MULTIPLE_SELECT:
                 this._form.addCheckboxItem().setTitle(title);
                 if (optionsList == undefined)
                     throw new Error("Options list must be defined in FormsGS.addItem()");
@@ -91,8 +84,8 @@ var FormsGS = /** @class */ (function (_super) {
                 else
                     this.addMultipleCheck(title, optionsList);
                 break;
-            case QUESTION_TYPE.MC_GRID["string"]:
-                var item = this._form.addGridItem().setTitle(title);
+            case QuestionType.MC_GRID:
+                let item = this._form.addGridItem().setTitle(title);
                 if (optionsList == undefined)
                     throw new Error("Options list must be defined in FormsGS.addItem()");
                 else if (typeof optionsList === "string")
@@ -106,8 +99,8 @@ var FormsGS = /** @class */ (function (_super) {
                 else
                     item.setRows(mcGridRowsList);
                 break;
-            case QUESTION_TYPE.MS_GRID["string"]:
-                var gridItem = this._form.addCheckboxGridItem().setTitle(title);
+            case QuestionType.MS_GRID:
+                let gridItem = this._form.addCheckboxGridItem().setTitle(title);
                 if (optionsList == undefined)
                     throw new Error("Options list must be defined in FormsGS.addItem()");
                 else if (typeof optionsList === "string")
@@ -126,7 +119,7 @@ var FormsGS = /** @class */ (function (_super) {
                 break;
         }
         return this;
-    };
+    }
     ;
     /**
      * Adds a paragraph item to the form
@@ -135,15 +128,12 @@ var FormsGS = /** @class */ (function (_super) {
      *
      * @returns {FormsGS} the object for chaining
      */
-    FormsGS.prototype.addParagraph = function (title) {
-        if (typeof title === "string") {
-            this._form.addParagraphTextItem().setTitle(title);
-            return this;
-        }
-        else {
+    addParagraph(title) {
+        if (title == null)
             throw new Error("Title needs to be defined for Form.addParagraph");
-        }
-    };
+        this._form.addParagraphTextItem().setTitle(title);
+        return this;
+    }
     ;
     /**
      * Adds a true/false item to the form
@@ -152,15 +142,12 @@ var FormsGS = /** @class */ (function (_super) {
      *
      * @returns {FormsGS} the object for chaining
      */
-    FormsGS.prototype.addTrueFalse = function (title) {
-        if (typeof title === "string") {
-            this.addMultipleChoice(title, ["True", "False"]);
-            return this;
-        }
-        else {
+    addTrueFalse(title) {
+        if (title == null)
             throw new Error("Title needs to be defined for Form.addTrueFalse");
-        }
-    };
+        this.addMultipleChoice(title, ["True", "False"]);
+        return this;
+    }
     ;
     /**
      * Returns an array of values from either an array or a string
@@ -169,11 +156,11 @@ var FormsGS = /** @class */ (function (_super) {
      *
      * @returns {Array<string>} the array of values
      */
-    FormsGS.prototype.setValuesFromList = function (values) {
+    setValuesFromList(values) {
         if (typeof values === "string")
             return this.convertLinebreaksToList(values.toString());
         return values;
-    };
+    }
     /**
      * Adds a multiple choice item to the form
      *
@@ -182,11 +169,11 @@ var FormsGS = /** @class */ (function (_super) {
      *
      * @returns {FormsGS} the object for chaining
      */
-    FormsGS.prototype.addMultipleChoice = function (title, items) {
-        var mcItem = this._form.addMultipleChoiceItem().setTitle(title);
+    addMultipleChoice(title, items) {
+        let mcItem = this._form.addMultipleChoiceItem().setTitle(title);
         mcItem.setChoiceValues(this.setValuesFromList(items));
         return this;
-    };
+    }
     /**
      * Adds a multiple checkbox item to the form
      *
@@ -195,11 +182,11 @@ var FormsGS = /** @class */ (function (_super) {
      *
      * @returns {FormsGS} the object for chaining
      */
-    FormsGS.prototype.addMultipleCheck = function (title, items) {
-        var mcItem = this._form.addCheckboxItem().setTitle(title);
+    addMultipleCheck(title, items) {
+        let mcItem = this._form.addCheckboxItem().setTitle(title);
         mcItem.setChoiceValues(this.setValuesFromList(items));
         return this;
-    };
+    }
     /**
      * Adds a multiple choice grid item to the form
      *
@@ -209,12 +196,12 @@ var FormsGS = /** @class */ (function (_super) {
      *
      * @returns {FormsGS} the object for chaining
      */
-    FormsGS.prototype.addMultipleGridChoice = function (title, columns, rows) {
-        var mcItem = this._form.addGridItem().setTitle(title);
+    addMultipleGridChoice(title, columns, rows) {
+        let mcItem = this._form.addGridItem().setTitle(title);
         mcItem.setColumns(this.setValuesFromList(columns));
         mcItem.setRows(this.setValuesFromList(rows));
         return this;
-    };
+    }
     ;
     /**
      * Adds a multiple checkbox grid item to the form
@@ -225,12 +212,12 @@ var FormsGS = /** @class */ (function (_super) {
      *
      * @returns {FormsGS} the object for chaining
      */
-    FormsGS.prototype.addMultipleGridCheck = function (title, columns, rows) {
-        var mcItem = this._form.addCheckboxGridItem().setTitle(title);
+    addMultipleGridCheck(title, columns, rows) {
+        let mcItem = this._form.addCheckboxGridItem().setTitle(title);
         mcItem.setColumns(this.setValuesFromList(columns));
         mcItem.setRows(this.setValuesFromList(rows));
         return this;
-    };
+    }
     ;
     /**
      * Add an image to the form
@@ -239,26 +226,25 @@ var FormsGS = /** @class */ (function (_super) {
      *
      * @returns {FormsGS} the object for chaining
      */
-    FormsGS.prototype.addImage = function (file) {
-        if (file != null)
-            this._form.addImageItem().setImage(file);
-        else
+    addImage(file) {
+        if (file == null)
             throw new Error("Could not find image in FormsGS.addImage()");
+        this._form.addImageItem().setImage(file);
         return this;
-    };
+    }
     ;
     /**
      * Delete the items on this form
      *
      * @returns {FormsGS} the object for chaining
      */
-    FormsGS.prototype.deleteItems = function () {
-        for (var i = this._form.getItems().length - 1; i >= 0; i--) {
+    deleteItems() {
+        for (let i = this._form.getItems().length - 1; i >= 0; i--) {
             this._form.deleteItem(i);
         }
         this._form.deleteAllResponses();
         return this;
-    };
+    }
     ;
     /**
      * Set the title of the form
@@ -267,11 +253,9 @@ var FormsGS = /** @class */ (function (_super) {
      *
      * @returns the object for chaining
      */
-    FormsGS.prototype.setTitle = function (title) {
+    setTitle(title) {
         this._form.setTitle(title);
         return this;
-    };
-    return FormsGS;
-}(UiGS_1.UiGS));
-exports.FormsGS = FormsGS;
+    }
+}
 ;

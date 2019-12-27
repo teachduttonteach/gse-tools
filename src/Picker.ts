@@ -34,7 +34,7 @@ export class Picker {
     template.data = settings.get("Template");
     template.data["SELECTED_DOCUMENT"] = dialogName;
     var html = template.evaluate().setWidth(+settings.get("DIALOG_WIDTH")).setHeight(+settings.get("DIALOG_HEIGHT"));
-    Logger.log(html.getContent());
+    //Logger.log(html.getContent());
     return SpreadsheetApp.getUi().showModalDialog(html, dialogText);
   }
 };

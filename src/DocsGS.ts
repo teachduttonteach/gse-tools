@@ -1,11 +1,12 @@
 import { UiGS } from "./UiGS"
 import { ClassInfo, Work, Material, CourseWork } from "./ClassGS"
+import { MapGS } from "./MapGS"
 
 /**
  * Create a JS-accessible Map
  */
 //@ts-ignore
-var Map = cEs6Shim.Map;
+//var Map = cEs6Shim.Map;
 
 /**
  * Parameters for writing a Google Doc
@@ -64,17 +65,29 @@ type WriteDocsParams = {
  * - "T" to TITLE
  *  and all numbers 1 - 6 to their respective HEADINGs
  */
-let DocLevels: Map<string | number, GoogleAppsScript.Document.ParagraphHeading> = new Map([
-  ["N", DocumentApp.ParagraphHeading.NORMAL],
-  ["S", DocumentApp.ParagraphHeading.SUBTITLE],
-  ["T", DocumentApp.ParagraphHeading.TITLE],
-  [1, DocumentApp.ParagraphHeading.HEADING1],
-  [2, DocumentApp.ParagraphHeading.HEADING2],
-  [3, DocumentApp.ParagraphHeading.HEADING3],
-  [4, DocumentApp.ParagraphHeading.HEADING4],
-  [5, DocumentApp.ParagraphHeading.HEADING5],
-  [6, DocumentApp.ParagraphHeading.HEADING6]
-]);
+function DocLevels(key: string | number): GoogleAppsScript.Document.ParagraphHeading {
+  switch (key) {
+    case "N":
+      return DocumentApp.ParagraphHeading.NORMAL;
+    case "S":
+      return DocumentApp.ParagraphHeading.SUBTITLE;
+    case "T":
+      return DocumentApp.ParagraphHeading.TITLE;
+    case 1:
+      return DocumentApp.ParagraphHeading.HEADING1;
+    case 2:
+      return DocumentApp.ParagraphHeading.HEADING2;
+    case 3:
+      return DocumentApp.ParagraphHeading.HEADING3;
+    case 4:
+      return DocumentApp.ParagraphHeading.HEADING4;
+    case 5:
+      return DocumentApp.ParagraphHeading.HEADING5;
+    case 6:
+      return DocumentApp.ParagraphHeading.HEADING6;
+  }
+  return DocumentApp.ParagraphHeading.NORMAL;
+}
 
 /**
  * Class to write a Google Document 
@@ -167,7 +180,7 @@ export class DocsGS extends UiGS {
     if (level == undefined) throw new Error("Level (" + level + ") needs to be a ParagraphHeading type in DocsGS.addText()");
     if (typeof level === "string") level = level.substr(0, 1).toUpperCase();
     
-    let t_level = DocLevels.get(level);
+    let t_level = DocLevels(level);
     if (t_level == null) throw new Error("Level (" + level + ") needs to be a ParagraphHeading type in DocsGS.addText()");
     
     this._docObject.getBody().appendParagraph(text).setHeading(t_level);
@@ -205,7 +218,7 @@ export class DocsGS extends UiGS {
     this.clearBody();
     let t_title = docTitle;
     if (t_title == undefined) t_title = data.getName(topicName);
-    let t_level = DocLevels.get("T");
+    let t_level = DocLevels("T");
     if ((t_title == undefined) || (t_level == undefined)) throw new Error("Title (" + t_title + ") or level (" + t_level + ") not defined in DocsGS.writeClassroomDocuments()");
 
     // Display the title by removing the first child if necessary
@@ -225,7 +238,7 @@ export class DocsGS extends UiGS {
         this.addText(t_announcements[a], "Normal");
       }
     }
-    
+
     // Display the coursework
     if (displayCoursework) {
       // Get the coursework for the topic

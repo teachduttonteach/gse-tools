@@ -1,6 +1,6 @@
 import { stringify } from "querystring";
 import { join } from "path";
-import { DueDateOrder } from "./Properties"
+import { MapGS } from "./MapGS"
 
 /**
  * Type to hold all of the coursework in an object
@@ -83,19 +83,19 @@ export type ClassDataParams = {
   /**
    * the order to write the due date (default MDY)
    */
-  dueDateOrder?: DueDateOrder
+  dueDateOrder?: string
 };
 
 /**
  * Class for all of the particular course information
  */
 export class ClassInfo {
-  private _topics: Map<string, CourseWork>;
+  private _topics: MapGS<string, CourseWork>;
   private _announcements: Array<string>;
 
   constructor() {
     this._announcements = [];
-    this._topics = new Map();
+    this._topics = new MapGS();
   }
 
   /**
@@ -104,7 +104,7 @@ export class ClassInfo {
    * @returns {Array<string>} the topic ids
    */
   getTopics(): Array<string> {
-    return Array.from(this._topics.keys());
+    return this._topics.getKeys();
   }
 
   /**
@@ -116,7 +116,7 @@ export class ClassInfo {
    */
   getName(topicId: string): string {
     let t_topic = this._topics.get(topicId);
-    if (t_topic == undefined) throw new Error("Topic not defined in ClassInfo.getName()");
+    if (t_topic == undefined) throw new Error("Topic " + topicId + " not defined in ClassInfo.getName()");
     return t_topic.name;
   }
 
@@ -231,6 +231,12 @@ export class ClassGS {
         this._topics = t_classroomTopics;
     } 
 
+    getName(): string {
+      let t_name = this._course.name;
+      if (t_name != null) return t_name;
+      throw new Error("Course does not have name in ClassGS.getName()");
+    }
+
     /**
      * Gets the id of the calendar associated with the course
      * 
@@ -277,6 +283,7 @@ export class ClassGS {
         
         // Get the materials from the course work
         if (courseWork.materials != undefined) {
+          objWork.materials = [];
           let material: GoogleAppsScript.Classroom.Schema.Material;
           for (material of courseWork.materials) {
             let t_material = material;
@@ -286,7 +293,9 @@ export class ClassGS {
         }
 
         // Add the course work to the array
-        this._classInfo.addCourseWork(topic.topicId, objWork);
+        //@ts-ignore
+        let t_topicId = courseWork.topicId;
+        if (t_topicId != null) this._classInfo.addCourseWork(t_topicId, objWork);
       }
       return this._classInfo;
     }
@@ -303,17 +312,17 @@ export class ClassGS {
       let {
         dueDateString = "Due Date:",
         dueDateDelim = "/",
-        dueDateOrder = DueDateOrder.MDY
+        dueDateOrder = "MDY"
       } = args;
 
       // Add the corresponding piece of the date for each part of the order
       let dueDate = dueDateString + " ";
-      let t_dueDateOrder: string = dueDateOrder.toString();
-      for (let d of t_dueDateOrder) {
-        if (d.toUpperCase() == "M") dueDate += workDueDate.month;
-        else if (d.toUpperCase() == "D") dueDate += workDueDate.day;
-        else if (d.toUpperCase() == "Y") dueDate += workDueDate.year;
-        if (d != t_dueDateOrder.substr(t_dueDateOrder.length - 1, 1)) {
+      for (let d = 0; d < dueDateOrder.length; d++) {
+        let t_char = dueDateOrder.charAt(d);
+        if (t_char.toUpperCase() == "M") dueDate += workDueDate.month;
+        else if (t_char.toUpperCase() == "D") dueDate += workDueDate.day;
+        else if (t_char.toUpperCase() == "Y") dueDate += workDueDate.year;
+        if (t_char != dueDateOrder.substr(dueDateOrder.length - 1, 1)) {
           dueDate += dueDateDelim;
         }
       }

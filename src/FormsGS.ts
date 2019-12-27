@@ -47,6 +47,7 @@ export class FormsGS extends UiGS {
    * @returns {Array<string>} the list
    */
   convertLinebreaksToList(text: string): Array<string> {
+    if ((text == null) || (text == "")) return [];
     return text.split("\n");
   };
 

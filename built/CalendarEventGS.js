@@ -1,5 +1,3 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
 /**
  * Gets the data from a Google Sheet and provides an interface to it in an efficient way.
  *
@@ -9,17 +7,17 @@ Object.defineProperty(exports, "__esModule", { value: true });
  * var eventDate = gseCalendarEvent.getDate();
  * ```
  */
-var CalendarEventGS = /** @class */ (function () {
+export class CalendarEventGS {
     /**
      *
      * @param event the calendar event from Google Calendar
      */
-    function CalendarEventGS(event) {
-        var __d = event.getEndTime();
-        __d.setUTCDate(__d.getUTCDate() - 1);
-        __d.setMilliseconds(__d.getMilliseconds() - 1);
-        this._date = __d.getDate();
-        this._month = __d.getMonth() + 1;
+    constructor(event) {
+        let t_endTime = event.getEndTime();
+        t_endTime.setUTCDate(t_endTime.getUTCDate() - 1);
+        t_endTime.setMilliseconds(t_endTime.getMilliseconds() - 1);
+        this._date = t_endTime.getDate();
+        this._month = t_endTime.getMonth() + 1;
         this._title = event.getTitle();
         this._event = event;
     }
@@ -28,9 +26,9 @@ var CalendarEventGS = /** @class */ (function () {
      *
      * @returns {GoogleAppsScript.Calendar.CalendarEvent} the Event object
      */
-    CalendarEventGS.prototype.getObject = function () {
+    getObject() {
         return this._event;
-    };
+    }
     /**
      * Displays the date of a calendar event
      *
@@ -55,40 +53,35 @@ var CalendarEventGS = /** @class */ (function () {
      *
      * @returns {string} the string containing the date
      */
-    CalendarEventGS.prototype.getDate = function (firstParam, titlePrefix, dateDelim) {
+    getDate(firstParam, titlePrefix, dateDelim) {
         // Get values out of array
-        var dateOrder = "";
+        let dateOrder = "DM";
         if (typeof firstParam === "object") {
             if (titlePrefix == undefined)
                 titlePrefix = firstParam.titlePrefix;
             if (dateDelim == undefined)
                 dateDelim = firstParam.dateDelim;
-            if (firstParam.order != undefined)
-                dateOrder = firstParam.order;
+            if (firstParam.dateOrder != undefined)
+                dateOrder = firstParam.dateOrder;
         }
         else if (typeof firstParam === "string") {
-            dateOrder = firstParam.toString();
-        }
-        else {
-            throw new Error("Invalid input in CalendarEventGS.getDate()");
+            dateOrder = firstParam;
         }
         // Set default values
-        if (titlePrefix == null)
+        if (titlePrefix == undefined)
             titlePrefix = " ";
-        if (dateDelim == null)
+        if (dateDelim == undefined)
             dateDelim = "/";
-        if (dateOrder == null)
+        if (dateOrder == undefined)
             dateOrder = "MD";
         // Create and return the date
-        var dateString = titlePrefix + this._title;
-        if (dateOrder.toUpperCase() == "MD") {
+        let dateString = titlePrefix + this._title;
+        if (dateOrder == "MD") {
             return this._month + dateDelim + this._date + dateString;
         }
         else {
             return this._date + dateDelim + this._month + dateString;
         }
-    };
+    }
     ;
-    return CalendarEventGS;
-}());
-exports.CalendarEventGS = CalendarEventGS;
+}
