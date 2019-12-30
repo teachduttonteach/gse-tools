@@ -10,7 +10,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc",
     "format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\"",
-    "lint": "tslint -p tsconfig.json"
+    "lint": "tslint -p tsconfig.json",
+    "clasp": "clasp push"
   },
   "repository": {
     "type": "git",
@@ -24,9 +25,15 @@
   },
   "homepage": "https://github.com/teachduttonteach/gseTools#readme",
   "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^2.13.0",
+    "@typescript-eslint/parser": "^2.13.0",
+    "eslint": "^6.8.0",
+    "eslint-config-google": "^0.14.0",
     "prettier": "^1.19.1",
     "tslint": "^5.20.1",
     "tslint-config-prettier": "^1.18.0"
   },
-  "files": ["lib/**/*"]
+  "files": [
+    "lib/**/*"
+  ]
 }

@@ -1,3 +1,5 @@
+import { areDatesEqual } from "./Properties";
+
 export class MapGS<A, B> {
     private _keys: Array<A> = [];
     private _values: Array<B> = [];
@@ -13,12 +15,39 @@ export class MapGS<A, B> {
 
     get(key: A): B | null {
         for (let k = 0; k < this._keys.length; k++) {
-            if (key == this._keys[k]) return this._values[k]; 
+            let currentKey = this._keys[k];
+            if ((key instanceof Date) && (currentKey instanceof Date)) {
+                if (areDatesEqual(key, currentKey)) return this._values[k];
+            }
+            else if (key == currentKey) return this._values[k]; 
         }
         return null;
     }
 
-    getKeys(): Array<A> {
+    getAll(key: A): Array<B> | null {
+        let returnValues: Array<B> = [];
+        for (let k = 0; k < this._keys.length; k++) {
+            let currentKey = this._keys[k];
+            if ((key instanceof Date) && (currentKey instanceof Date)) {
+                if (areDatesEqual(key, currentKey)) returnValues.push(this._values[k]);
+            }
+            else if (key == currentKey) returnValues.push(this._values[k]); 
+        }
+        return returnValues;
+    }
+
+    getKeys(unique: boolean = false): Array<A> {
+        if (unique) {
+            let returnValues: Array<A> = [];
+            for (const key of this._keys) {
+                let found: boolean = false;
+                for (const returnValue of returnValues) {
+                    if (key == returnValue) found = true;
+                }
+                if (found == false) returnValues.push(key);
+            }
+            return returnValues;
+        }
         return this._keys;
     }
 

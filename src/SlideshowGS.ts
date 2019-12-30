@@ -159,7 +159,6 @@ export class SlideshowGS extends UiGS {
     let slide: SlideGS;
     for (let s of this._allSlides) {
       let t_notes = s.getNotes();
-      Logger.log("Notes: '" + t_notes + "'");
       if ((t_notes != null) && (t_notes != "") && (t_notes.substr(0, typeTitle.length) == typeTitle)) return s;
     }
     return this.addSlide(typeTitle, "", typeTitle);

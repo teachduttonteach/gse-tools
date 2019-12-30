@@ -15,7 +15,7 @@ export class SheetEventGS {
     private _sheetName: string;
     private _row: number;
     private _column: number;
-    private _value: string;
+    private _value: string | Date;
     private _triggerRanges: TriggerRanges;
     private _triggerSheet: string;
     private _event: GoogleAppsScript.Events.SheetsOnEdit;
@@ -41,6 +41,10 @@ export class SheetEventGS {
         return this._event;
     }
 
+    getActiveSheet(): SpreadsheetGS {
+        return this._activeSheet;
+    }
+
     getSheetName(): string {
         return this._sheetName;
     }
@@ -55,6 +59,10 @@ export class SheetEventGS {
 
     getColumn(): number {
         return this._column;
+    }
+
+    getEditedValue(): string | Date {
+        return this._value;
     }
 
     /**

@@ -16,7 +16,6 @@ export function getDataSheet() {
 };
 
 export function setCache(key: string, value: any): void {
-  Logger.log("Setting cache of " + key + " to " + value);
   let t_cache = CacheService.getScriptCache();
   if (t_cache == null) throw new Error("Could not create CacheService in GroupCreator.displayGroupSet()");
 
@@ -30,7 +29,6 @@ export function getCache<T>(key: string): T {
   let cachedInfo = t_cache.get(key);
   if (cachedInfo == null) throw new Error("Could not find CachedInfo for minimum group set in acceptGroups()");
 
-  Logger.log("Getting cache of " + key + " = " + cachedInfo);
   return JSON.parse(cachedInfo);
 }
 
@@ -39,7 +37,8 @@ function getNameFromEmail(email: string) {
   return [name[0].charAt(0).toUpperCase() + name[0].slice(1), name[1].charAt(0).toUpperCase() + name[1].slice(1)];  
 }
 
-export function areDatesEqual(date1: Date, date2: Date, level: string = "YEAR") {
+export function areDatesEqual(date1: Date | string, date2: Date | string, level: string = "YEAR") {
+  if (!(date1 instanceof Date) || !(date2 instanceof Date) || (typeof date1 !== typeof date2)) return false;
   if (level.toUpperCase() == "YEAR") {
     if (date1.getUTCFullYear() != date2.getUTCFullYear()) return false;
   } 
