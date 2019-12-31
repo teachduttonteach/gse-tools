@@ -1,0 +1,7 @@
+{
+    "editor.wordWrap": "on",
+    "editor.rulers": [
+        79,
+        120
+    ]
+}

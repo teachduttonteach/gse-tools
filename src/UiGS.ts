@@ -1,6 +1,5 @@
-import { stringify } from "querystring";
 import { MapGS } from "./MapGS"
-import { SidebarButton } from "./Groups";
+import { SidebarButton } from "./SidebarButton";
 
 /**
  * Class to hold the Google Apps User Interface

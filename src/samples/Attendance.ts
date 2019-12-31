@@ -1,10 +1,10 @@
-import {SpreadsheetGS} from './SpreadsheetGS';
-import {MapGS} from './MapGS';
-import {SheetEventGS} from './SheetEventGS';
-import {getDataSheet} from './Properties';
+import {SpreadsheetGS} from '../sheets/SpreadsheetGS';
+import {MapGS} from '../MapGS';
+import {SheetEventGS} from '../sheets/SheetEventGS';
+import {getDataSheet} from '../drive-sheets/DataSheet';
 
 type AttendanceParams = {
-  workingStatusCell: number[],
+  workingStatusCell: [number, number],
   workingStatusColor: string,
   normalStatusColor: string,
   studentInfoSheetName: string,
@@ -22,7 +22,7 @@ type AttendanceParams = {
 function changeAttendance(_e: GoogleAppsScript.Events.SheetsOnEdit, args?: AttendanceParams) {
   if (args == null) args = {} as AttendanceParams;
   let {
-    workingStatusCell = [1,1],
+    workingStatusCell = [1,1] as [number, number],
     workingStatusColor = '#DD0000',
     normalStatusColor = '#FFFFFF',
     studentInfoSheetName = 'Student Info',
@@ -82,16 +82,16 @@ function changeAttendance(_e: GoogleAppsScript.Events.SheetsOnEdit, args?: Atten
 function updateDateCodes() {
   const spreadsheet = getDataSheet();
   let sheet = spreadsheet.getSheet('Daily Schedule');
-  const dailySchedule: string[][] = sheet.getValues(1, 1,
+  const dailySchedule: Array<Array<Date | string>> = sheet.getValues(1, 1,
       sheet.getLastRow(), sheet.getLastColumn());
-  const daysOfWeek: MapGS<string, string[]> = new MapGS();
+  const daysOfWeek: MapGS<string | Date, MapGS<string | Date, string | Date>> = new MapGS();
   for (let j: number = 1; j < dailySchedule.length; j++) {
     const weeklySchedule: boolean[] = [];
     for (let i = 1; i < 6; i++) {
       if (dailySchedule[j][i] == 'X') weeklySchedule.push(true);
       else weeklySchedule.push(false);
     }
-    daysOfWeek.set(dailySchedule[j][0], []);
+    daysOfWeek.set(dailySchedule[j][0], new MapGS());
   }
 
   sheet = new SpreadsheetGS().getSheet('Student Info');
@@ -103,7 +103,7 @@ function updateDateCodes() {
       const day = new Date(studentInfo[0][j]).getDay() - 1;
       const classMeetsForPeriod = daysOfWeek.get(period);
       if (classMeetsForPeriod != null) {
-        if (!classMeetsForPeriod[day]) {
+        if (!classMeetsForPeriod.get(day.toString())) {
           sheet.setValue(
               'N/A - Not Applicable', i + 1, j + 1);
         } else if (studentInfo[i][j] == 'N/A - Not Applicable') {

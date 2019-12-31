@@ -1,5 +1,5 @@
-import { UiGS } from "./UiGS"
-import { DriveGS } from "./DriveGS"
+import { UiGS } from "../UiGS"
+import { DriveGS } from "../drive/DriveGS"
 import { SlideGS } from "./SlideGS"
 
 /**

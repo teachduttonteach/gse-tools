@@ -1,12 +1,8 @@
 {
 	"folders": [
 		{
-			"path": "."
+			"path": "src"
 		},
-		{
-			"name": "gso",
-			"path": "gso"
-		}
 	],
 	"settings": {}
 }

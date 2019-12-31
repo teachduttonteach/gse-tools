@@ -1,5 +1,5 @@
-import { UiGS } from "./UiGS"
-import { QuestionType } from "./QuestionType"
+import { UiGS } from "../UiGS"
+import { QuestionType } from "../enums/QuestionType"
 
 /**
  * Class to manipulate Google Forms

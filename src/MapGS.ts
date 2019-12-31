@@ -1,4 +1,4 @@
-import { areDatesEqual } from "./Properties";
+import { areDatesEqual } from "./Utilities";
 
 export class MapGS<A, B> {
     private _keys: Array<A> = [];
@@ -36,7 +36,7 @@ export class MapGS<A, B> {
         return returnValues;
     }
 
-    getKeys(unique: boolean = false): Array<A> {
+    keys(unique: boolean = false): Array<A> {
         if (unique) {
             let returnValues: Array<A> = [];
             for (const key of this._keys) {
@@ -51,7 +51,7 @@ export class MapGS<A, B> {
         return this._keys;
     }
 
-    getValues(): Array<B> {
+    values(): Array<B> {
         return this._values;
     }
 

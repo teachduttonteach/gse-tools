@@ -1,15 +1,16 @@
-import { getDataSheet, ONE_DAY } from "./Properties";
-import { SpreadsheetGS } from "./SpreadsheetGS";
-import { MapGS } from "./MapGS";
+import {getDataSheet} from "../drive-sheets/DataSheet"
+import { ONE_DAY } from "../Utilities";
+import { SpreadsheetGS } from "../sheets/SpreadsheetGS";
+import { MapGS } from "../MapGS";
 
 function sendBirthdayEmail(lookAheadDays: number, emailToSend: string) {
     let spreadsheet: SpreadsheetGS = getDataSheet();
-    let studentInfo: MapGS<string, MapGS<string, string>> = spreadsheet.getSheet("Student Info").getMapData();
+    let studentInfo: MapGS<string | Date, MapGS<string | Date, string | Date>> = spreadsheet.getSheet("Student Info").getMapData();
 
     let today: Date = new Date();
     let birthdays: string = "";  
     
-    for (let row of studentInfo.getKeys()) {
+    for (let row of studentInfo.keys()) {
         let t_row = studentInfo.get(row);
         if (t_row == null) throw new Error("Problem with map in Samples-Birthday");
         let t_birthday = t_row.get("Birthday");

@@ -1,16 +1,17 @@
-import { SpreadsheetGS } from "./SpreadsheetGS"
-import { ClassroomGS } from "./ClassroomGS"
-import { DriveGS } from "./DriveGS"
-import { areDatesEqual, getDataSheet, updateTriggers } from "./Properties"
-import { ClassGS } from "./ClassGS"
-import { DocsGS } from "./DocsGS"
-import { SheetGS } from "./SheetGS"
-import { SlideshowGS } from "./SlideshowGS"
-import { FormsGS } from "./FormsGS"
-import { DateParams } from "./CalendarEventGS"
-import { CalendarGS } from "./CalendarGS"
-import { SlideGS } from "./SlideGS"
-import { MapGS } from "./MapGS"
+import { SpreadsheetGS } from "../sheets/SpreadsheetGS"
+import { ClassroomGS } from "../classroom/ClassroomGS"
+import { DriveGS } from "../drive/DriveGS"
+import { getDataSheet } from "../drive-sheets/DataSheet"
+import { updateTriggers } from "../Triggers"
+import { areDatesEqual } from "../Utilities"
+import { ClassGS } from "../classroom/ClassGS"
+import { SheetGS } from "../sheets/SheetGS"
+import { SlideshowGS } from "../slides/SlideshowGS"
+import { FormsGS } from "../forms/FormsGS"
+import { DateParams } from "../calendar/DateParams"
+import { CalendarGS } from "../calendar/CalendarGS"
+import { SlideGS } from "../slides/SlideGS"
+import { MapGS } from "../MapGS"
 
 /**
  * All of the arguments and other variables used by the Bellwork script
@@ -153,26 +154,26 @@ function updateBellwork(args: BellworkArgs): void {
     } = args;
 
     let settings: SpreadsheetGS = getDataSheet();
-    let bellworkSettings: MapGS<string, MapGS<string, string>> = settings.getMapData(settingsName);
+    let bellworkSettings: MapGS<string | Date, MapGS<string | Date, string | Date>> = settings.getMapData(settingsName);
     
     bellworkSettings.reset();
     while (bellworkSettings.hasNext()) {
       let row = bellworkSettings.next();
-      let t_row = bellworkSettings.get(row);
-      if ((t_row == undefined) || (bellworkFormColumnName == undefined) || (spreadsheetColumnName == undefined)) throw new Error("Could not find row in bellworkSettings");
+      let thisRow = bellworkSettings.get(row);
+      if ((thisRow == undefined) || (bellworkFormColumnName == undefined) || (spreadsheetColumnName == undefined)) throw new Error("Could not find row in bellworkSettings");
 
-      let t_bellworkForm = t_row.get(bellworkFormColumnName);
-      if (t_bellworkForm == undefined) throw new Error("Classroom code not found");
+      let thisBellworkForm = thisRow.get(bellworkFormColumnName);
+      if ((thisBellworkForm == undefined) || (typeof thisBellworkForm !== "string")) throw new Error("Classroom code not found");
 
-      let t_spreadsheet = t_row.get(spreadsheetColumnName);
-      if (t_spreadsheet == undefined) throw new Error("Classroom code not found");
+      let thisSpreadsheet = thisRow.get(spreadsheetColumnName);
+      if (thisSpreadsheet == undefined) throw new Error("Classroom code not found");
 
-      updateTriggers(t_bellworkForm, onSubmitBellworkFunctionName);    
-      updateTodaysQuestion(args, t_row);
+      updateTriggers(thisBellworkForm, onSubmitBellworkFunctionName);    
+      updateTodaysQuestion(args, thisRow);
     }
   }
   
-  function updateTodaysQuestion(args: BellworkArgs, row: MapGS<string, string>) {
+  function updateTodaysQuestion(args: BellworkArgs, row: MapGS<string | Date, string | Date>) {
     const {
         bellworkDateColumnName = "Bellwork Date",
         spreadsheetColumnName = "Spreadsheet",
@@ -183,29 +184,29 @@ function updateBellwork(args: BellworkArgs): void {
 
     let dateToday: Date = new Date();
     let allClasses: ClassroomGS = new ClassroomGS();
-    let t_classroomCode = row.get(classroomCodeColumnName);
-    if (t_classroomCode == undefined) throw new Error("Classroom code not found");
-    let currentClass = allClasses.getClass(t_classroomCode);
+    let thisClassroomCode = row.get(classroomCodeColumnName);
+    if ((thisClassroomCode == undefined) || (typeof thisClassroomCode !== "string")) throw new Error("Classroom code not found");
+    let currentClass = allClasses.getClass(thisClassroomCode);
 
-    let t_questionSpreadsheetName = row.get(spreadsheetColumnName);
-    if (t_questionSpreadsheetName == null) throw new Error("Could not find spreadsheet column name in Samples.updateTodaysQuestion()");
-    let questionSpreadsheet: SpreadsheetGS = new SpreadsheetGS(t_questionSpreadsheetName);
+    let thisQuestionSpreadsheetName = row.get(spreadsheetColumnName);
+    if ((thisQuestionSpreadsheetName == null) || (typeof thisQuestionSpreadsheetName !== "string")) throw new Error("Could not find spreadsheet column name in Samples.updateTodaysQuestion()");
+    let questionSpreadsheet: SpreadsheetGS = new SpreadsheetGS(thisQuestionSpreadsheetName);
     
-    let t_sheetNameColumnName = row.get(sheetNameColumnName);
-    if (t_sheetNameColumnName == null) throw new Error("Could not find sheet name column name in Samples.updateTodaysQuestion()");
-    let questionSheet: SheetGS = questionSpreadsheet.getSheet(t_sheetNameColumnName);
+    let thisSheetNameColumnName = row.get(sheetNameColumnName);
+    if ((thisSheetNameColumnName == null) || (typeof thisSheetNameColumnName !== "string")) throw new Error("Could not find sheet name column name in Samples.updateTodaysQuestion()");
+    let questionSheet: SheetGS = questionSpreadsheet.getSheet(thisSheetNameColumnName);
 
-    let t_bellworkDateColumnName = row.get(bellworkDateColumnName);
-    if (t_bellworkDateColumnName == null) throw new Error("Could not find bellwork date column name in Samples.updateTodaysQuestion()");
-    let questionRow: number = questionSheet.skipBlankRows(1, +t_bellworkDateColumnName);
-    while (questionSheet.getValue(questionRow, +t_bellworkDateColumnName) != bellworkSheetColumnEnd) {
-      let dateInCell: Date = new Date(questionSheet.getValue(questionRow, +t_bellworkDateColumnName));
+    let thisBellworkDateColumnName = row.get(bellworkDateColumnName);
+    if (thisBellworkDateColumnName == null) throw new Error("Could not find bellwork date column name in Samples.updateTodaysQuestion()");
+    let questionRow: number = questionSheet.skipBlankRows(1, +thisBellworkDateColumnName);
+    while (questionSheet.getValue(questionRow, +thisBellworkDateColumnName) != bellworkSheetColumnEnd) {
+      let dateInCell: Date = new Date(questionSheet.getValue(questionRow, +thisBellworkDateColumnName));
       if (areDatesEqual(dateToday, dateInCell, "month")) doForBellwork(args, row, questionRow, questionSheet, currentClass);
       questionRow++;
     }
   }
 
-function doForBellwork(args: BellworkArgs, row: MapGS<string, string>, questionRow: number, questionSheet: SheetGS, currentClass: ClassGS): void {
+function doForBellwork(args: BellworkArgs, row: MapGS<string | Date, string | Date>, questionRow: number, questionSheet: SheetGS, currentClass: ClassGS): void {
     const {
       bellworkColumnName = "Bellwork Column",
       bellworkSlideName = "Bellwork",
@@ -233,9 +234,9 @@ function doForBellwork(args: BellworkArgs, row: MapGS<string, string>, questionR
   let questionType: string = questionSheet.getValue(questionRow, +t_questionTypeColumnName);
 
   if (displayBellworkOnSlide || displayExitTicketOnSlide || displayUpcomingDueDates) {
-    let t_slideshowColumnName = row.get(slideshowColumnName);
-    if (t_slideshowColumnName == null) throw new Error("Could not find slide show column name in Samples.updateTodaysQuestion()");
-    let slideShow = new SlideshowGS(t_slideshowColumnName);
+    let thisSlideshowColumnName = row.get(slideshowColumnName);
+    if ((thisSlideshowColumnName == null) || (typeof thisSlideshowColumnName !== "string")) throw new Error("Could not find slide show column name in Samples.updateTodaysQuestion()");
+    let slideShow = new SlideshowGS(thisSlideshowColumnName);
 
     if (displayBellworkOnSlide) {
       let bellworkSlide: SlideGS = slideShow.getSlideByType(bellworkSlideName);
@@ -269,7 +270,7 @@ function doForBellwork(args: BellworkArgs, row: MapGS<string, string>, questionR
   if (displayBellworkOnForm) bellworkOnForm(args, row, questionRow, questionSheet, questionTitle, questionType);
 }
 
-function bellworkOnForm(args: BellworkArgs, row: MapGS<string, string>, questionRow: number, questionSheet: SheetGS, questionTitle: string, questionType: string) {
+function bellworkOnForm(args: BellworkArgs, row: MapGS<string | Date, string | Date>, questionRow: number, questionSheet: SheetGS, questionTitle: string, questionType: string) {
   const {
     bellworkTitleColumnName = "Bellwork Title",
     dateDelimiter = "/",
@@ -282,24 +283,24 @@ function bellworkOnForm(args: BellworkArgs, row: MapGS<string, string>, question
 
   let dateToday: Date = new Date();
 
-  let t_bellworkForm = row.get(bellworkFormColumnName);
-  if (t_bellworkForm == null) throw new Error("Could not find bellwork form column name in Samples.updateTodaysQuestion()");
-  let bellworkForm = new FormsGS(t_bellworkForm);
+  let thisBellworkForm = row.get(bellworkFormColumnName);
+  if ((thisBellworkForm == null) || (typeof thisBellworkForm !== "string")) throw new Error("Could not find bellwork form column name in Samples.updateTodaysQuestion()");
+  let bellworkForm = new FormsGS(thisBellworkForm);
 
-  let t_bellworkTitleColumnName = row.get(bellworkTitleColumnName);
-  if (t_bellworkTitleColumnName == null) t_bellworkTitleColumnName = "Bellwork";
+  let thisBellworkTitleColumnName = row.get(bellworkTitleColumnName);
+  if ((thisBellworkTitleColumnName == null) || (typeof thisBellworkTitleColumnName !== "string")) thisBellworkTitleColumnName = "Bellwork";
   
   if (dateInBellworkTitle) {
-    let t_month = Number(dateToday.getUTCMonth()) + 1;
-    let t_day = dateToday.getUTCDate();
+    let thisMonth = Number(dateToday.getUTCMonth()) + 1;
+    let thisDay = dateToday.getUTCDate();
 
     if ((dueDateParams == null) || (dueDateParams.dateOrder == null) || (dueDateParams.dateOrder.indexOf("M") > dueDateParams.dateOrder.indexOf("D"))) {
-      t_bellworkTitleColumnName += " " + t_day + dateDelimiter + t_month;
+      thisBellworkTitleColumnName += " " + thisDay + dateDelimiter + thisMonth;
     } else {
-      t_bellworkTitleColumnName += " " + t_month + dateDelimiter + t_day;
+      thisBellworkTitleColumnName += " " + thisMonth + dateDelimiter + thisDay;
     }
   }
-  bellworkForm.deleteItems().setTitle(t_bellworkTitleColumnName);
+  bellworkForm.deleteItems().setTitle(thisBellworkTitleColumnName);
   
   let t_optionsColumnName = row.get(bellworkTitleColumnName);
   let t_gridRowsColumnName = row.get(gridRowsColumnName);

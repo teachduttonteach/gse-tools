@@ -1,11 +1,11 @@
-import { SpreadsheetGS } from "./SpreadsheetGS"
-import { ClassroomGS } from "./ClassroomGS"
-import { DriveGS } from "./DriveGS"
-import { getDataSheet } from "./Properties"
-import { ClassGS } from "./ClassGS"
-import { DocsGS } from "./DocsGS"
-import { DateParams } from "./CalendarEventGS"
-import { MapGS } from "./MapGS"
+import { SpreadsheetGS } from "../sheets/SpreadsheetGS"
+import { ClassroomGS } from "../classroom/ClassroomGS"
+import { DriveGS } from "../drive/DriveGS"
+import { getDataSheet } from "../drive-sheets/DataSheet"
+import { ClassGS } from "../classroom/ClassGS"
+import { ClassroomDocsGS } from "../classroom-docs/ClassroomDocsGS"
+import { DateParams } from "../calendar/DateParams"
+import { MapGS } from "../MapGS"
 
 /**
  * All of the arguments and other variables used by the Bellwork script
@@ -46,7 +46,7 @@ function updateClassroomFiles(args: ClassroomArgs): void {
     } = args;
 
     let settings: SpreadsheetGS = getDataSheet();
-    let classworkSettings: MapGS<string, MapGS<string, string>> = settings.getMapData(settingsName);
+    let classworkSettings: MapGS<string | Date, MapGS<string | Date, string | Date>> = settings.getMapData(settingsName);
     let allClasses: ClassroomGS = new ClassroomGS();
     
     classworkSettings.reset();
@@ -55,10 +55,10 @@ function updateClassroomFiles(args: ClassroomArgs): void {
       let t_row = classworkSettings.get(row);
       if ((t_row == undefined) || (classroomCodeColumnName == undefined)) throw new Error("Could not find row in classworkSettings");
 
-      let t_classroomCode = t_row.get(classroomCodeColumnName);
-      if (t_classroomCode == undefined) throw new Error("Classroom code not found");
+      let thisClassroomCode = t_row.get(classroomCodeColumnName);
+      if ((thisClassroomCode == undefined) || (typeof thisClassroomCode !== "string")) throw new Error("Classroom code not found");
 
-      let currentClass = allClasses.getClass(t_classroomCode);
+      let currentClass = allClasses.getClass(thisClassroomCode);
       updateGoogleClassroom(args, currentClass);
     }
   }
@@ -74,6 +74,6 @@ function updateGoogleClassroom(args: ClassroomArgs, currentClass: ClassGS) {
     let t_topics: Array<string> = gClassData.getTopics();
     for (var topic = 0; topic < t_topics.length; topic++) {
         var fileObject = gDrive.getOrCreateFileFromTemplateByName("Topic " + topic + " for " + currentClass.getName() + ": " + newFileName, templateName);
-        new DocsGS(fileObject.getId()).writeClassroomDocuments(gClassData, t_topics[topic]);
+        new ClassroomDocsGS(fileObject.getId()).writeClassroomDocuments(gClassData, t_topics[topic]);
     }
 }

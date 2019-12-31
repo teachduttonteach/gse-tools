@@ -1,7 +1,6 @@
-import { stringify } from "querystring";
-import { UiGS } from "./UiGS"
+import { UiGS } from "../UiGS"
 import { SheetGS } from "./SheetGS"
-import { MapGS } from "./MapGS"
+import { MapGS } from "../MapGS"
 
 /**
  * Gets the data from a Google Sheet and provides an interface to it in an efficient way.
@@ -58,7 +57,7 @@ export class SpreadsheetGS extends UiGS {
    * 
    * @returns the data object
    */
-  getMapData(sheetName: string, rowFirst: boolean = true): MapGS<string, MapGS<string, string>> {
+  getMapData(sheetName: string, rowFirst: boolean = true): MapGS<string | Date, MapGS<string | Date, string | Date>> {
     return this.getOrCreateSheet(sheetName).getMapData(rowFirst);
   };
   

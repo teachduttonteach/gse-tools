@@ -1,30 +1,5 @@
-import { QuestionType } from "./QuestionType";
-
-/**
- * Type to hold the slide and picture dimensions
- */
-type Dimensions = {
-  /**
-   * Total height of the slide for positioning pictures
-   */
-  totalHeight?: number
-  /**
-   * Total width of the slide for positioning pictures
-   */
-  totalWidth?: number
-  /**
-   * Maximum height of the picture
-   */
-  maxHeight?: number
-  /**
-   * Maximum width of the picture
-   */
-  maxWidth?: number
-  /**
-   * Margin between the sides of the picture and the slide
-   */
-  margin?: number
-};
+import { QuestionType } from "../enums/QuestionType";
+import {Dimensions} from "./Dimensions"
 
 /**
  * Class to access methods and properties of individual Slides of Google Presentations

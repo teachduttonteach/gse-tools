@@ -1,10 +1,6 @@
 import { SpreadsheetGS } from "./SpreadsheetGS"
 import { SheetGS } from "./SheetGS"
-
-type TriggerRanges = {
-    columns: Array<Array<number>>,
-    rows: Array<Array<number>>
-}
+import { TriggerRanges } from "./TriggerRanges"
 
 /**
  * Class to process Spreadsheet events (like onEdit, onChange)

@@ -1,9 +1,6 @@
-import { Settings, MimeTypes, Features } from "./Properties"
-
-function getOAuthToken() {
-  DriveApp.getRootFolder();
-  return ScriptApp.getOAuthToken();
-}
+import { Settings } from "./Settings"
+import { MimeTypes } from "./MimeTypes"
+import { Features } from "./Features"
 
 /**
  * Raises a number to the given power, and returns the result.

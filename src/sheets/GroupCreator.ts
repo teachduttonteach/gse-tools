@@ -1,5 +1,7 @@
 import {SpreadsheetGS} from './SpreadsheetGS';
-import {getDataSheet, setCache, getCache} from './Properties';
+import {getDataSheet} from '../drive-sheets/DataSheet';
+import {setCache, getCache} from '../Cache';
+import {SidebarButton} from '../SidebarButton'
 
 /**
  * Starts by reading in all students from sheet
@@ -173,13 +175,6 @@ export type GroupParams = {
     sheetNameColumnName?: string
 }
 
-export type SidebarButton = {
-    text: string,
-    function: string,
-    wait: boolean,
-    close: boolean
-}
-
 export class GroupCreator {
     private _limitGroups: number;
     private _students: Array<StudentForGroups>;
@@ -232,73 +227,74 @@ export class GroupCreator {
         '\' in GroupCreator.calculateGroups()');
       }
 
-      const t_spreadsheetId = settingsSheet.get(spreadsheetColumn);
-      if (t_spreadsheetId == null) {
+      const thisSpreadsheetId = settingsSheet.get(spreadsheetColumn);
+      if ((thisSpreadsheetId == null) || (typeof thisSpreadsheetId !== "string")) {
         throw new
         Error('Could not find spreadsheet for class \'' +
         className + '\' in GroupCreator.calculateGroups()',
         );
       }
 
-      const groupSpreadsheet =
-        new SpreadsheetGS(t_spreadsheetId);
+      const groupSpreadsheet = new SpreadsheetGS(thisSpreadsheetId);
       if (groupSpreadsheet == null) {
         throw new
         Error('Could not create spreadsheet object in ' +
             'GroupCreator.calculateGroups()');
       }
 
-      const t_sheetNameColumn =
-        settingsSheet.get(sheetNameColumnName);
-      if (t_sheetNameColumn == null) {
+      const thisSheetNameColumn = settingsSheet.get(sheetNameColumnName);
+      if ((thisSheetNameColumn == null) || (typeof thisSheetNameColumn !== "string")) {
         throw new
         Error('Could not find column that contains sheet' +
             ' name in GroupCreator.calculateGroups()');
       }
 
-      setCache('spreadsheetId', t_spreadsheetId);
-      setCache('sheetName', t_sheetNameColumn);
+      setCache('spreadsheetId', thisSpreadsheetId);
+      setCache('sheetName', thisSheetNameColumn);
 
-      const groupData =
-        groupSpreadsheet.getMapData(t_sheetNameColumn);
-      if (groupData == null) {
-        throw new
+      const groupData = groupSpreadsheet.getMapData(thisSheetNameColumn);
+      if (groupData == null) throw new
         Error('Could not find sheet name \'' + sheetName +
         '\' on spreadsheet in GroupCreator.calculateGroups()');
-      }
-      if (groupData.getKeys().length == 0) {
+      if (groupData.keys().length == 0) {
         Logger.log('WARNING: No students found for ' +
             'calculateGroups()');
       }
       // Read in all students and establish relationships
-      const rows = groupData.getKeys();
+      const rows = groupData.keys();
       for (let student1 = 0; student1 < rows.length;
         student1++) {
-        const t_student = groupData.get(rows[student1]);
-        if (t_student == null) {
+        const thisStudent = groupData.get(rows[student1]);
+        if (thisStudent == null) {
           throw new
           Error('Could not find student in ' +
             'GroupCreator.calculateGroups()');
         }
-        let student1Object = new StudentForGroups(
-            rows[student1], student1 + 2);
+        let student1Name = rows[student1];
+        if (typeof student1Name !== "string") throw new 
+          Error('Student name must be a string in GroupCreator.calculateGroups()');
+
+        let student1Object = new StudentForGroups(student1Name, student1 + 2);
         student1Object = this.addStudent(student1Object);
         this._relationships.push([]);
 
-        const columns = t_student.getKeys();
+        const columns = thisStudent.keys();
         for (let student2 = student1 + 1; student2 <
             columns.length; student2++) {
           const t_score =
-            t_student.get(columns[student2]);
+            thisStudent.get(columns[student2]);
           if (t_score == null) {
             throw new
             Error('Could not find student 2 in ' +
                 'GroupCreator.calculateGroups()');
           }
 
+          let student2Name = columns[student2];
+          if (typeof student2Name !== "string") throw new 
+            Error('Student name must be a string in GroupCreator.calculateGroups()');
+
           let student2Object =
-            new StudentForGroups(columns[student2],
-                student2 + 2);
+            new StudentForGroups(student2Name, student2 + 2);
           student2Object =
             this.addStudent(student2Object);
           this._relationships[student1].push(+t_score);
