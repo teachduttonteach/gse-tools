@@ -1,5 +1,5 @@
 import {SpreadsheetGS} from '../sheets/SpreadsheetGS';
-import {MapGS} from '../MapGS';
+import {MapGS} from '../map/MapGS';
 import {SheetEventGS} from '../sheets/SheetEventGS';
 import {getDataSheet} from '../drive-sheets/DataSheet';
 

@@ -5,7 +5,7 @@ import { getDataSheet } from "../drive-sheets/DataSheet"
 import { ClassGS } from "../classroom/ClassGS"
 import { ClassroomDocsGS } from "../classroom-docs/ClassroomDocsGS"
 import { DateParams } from "../calendar/DateParams"
-import { MapGS } from "../MapGS"
+import { MapGS } from "../map/MapGS"
 
 /**
  * All of the arguments and other variables used by the Bellwork script

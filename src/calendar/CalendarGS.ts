@@ -27,12 +27,20 @@ export class CalendarGS {
      * var gseCalendar = new gseTools.CalendarGS(calendarId);
      * ```
      * @param {string} id the id for this Google Calendar
+     * @param {number} hoursFromUTC specify how many hours off of UTC you want to display
      */
-    constructor(id: string) {
-      this._dateToday = new Date();
+    constructor(id: string, hoursFromUTC: number = 0) {
+      const dateInComputersTimeZone = new Date();
       this._endDate = new Date();
       this._upcomingEventObjects = [];
       this._id = id;
+
+      const minutesOffset = dateInComputersTimeZone.getTimezoneOffset();
+      const minutesFromUTC = hoursFromUTC * 60;
+      const millisecondAdjustment = (minutesFromUTC - minutesOffset) * 60 * 1000;
+      this._dateToday = new Date();
+      this._dateToday.setTime(dateInComputersTimeZone.getTime() - millisecondAdjustment);
+      
       this._calendar = CalendarApp.getCalendarById(id);
       if (this._calendar == null) throw new Error('Could not find Calendar ' +
         'with id ' + id + ' in CalendarGS()');
@@ -58,7 +66,9 @@ export class CalendarGS {
      * @return {Array<CalendarEventGS>} the list of calendar events
      */
     getUpcomingEvents(daysToLookAhead: number): Array<CalendarEventGS> {
+      this._endDate = new Date();
       this._endDate.setMilliseconds(this._dateToday.getMilliseconds() + (daysToLookAhead * this._oneDay));
+      this._upcomingEventObjects = [];
       for (const event of this._calendar.getEvents(this._dateToday, this._endDate)) {
         this._upcomingEventObjects.push(new CalendarEventGS(event));
       }

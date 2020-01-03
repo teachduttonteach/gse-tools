@@ -1,4 +1,4 @@
-import { MapGS } from "./MapGS"
+import { MapGS } from "./map/MapGS"
 import { SidebarButton } from "./SidebarButton";
 
 /**

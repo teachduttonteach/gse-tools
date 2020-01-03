@@ -3,7 +3,7 @@ import { ClassroomGS } from "../classroom/ClassroomGS"
 import { DriveGS } from "../drive/DriveGS"
 import { getDataSheet } from "../drive-sheets/DataSheet"
 import { updateTriggers } from "../Triggers"
-import { areDatesEqual } from "../Utilities"
+import { areDatesEqual } from "../utils/Utilities"
 import { ClassGS } from "../classroom/ClassGS"
 import { SheetGS } from "../sheets/SheetGS"
 import { SlideshowGS } from "../slides/SlideshowGS"
@@ -11,7 +11,7 @@ import { FormsGS } from "../forms/FormsGS"
 import { DateParams } from "../calendar/DateParams"
 import { CalendarGS } from "../calendar/CalendarGS"
 import { SlideGS } from "../slides/SlideGS"
-import { MapGS } from "../MapGS"
+import { MapGS } from "../map/MapGS"
 
 /**
  * All of the arguments and other variables used by the Bellwork script

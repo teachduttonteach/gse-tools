@@ -1,6 +1,6 @@
 import { UiGS } from "../UiGS"
 import { SheetGS } from "./SheetGS"
-import { MapGS } from "../MapGS"
+import { MapGS } from "../map/MapGS"
 
 /**
  * Gets the data from a Google Sheet and provides an interface to it in an efficient way.

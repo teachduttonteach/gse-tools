@@ -21,11 +21,9 @@ export class CalendarEventGS {
      * @param {GoogleAppsScript.Calendar.CalendarEvent} event the calendar event from Google Calendar
      */
     constructor(event: GoogleAppsScript.Calendar.CalendarEvent) {
-      const endTime = event.getEndTime();
-      endTime.setUTCDate(endTime.getUTCDate() - 1);
-      endTime.setMilliseconds(endTime.getMilliseconds() - 1);
-      this._date = endTime.getDate();
-      this._month = endTime.getMonth() + 1;
+      const startTime = event.getStartTime();
+      this._date = startTime.getUTCDate();
+      this._month = startTime.getUTCMonth() + 1;
       this._title = event.getTitle();
       this._event = event;
     }

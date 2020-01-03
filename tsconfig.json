@@ -9,5 +9,13 @@
     "include": [
       "./src/**/*"
     ],
-    "exclude": ["node_modules", "**/__tests__/*"]
+    "exclude": ["node_modules", "**/__tests__/*"],
+    "typedocOptions": {
+      "readme": "./README.md",
+      "out": "docs",
+      "includes": "src",
+      "mode": "file",
+      "exclude": "**/*.test.ts",
+      "excludeProtected": true
+    }
 }

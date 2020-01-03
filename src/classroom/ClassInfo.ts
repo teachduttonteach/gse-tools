@@ -1,6 +1,6 @@
 import {CourseWork} from './CourseWork'
 import {Work} from './Work'
-import {MapGS} from '../MapGS'
+import {MapGS} from '../map/MapGS'
 
 /**
  * Class for all of the particular course information

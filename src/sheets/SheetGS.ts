@@ -1,5 +1,5 @@
-import {MapGS} from '../MapGS';
-import {areDatesEqual} from '../Utilities';
+import {MapGS} from '../map/MapGS';
+import {areDatesEqual} from '../utils/Utilities';
 import {CellRange} from './CellRange';
 
 /**

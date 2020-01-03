@@ -1,3 +1,5 @@
+import { MimeTypes } from "../MimeTypes";
+
 let ValidImageTypes: Array<string> = ["image/png", "image/gif", "image/jpeg"];
 
 /**
@@ -90,10 +92,12 @@ export class DriveGS {
    *  
    * @returns {GoogleAppsScript.Drive.File} the file as a Google object
    */
-  getOrCreateFileByName(fileName: string): GoogleAppsScript.Drive.File { 
+
+  // TODO: Need to define what sort of file we're creating
+  getOrCreateFileByName(fileName: string, mimeType: string = MimeTypes.DOCS): GoogleAppsScript.Drive.File { 
     if (fileName == null) throw new Error("File name needs to be defined for Drive.getOrCreateFileByName");
     let fileObject: GoogleAppsScript.Drive.FileIterator = DriveApp.getFilesByName(fileName);
-    if (!fileObject.hasNext()) return DriveApp.createFile(fileName, "");
+    if (!fileObject.hasNext()) return DriveApp.createFile(fileName, "", mimeType);
     return fileObject.next();
   };
 

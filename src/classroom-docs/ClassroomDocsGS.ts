@@ -3,7 +3,7 @@ import {Work} from "../classroom/Work"
 import {Material} from "../classroom/Material"
 import {DocsGS} from "../docs/DocsGS"
 import {DocLevels} from "../docs/DocLevels"
-import {WriteDocsParams} from "./WriteDocsParams"
+import {WriteDocsParams} from "WriteDocsParams"
 
 /**
  * Class to write a Google Document 

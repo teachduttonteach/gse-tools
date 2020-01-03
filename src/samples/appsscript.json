@@ -1,0 +1,12 @@
+{
+  "timeZone": "America/New_York",
+  "dependencies": {
+    "libraries": [{
+      "userSymbol": "gsetools",
+      "libraryId": "1qNPRbBbOQhFX9sLa8LzH_YYcceEDSC6hgO9500fgTyFXMNXdoEcjqlPv",
+      "version": "100",
+      "developmentMode": true
+    }]
+  },
+  "exceptionLogging": "STACKDRIVER"
+}

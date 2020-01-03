@@ -1,7 +1,7 @@
 import {getDataSheet} from "../drive-sheets/DataSheet"
-import { ONE_DAY } from "../Utilities";
+import { ONE_DAY } from "../utils/Utilities";
 import { SpreadsheetGS } from "../sheets/SpreadsheetGS";
-import { MapGS } from "../MapGS";
+import { MapGS } from "../map/MapGS";
 
 function sendBirthdayEmail(lookAheadDays: number, emailToSend: string) {
     let spreadsheet: SpreadsheetGS = getDataSheet();
