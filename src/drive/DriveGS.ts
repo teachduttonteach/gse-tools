@@ -97,9 +97,38 @@ export class DriveGS {
   getOrCreateFileByName(fileName: string, mimeType: string = MimeTypes.DOCS): GoogleAppsScript.Drive.File { 
     if (fileName == null) throw new Error("File name needs to be defined for Drive.getOrCreateFileByName");
     let fileObject: GoogleAppsScript.Drive.FileIterator = DriveApp.getFilesByName(fileName);
-    if (!fileObject.hasNext()) return DriveApp.createFile(fileName, "", mimeType);
+    if (!fileObject.hasNext()) {
+      this._createFile(fileName, "", mimeType);
+      fileObject = DriveApp.getFilesByName(fileName);
+    }
     return fileObject.next();
   };
+
+  private _createFile(fileName: string, content: string, mimeType: string): string {
+    switch (mimeType) {
+      case MimeTypes.APPS_SCRIPT:
+      case MimeTypes.AUDIO:
+      case MimeTypes.DRAWING:
+      case MimeTypes.DRIVE_FOLDER:
+      case MimeTypes.DRIVE_SDK:
+      case MimeTypes.FUSION:
+      case MimeTypes.MAPS:
+      case MimeTypes.PHOTO:
+      case MimeTypes.SITES:
+      case MimeTypes.VIDEO:
+        throw new Error("Cannot create file of type " + mimeType + " from DriveGS.getOrCreateFileByName()");
+      case MimeTypes.DOCS:
+        return DocumentApp.create(fileName).getId();
+      case MimeTypes.FORMS:
+        return FormApp.create(fileName).getId();
+      case MimeTypes.SHEETS:
+        return SpreadsheetApp.create(fileName).getId();
+      case MimeTypes.SLIDES:
+        return SlidesApp.create(fileName).getId();
+      default:
+        return DriveApp.createFile(fileName, "").getId();
+    }
+  }
 
   /**
    * Determines if a file (by id) exists; if it doesn't creates it from a template, then return the file in either case
@@ -109,10 +138,12 @@ export class DriveGS {
    * 
    * @returns {GoogleAppsScript.Drive.File} the file as a Google object
    */
-  getOrCreateFileById(fileId: string, fileName: string): GoogleAppsScript.Drive.File { 
+  getOrCreateFileById(fileId: string, fileName: string, mimeType: string = MimeTypes.DOCS): GoogleAppsScript.Drive.File { 
     if ((fileId == null) || (fileName == null)) throw new Error("File id and file name need to be defined for Drive.getOrCreateFileById"); 
     let fileObject: GoogleAppsScript.Drive.File = DriveApp.getFileById(fileId);
-    if (fileObject == null) return DriveApp.createFile(fileName, "");
+    if (fileObject == null) {
+      fileObject = DriveApp.getFileById(this._createFile(fileName, "", mimeType));
+    }
     return fileObject;
   };  
 };
