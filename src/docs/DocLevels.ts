@@ -4,27 +4,36 @@
  * - "S" to SUBTITLE
  * - "T" to TITLE
  *  and all numbers 1 - 6 to their respective HEADINGs
+ * @param {string | number} key the document level to display (readable)
+ * @return {GoogleAppsScript.Document.ParagraphHeading} the document level
  */
-export function DocLevels(key: string | number): GoogleAppsScript.Document.ParagraphHeading {
-    switch (key) {
-      case "N":
-        return DocumentApp.ParagraphHeading.NORMAL;
-      case "S":
+export function docLevels(key: string | number): 
+  GoogleAppsScript.Document.ParagraphHeading {
+    
+  if (typeof key === 'string') {
+    switch (key.toUpperCase().slice(0, 1)) {
+      case 'S':
         return DocumentApp.ParagraphHeading.SUBTITLE;
-      case "T":
+      case 'T':
         return DocumentApp.ParagraphHeading.TITLE;
-      case 1:
-        return DocumentApp.ParagraphHeading.HEADING1;
-      case 2:
-        return DocumentApp.ParagraphHeading.HEADING2;
-      case 3:
-        return DocumentApp.ParagraphHeading.HEADING3;
-      case 4:
-        return DocumentApp.ParagraphHeading.HEADING4;
-      case 5:
-        return DocumentApp.ParagraphHeading.HEADING5;
-      case 6:
-        return DocumentApp.ParagraphHeading.HEADING6;
+      default:
+        return DocumentApp.ParagraphHeading.NORMAL;
     }
-    return DocumentApp.ParagraphHeading.NORMAL;
   }
+  switch (key) {
+    case 1:
+      return DocumentApp.ParagraphHeading.HEADING1;
+    case 2:
+      return DocumentApp.ParagraphHeading.HEADING2;
+    case 3:
+      return DocumentApp.ParagraphHeading.HEADING3;
+    case 4:
+      return DocumentApp.ParagraphHeading.HEADING4;
+    case 5:
+      return DocumentApp.ParagraphHeading.HEADING5;
+    case 6:
+      return DocumentApp.ParagraphHeading.HEADING6;
+    default:
+      return DocumentApp.ParagraphHeading.NORMAL;
+  }
+}

@@ -27,7 +27,8 @@ export class CalendarGS {
      * var gseCalendar = new gseTools.CalendarGS(calendarId);
      * ```
      * @param {string} id the id for this Google Calendar
-     * @param {number} hoursFromUTC specify how many hours off of UTC you want to display
+     * @param {number} hoursFromUTC specify how many hours off of UTC you
+     *  want to display
      */
     constructor(id: string, hoursFromUTC: number = 0) {
       const dateInComputersTimeZone = new Date();
@@ -37,13 +38,17 @@ export class CalendarGS {
 
       const minutesOffset = dateInComputersTimeZone.getTimezoneOffset();
       const minutesFromUTC = hoursFromUTC * 60;
-      const millisecondAdjustment = (minutesFromUTC - minutesOffset) * 60 * 1000;
+      const millisecondAdjustment = (minutesFromUTC - minutesOffset) *
+        60 * 1000;
       this._dateToday = new Date();
-      this._dateToday.setTime(dateInComputersTimeZone.getTime() - millisecondAdjustment);
-      
+      this._dateToday.setTime(dateInComputersTimeZone.getTime() -
+        millisecondAdjustment);
+
       this._calendar = CalendarApp.getCalendarById(id);
-      if (this._calendar == null) throw new Error('Could not find Calendar ' +
+      if (this._calendar == null) {
+        throw new Error('Could not find Calendar ' +
         'with id ' + id + ' in CalendarGS()');
+      }
     }
 
     /**
@@ -61,15 +66,18 @@ export class CalendarGS {
      * var upcomingEvents = gseCalendar.getUpcomingEvents(10);
      * ```
      *
-     * @param {number} daysToLookAhead the number of days ahead to find events on the calendar
+     * @param {number} daysToLookAhead the number of days ahead to find
+     *  events on the calendar
      *
      * @return {Array<CalendarEventGS>} the list of calendar events
      */
     getUpcomingEvents(daysToLookAhead: number): Array<CalendarEventGS> {
       this._endDate = new Date();
-      this._endDate.setMilliseconds(this._dateToday.getMilliseconds() + (daysToLookAhead * this._oneDay));
+      this._endDate.setMilliseconds(this._dateToday.getMilliseconds() +
+        (daysToLookAhead * this._oneDay));
       this._upcomingEventObjects = [];
-      for (const event of this._calendar.getEvents(this._dateToday, this._endDate)) {
+      for (const event of this._calendar.getEvents(this._dateToday,
+          this._endDate)) {
         this._upcomingEventObjects.push(new CalendarEventGS(event));
       }
       return this._upcomingEventObjects;
@@ -87,12 +95,15 @@ export class CalendarGS {
      * var dueDates = gseCalendar.getUpcomingDueDates(10, eventOptions);
      * ```
      *
-     * @param daysToLookAhead the number of days ahead to find events on the calendar
-     * @param {DateParams} eventOptions options for displaying that there are no events and how to display the date; see above for defaults
+     * @param {number} daysToLookAhead the number of days ahead to find
+     * events on the calendar
+     * @param {DateParams} eventOptions options for displaying that there are
+     *  no events and how to display the date; see above for defaults
      *
      * @return {string} the list of due dates as a string for use in Slides
      */
-    getUpcomingDueDates(daysToLookAhead: number, eventOptions: DateParams): string {
+    getUpcomingDueDates(daysToLookAhead: number, eventOptions: DateParams):
+      string {
       let dueDates: string = '';
       for (const event of this.getUpcomingEvents(daysToLookAhead)) {
         if (dueDates != '') dueDates += '\n';
@@ -114,14 +125,15 @@ export class CalendarGS {
      * var dueDatesList = gseCalendar.getUpcomingDueDates(10, eventOptions);
      * ```
      *
-     * @param {number} daysToLookAhead the number of days ahead to find events 
+     * @param {number} daysToLookAhead the number of days ahead to find events
      *  on the calendar
-     * @param {DateParams} eventOptions options for displaying that there are 
+     * @param {DateParams} eventOptions options for displaying that there are
      *  no events and how to display the date; see above for defaults
      * @param {string} noEventString the string to display if there is no event
      * @return {Array<string>} the list of due dates as an array
      */
-    getUpcomingDueDatesList(daysToLookAhead: number, eventOptions: DateParams, noEventString: string = 'None'): Array<string> {
+    getUpcomingDueDatesList(daysToLookAhead: number, eventOptions: DateParams,
+        noEventString: string = 'None'): Array<string> {
       const dueDates: Array<string> = [];
       for (const event of this.getUpcomingEvents(daysToLookAhead)) {
         dueDates.push(event.getDate(eventOptions));

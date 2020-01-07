@@ -1,11 +1,11 @@
-import { SpreadsheetGS } from "../sheets/SpreadsheetGS"
-import { ClassroomGS } from "../classroom/ClassroomGS"
-import { DriveGS } from "../drive/DriveGS"
-import { getDataSheet } from "../drive-sheets/DataSheet"
-import { ClassGS } from "../classroom/ClassGS"
-import { ClassroomDocsGS } from "../classroom-docs/ClassroomDocsGS"
-import { DateParams } from "../calendar/DateParams"
-import { MapGS } from "../map/MapGS"
+import {SpreadsheetGS} from '../sheets/SpreadsheetGS';
+import {ClassroomGS} from '../classroom/ClassroomGS';
+import {DriveGS} from '../drive/DriveGS';
+import {getDataSheet} from '../drive-sheets/DataSheet';
+import {ClassGS} from '../classroom/ClassGS';
+import {ClassroomDocsGS} from '../classroom-docs/ClassroomDocsGS';
+import {DateParams} from '../calendar/DateParams';
+import {MapGS} from '../map/MapGS';
 
 /**
  * All of the arguments and other variables used by the Bellwork script
@@ -35,45 +35,45 @@ type ClassroomArgs = {
 }
 
 /**
- * 
- * @param args 
+ *
+ * @param args
  */
 function updateClassroomFiles(args: ClassroomArgs): void {
   if (args == null) args = {} as ClassroomArgs;
-    let {
-        settingsName = "Classroom",
-        classroomCodeColumnName = "Classroom Code",
-    } = args;
+  const {
+    settingsName = 'Classroom',
+    classroomCodeColumnName = 'Classroom Code',
+  } = args;
 
-    let settings: SpreadsheetGS = getDataSheet();
-    let classworkSettings: MapGS<string | Date, MapGS<string | Date, string | Date>> = settings.getMapData(settingsName);
-    let allClasses: ClassroomGS = new ClassroomGS();
-    
-    classworkSettings.reset();
-    while (classworkSettings.hasNext()) {
-      let row = classworkSettings.next();
-      let t_row = classworkSettings.get(row);
-      if ((t_row == undefined) || (classroomCodeColumnName == undefined)) throw new Error("Could not find row in classworkSettings");
+  const settings: SpreadsheetGS = getDataSheet();
+  const classworkSettings: MapGS<string | Date, MapGS<string | Date, string | Date>> = settings.getMapData(settingsName);
+  const allClasses: ClassroomGS = new ClassroomGS();
 
-      let thisClassroomCode = t_row.get(classroomCodeColumnName);
-      if ((thisClassroomCode == undefined) || (typeof thisClassroomCode !== "string")) throw new Error("Classroom code not found");
+  classworkSettings.reset();
+  while (classworkSettings.hasNext()) {
+    const row = classworkSettings.next();
+    const t_row = classworkSettings.get(row);
+    if ((t_row == undefined) || (classroomCodeColumnName == undefined)) throw new Error('Could not find row in classworkSettings');
 
-      let currentClass = allClasses.getClass(thisClassroomCode);
-      updateGoogleClassroom(args, currentClass);
-    }
+    const thisClassroomCode = t_row.get(classroomCodeColumnName);
+    if ((thisClassroomCode == undefined) || (typeof thisClassroomCode !== 'string')) throw new Error('Classroom code not found');
+
+    const currentClass = allClasses.getClass(thisClassroomCode);
+    updateGoogleClassroom(args, currentClass);
   }
-  
-function updateGoogleClassroom(args: ClassroomArgs, currentClass: ClassGS) {
-    const {
-        newFileName = "Google Classroom Summary",
-        templateName = "Google Classroom Summary Template",
-    } = args;
+}
 
-    var gClassData = currentClass.convertClassroomData();
-    var gDrive = new DriveGS();
-    let t_topics: Array<string> = gClassData.getTopics();
-    for (var topic = 0; topic < t_topics.length; topic++) {
-        var fileObject = gDrive.getOrCreateFileFromTemplateByName("Topic " + topic + " for " + currentClass.getName() + ": " + newFileName, templateName);
-        new ClassroomDocsGS(fileObject.getId()).writeClassroomDocuments(gClassData, t_topics[topic]);
-    }
+function updateGoogleClassroom(args: ClassroomArgs, currentClass: ClassGS) {
+  const {
+    newFileName = 'Google Classroom Summary',
+    templateName = 'Google Classroom Summary Template',
+  } = args;
+
+  const gClassData = currentClass.convertClassroomData();
+  const gDrive = new DriveGS();
+  const t_topics: Array<string> = gClassData.getTopics();
+  for (let topic = 0; topic < t_topics.length; topic++) {
+    const fileObject = gDrive.getOrCreateFileFromTemplateByName('Topic ' + topic + ' for ' + currentClass.getName() + ': ' + newFileName, templateName);
+    new ClassroomDocsGS(fileObject.getId()).writeClassroomDocuments(gClassData, t_topics[topic]);
+  }
 }

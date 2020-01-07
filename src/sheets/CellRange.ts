@@ -23,5 +23,5 @@ export type CellRange = {
      */
     value: string | Date
   };
-  
-  
+
+

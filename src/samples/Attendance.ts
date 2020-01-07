@@ -21,17 +21,17 @@ type AttendanceParams = {
    */
 function changeAttendance(_e: GoogleAppsScript.Events.SheetsOnEdit, args?: AttendanceParams) {
   if (args == null) args = {} as AttendanceParams;
-  let {
-    workingStatusCell = [1,1] as [number, number],
+  const {
+    workingStatusCell = [1, 1] as [number, number],
     workingStatusColor = '#DD0000',
     normalStatusColor = '#FFFFFF',
     studentInfoSheetName = 'Student Info',
     attendanceSheetName = 'Attendance',
     fullnameColumnName = 'Full Name',
-    secondaryColumnsToCheck = [{name: 'Period', value: [1,1]}],
-    maximumLength = 40
+    secondaryColumnsToCheck = [{name: 'Period', value: [1, 1]}],
+    maximumLength = 40,
   } = args;
-  let e: SheetEventGS = new SheetEventGS(_e);
+  const e: SheetEventGS = new SheetEventGS(_e);
   if (e.getSheetName() == attendanceSheetName) {
     const attendanceSheet = e.getSheet();
     attendanceSheet.changeWorkingStatus(true, workingStatusCell, workingStatusColor);
@@ -42,7 +42,7 @@ function changeAttendance(_e: GoogleAppsScript.Events.SheetsOnEdit, args?: Atten
     const attendance = topRow[topRow.length - 1];
     const currentDate = attendanceSheet.getValue(1, topRow.length);
 
-    let secondaryColumns: Array<{name: string | Date, value: string | Date}> = [];
+    const secondaryColumns: Array<{name: string | Date, value: string | Date}> = [];
     for (const columnToCheck of secondaryColumnsToCheck) {
       secondaryColumns.push({name: columnToCheck.name, value: attendanceSheet.getValue(columnToCheck.value[0], columnToCheck.value[1])});
     }
@@ -52,12 +52,12 @@ function changeAttendance(_e: GoogleAppsScript.Events.SheetsOnEdit, args?: Atten
         // check to see if both 0 and 2 are defined
         if ((name != null) && (attendance != null)) {
           attendanceSheet.clear(2, 1, maximumLength, topRow.length);
-          
-          let returnColumnNames: Array<string | Date> = [fullnameColumnName];
+
+          const returnColumnNames: Array<string | Date> = [fullnameColumnName];
           for (const colName of topRow) {
             returnColumnNames.push(colName);
           }
-          
+
           returnColumnNames.push(currentDate);
           const records = studentInfoSheet.getRecordsMatchingColumnValue(secondaryColumns[0].name,
               secondaryColumns[0].value, returnColumnNames, true);

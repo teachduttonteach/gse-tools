@@ -6,7 +6,7 @@ export type ClassDataParams = {
     /**
      * the prefix for the due date (default: "Due Date:")
      */
-    dueDateString?: string, 
+    dueDateString?: string,
     /**
      * the delimiter for the actual due date (default: "/")
      */
@@ -16,5 +16,5 @@ export type ClassDataParams = {
      */
     dueDateOrder?: string
   };
-  
-  
+
+

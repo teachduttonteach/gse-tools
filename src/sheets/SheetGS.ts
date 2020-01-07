@@ -247,7 +247,9 @@ export class SheetGS {
     /**
      * Set the values of cells for a range
      *
-     * @param {string | Date | Array<string | Date> | Array<Array<string | Date>> | CellRange} firstParam the value, as a string or array; OR an object containing the following parameters: startRow, startCol, numRows, numCols, and value
+     * @param {string | Date | Array<string | Date> | Array<Array<string | Date>> | CellRange} firstParam the value, as a string or array;
+     *  OR an object containing the following parameters: startRow, startCol,
+     *  numRows, numCols, and value
      * @param {number} startRow the beginning row to place this value
      * or set of values, indexed at 1
      * @param {number} startCol the beginning column to place this value
@@ -349,7 +351,8 @@ export class SheetGS {
      * @param {string | Date} value the value to set for the cell
      * @param {string | Date} rowValue the first value of the row
      * @param {string | Date} columnName the first value of the column
-     * @param {Array<{name: string | Date, value: string | Date}>} columnsToMatch the secondary column names and values to match before replacing the value of the cell; this is an array of objects that have name / value pairs
+     * @param {Array<{name: string | Date, value: string | Date}>} columnsToMatch the secondary column names and values to match before replacing the value of the cell;
+     *  this is an array of objects that have name / value pairs
      */
     setMapValues(value: string | Date, rowValue: string | Date,
         columnName: string | Date,
@@ -477,10 +480,12 @@ export class SheetGS {
      *
      * @param {string | Date} matchColumnName the name of the column to match
      * @param {string | Date} matchColumnValue the value of the column to match
-     * @param {Array<string | Date>} returnColumnNames the column names to return in the list
+     * @param {Array<string | Date>} returnColumnNames the column names to
+     *  return in the list
      * @param {boolean} sorted whether or not to return a sorted list
      *
-     * @return {Array<Array<string | Date} a list of lists: rows, then all of the requested column values, not indexed by row
+     * @return {Array<Array<string | Date} a list of lists: rows, then all of
+     *  the requested column values, not indexed by row
      */
     getRecordsMatchingColumnValue(matchColumnName: string | Date,
         matchColumnValue: string | Date, returnColumnNames:

@@ -1,4 +1,4 @@
-import {DateParams} from "./DateParams"
+import {DateParams} from './DateParams'
 
 /**
  * Gets the data from a Calendar Event and provides an interface to it in an
