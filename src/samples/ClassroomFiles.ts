@@ -16,27 +16,29 @@ type ClassroomArgs = {
    */
   settingsName?: string,
   /**
-   * Column name for the sheet column that contains the classroom enrollment code (default: "Classroom Code")
+   * Column name for the sheet column that contains the classroom enrollment
+   *  code (default: "Classroom Code")
    */
   classroomCodeColumnName?: string,
   /**
-   * Name to use for new files that are created holding class info (default: "Google Classroom Summary")
+   * Name to use for new files that are created holding class info (default:
+   *  "Google Classroom Summary")
    */
   newFileName?: string,
   /**
-   * Name of the template to use for the new files to be created (default: "Google Classroom Summary Template")
+   * Name of the template to use for the new files to be created (default:
+   *  "Google Classroom Summary Template")
    */
   templateName?: string,
   /**
    * Parameters for displaying due dates (default: empty)
    */
   dueDateParams?: DateParams,
-
 }
 
 /**
- *
- * @param args
+ * Update Google Docs from Classroom information
+ * @param {ClassroomArgs} args the parameters to use
  */
 function updateClassroomFiles(args: ClassroomArgs): void {
   if (args == null) args = {} as ClassroomArgs;
@@ -46,23 +48,36 @@ function updateClassroomFiles(args: ClassroomArgs): void {
   } = args;
 
   const settings: SpreadsheetGS = getDataSheet();
-  const classworkSettings: MapGS<string | Date, MapGS<string | Date, string | Date>> = settings.getMapData(settingsName);
+  const classworkSettings:
+    MapGS<string | Date, MapGS<string | Date, string | Date>> =
+    settings.getMapData(settingsName);
   const allClasses: ClassroomGS = new ClassroomGS();
 
   classworkSettings.reset();
   while (classworkSettings.hasNext()) {
     const row = classworkSettings.next();
-    const t_row = classworkSettings.get(row);
-    if ((t_row == undefined) || (classroomCodeColumnName == undefined)) throw new Error('Could not find row in classworkSettings');
+    const thisRow = classworkSettings.get(row);
+    if ((thisRow == undefined) || (classroomCodeColumnName == undefined)) {
+      throw new Error('Could not find row in classworkSettings');
+    }
 
-    const thisClassroomCode = t_row.get(classroomCodeColumnName);
-    if ((thisClassroomCode == undefined) || (typeof thisClassroomCode !== 'string')) throw new Error('Classroom code not found');
+    const thisClassroomCode = thisRow.get(classroomCodeColumnName);
+    if ((thisClassroomCode == undefined) ||
+      (typeof thisClassroomCode !== 'string')) {
+      throw new Error('Classroom code not found');
+    }
 
     const currentClass = allClasses.getClass(thisClassroomCode);
     updateGoogleClassroom(args, currentClass);
   }
 }
 
+/**
+ * Update the individual class
+ *
+ * @param {ClassroomArgs} args the classroom parameters
+ * @param {ClassGS} currentClass the current Google class
+ */
 function updateGoogleClassroom(args: ClassroomArgs, currentClass: ClassGS) {
   const {
     newFileName = 'Google Classroom Summary',
@@ -71,9 +86,12 @@ function updateGoogleClassroom(args: ClassroomArgs, currentClass: ClassGS) {
 
   const gClassData = currentClass.convertClassroomData();
   const gDrive = new DriveGS();
-  const t_topics: Array<string> = gClassData.getTopics();
-  for (let topic = 0; topic < t_topics.length; topic++) {
-    const fileObject = gDrive.getOrCreateFileFromTemplateByName('Topic ' + topic + ' for ' + currentClass.getName() + ': ' + newFileName, templateName);
-    new ClassroomDocsGS(fileObject.getId()).writeClassroomDocuments(gClassData, t_topics[topic]);
+  const theseTopics: Array<string> = gClassData.getTopics();
+  for (let topic = 0; topic < theseTopics.length; topic++) {
+    const fileObject = gDrive.getOrCreateFileFromTemplateByName('Topic ' +
+      topic + ' for ' + currentClass.getName() + ': ' + newFileName,
+    templateName);
+    new ClassroomDocsGS(fileObject.getId()).
+        writeClassroomDocuments(gClassData, theseTopics[topic]);
   }
 }
