@@ -3,6 +3,148 @@ import {DriveGS} from '../drive/DriveGS';
 import {SlideGS} from './SlideGS';
 
 /**
+* Class to access methods and properties of Google Presentations
+*
+* @param {string} id the id of the presentation
+*/
+export function newSlideshow(id: string) {
+    return new SlideshowGS(id);
+}
+
+/**
+ * Activate the Ui for the Presentation
+ * @param {SlideshowGS} obj the Slideshow object
+ * @return {SlideshowGS} the object for chaining
+ */
+export function activateSlideshowUi(obj: SlideshowGS): SlideshowGS {
+    return obj.activateUi();
+}
+
+/**
+ * Gets the underlying Google Apps Script object for direct access
+ *
+ * @param {SlideshowGS} obj the Slideshow object
+ * @return {GoogleAppsScript.Slides.Presentation} the Presentation object
+ */
+export function getSlideshowObject(obj: SlideshowGS): GoogleAppsScript.Slides.Presentation {
+    return obj.getObject();
+}
+
+/**
+ * Sets the presentation template for adding slides
+ *
+ * @param {SlideshowGS} obj the Slideshow object
+ * @param {string} id the id of the presentation template
+ *
+ * @return {SlideshowGS} the object for chaining
+ */
+export function setSlideshowTemplate(obj: SlideshowGS, id: string): SlideshowGS {
+    return obj.setTemplate(id)
+};
+
+/**
+ * Changes the picture on the selected slide if a folder is specified
+ *
+ * @param {SlideshowGS} obj the Slideshow object
+ * @param {string} folder the folder containing the pictures
+ * @param {SlideGS} slide the number of the slide to change the picture of
+ *
+ * @return {SlideshowGS} the object for chaining
+ */
+export function changeSlideshowPicture(obj: SlideshowGS, folder: string, slide: SlideGS): SlideshowGS {
+    return obj.changeSlidePicture(folder, slide);
+};
+
+/**
+ * Gets the slide by number
+ *
+ * @param {SlideshowGS} obj the Slideshow object
+ * @param {number} num the number of the slide
+ *
+ * @return {SlideGS} the slide object
+ */
+export function getSlideshowSlide(obj: SlideshowGS, num: number): SlideGS {
+    return obj.getSlide(num);
+};
+
+/**
+ * Adds a slide to the Slideshow, using a template if present
+ *
+ * @param {SlideshowGS} obj the Slideshow object
+ * @param {string} title the title of the new slide
+ * @param {string} body the body of the new slide
+ * @param {string} type the type of the new slide
+ *
+ * @return {SlideGS} the new slide object
+ */
+export function addSlideshowSlide(obj: SlideshowGS, title: string, body: string, type: string): SlideGS {
+    return obj.addSlide(title, body, type);
+};
+
+/**
+ * Gets the slide in the presentation from the id of the slide
+ *
+ * @param {SlideshowGS} obj the Slideshow object
+ * @param {string} id the id of the slide
+ *
+ * @return {SlideGS} the slide object
+ */
+export function getSlideshowSlideById(obj: SlideshowGS, id: string): SlideGS {
+    return obj.getSlideById(id);
+};
+
+/**
+ * Removes a slide from the presentation
+ *
+ * @param {SlideshowGS} obj the Slideshow object
+ * @param {string} id the id of the slide to remove
+ *
+ * @return {SlideshowGS} the object for chaining
+ */
+export function removeSlideshowSlide(obj: SlideshowGS, id: string): SlideshowGS {
+    return obj.removeSlide(id);
+};
+
+/**
+ * Gets the slide type from the slide notes and adds the slide if not present
+ *
+ * @param {SlideshowGS} obj the Slideshow object
+ * @param {string} typeTitle the type of the slide (from slide notes)
+ *
+ * @return {SlideGS} the requested slide
+ */
+export function getSlideshowSlideByType(obj: SlideshowGS, typeTitle: string): SlideGS {
+    return obj.getSlideByType(typeTitle);
+};
+
+/**
+ * Sets the body for the given slide type
+ *
+ * @param {SlideshowGS} obj the Slideshow object
+ * @param {string} typeTitle the type of the slide
+ * @param {string} slideText the body text to put in the slide
+ *
+ * @return {SlideshowGS} the object for chaining
+ */
+export function setSlideshowSlideBodyByType(obj: SlideshowGS, typeTitle: string, slideText: string): SlideshowGS {
+    return obj.setSlideBodyByType(typeTitle, slideText);
+};
+
+/**
+ * Sets the title for the given slide type
+ *
+ * @param {SlideshowGS} obj the Slideshow object
+ * @param {string} typeTitle the type of the slide
+ * @param {string} title the body text to put in the slide
+ *
+ * @return {SlideshowGS} the object for chaining
+ */
+export function setSlideshowSlideTitleByType(obj: SlideshowGS, typeTitle: string, title: string): SlideshowGS {
+    return obj.setSlideTitleByType(typeTitle, title);
+};
+
+
+/**
  * Class to access methods and properties of Google Presentations
  */
 export class SlideshowGS extends UiGS {
@@ -212,4 +354,3 @@ export class SlideshowGS extends UiGS {
     return this;
   };
 }
-

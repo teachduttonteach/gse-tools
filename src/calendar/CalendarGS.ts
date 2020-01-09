@@ -1,6 +1,103 @@
 import {CalendarEventGS} from './CalendarEventGS';
 import {DateParams} from './DateParams';
 
+export function newCalendar(id: string, hoursFromUTC: number): CalendarGS {
+  return new CalendarGS(id, hoursFromUTC);
+}
+
+/**
+ * Gets the underlying Google Apps Script object for direct access
+ *
+ * @param {CalendarGS} obj the calendar object
+ * @return {GoogleAppsScript.Calendar.Calendar} the Google Calendar object
+ */
+export function getCalendarObject(obj: CalendarGS): 
+  GoogleAppsScript.Calendar.Calendar {
+  return obj.getObject();
+}
+
+/**
+ * Get the id of the Google Calendar
+ *
+ * ```javascript
+ * var calendarId = gseCalendar.getId();
+ * ```
+ *
+ * @param {CalendarGS} obj the calendar object
+ * @return {string} the id of this Google Calendar
+ */
+export function getCalendarId(obj: CalendarGS): string {
+  return obj.getId();
+}
+
+/**
+ * Gets the upcoming due dates for events on the calendar
+ * ```javascript
+ * var eventOptions = {
+ *  "noEventString": "None",
+ *  "order": "MD",
+ *  "titlePrefix": "Title: ",
+ *  "dateDelim": "/"
+ * }
+ * var dueDates = getCalendarUpcomingDueDates(calendar, 10, eventOptions);
+ * ```
+ *
+ * @param {CalendarGS} obj the calendar object
+ * @param {number} daysToLookAhead the number of days ahead to find
+ * events on the calendar
+ * @param {DateParams} eventOptions options for displaying that there are
+ *  no events and how to display the date; see above for defaults
+ *
+ * @return {string} the list of due dates as a string for use in Slides
+ */
+
+export function getCalendarUpcomingDueDates(obj: CalendarGS, 
+  daysToLookAhead: number, eventOptions: DateParams): string {
+  return obj.getUpcomingDueDates(daysToLookAhead, eventOptions);
+}
+
+/**
+ * Gets the upcoming due dates for events on the calendar
+ * ```javascript
+ * var eventOptions = {
+ *  "noEventString": "None",
+ *  "order": "MD",
+ *  "titlePrefix": "Title: ",
+ *  "dateDelim": "/"
+ * }
+ * var dueDatesList = getCalendarUpcomingDueDates(calendar, 10, eventOptions);
+ * ```
+ *
+ * @param {CalendarGS} obj the calendar object
+ * @param {number} daysToLookAhead the number of days ahead to find events
+ *  on the calendar
+ * @param {DateParams} eventOptions options for displaying that there are
+ *  no events and how to display the date; see above for defaults
+ * @param {string} noEventString the string to display if there is no event
+ * @return {Array<string>} the list of due dates as an array
+ */
+export function getCalendarUpcomingDueDatesList(obj: CalendarGS, 
+  daysToLookAhead: number, eventOptions: DateParams, noEventString?: string): string[] {
+  return obj.getUpcomingDueDatesList(daysToLookAhead, eventOptions, noEventString);
+}
+
+/**
+ * Gets the upcoming events on the calendar
+ * ```javascript
+ * var upcomingEvents = getCalendarUpcomingEvents(calendar, 10);
+ * ```
+ *
+ * @param {CalendarGS} obj the calendar object
+ * @param {number} daysToLookAhead the number of days ahead to find
+ *  events on the calendar
+ *
+ * @return {Array<CalendarEventGS>} the list of calendar events
+ */
+export function getCalendarUpcomingEvents(obj: CalendarGS, daysToLookAhead: number): CalendarEventGS[] {
+  return obj.getUpcomingEvents(daysToLookAhead);
+}
+
+
 /**
  * Class to hold properties and methods to manipulate the Google Calendar
  *

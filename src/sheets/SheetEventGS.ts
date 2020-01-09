@@ -2,6 +2,165 @@ import {SpreadsheetGS} from './SpreadsheetGS';
 import {SheetGS} from './SheetGS';
 import {TriggerRanges} from './TriggerRanges';
 
+
+/**
+ * Class to process Spreadsheet events (like onEdit, onChange)
+ *
+ * @param {GoogleAppsScript.Events.SheetsOnEdit} event the underlying
+ *  event object
+ */
+export function newSheetEvent(event: GoogleAppsScript.Events.SheetsOnEdit):
+    SheetEventGS {
+    return new SheetEventGS(event);
+}
+
+/**
+ * Gets the underlying Google Apps Script object for direct access
+ *
+ * @param {SheetEventGS} obj the SheetEvent object
+ * @return {GoogleAppsScript.Events.SheetsOnEdit} the Event object
+ */
+export function getSheetEventObject(obj: SheetEventGS): GoogleAppsScript.Events.SheetsOnEdit {
+    return obj.getObject();
+}
+
+/**
+ * Gets the active spreadsheet
+
+ * @param {SheetEventGS} obj the SheetEvent object
+ *
+ * @return {SpreadsheetGS} the spreadsheet
+ */
+export function getSheetEventActiveSheet(obj: SheetEventGS): SpreadsheetGS {
+    return obj.getActiveSheet();
+}
+
+/**
+ * Gets the current sheet name
+ *
+ * @param {SheetEventGS} obj the SheetEvent object
+ * @return {string} the sheet name
+ */
+export function getSheetEventSheetName(obj: SheetEventGS): string {
+    return obj.getSheetName();
+}
+
+/**
+ * Get the current sheet
+ *
+ * @param {SheetEventGS} obj the SheetEvent object
+ * @return {SheetGS} the current sheet
+ */
+export function getSheetEventSheet(obj: SheetEventGS): SheetGS {
+    return obj.getSheet();
+}
+
+/**
+ * Get the current row
+ *
+ * @param {SheetEventGS} obj the SheetEvent object
+ * @return {number} the current row
+ */
+export function getSheetEventRow(obj: SheetEventGS): number {
+    return obj.getRow();
+}
+
+/**
+ * Get the current column
+ *
+ * @param {SheetEventGS} obj the SheetEvent object
+ * @return {number} the current column
+ */
+export function getSheetEventColumn(obj: SheetEventGS): number {
+    return obj.getColumn();
+}
+
+/**
+ * Get the value that has been edited
+ *
+ * @param {SheetEventGS} obj the SheetEvent object
+ * @return {string | Date} the value
+ */
+export function getSheetEventEditedValue(obj: SheetEventGS): string | Date {
+    return obj.getEditedValue();
+}
+
+/**
+ * Check to see if the cell is in the specified trigger range
+ *
+ * @param {SheetEventGS} obj the SheetEvent object
+ * @return {boolean} true if the cell is in the trigger range
+ */
+export function checkSheetEventCell(obj: SheetEventGS): boolean {
+    return obj.checkCell();
+}
+
+/**
+ * Gets the value from the underlying sheet
+ *
+ * @param {SheetEventGS} obj the SheetEvent object
+ * @param {number} row the row of the cell
+ * @param {number} col the column of the cell
+ *
+ * @return {string} the value of the cell
+ */
+export function getSheetEventValue(obj: SheetEventGS, row: number, col: number): string {
+    return obj.getValue(row, col);
+}
+
+/**
+ * Adds sheet to the trigger
+ *
+ * @param {SheetEventGS} obj the SheetEvent object
+ * @param {string} name the name of the sheet
+ * @return {SheetEventGS} the object for chaining
+ */
+export function addSheetEventSheetName(obj: SheetEventGS, name: string): SheetEventGS {
+    return obj.addSheetName(name);
+};
+
+/**
+ * Adds a column range for the trigger
+ *
+ * @param {SheetEventGS} obj the SheetEvent object
+ * @param {number} min the first column
+ * @param {number} max the last column
+ * @return {SheetEventGS} the object for chaining
+ */
+export function addSheetEventTriggerColumnRange(obj: SheetEventGS, 
+    min: number = 0, max: number = 0): SheetEventGS {
+        return obj.addTriggerColumnRange(min, max);
+};
+
+/**
+ * Adds a row range for the trigger
+ *
+ * @param {SheetEventGS} obj the SheetEvent object
+ * @param {number} min the first row
+ * @param {number} max the last row
+ * @return {SheetEventGS} the object for chaining
+ */
+export function addSheetEventTriggerRowRange(obj: SheetEventGS, 
+    min: number = 0, max: number = 0): SheetEventGS {
+        return obj.addTriggerRowRange(min, max);
+};
+
+/**
+ * Adds a range for the trigger
+ *
+ * @param {SheetEventGS} obj the SheetEvent object
+ * @param {boolean} forRow true if the range is for rows
+ * @param {number | Array<number>} min the minimum row/column, or list of
+ *  rows or columns
+ * @param {number | Array<number>} max the maximum row/column, or list of
+ *  rows or columns
+ * @return {SheetEventGS} the object for chaining
+ */
+export function addSheetEventTriggerRange(obj: SheetEventGS, forRow: boolean, 
+    min: number | Array<number>, max: number | Array<number>): SheetEventGS {
+        return obj.addTriggerRange(forRow, min, max);
+};
+
 /**
  * Class to process Spreadsheet events (like onEdit, onChange)
  *

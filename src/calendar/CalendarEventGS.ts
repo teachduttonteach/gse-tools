@@ -1,5 +1,16 @@
 import {DateParams} from './DateParams'
 
+export function getCalendarEventObject(obj: CalendarEventGS):
+  GoogleAppsScript.Calendar.CalendarEvent {
+  return obj.getObject();
+}
+
+export function getCalendarEventDate(obj: CalendarEventGS, 
+  firstParam?: string | DateParams, titlePrefix?: string, dateDelim?: string): 
+  string {
+  return obj.getDate(firstParam, titlePrefix, dateDelim);
+}
+
 /**
  * Gets the data from a Calendar Event and provides an interface to it in an
  *  efficient way.
