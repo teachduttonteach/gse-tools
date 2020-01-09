@@ -3,6 +3,196 @@ import {QuestionType} from '../enums/QuestionType';
 
 /**
  * Class to manipulate Google Forms
+ * @param {string} id the id of the form
+ */
+export function newForms(id: string): FormsGS {
+  return new FormsGS();
+}
+
+/**
+ * Activate the form Ui for Ui manipulation
+ *
+ * @param {FormsGS} the Forms object
+ * @return {FormsGS} the object for chaining
+ */
+export function activateFormsUi(): FormsGS {
+  return obj.activateUi();
+}
+
+/**
+ * Gets the underlying Google Apps Script object for direct access
+ *
+ * @param {FormsGS} the Forms object
+ * @return {GoogleAppsScript.Forms.Form} the Google Form object
+ */
+export function getFormsObject(): GoogleAppsScript.Forms.Form {
+  return obj.getObject();
+}
+
+/**
+ * Convert a string to a list
+ *
+ * @param {FormsGS} the Forms object
+ * @param {string} text the text to convert
+ *
+ * @return {Array<string>} the list
+ */
+export function convertFormsLinebreaksToList(text: string): Array<string> {
+  return obj.convertLinebreaksToList(test);
+};
+
+/**
+ * Add an item to the form
+ *
+ * @param {FormsGS} the Forms object
+ * @param {string} title title of the item
+ * @param {string} questionType type of the item, contained in QuestionType
+ * @param {string | Array<string>} optionsList list of options for multiple
+ *  choice, select, or the columns for grid items
+ * @param {string | Array<string>} mcGridRowsList rows for grid items
+ *
+ * @return {FormsGS} the object for chaining
+ */
+export function addFormsItem(title: string, questionType: string,
+    optionsList?: string | Array<string>,
+    mcGridRowsList?: string | Array<string>): FormsGS {
+  return obj.addItem(title, questionType, optionsList, mcGridRowsList);
+};
+
+/**
+ * Adds a paragraph item to the form
+ *
+ * @param {FormsGS} the Forms object
+ * @param {string} title the title of the paragraph item
+ *
+ * @return {FormsGS} the object for chaining
+ */
+export function addFormsParagraph(title: string): FormsGS {
+  return obj.addParagraph(title);
+};
+
+/**
+ * Adds a true/false item to the form
+ *
+ * @param {FormsGS} the Forms object
+ * @param {string} title the title of the true/false item
+ *
+ * @return {FormsGS} the object for chaining
+ */
+export function addFormsTrueFalse(title: string): FormsGS {
+  return obj.addTrueFalse(title);
+};
+
+/**
+ * Returns an array of values from either an array or a string
+ *
+ * @param {FormsGS} the Forms object
+ * @param {Array<string> | string} values the values to convert
+ *
+ * @return {Array<string>} the array of values
+ */
+export function setFormsValuesFromList(values: Array<string> | string): Array<string> {
+  return obj.setValuesFromList(values);
+}
+
+/**
+ * Adds a multiple choice item to the form
+ *
+ * @param {FormsGS} the Forms object
+ * @param {string} title the title of the multiple choice item
+ * @param {Array<string> | string} items the choices for the question as
+ *  an array or string
+ *
+ * @return {FormsGS} the object for chaining
+ */
+export function addFormsMultipleChoice(title: string, items: Array<string> | string): FormsGS {
+  return obj.addMultipleChoice(title, items);
+}
+
+/**
+ * Adds a multiple checkbox item to the form
+ *
+ * @param {FormsGS} the Forms object
+ * @param {string} title the title of the multiple checkbox item
+ * @param {Array<string> | string} items the choices for the question as
+ *  an array or string
+ *
+ * @return {FormsGS} the object for chaining
+ */
+export function addFormsMultipleCheck(title: string, items: Array<string> | string): FormsGS {
+  return obj.addMultipleCheck(title, items);
+}
+
+/**
+ * Adds a multiple choice grid item to the form
+ *
+ * @param {FormsGS} the Forms object
+ * @param {string} title the title of the multiple choice grid item
+ * @param {Array<string> | string} columns the columns for the grid as an
+ *  array or string
+ * @param {Array<string> | string} rows the rows for the grid as an array
+ *  or string
+ *
+ * @return {FormsGS} the object for chaining
+ */
+export function addFormsMultipleGridChoice(title: string, columns: Array<string> | string,
+    rows: Array<string> | string): FormsGS {
+  return obj.addMultipleGridChoice(title, columns, rows);
+};
+
+/**
+ * Adds a multiple checkbox grid item to the form
+ *
+ * @param {FormsGS} the Forms object
+ * @param {string} title the title of the multiple checkbox grid item
+ * @param {Array<string> | string} columns the columns for the grid as an
+ *  array or string
+ * @param {Array<string> | string} rows the rows for the grid as an array
+ *  or string
+ *
+ * @return {FormsGS} the object for chaining
+ */
+export function addFormsMultipleGridCheck(title: string, columns: Array<string> | string,
+    rows: Array<string> | string): FormsGS {
+  return obj.addMultipleGridCheck(title, columns, rows);
+};
+
+/**
+ * Add an image to the form
+ *
+ * @param {FormsGS} the Forms object
+ * @param {GoogleAppsScript.Base.BlobSource} file the image to add
+ *
+ * @return {FormsGS} the object for chaining
+ */
+export function addFormsImage(file: GoogleAppsScript.Base.BlobSource): FormsGS {
+  return obj.addImage(file);
+};
+
+/**
+ * Delete the items on this form
+ *
+ * @param {FormsGS} the Forms object
+ * @return {FormsGS} the object for chaining
+ */
+export function deleteFormsItems(): FormsGS {
+  return obj.deleteItems();
+};
+
+/**
+ * Set the title of the form
+ *
+ * @param {FormsGS} the Forms object
+ * @param {string} title the title of the form
+ *
+ * @return {FormsGS} the object for chaining
+ */
+export function setFormsTitle(title: string): FormsGS {
+  return obj.setTitle(title);
+}
+
+/**
+ * Class to manipulate Google Forms
  */
 export class FormsGS extends UiGS {
   private _form: GoogleAppsScript.Forms.Form;

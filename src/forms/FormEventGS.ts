@@ -10,6 +10,62 @@ import {FormEventOptions} from './FormEventOptions';
  * }
  * ```
  */
+export function newFormEvent(e: GoogleAppsScript.Events.FormsOnFormSubmit): FormEventGS {
+    return new FormEventGS(e);
+}
+
+/**
+ * Gets the underlying Google Apps Script object for direct access
+ *
+ * @param {FormEventGS} obj the FormEvent object
+ * @return {GoogleAppsScript.Events.FormsOnFormSubmit} the Event object
+ */
+export function getFormEventObject(obj: FormEventGS): GoogleAppsScript.Events.FormsOnFormSubmit {
+    return obj.getObject();
+}
+
+/**
+ * Gets the title of the form
+ *
+ * @param {FormEventGS} obj the FormEvent object
+ * @return {string} the title
+ */
+export function getFormEventTitle(obj: FormEventGS): string {
+    return obj.getTitle();
+}
+
+/**
+ * Gets the email address of the submitter of the form
+ *
+ * @param {FormEventGS} obj the FormEvent object
+ * @return {string} the email address
+ */
+export function getFormEventEmail(obj: FormEventGS): string {
+    return obj.getEmail();
+}
+
+/**
+ * Prints the full date from a list of optional arguments
+ *
+ * @param {FormEventGS} obj the FormEvent object
+ * @param {FormEventOptions} options the options for the form event
+ * @return {string} the full date
+ */
+export function fullFormEventDate(obj: FormEventGS, options?: FormEventOptions): string {
+    return obj.fullDate(options);
+}
+
+
+/**
+ * Class to provide functions to Google Form events
+ *
+ * ```javascript
+ * function onSubmitBellwork(e) {
+ *   var formEvent = new gseTools.FormEventGS(e);
+ *   alert(formEvent.fullDate("MD", "/", "\n", 0, "T"));
+ * }
+ * ```
+ */
 export class FormEventGS {
     private _title: string;
     private _date: GoogleAppsScript.Base.Date;

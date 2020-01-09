@@ -4,6 +4,99 @@ import {docLevels} from './DocLevels';
 /**
  * Class to write a Google Document
  *
+ * @param {DocsGS} obj the Docs object
+ * @param {string} id the id of the underlying Google Doc
+ */
+export function newDocs(obj: DocsGS, id: string): DocsGS {
+  return new DocsGS(id);
+}
+
+/**
+ * Activate the Ui of the Doc if we're accessing from a Doc
+ *
+ * @param {DocsGS} obj the Docs object
+ * @return {DocsGS} the object for chaining
+ */
+export function activateDocsUi(obj: DocsGS): DocsGS {
+  return obj.activateUi();
+}
+
+/**
+ * Gets the underlying Google Apps Script object for direct access
+ *
+ * @param {DocsGS} obj the Docs object
+ * @return {GoogleAppsScript.Document.Document} the Google Document object
+ */
+export function getDocsObject(obj: DocsGS): GoogleAppsScript.Document.Document {
+  return obj.getObject();
+}
+
+/**
+ * Change the delimiter to go between the text before the title and the
+ *  title itself
+ *
+ * @param {DocsGS} obj the Docs object
+ * @param {string} titleDelim the new delimiter, defaults to ":"
+ *
+ * @return {DocsGS} the object for chaining
+ */
+export function changeDocsTitleDelim(obj: DocsGS, titleDelim: string): DocsGS {
+  return obj.changeTitleDelim(titleDelim);
+}
+
+/**
+ * Change the separator for lists in the Google Doc
+ *
+ * @param {DocsGS} obj the Docs object
+ * @param {GoogleAppsScript.Document.GlyphType} separator the new separator,
+ *  defaults to BULLET
+ *
+ * @return {DocsGS} the object for chaining
+ */
+export function changeDocsSeparator(obj: DocsGS, separator: GoogleAppsScript.Document.GlyphType): DocsGS {
+  return obj.changeSeparator(separator);
+}
+
+/**
+ * Adds a list item to the Google Doc
+ *
+ * @param {DocsGS} obj the Docs object
+ * @param {string} text the text to display
+ * @param {string} title the title of the item
+ * @param {string} link the link to display
+ * @return {DocsGS} the object for chaining
+ */
+export function appendDocsItem(obj: DocsGS, text: string, title: string, link: string): DocsGS {
+  return obj.appendItem(text, title, link);
+};
+
+/**
+ * Adds text to the document
+ *
+ * @param {DocsGS} obj the Docs object
+ * @param {string} text the text to add
+ * @param {string | number} level the level of the text
+ *
+ * @return {DocsGS} the object for chaining
+ */
+export function addDocsText(obj: DocsGS, text: string, level: string | number): DocsGS {
+  return obj.addText(text, level);
+};
+
+/**
+ * Clears the body of text
+ *
+ * @param {DocsGS} obj the Docs object
+ * @return {DocsGS} the object for chaining
+ */
+export function clearDocsBody(obj: DocsGS): DocsGS {
+  return obj.clearBody();
+}
+
+
+/**
+ * Class to write a Google Document
+ *
  */
 export class DocsGS extends UiGS {
   private _separator: GoogleAppsScript.Document.GlyphType;

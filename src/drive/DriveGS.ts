@@ -4,6 +4,93 @@ const ValidImageTypes: Array<string> =
   ['image/png', 'image/gif', 'image/jpeg'];
 
 /**
+ * Gets a random picture from a specified folder
+ *
+ * @param {DriveGS} obj the Drive object
+ * @param {string} folder the id of the folder that contains random pictures
+ *
+ * @return {GoogleAppsScript.Base.Blob} the picture as a Google Blob
+ */
+export function getDriveRandomPicture(obj: DriveGS, folder: string): GoogleAppsScript.Base.Blob {
+  return obj.getRandomPicture(folder);
+};
+
+/**
+ * Get the data (blob) of a specified image
+ *
+ * @param {DriveGS} obj the Drive object
+ * @param {string} id the id of the image or false if it is an invalid image
+ *
+ * @return {GoogleAppsScript.Base.Blob | boolean} the image blob or False
+ *  if it could not be created
+ */
+export function getDriveImageBlob(obj: DriveGS, id: string): GoogleAppsScript.Base.Blob | boolean {
+  return obj.getImageBlob(id);
+};
+
+/**
+ * Determines if a file (by name) exists; if it doesn't creates it from a
+ *  template, then return the file in either case
+ *
+ * @param {DriveGS} obj the Drive object
+ * @param {string} fileName the name of the file
+ * @param {string} templateName the name of the template
+ *
+ * @return {GoogleAppsScript.Drive.File} the file as a Google Object
+ */
+export function getOrCreateDriveFileFromTemplateByName(obj: DriveGS, fileName: string, templateName: string): 
+  GoogleAppsScript.Drive.File {
+  return obj.getOrCreateFileFromTemplateByName(fileName, templateName);
+};
+
+/**
+ * Determines if a file (by id) exists; if it doesn't creates it from a
+ *  template, then return the file in either case
+ *
+ * @param {DriveGS} obj the Drive object
+ * @param {string} fileId the name of the file
+ * @param {string} templateId the name of the template
+ *
+ * @return {GoogleAppsScript.Drive.File} the file as a Google object
+ */
+export function getOrCreateDriveFileFromTemplateById(obj: DriveGS, fileId: string, templateId: string):
+  GoogleAppsScript.Drive.File {
+  return obj.getOrCreateFileFromTemplateById(fileId, templateId);
+
+};
+
+/**
+ * Determines if a file (by name) exists; if it doesn't creates it from a
+ *  template, then return the file in either case
+ *
+ * @param {DriveGS} obj the Drive object
+ * @param {string} fileName the name of the file
+ * @param {string} mimeType the MimeType of the file
+ *
+ * @return {GoogleAppsScript.Drive.File} the file as a Google object
+ */
+export function getOrCreateDriveFileByName(obj: DriveGS, fileName: string, mimeType: string = MimeTypes.DOCS):
+  GoogleAppsScript.Drive.File {
+  return obj.getOrCreateFileByName(fileName, mimeType);
+};
+
+/**
+ * Determines if a file (by id) exists; if it doesn't creates it from a
+ *  template, then return the file in either case
+ *
+ * @param {DriveGS} obj the Drive object
+ * @param {string} fileId the id of the file
+ * @param {string} fileName the name of the new file
+ * @param {string} mimeType the MimeType of the file
+ *
+ * @return {GoogleAppsScript.Drive.File} the file as a Google object
+ */
+export function getOrCreateDriveFileById(obj: DriveGS, fileId: string, fileName: string,
+    mimeType: string = MimeTypes.DOCS): GoogleAppsScript.Drive.File {
+  return obj.getOrCreateFileById(fileId, fileName, mimeType);
+};
+
+/**
  * Class to provide access and functions to Google Drive
  */
 export class DriveGS {
