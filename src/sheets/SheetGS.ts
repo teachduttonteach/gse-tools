@@ -1224,7 +1224,7 @@ export class SheetGS {
      */
     getMapRow(rowNumber: number): MapGS<string | Date, string | Date> {
       const returnValue: MapGS<string | Date, string | Date> = new MapGS();
-      for (let c = 1; c < this.getLastColumn(); c++) {
+      for (let c = 0; c < this.getLastColumn(); c++) {
         returnValue.set(this._data[0][c], this._data[rowNumber][c]);
       }
       return returnValue;
