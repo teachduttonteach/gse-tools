@@ -122,7 +122,7 @@ export function getSheetMapColumn(obj: SheetGS, numColumn: number): MapGS<string
  * @return {string[]} the array of strings
  */
 export function convertSheetLinebreaksToList(obj: SheetGS, row: number, column: number): string[] {
-    return obj.convertLinebreaks(row, column);
+    return obj.convertLinebreaksToList(row, column);
 };
 
 /**
@@ -199,7 +199,7 @@ startCol: number = 1, numRows: number = 1, numCols: number = 1):
  */
 export function areSheetValuesEqual(obj: SheetGS, value: Date | string, cell: [number, number],
     level: string = 'YEAR'): boolean {
-    return obj.areValuesEqual(value, cell, level);
+    return obj.areSheetValuesEqual(value, cell, level);
 }
 
 /**
