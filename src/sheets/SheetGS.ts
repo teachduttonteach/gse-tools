@@ -7,9 +7,11 @@ import {CellRange} from './CellRange';
  * Sheets of Google Spreadsheets
  * @param {GoogleAppsScript.Spreadsheet.Sheet} sheetObject
  * the Google Apps Script Sheet object
+ * @return {SheetGS} the Sheet object
  */
-export function newSheet(sheetObject: GoogleAppsScript.Spreadsheet.Sheet) {
-    return new SheetGS(sheetObject);
+export function newSheet(sheetObject: GoogleAppsScript.Spreadsheet.Sheet):
+  SheetGS {
+  return new SheetGS(sheetObject);
 }
 
 /**
@@ -19,7 +21,7 @@ export function newSheet(sheetObject: GoogleAppsScript.Spreadsheet.Sheet) {
  * @return {SheetGS} the object for chaining
  */
 export function resetSheetData(obj: SheetGS): SheetGS {
-    return obj.resetData();
+  return obj.resetData();
 }
 
 /**
@@ -28,8 +30,9 @@ export function resetSheetData(obj: SheetGS): SheetGS {
  * @param {SheetGS} obj the Sheet object
  * @return {GoogleAppsScript.Spreadsheet.Sheet} the Sheet object
  */
-export function getSheetObject(obj: SheetGS): GoogleAppsScript.Spreadsheet.Sheet {
-    return obj.getObject();
+export function getSheetObject(obj: SheetGS):
+  GoogleAppsScript.Spreadsheet.Sheet {
+  return obj.getObject();
 }
 
 /**
@@ -41,7 +44,7 @@ export function getSheetObject(obj: SheetGS): GoogleAppsScript.Spreadsheet.Sheet
  * @return {string} the value requested
  */
 export function getSheetValue(obj: SheetGS, row: number, col: number): string {
-    return obj.getValue(row, col);
+  return obj.getValue(row, col);
 };
 
 /**
@@ -52,8 +55,9 @@ export function getSheetValue(obj: SheetGS, row: number, col: number): string {
  * @param {number} col the column of the value, indexed at 1
  * @return {Date} the date value requested
  */
-export function getSheetDateValue(obj: SheetGS, row: number, col: number): Date {
-    return obj.getDateValue(row, col);
+export function getSheetDateValue(obj: SheetGS, row: number, col: number):
+  Date {
+  return obj.getDateValue(row, col);
 };
 
 /**
@@ -67,9 +71,9 @@ export function getSheetDateValue(obj: SheetGS, row: number, col: number): Date 
  * @return {Array<Array<string | Date>>} the array of arrays of strings
  *  or Dates
  */
-export function getSheetValues(obj: SheetGS, row: number, col: number, numRows: number,
-    numCols: number): Array<Array<string | Date>> {
-    return obj.getValues(row, col, numRows, numCols);
+export function getSheetValues(obj: SheetGS, row: number, col: number,
+    numRows: number, numCols: number): Array<Array<string | Date>> {
+  return obj.getValues(row, col, numRows, numCols);
 };
 
 /**
@@ -85,9 +89,10 @@ export function getSheetValues(obj: SheetGS, row: number, col: number, numRows: 
  * @return {MapGS<string | Date, MapGS<string | Date, string | Date>>}
  *  a map object of rows with maps of columns
  */
-export function getSheetMapValues(obj: SheetGS, row: number, col: number, numRows: number, numCols: number):
+export function getSheetMapValues(obj: SheetGS, row: number, col: number,
+    numRows: number, numCols: number):
   MapGS<string | Date, MapGS<string | Date, string | Date>> {
-    return obj.getMapValues(row, col, numRows, numCols);
+  return obj.getMapValues(row, col, numRows, numCols);
 };
 
 /**
@@ -97,8 +102,9 @@ export function getSheetMapValues(obj: SheetGS, row: number, col: number, numRow
 * @param {number} numColumn number of the column
 * @return {Array<string | Date>} the column as an array
 */
-export function getSheetColumn(obj: SheetGS, numColumn: number): Array<string | Date> {
-    return obj.getColumn(numColumn);
+export function getSheetColumn(obj: SheetGS, numColumn: number):
+  Array<string | Date> {
+  return obj.getColumn(numColumn);
 }
 
 /**
@@ -109,8 +115,9 @@ export function getSheetColumn(obj: SheetGS, numColumn: number): Array<string | 
 * @return {MapGS<string | Date, string | Date>}
 *   the row names with column values
 */
-export function getSheetMapColumn(obj: SheetGS, numColumn: number): MapGS<string | Date, string | Date> {
-    return obj.getMapColumn(numColumn);
+export function getSheetMapColumn(obj: SheetGS, numColumn: number):
+  MapGS<string | Date, string | Date> {
+  return obj.getMapColumn(numColumn);
 }
 
 /**
@@ -121,8 +128,9 @@ export function getSheetMapColumn(obj: SheetGS, numColumn: number): MapGS<string
  *
  * @return {string[]} the array of strings
  */
-export function convertSheetLinebreaksToList(obj: SheetGS, row: number, column: number): string[] {
-    return obj.convertLinebreaksToList(row, column);
+export function convertSheetLinebreaksToList(obj: SheetGS, row: number,
+    column: number): string[] {
+  return obj.convertLinebreaksToList(row, column);
 };
 
 /**
@@ -138,9 +146,9 @@ export function convertSheetLinebreaksToList(obj: SheetGS, row: number, column: 
  *
  * @return {SheetGS} the sheet for chaining
  */
-export function setSheetValue(obj: SheetGS, value: string | Date, row: number, col: number,
-    reset: boolean = true): SheetGS {
-    return obj.setValue(value, row, col, reset);
+export function setSheetValue(obj: SheetGS, value: string | Date, row: number,
+    col: number, reset: boolean = true): SheetGS {
+  return obj.setValue(value, row, col, reset);
 }
 
 /**
@@ -156,9 +164,10 @@ export function setSheetValue(obj: SheetGS, value: string | Date, row: number, c
  *
  * @return {SheetGS} the sheet for chaining
  */
-export function setSheetMapValue(obj: SheetGS, value: string | Date, row: string | Date,
-    column: string | Date, reset: boolean = true): SheetGS {
-    return obj.setMapValue(value, row, column, reset);
+export function setSheetMapValue(obj: SheetGS, value: string | Date,
+    row: string | Date, column: string | Date, reset: boolean = true):
+    SheetGS {
+  return obj.setMapValue(value, row, column, reset);
 }
 
 /**
@@ -179,11 +188,12 @@ export function setSheetMapValue(obj: SheetGS, value: string | Date, row: string
  *
  * @return {SheetGS} the object for chaining
  */
-export function setSheetValues(obj: SheetGS, firstParam: string | Date | Array<string | Date> |
+export function setSheetValues(obj: SheetGS,
+    firstParam: string | Date | Array<string | Date> |
   Array<Array<string | Date>> | CellRange, startRow: number = 1,
-startCol: number = 1, numRows: number = 1, numCols: number = 1):
+    startCol: number = 1, numRows: number = 1, numCols: number = 1):
   SheetGS {
-    return obj.setValues(firstParam, startRow, startCol, numRows, numCols);
+  return obj.setValues(firstParam, startRow, startCol, numRows, numCols);
 }
 
 /**
@@ -197,9 +207,9 @@ startCol: number = 1, numRows: number = 1, numCols: number = 1):
  *
  * @return {boolean} whether or not they are equal
  */
-export function areSheetValuesEqual(obj: SheetGS, value: Date | string, cell: [number, number],
-    level: string = 'YEAR'): boolean {
-    return obj.areSheetValuesEqual(value, cell, level);
+export function areSheetValuesEqual(obj: SheetGS, value: Date | string,
+    cell: [number, number], level: string = 'YEAR'): boolean {
+  return obj.areSheetValuesEqual(value, cell, level);
 }
 
 /**
@@ -213,9 +223,10 @@ export function areSheetValuesEqual(obj: SheetGS, value: Date | string, cell: [n
  *
  * @return {boolean} whether or not they are equal
  */
-export function areSheetMapValuesEqual(obj: SheetGS, value1: Date | string | null, value2: Date | string,
+export function areSheetMapValuesEqual(obj: SheetGS,
+    value1: Date | string | null, value2: Date | string,
     level: string = 'YEAR'): boolean {
-    return obj.areMapValuesEqual(value1, value2, level);
+  return obj.areMapValuesEqual(value1, value2, level);
 }
 
 /**
@@ -229,11 +240,11 @@ export function areSheetMapValuesEqual(obj: SheetGS, value1: Date | string | nul
  * @param {Array<{name: string | Date, value: string | Date}>} columnsToMatch the secondary column names and values to match before replacing the value of the cell;
  *  this is an array of objects that have name / value pairs
  */
-export function setSheetMapValues(obj: SheetGS, value: string | Date, rowValue: string | Date,
-    columnName: string | Date,
+export function setSheetMapValues(obj: SheetGS, value: string | Date,
+    rowValue: string | Date, columnName: string | Date,
     columnsToMatch: Array<{name: string | Date, value: string | Date}>):
   SheetGS {
-    return obj.setMapValues(value, rowValue, columnName, columnsToMatch);
+  return obj.setMapValues(value, rowValue, columnName, columnsToMatch);
 }
 
 /**
@@ -247,9 +258,9 @@ export function setSheetMapValues(obj: SheetGS, value: string | Date, rowValue: 
 * @return {MapGS<string | Date, MapGS<string | Date, string | Date>>}
 *  the data object
 */
-export function getSheetMapData(obj: SheetGS, rowFirst: boolean = true): MapGS<string | Date,
-  MapGS<string | Date, string | Date>> {
-    return obj.getMapData(rowFirst);
+export function getSheetMapData(obj: SheetGS, rowFirst: boolean = true):
+  MapGS<string | Date, MapGS<string | Date, string | Date>> {
+  return obj.getMapData(rowFirst);
 };
 
 /**
@@ -262,9 +273,9 @@ export function getSheetMapData(obj: SheetGS, rowFirst: boolean = true): MapGS<s
  * @param {number} numCols the number of columns to clear
  * @return {SheetGS} the object for chaining
  */
-export function clearSheet(obj: SheetGS, row: number, col: number, numRows: number = 1, numCols: number = 1):
-  SheetGS {
-    return obj.clear(row, col, numRows, numCols);
+export function clearSheet(obj: SheetGS, row: number, col: number,
+    numRows: number = 1, numCols: number = 1): SheetGS {
+  return obj.clear(row, col, numRows, numCols);
 }
 
 /**
@@ -283,11 +294,12 @@ export function clearSheet(obj: SheetGS, row: number, col: number, numRows: numb
  * @return {Array<Array<string | Date} a list of lists: rows, then all of
  *  the requested column values, not indexed by row
  */
-export function getSheetRecordsMatchingColumnValue(obj: SheetGS, matchColumnName: string | Date,
-    matchColumnValue: string | Date, returnColumnNames:
-    Array<string | Date>, sorted: boolean = false):
+export function getSheetRecordsMatchingColumnValue(obj: SheetGS,
+    matchColumnName: string | Date, matchColumnValue: string | Date,
+    returnColumnNames: Array<string | Date>, sorted: boolean = false):
     Array<Array<string | Date>> {
-    return obj.getRecordsMatchingColumnValue(matchColumnName, matchColumnValue, returnColumnNames, sorted);
+  return obj.getRecordsMatchingColumnValue(matchColumnName, matchColumnValue,
+      returnColumnNames, sorted);
 }
 
 /**
@@ -306,11 +318,12 @@ export function getSheetRecordsMatchingColumnValue(obj: SheetGS, matchColumnName
  *  a map of the row names to the column names to the cell values for the
  *  requested columns
  */
-export function getSheetMapRecordsMatchingColumnValue(obj: SheetGS, matchColumnName: string | Date,
-    matchColumnValue: string | Date,
+export function getSheetMapRecordsMatchingColumnValue(obj: SheetGS,
+    matchColumnName: string | Date, matchColumnValue: string | Date,
     returnColumnNames: Array<string | Date>):
   MapGS<string | Date, MapGS<string | Date, string | Date>> {
-    return obj.getMapRecordsMatchingColumnValue(matchColumnName, matchColumnValue, returnColumnNames);
+  return obj.getMapRecordsMatchingColumnValue(matchColumnName,
+      matchColumnValue, returnColumnNames);
 }
 
 /**
@@ -322,8 +335,9 @@ export function getSheetMapRecordsMatchingColumnValue(obj: SheetGS, matchColumnN
  *
  * @return {number} the first row that isn't blank
  */
-export function skipSheetBlankRows(obj: SheetGS, startRow: number = 1, col: number = 1): number {
-    return obj.skipBlankRows(startRow, col);
+export function skipSheetBlankRows(obj: SheetGS, startRow: number = 1,
+    col: number = 1): number {
+  return obj.skipBlankRows(startRow, col);
 };
 
 /**
@@ -335,7 +349,7 @@ export function skipSheetBlankRows(obj: SheetGS, startRow: number = 1, col: numb
  * @return {SheetGS} the object for chaining
  */
 export function deleteSheetRow(obj: SheetGS, row: number): SheetGS {
-    return obj.deleteRow(row);
+  return obj.deleteRow(row);
 }
 
 /**
@@ -347,7 +361,7 @@ export function deleteSheetRow(obj: SheetGS, row: number): SheetGS {
  * @return {SheetGS} the object for chaining
  */
 export function deleteSheetCol(obj: SheetGS, col: number): SheetGS {
-    return obj.deleteCol(col);
+  return obj.deleteCol(col);
 }
 
 /**
@@ -359,7 +373,7 @@ export function deleteSheetCol(obj: SheetGS, col: number): SheetGS {
  * @return {SheetGS} the object for chaining
  */
 export function insertSheetCol(obj: SheetGS, col: number): SheetGS {
-    return obj.insertCol(col);
+  return obj.insertCol(col);
 }
 
 /**
@@ -372,9 +386,9 @@ export function insertSheetCol(obj: SheetGS, col: number): SheetGS {
  *
  * @return {GoogleAppsScript.Spreadsheet.Range} the Range found
  */
-export function getSheetCellFromFind(obj: SheetGS, findText: string, findNumber: number = 1):
-  GoogleAppsScript.Spreadsheet.Range {
-    return obj.getCellFromFind(findText, findNumber);
+export function getSheetCellFromFind(obj: SheetGS, findText: string,
+    findNumber: number = 1): GoogleAppsScript.Spreadsheet.Range {
+  return obj.getCellFromFind(findText, findNumber);
 }
 
 /**
@@ -387,8 +401,9 @@ export function getSheetCellFromFind(obj: SheetGS, findText: string, findNumber:
  *
  * @return {number} the row found
  */
-export function getSheetRowFromFind(obj: SheetGS, findText: string, findNumber: number = 1): number {
-    return obj.getRowFromFind(findText, findNumber);
+export function getSheetRowFromFind(obj: SheetGS, findText: string,
+    findNumber: number = 1): number {
+  return obj.getRowFromFind(findText, findNumber);
 }
 
 /**
@@ -398,8 +413,9 @@ export function getSheetRowFromFind(obj: SheetGS, findText: string, findNumber: 
  * @param {number} rowNumber the row number to get
  * @return {Array<string | Date>} the list of values in the row
  */
-export function getSheetRow(obj: SheetGS, rowNumber: number): Array<string | Date> {
-    return obj.getRow(rowNumber);
+export function getSheetRow(obj: SheetGS, rowNumber: number):
+  Array<string | Date> {
+  return obj.getRow(rowNumber);
 }
 
 /**
@@ -409,8 +425,9 @@ export function getSheetRow(obj: SheetGS, rowNumber: number): Array<string | Dat
  * @return {MapGS<string | Date, string | Date>} the map of values for the
  *  row
  */
-export function getSheetMapRow(obj: SheetGS, rowNumber: number): MapGS<string | Date, string | Date> {
-    return obj.getMapRow(rowNumber);
+export function getSheetMapRow(obj: SheetGS, rowNumber: number):
+  MapGS<string | Date, string | Date> {
+  return obj.getMapRow(rowNumber);
 }
 
 /**
@@ -423,8 +440,9 @@ export function getSheetMapRow(obj: SheetGS, rowNumber: number): MapGS<string | 
  *
  * @return {number} the column found
  */
-export function getSheetColumnFromFind(obj: SheetGS, findText: string, findNumber: number = 1): number {
-    return obj.getColumnFromFind(findText, findNumber);
+export function getSheetColumnFromFind(obj: SheetGS, findText: string,
+    findNumber: number = 1): number {
+  return obj.getColumnFromFind(findText, findNumber);
 }
 
 /**
@@ -434,7 +452,7 @@ export function getSheetColumnFromFind(obj: SheetGS, findText: string, findNumbe
  * @return {number} the row
  */
 export function getSheetLastRow(obj: SheetGS): number {
-    return obj.getLastRow();
+  return obj.getLastRow();
 }
 
 /**
@@ -444,7 +462,7 @@ export function getSheetLastRow(obj: SheetGS): number {
  * @return {number} the column
  */
 export function getSheetLastColumn(obj: SheetGS): number {
-    return obj.getLastColumn();
+  return obj.getLastColumn();
 }
 
 /**
@@ -458,9 +476,9 @@ export function getSheetLastColumn(obj: SheetGS): number {
  *
  * @return {SheetGS} the object for chaining
  */
-export function changeSheetWorkingStatus(obj: SheetGS, working: boolean, cell: [number, number] = [1, 1],
-    color: string = '#DD0000'): SheetGS {
-    return obj.changeWorkingStatus(working, cell, color);
+export function changeSheetWorkingStatus(obj: SheetGS, working: boolean,
+    cell: [number, number] = [1, 1], color: string = '#DD0000'): SheetGS {
+  return obj.changeWorkingStatus(working, cell, color);
 };
 
 /**
@@ -473,8 +491,9 @@ export function changeSheetWorkingStatus(obj: SheetGS, working: boolean, cell: [
  *
  * @return {SheetGS} the object for chaining
  */
-export function setSheetBackground(obj: SheetGS, row: number, col: number, color: string): SheetGS {
-    return obj.setBackground(row, col, color);
+export function setSheetBackground(obj: SheetGS, row: number, col: number,
+    color: string): SheetGS {
+  return obj.setBackground(row, col, color);
 };
 
 /**
@@ -489,10 +508,11 @@ export function setSheetBackground(obj: SheetGS, row: number, col: number, color
  *
  * @return {SheetGS} the object for chaining
  */
-export function addSheetValueForSpecifiedColumn(obj: SheetGS, columnHeader: string | Date,
+export function addSheetValueForSpecifiedColumn(obj: SheetGS,
+    columnHeader: string | Date,
     rowHeaders: Array<string | Date> | string | Date,
     cellValue: string | Date): SheetGS {
-    return obj.addValueForSpecifiedColumn(columnHeader, rowHeaders, cellValue);
+  return obj.addValueForSpecifiedColumn(columnHeader, rowHeaders, cellValue);
 }
 
 /**

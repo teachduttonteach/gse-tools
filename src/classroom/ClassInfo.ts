@@ -4,6 +4,102 @@ import {MapGS} from '../map/MapGS';
 
 /**
  * Class for all of the particular course information
+  * Resets the announcements and topics.
+  */
+export function newClassInfo(): ClassInfo {
+  return new ClassInfo();
+}
+
+/**
+ * Get the topic ids
+ *
+ * @param {ClassInfo} obj the ClassInfo object
+ * @return {Array<string>} the topic ids
+ */
+export function getClassInfoTopics(obj: ClassInfo): Array<string> {
+  return obj.getTopics();
+}
+
+/**
+ * Gets the name of a topic
+ *
+ * @param {ClassInfo} obj the ClassInfo object
+ * @param {string} topicId the topic id
+ *
+ * @return {string} the name of the topic
+ */
+export function getClassInfoName(obj: ClassInfo, topicId: string): string {
+  return obj.getName(topicId);
+}
+
+/**
+ * Adds a topic to the course
+ *
+ * @param {ClassInfo} obj the ClassInfo object
+ * @param {string} topicId the topic id
+ * @param {CourseWork} courseWork the coursework object associated with
+ *  the topic
+ *
+ * @return {ClassInfo} the object for chaining
+ */
+export function addClassInfoTopic(obj: ClassInfo, topicId: string, 
+  courseWork: CourseWork): ClassInfo {
+    return obj.addTopic(topicId, courseWork);
+}
+
+/**
+ * Adds an announcement to the coursework
+ *
+ * @param {ClassInfo} obj the ClassInfo object
+ * @param {string} announcement the text of the announcement
+ *
+ * @return {ClassInfo} the object for chaining
+ */
+export function addClassInfoAnnouncement(obj: ClassInfo, announcement: string):
+  ClassInfo {
+    return obj.addAnnouncement(announcement);
+}
+
+/**
+ * Gets the list of announcements for the coursework
+ *
+ * @param {ClassInfo} obj the ClassInfo object
+ * @return {Array<string>} the list of announcements
+ */
+export function getClassInfoAnnouncements(obj: ClassInfo): Array<string> {
+  return obj.getAnnouncements();
+}
+
+/**
+ * Adds course work to the object
+ *
+ * @param {ClassInfo} obj the ClassInfo object
+ * @param {string} topicId the topic id
+ * @param {Work} courseWork the work associated with this topic
+ *
+ * @return {ClassInfo} the object for chaining
+ */
+export function addClassInfoCourseWork(obj: ClassInfo, topicId: string, 
+  courseWork: Work): ClassInfo {
+    return obj.addCourseWork(topicId, courseWork);
+}
+
+/**
+ * Gets the course work associated with the specified topic
+ *
+ * @param {ClassInfo} obj the ClassInfo object
+ * @param {string} topicId the topic id
+ *
+ * @return {CouseWork} the object for chaining
+ */
+export function getClassInfoCourseWork(obj: ClassInfo, topicId: string): 
+  CourseWork {
+    return obj.getCourseWork(topicId);
+}
+
+
+/**
+ * Class for all of the particular course information
  */
 export class ClassInfo {
     private _topics: MapGS<string, CourseWork>;

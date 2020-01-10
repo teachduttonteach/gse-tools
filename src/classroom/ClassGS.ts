@@ -7,10 +7,11 @@ import {Material} from 'Material';
  * Class to access a single course in Google Classroom
   * @param {GoogleAppsScript.Classroom.Schema.Course} course the
   *  Google course object
+  * @return {ClassGS} the object for chaining
   */
 export function newClass(course: GoogleAppsScript.Classroom.Schema.Course):
   ClassGS {
-    return new ClassGS(course);
+  return new ClassGS(course);
 }
 
 /**
@@ -42,9 +43,9 @@ export function getClassCalendarId(obj: ClassGS): string {
  *
  * @return {ClassInfo} the object for chaining
  */
-export function convertClassroomData(obj: ClassGS, args?: ClassDataParams): 
+export function convertClassroomData(obj: ClassGS, args?: ClassDataParams):
   ClassInfo {
-    return obj.convertClassroomData(args);
+  return obj.convertClassroomData(args);
 }
 
 /**
