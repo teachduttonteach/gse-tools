@@ -1,7 +1,7 @@
-import {getDataSheet} from '../drive-sheets/DataSheet';
-import {ONE_DAY} from '../utils/Utilities';
-import {SpreadsheetGS} from '../sheets/SpreadsheetGS';
-import {MapGS} from '../map/MapGS';
+import { getDataSheet } from '../drive-sheets/DataSheet';
+import { ONE_DAY } from '../utils/Utilities';
+import { SpreadsheetGS } from '../sheets/SpreadsheetGS';
+import { MapGS } from '../map/MapGS';
 
 /**
  * Send birthday email to the requested recipient
@@ -11,8 +11,9 @@ import {MapGS} from '../map/MapGS';
  */
 function sendBirthdayEmail(lookAheadDays: number, emailToSend: string) {
   const spreadsheet: SpreadsheetGS = getDataSheet();
-  const studentInfo: MapGS<string | Date, MapGS<string | Date, string | Date>> =
-     spreadsheet.getSheet('Student Info').getMapData();
+  const studentInfo: MapGS<string | Date, MapGS<string | Date, string | Date>> = spreadsheet
+    .getSheet('Student Info')
+    .getMapData();
 
   const today: Date = new Date();
   let birthdays: string = '';
@@ -24,22 +25,29 @@ function sendBirthdayEmail(lookAheadDays: number, emailToSend: string) {
     }
     const thisBirthday = thisRow.get('Birthday');
     if (thisBirthday == null) {
-      throw new Error('Could not find birthday for ' +
-      row);
+      throw new Error('Could not find birthday for ' + row);
     }
     const studentDate: Date = new Date(thisBirthday);
 
     const lookAheadDate: Date = new Date();
-    lookAheadDate.setTime(today.getTime() + (lookAheadDays * ONE_DAY));
+    lookAheadDate.setTime(today.getTime() + lookAheadDays * ONE_DAY);
 
-    if ((studentDate.getTime() >= today.getTime()) &&
-      (studentDate.getTime() <= lookAheadDate.getTime())) {
-      birthdays += row + ' has birthday #' +
-      (today.getFullYear() - studentDate.getFullYear()) + ' on ' +
-      (studentDate.getMonth() + 1) + '/' + studentDate.getDate() + '\n';
+    if (studentDate.getTime() >= today.getTime() && studentDate.getTime() <= lookAheadDate.getTime()) {
+      birthdays +=
+        row +
+        ' has birthday #' +
+        (today.getFullYear() - studentDate.getFullYear()) +
+        ' on ' +
+        (studentDate.getMonth() + 1) +
+        '/' +
+        studentDate.getDate() +
+        '\n';
     }
   }
-  MailApp.sendEmail(emailToSend, emailToSend,
-      'Today\'s Birthdays (plus the next ' + lookAheadDays + ' days)!',
-      birthdays);
+  MailApp.sendEmail(
+    emailToSend,
+    emailToSend,
+    "Today's Birthdays (plus the next " + lookAheadDays + ' days)!',
+    birthdays,
+  );
 }

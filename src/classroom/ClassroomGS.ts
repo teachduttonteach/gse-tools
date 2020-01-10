@@ -1,9 +1,9 @@
-import {ClassGS} from 'ClassGS';
+import { ClassGS } from 'ClassGS';
 
 /**
  * Class to store the Google Classroom object
-  * Get the courses and coursework
-  */
+ * Get the courses and coursework
+ */
 export function newClassroom() {
   return new ClassroomGS();
 }
@@ -15,9 +15,8 @@ export function newClassroom() {
  * @return {Array<GoogleAppsScript.Classroom.Schema.Course>} the list of
  *  Course objects
  */
-export function getClassroomObject(obj: ClassroomGS): 
-  Array<GoogleAppsScript.Classroom.Schema.Course> {
-    return obj.getObject();
+export function getClassroomObject(obj: ClassroomGS): Array<GoogleAppsScript.Classroom.Schema.Course> {
+  return obj.getObject();
 }
 
 /**
@@ -80,7 +79,6 @@ export class ClassroomGS {
     for (const c of this._classList) {
       if (c.enrollmentCode == enrollmentCode) return new ClassGS(c);
     }
-    throw new Error('Could not find class with code ' + enrollmentCode +
-      ' in ClassroomGS()');
+    throw new Error('Could not find class with code ' + enrollmentCode + ' in ClassroomGS()');
   }
 }

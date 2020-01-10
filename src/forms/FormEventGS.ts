@@ -1,4 +1,4 @@
-import {FormEventOptions} from './FormEventOptions';
+import { FormEventOptions } from './FormEventOptions';
 
 /**
  * Class to provide functions to Google Form events
@@ -11,7 +11,7 @@ import {FormEventOptions} from './FormEventOptions';
  * ```
  */
 export function newFormEvent(e: GoogleAppsScript.Events.FormsOnFormSubmit): FormEventGS {
-    return new FormEventGS(e);
+  return new FormEventGS(e);
 }
 
 /**
@@ -21,7 +21,7 @@ export function newFormEvent(e: GoogleAppsScript.Events.FormsOnFormSubmit): Form
  * @return {GoogleAppsScript.Events.FormsOnFormSubmit} the Event object
  */
 export function getFormEventObject(obj: FormEventGS): GoogleAppsScript.Events.FormsOnFormSubmit {
-    return obj.getObject();
+  return obj.getObject();
 }
 
 /**
@@ -31,7 +31,7 @@ export function getFormEventObject(obj: FormEventGS): GoogleAppsScript.Events.Fo
  * @return {string} the title
  */
 export function getFormEventTitle(obj: FormEventGS): string {
-    return obj.getTitle();
+  return obj.getTitle();
 }
 
 /**
@@ -41,7 +41,7 @@ export function getFormEventTitle(obj: FormEventGS): string {
  * @return {string} the email address
  */
 export function getFormEventEmail(obj: FormEventGS): string {
-    return obj.getEmail();
+  return obj.getEmail();
 }
 
 /**
@@ -52,9 +52,8 @@ export function getFormEventEmail(obj: FormEventGS): string {
  * @return {string} the full date
  */
 export function fullFormEventDate(obj: FormEventGS, options?: FormEventOptions): string {
-    return obj.fullDate(options);
+  return obj.fullDate(options);
 }
-
 
 /**
  * Class to provide functions to Google Form events
@@ -67,85 +66,81 @@ export function fullFormEventDate(obj: FormEventGS, options?: FormEventOptions):
  * ```
  */
 export class FormEventGS {
-    private _title: string;
-    private _date: GoogleAppsScript.Base.Date;
-    private _email: string;
-    private _response: GoogleAppsScript.Forms.FormResponse;
-    private _event: GoogleAppsScript.Events.FormsOnFormSubmit;
+  private _title: string;
+  private _date: GoogleAppsScript.Base.Date;
+  private _email: string;
+  private _response: GoogleAppsScript.Forms.FormResponse;
+  private _event: GoogleAppsScript.Events.FormsOnFormSubmit;
 
-    /**
-     * Get the values needed for these tools from the form event
-     *
-     * @param {GoogleAppsScript.Events.FormsOnFormSubmit} e contains the
-     *  form event
-     */
-    constructor(e: GoogleAppsScript.Events.FormsOnFormSubmit) {
-      this._title = e.source.getTitle();
-      this._date = e.response.getTimestamp();
-      this._email = e.response.getRespondentEmail();
-      this._response = e.response;
-      this._event = e;
+  /**
+   * Get the values needed for these tools from the form event
+   *
+   * @param {GoogleAppsScript.Events.FormsOnFormSubmit} e contains the
+   *  form event
+   */
+  constructor(e: GoogleAppsScript.Events.FormsOnFormSubmit) {
+    this._title = e.source.getTitle();
+    this._date = e.response.getTimestamp();
+    this._email = e.response.getRespondentEmail();
+    this._response = e.response;
+    this._event = e;
+  }
+
+  /**
+   * Gets the underlying Google Apps Script object for direct access
+   *
+   * @return {GoogleAppsScript.Events.FormsOnFormSubmit} the Event object
+   */
+  getObject(): GoogleAppsScript.Events.FormsOnFormSubmit {
+    return this._event;
+  }
+
+  /**
+   * Gets the title of the form
+   *
+   * @return {string} the title
+   */
+  getTitle(): string {
+    return this._title;
+  }
+
+  /**
+   * Gets the email address of the submitter of the form
+   *
+   * @return {string} the email address
+   */
+  getEmail(): string {
+    return this._email;
+  }
+
+  /**
+   * Prints the full date from a list of optional arguments
+   *
+   * @param {FormEventOptions} options the options for the form event
+   * @return {string} the full date
+   */
+  fullDate(options?: FormEventOptions): string {
+    if (options == null) options = {} as FormEventOptions;
+    const {
+      dateOrder = 'MD',
+      dateDelimiter = '/',
+      suffixDelimiter = '\n',
+      suffixResponseNumber = 0,
+      suffixType = 'T',
+    } = options;
+
+    let [firstDate, secondDate] = [this._date.getMonth() + 1, this._date.getDate()];
+    if (dateOrder == 'DM') {
+      [firstDate, secondDate] = [this._date.getDate(), this._date.getMonth() + 1];
     }
 
-    /**
-     * Gets the underlying Google Apps Script object for direct access
-     *
-     * @return {GoogleAppsScript.Events.FormsOnFormSubmit} the Event object
-     */
-    getObject(): GoogleAppsScript.Events.FormsOnFormSubmit {
-      return this._event;
+    const suffixBuilder = this._response.getItemResponses()[suffixResponseNumber];
+    let suffix: string = '';
+
+    // Can account for other types here
+    if (suffixType.toUpperCase().startsWith('T')) {
+      suffix = suffixBuilder.getItem().getTitle();
     }
-
-    /**
-     * Gets the title of the form
-     *
-     * @return {string} the title
-     */
-    getTitle(): string {
-      return this._title;
-    }
-
-    /**
-     * Gets the email address of the submitter of the form
-     *
-     * @return {string} the email address
-     */
-    getEmail(): string {
-      return this._email;
-    }
-
-    /**
-     * Prints the full date from a list of optional arguments
-     *
-     * @param {FormEventOptions} options the options for the form event
-     * @return {string} the full date
-     */
-    fullDate(options?: FormEventOptions): string {
-      if (options == null) options = {} as FormEventOptions;
-      const {
-        dateOrder = 'MD',
-        dateDelimiter = '/',
-        suffixDelimiter = '\n',
-        suffixResponseNumber = 0,
-        suffixType = 'T',
-      } = options;
-
-      let [firstDate, secondDate] = [this._date.getMonth() + 1,
-        this._date.getDate()];
-      if (dateOrder == 'DM') {
-        [firstDate, secondDate] =
-        [this._date.getDate(), this._date.getMonth() + 1];
-      }
-
-      const suffixBuilder =
-        this._response.getItemResponses()[suffixResponseNumber];
-      let suffix: string = '';
-
-      // Can account for other types here
-      if (suffixType.toUpperCase().startsWith('T')) {
-        suffix =
-        suffixBuilder.getItem().getTitle();
-      }
-      return firstDate + dateDelimiter + secondDate + suffixDelimiter + suffix;
-    }
+    return firstDate + dateDelimiter + secondDate + suffixDelimiter + suffix;
+  }
 }

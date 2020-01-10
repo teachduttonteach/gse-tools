@@ -1,0 +1,20 @@
+export var MimeTypes;
+(function (MimeTypes) {
+    MimeTypes["AUDIO"] = "application/vnd.google-apps.audio";
+    MimeTypes["DOCS"] = "application/vnd.google-apps.document";
+    MimeTypes["DRAWING"] = "application/vnd.google-apps.drawing";
+    MimeTypes["DRIVE_FILE"] = "application/vnd.google-apps.file";
+    MimeTypes["DRIVE_FOLDER"] = "application/vnd.google-apps.folder";
+    MimeTypes["FORMS"] = "application/vnd.google-apps.form";
+    MimeTypes["FUSION"] = "application/vnd.google-apps.fusiontable";
+    MimeTypes["MAPS"] = "application/vnd.google-apps.map";
+    MimeTypes["PHOTO"] = "application/vnd.google-apps.photo";
+    MimeTypes["SLIDES"] = "application/vnd.google-apps.presentation";
+    MimeTypes["APPS_SCRIPT"] = "application/vnd.google-apps.script";
+    MimeTypes["SITES"] = "application/vnd.google-apps.site";
+    MimeTypes["SHEETS"] = "application/vnd.google-apps.spreadsheet";
+    MimeTypes["UNKNOWN"] = "application/vnd.google-apps.unknown";
+    MimeTypes["VIDEO"] = "application/vnd.google-apps.video";
+    MimeTypes["DRIVE_SDK"] = "application/vnd.google-apps.drive-sdk";
+})(MimeTypes || (MimeTypes = {}));
+;

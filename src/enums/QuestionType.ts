@@ -5,5 +5,5 @@ export enum QuestionType {
   MC_GRID = 'MC Grid',
   MS_GRID = 'MS Grid',
   SHORT_ANSWER = 'Short Answer',
-  TRUE_FALSE = 'True / False'
+  TRUE_FALSE = 'True / False',
 }

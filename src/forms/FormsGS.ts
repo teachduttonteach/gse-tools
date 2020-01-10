@@ -1,5 +1,5 @@
-import {UiGS} from '../UiGS';
-import {QuestionType} from '../enums/QuestionType';
+import { UiGS } from '../UiGS';
+import { QuestionType } from '../enums/QuestionType';
 
 /**
  * Class to manipulate Google Forms
@@ -39,7 +39,7 @@ export function getFormsObject(obj: FormsGS): GoogleAppsScript.Forms.Form {
  */
 export function convertFormsLinebreaksToList(obj: FormsGS, text: string): Array<string> {
   return obj.convertLinebreaksToList(text);
-};
+}
 
 /**
  * Add an item to the form
@@ -53,11 +53,15 @@ export function convertFormsLinebreaksToList(obj: FormsGS, text: string): Array<
  *
  * @return {FormsGS} the object for chaining
  */
-export function addFormsItem(obj: FormsGS, title: string, questionType: string,
-    optionsList?: string | Array<string>,
-    mcGridRowsList?: string | Array<string>): FormsGS {
+export function addFormsItem(
+  obj: FormsGS,
+  title: string,
+  questionType: string,
+  optionsList?: string | Array<string>,
+  mcGridRowsList?: string | Array<string>,
+): FormsGS {
   return obj.addItem(title, questionType, optionsList, mcGridRowsList);
-};
+}
 
 /**
  * Adds a paragraph item to the form
@@ -69,7 +73,7 @@ export function addFormsItem(obj: FormsGS, title: string, questionType: string,
  */
 export function addFormsParagraph(obj: FormsGS, title: string): FormsGS {
   return obj.addParagraph(title);
-};
+}
 
 /**
  * Adds a true/false item to the form
@@ -81,7 +85,7 @@ export function addFormsParagraph(obj: FormsGS, title: string): FormsGS {
  */
 export function addFormsTrueFalse(obj: FormsGS, title: string): FormsGS {
   return obj.addTrueFalse(title);
-};
+}
 
 /**
  * Returns an array of values from either an array or a string
@@ -91,8 +95,7 @@ export function addFormsTrueFalse(obj: FormsGS, title: string): FormsGS {
  *
  * @return {Array<string>} the array of values
  */
-export function setFormsValuesFromList(obj: FormsGS, 
-  values: Array<string> | string): Array<string> {
+export function setFormsValuesFromList(obj: FormsGS, values: Array<string> | string): Array<string> {
   return obj.setValuesFromList(values);
 }
 
@@ -106,8 +109,7 @@ export function setFormsValuesFromList(obj: FormsGS,
  *
  * @return {FormsGS} the object for chaining
  */
-export function addFormsMultipleChoice(obj: FormsGS, title: string, 
-  items: Array<string> | string): FormsGS {
+export function addFormsMultipleChoice(obj: FormsGS, title: string, items: Array<string> | string): FormsGS {
   return obj.addMultipleChoice(title, items);
 }
 
@@ -121,8 +123,7 @@ export function addFormsMultipleChoice(obj: FormsGS, title: string,
  *
  * @return {FormsGS} the object for chaining
  */
-export function addFormsMultipleCheck(obj: FormsGS, title: string, 
-  items: Array<string> | string): FormsGS {
+export function addFormsMultipleCheck(obj: FormsGS, title: string, items: Array<string> | string): FormsGS {
   return obj.addMultipleCheck(title, items);
 }
 
@@ -138,10 +139,14 @@ export function addFormsMultipleCheck(obj: FormsGS, title: string,
  *
  * @return {FormsGS} the object for chaining
  */
-export function addFormsMultipleGridChoice(obj: FormsGS, title: string, 
-  columns: Array<string> | string, rows: Array<string> | string): FormsGS {
+export function addFormsMultipleGridChoice(
+  obj: FormsGS,
+  title: string,
+  columns: Array<string> | string,
+  rows: Array<string> | string,
+): FormsGS {
   return obj.addMultipleGridChoice(title, columns, rows);
-};
+}
 
 /**
  * Adds a multiple checkbox grid item to the form
@@ -155,10 +160,14 @@ export function addFormsMultipleGridChoice(obj: FormsGS, title: string,
  *
  * @return {FormsGS} the object for chaining
  */
-export function addFormsMultipleGridCheck(obj: FormsGS, title: string, 
-  columns: Array<string> | string, rows: Array<string> | string): FormsGS {
+export function addFormsMultipleGridCheck(
+  obj: FormsGS,
+  title: string,
+  columns: Array<string> | string,
+  rows: Array<string> | string,
+): FormsGS {
   return obj.addMultipleGridCheck(title, columns, rows);
-};
+}
 
 /**
  * Add an image to the form
@@ -168,10 +177,9 @@ export function addFormsMultipleGridCheck(obj: FormsGS, title: string,
  *
  * @return {FormsGS} the object for chaining
  */
-export function addFormsImage(obj: FormsGS, 
-  file: GoogleAppsScript.Base.BlobSource): FormsGS {
+export function addFormsImage(obj: FormsGS, file: GoogleAppsScript.Base.BlobSource): FormsGS {
   return obj.addImage(file);
-};
+}
 
 /**
  * Delete the items on this form
@@ -181,7 +189,7 @@ export function addFormsImage(obj: FormsGS,
  */
 export function deleteFormsItems(obj: FormsGS): FormsGS {
   return obj.deleteItems();
-};
+}
 
 /**
  * Set the title of the form
@@ -209,13 +217,11 @@ export class FormsGS extends UiGS {
   constructor(id: string) {
     super();
     if (id == null) {
-      throw new Error('Form id needs to be defined in Form(): ' +
-       id);
+      throw new Error('Form id needs to be defined in Form(): ' + id);
     }
     this._form = FormApp.openById(id);
     if (this._form == null) {
-      throw new Error('Form not found with id ' + id +
-      ' in Form()');
+      throw new Error('Form not found with id ' + id + ' in Form()');
     }
   }
 
@@ -247,9 +253,9 @@ export class FormsGS extends UiGS {
    * @return {Array<string>} the list
    */
   convertLinebreaksToList(text: string): Array<string> {
-    if ((text == null) || (text == '')) return [];
+    if (text == null || text == '') return [];
     return text.split('\n');
-  };
+  }
 
   /**
    * Add an item to the form
@@ -262,16 +268,21 @@ export class FormsGS extends UiGS {
    *
    * @return {FormsGS} the object for chaining
    */
-  addItem(title: string, questionType: string,
-      optionsList?: string | Array<string>,
-      mcGridRowsList?: string | Array<string>): FormsGS {
+  addItem(
+    title: string,
+    questionType: string,
+    optionsList?: string | Array<string>,
+    mcGridRowsList?: string | Array<string>,
+  ): FormsGS {
     switch (questionType) {
       case QuestionType.PARAGRAPH:
         this._form.addParagraphTextItem().setTitle(title);
         break;
       case QuestionType.TRUE_FALSE:
-        this._form.addMultipleChoiceItem().setTitle(title).
-            setChoiceValues(['True', 'False']);
+        this._form
+          .addMultipleChoiceItem()
+          .setTitle(title)
+          .setChoiceValues(['True', 'False']);
         break;
       case QuestionType.MULTIPLE_CHOICE:
         this._form.addMultipleChoiceItem().setTitle(title);
@@ -279,8 +290,7 @@ export class FormsGS extends UiGS {
         if (optionsList == undefined) {
           throw new Error('Options list must be defined in FormsGS.addItem()');
         } else if (typeof optionsList === 'string') {
-          this.addMultipleChoice(title,
-              this.convertLinebreaksToList(optionsList));
+          this.addMultipleChoice(title, this.convertLinebreaksToList(optionsList));
         } else this.addMultipleChoice(title, optionsList);
 
         break;
@@ -290,8 +300,7 @@ export class FormsGS extends UiGS {
         if (optionsList == undefined) {
           throw new Error('Options list must be defined in FormsGS.addItem()');
         } else if (typeof optionsList === 'string') {
-          this.addMultipleCheck(title,
-              this.convertLinebreaksToList(optionsList));
+          this.addMultipleCheck(title, this.convertLinebreaksToList(optionsList));
         } else this.addMultipleCheck(title, optionsList);
 
         break;
@@ -299,15 +308,13 @@ export class FormsGS extends UiGS {
         const item = this._form.addGridItem().setTitle(title);
 
         if (optionsList == undefined) {
-          throw new Error('Options list must be ' +
-        'defined in FormsGS.addItem()');
+          throw new Error('Options list must be ' + 'defined in FormsGS.addItem()');
         } else if (typeof optionsList === 'string') {
           item.setColumns(this.convertLinebreaksToList(optionsList));
         } else item.setColumns(optionsList);
 
         if (mcGridRowsList == undefined) {
-          throw new Error('Grid rows list must be defined in ' +
-            'FormsGS.addItem()');
+          throw new Error('Grid rows list must be defined in ' + 'FormsGS.addItem()');
         } else if (typeof mcGridRowsList === 'string') {
           item.setRows(this.convertLinebreaksToList(mcGridRowsList));
         } else item.setRows(mcGridRowsList);
@@ -317,15 +324,13 @@ export class FormsGS extends UiGS {
         const gridItem = this._form.addCheckboxGridItem().setTitle(title);
 
         if (optionsList == undefined) {
-          throw new Error('Options list must be ' +
-          'defined in FormsGS.addItem()');
+          throw new Error('Options list must be ' + 'defined in FormsGS.addItem()');
         } else if (typeof optionsList === 'string') {
           gridItem.setColumns(this.convertLinebreaksToList(optionsList));
         } else gridItem.setColumns(optionsList);
 
         if (mcGridRowsList == undefined) {
-          throw new Error('Grid rows list ' +
-          'must be defined in FormsGS.addItem()');
+          throw new Error('Grid rows list ' + 'must be defined in FormsGS.addItem()');
         } else if (typeof mcGridRowsList === 'string') {
           gridItem.setRows(this.convertLinebreaksToList(mcGridRowsList));
         } else gridItem.setRows(mcGridRowsList);
@@ -336,7 +341,7 @@ export class FormsGS extends UiGS {
         break;
     }
     return this;
-  };
+  }
 
   /**
    * Adds a paragraph item to the form
@@ -347,12 +352,11 @@ export class FormsGS extends UiGS {
    */
   addParagraph(title: string): FormsGS {
     if (title == null) {
-      throw new Error('Title needs to be defined for ' +
-      'Form.addParagraph');
+      throw new Error('Title needs to be defined for ' + 'Form.addParagraph');
     }
     this._form.addParagraphTextItem().setTitle(title);
     return this;
-  };
+  }
 
   /**
    * Adds a true/false item to the form
@@ -363,12 +367,11 @@ export class FormsGS extends UiGS {
    */
   addTrueFalse(title: string): FormsGS {
     if (title == null) {
-      throw new Error('Title needs to be defined for ' +
-      'Form.addTrueFalse');
+      throw new Error('Title needs to be defined for ' + 'Form.addTrueFalse');
     }
     this.addMultipleChoice(title, ['True', 'False']);
     return this;
-  };
+  }
 
   /**
    * Returns an array of values from either an array or a string
@@ -394,8 +397,7 @@ export class FormsGS extends UiGS {
    * @return {FormsGS} the object for chaining
    */
   addMultipleChoice(title: string, items: Array<string> | string): FormsGS {
-    const mcItem: GoogleAppsScript.Forms.MultipleChoiceItem =
-      this._form.addMultipleChoiceItem().setTitle(title);
+    const mcItem: GoogleAppsScript.Forms.MultipleChoiceItem = this._form.addMultipleChoiceItem().setTitle(title);
     mcItem.setChoiceValues(this.setValuesFromList(items));
     return this;
   }
@@ -410,8 +412,7 @@ export class FormsGS extends UiGS {
    * @return {FormsGS} the object for chaining
    */
   addMultipleCheck(title: string, items: Array<string> | string): FormsGS {
-    const mcItem: GoogleAppsScript.Forms.CheckboxItem =
-      this._form.addCheckboxItem().setTitle(title);
+    const mcItem: GoogleAppsScript.Forms.CheckboxItem = this._form.addCheckboxItem().setTitle(title);
     mcItem.setChoiceValues(this.setValuesFromList(items));
     return this;
   }
@@ -427,16 +428,14 @@ export class FormsGS extends UiGS {
    *
    * @return {FormsGS} the object for chaining
    */
-  addMultipleGridChoice(title: string, columns: Array<string> | string,
-      rows: Array<string> | string): FormsGS {
-    const mcItem: GoogleAppsScript.Forms.GridItem =
-      this._form.addGridItem().setTitle(title);
+  addMultipleGridChoice(title: string, columns: Array<string> | string, rows: Array<string> | string): FormsGS {
+    const mcItem: GoogleAppsScript.Forms.GridItem = this._form.addGridItem().setTitle(title);
 
     mcItem.setColumns(this.setValuesFromList(columns));
     mcItem.setRows(this.setValuesFromList(rows));
 
     return this;
-  };
+  }
 
   /**
    * Adds a multiple checkbox grid item to the form
@@ -449,16 +448,14 @@ export class FormsGS extends UiGS {
    *
    * @return {FormsGS} the object for chaining
    */
-  addMultipleGridCheck(title: string, columns: Array<string> | string,
-      rows: Array<string> | string): FormsGS {
-    const mcItem: GoogleAppsScript.Forms.CheckboxGridItem =
-      this._form.addCheckboxGridItem().setTitle(title);
+  addMultipleGridCheck(title: string, columns: Array<string> | string, rows: Array<string> | string): FormsGS {
+    const mcItem: GoogleAppsScript.Forms.CheckboxGridItem = this._form.addCheckboxGridItem().setTitle(title);
 
     mcItem.setColumns(this.setValuesFromList(columns));
     mcItem.setRows(this.setValuesFromList(rows));
 
     return this;
-  };
+  }
 
   /**
    * Add an image to the form
@@ -469,12 +466,11 @@ export class FormsGS extends UiGS {
    */
   addImage(file: GoogleAppsScript.Base.BlobSource): FormsGS {
     if (file == null) {
-      throw new Error('Could not find image in ' +
-      'FormsGS.addImage()');
+      throw new Error('Could not find image in ' + 'FormsGS.addImage()');
     }
     this._form.addImageItem().setImage(file);
     return this;
-  };
+  }
 
   /**
    * Delete the items on this form
@@ -487,7 +483,7 @@ export class FormsGS extends UiGS {
     }
     this._form.deleteAllResponses();
     return this;
-  };
+  }
 
   /**
    * Set the title of the form
@@ -500,4 +496,4 @@ export class FormsGS extends UiGS {
     this._form.setTitle(title);
     return this;
   }
-};
+}

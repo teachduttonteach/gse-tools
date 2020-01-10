@@ -9,6 +9,8 @@ export function updateTriggers(formId: string, functionName: string) {
   for (const t of ScriptApp.getProjectTriggers()) {
     if (t.getHandlerFunction() == functionName) ScriptApp.deleteTrigger(t);
   }
-  ScriptApp.newTrigger(functionName).forForm(formId).onFormSubmit().create();
+  ScriptApp.newTrigger(functionName)
+    .forForm(formId)
+    .onFormSubmit()
+    .create();
 }
-

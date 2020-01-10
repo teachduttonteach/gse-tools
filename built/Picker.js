@@ -1,8 +1,6 @@
-import { Settings, MimeTypes, Features } from "./Properties";
-function getOAuthToken() {
-    DriveApp.getRootFolder();
-    return ScriptApp.getOAuthToken();
-}
+import { Settings } from './Settings';
+import { MimeTypes } from './MimeTypes';
+import { Features } from './Features';
 /**
  * Raises a number to the given power, and returns the result.
  *
@@ -11,25 +9,25 @@ function getOAuthToken() {
  * @return {number} the result of the exponential calculation
  */
 export class Picker {
-    //this.pickerSettings = new Settings("PICKER");
+    // this.pickerSettings = new Settings("PICKER");
     setDoc(dialogName, id) {
-        //var s = new Settings();
-        //s.set(dialogName, id);
+        // var s = new Settings();
+        // s.set(dialogName, id);
     }
     show(dialogText, dialogName) {
-        var m = MimeTypes;
-        var f = Features;
-        let settings = new Settings("Picker", false);
-        settings.set("DIALOG_WIDTH", "600");
-        settings.set("DIALOG_HEIGHT", "425");
-        settings.set("INCLUDE_FOLDERS", "true");
-        settings.set("MIME_TYPES", [m.DOCS, m.DRIVE_FILE]);
-        settings.set("FEATURES", [f.MULTISELECT_ENABLED]);
-        var template = HtmlService.createTemplateFromFile('PickerBox.html');
-        template.data = settings.get("Template");
-        template.data["SELECTED_DOCUMENT"] = dialogName;
-        var html = template.evaluate().setWidth(+settings.get("DIALOG_WIDTH")).setHeight(+settings.get("DIALOG_HEIGHT"));
-        //Logger.log(html.getContent());
+        const m = MimeTypes;
+        const f = Features;
+        const settings = new Settings('Picker', false);
+        settings.set('DIALOG_WIDTH', '600');
+        settings.set('DIALOG_HEIGHT', '425');
+        settings.set('INCLUDE_FOLDERS', 'true');
+        //settings.set('MIME_TYPES', [m.DOCS, m.DRIVE_FILE]);
+        //settings.set('FEATURES', [f.MULTISELECT_ENABLED]);
+        const template = HtmlService.createTemplateFromFile('PickerBox.html');
+        template.data = settings.get('Template');
+        template.data['SELECTED_DOCUMENT'] = dialogName;
+        const html = template.evaluate().setWidth(+settings.get('DIALOG_WIDTH')).setHeight(+settings.get('DIALOG_HEIGHT'));
+        // Logger.log(html.getContent());
         return SpreadsheetApp.getUi().showModalDialog(html, dialogText);
     }
 }
@@ -39,7 +37,7 @@ export class Picker {
  */
 class Sidebar {
     constructor() {
-        let htmlOutput = HtmlService
+        const htmlOutput = HtmlService
             .createHtmlOutput('<p>A change of speed, a change of style...</p>')
             .setTitle('My add-on');
         SpreadsheetApp.getUi().showSidebar(htmlOutput);

@@ -1,5 +1,5 @@
-import {UiGS} from '../UiGS';
-import {docLevels} from './DocLevels';
+import { UiGS } from '../UiGS';
+import { docLevels } from './DocLevels';
 
 /**
  * Class to write a Google Document
@@ -68,7 +68,7 @@ export function changeDocsSeparator(obj: DocsGS, separator: GoogleAppsScript.Doc
  */
 export function appendDocsItem(obj: DocsGS, text: string, title: string, link: string): DocsGS {
   return obj.appendItem(text, title, link);
-};
+}
 
 /**
  * Adds text to the document
@@ -81,7 +81,7 @@ export function appendDocsItem(obj: DocsGS, text: string, title: string, link: s
  */
 export function addDocsText(obj: DocsGS, text: string, level: string | number): DocsGS {
   return obj.addText(text, level);
-};
+}
 
 /**
  * Clears the body of text
@@ -92,7 +92,6 @@ export function addDocsText(obj: DocsGS, text: string, level: string | number): 
 export function clearDocsBody(obj: DocsGS): DocsGS {
   return obj.clearBody();
 }
-
 
 /**
  * Class to write a Google Document
@@ -177,15 +176,16 @@ export class DocsGS extends UiGS {
    * @return {DocsGS} the object for chaining
    */
   appendItem(text: string, title: string, link: string): DocsGS {
-    if ((text == null) || (title == null) || (link == null)) {
-      throw new Error('Text, title and link need to be defined for ' +
-        'DocsGS.appendItem()');
+    if (text == null || title == null || link == null) {
+      throw new Error('Text, title and link need to be defined for ' + 'DocsGS.appendItem()');
     }
-    this._docObject.getBody().
-        appendListItem(text + this._titleDelim + ' ' + title).
-        setGlyphType(this._separator).setLinkUrl(link);
+    this._docObject
+      .getBody()
+      .appendListItem(text + this._titleDelim + ' ' + title)
+      .setGlyphType(this._separator)
+      .setLinkUrl(link);
     return this;
-  };
+  }
 
   /**
    * Adds text to the document
@@ -197,25 +197,25 @@ export class DocsGS extends UiGS {
    */
   addText(text: string, level: string | number): DocsGS {
     if (text == undefined) {
-      throw new Error('Text needs to be defined for the' +
-      ' heading in DocsGS.addText()');
+      throw new Error('Text needs to be defined for the' + ' heading in DocsGS.addText()');
     }
 
     if (level == undefined) {
-      throw new Error('Level (' + level + ') needs to ' +
-      'be a ParagraphHeading type in DocsGS.addText()');
+      throw new Error('Level (' + level + ') needs to ' + 'be a ParagraphHeading type in DocsGS.addText()');
     }
     if (typeof level === 'string') level = level.substr(0, 1).toUpperCase();
 
     const thisLevel = docLevels(level);
     if (thisLevel == null) {
-      throw new Error('Level (' + level + ') needs to ' +
-      'be a ParagraphHeading type in DocsGS.addText()');
+      throw new Error('Level (' + level + ') needs to ' + 'be a ParagraphHeading type in DocsGS.addText()');
     }
 
-    this._docObject.getBody().appendParagraph(text).setHeading(thisLevel);
+    this._docObject
+      .getBody()
+      .appendParagraph(text)
+      .setHeading(thisLevel);
     return this;
-  };
+  }
 
   /**
    * Clears the body of text
@@ -226,4 +226,4 @@ export class DocsGS extends UiGS {
     this._docObject.getBody().setText('');
     return this;
   }
-};
+}

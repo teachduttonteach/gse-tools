@@ -18,3 +18,4 @@ cd ../slides
 ./update.sh
 cd ../test
 ./update.sh
+clasp push

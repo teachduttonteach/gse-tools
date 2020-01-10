@@ -1,7 +1,6 @@
-import {SpreadsheetGS} from './SpreadsheetGS';
-import {SheetGS} from './SheetGS';
-import {TriggerRanges} from './TriggerRanges';
-
+import { SpreadsheetGS } from './SpreadsheetGS';
+import { SheetGS } from './SheetGS';
+import { TriggerRanges } from './TriggerRanges';
 
 /**
  * Class to process Spreadsheet events (like onEdit, onChange)
@@ -9,9 +8,8 @@ import {TriggerRanges} from './TriggerRanges';
  * @param {GoogleAppsScript.Events.SheetsOnEdit} event the underlying
  *  event object
  */
-export function newSheetEvent(event: GoogleAppsScript.Events.SheetsOnEdit):
-    SheetEventGS {
-    return new SheetEventGS(event);
+export function newSheetEvent(event: GoogleAppsScript.Events.SheetsOnEdit): SheetEventGS {
+  return new SheetEventGS(event);
 }
 
 /**
@@ -21,7 +19,7 @@ export function newSheetEvent(event: GoogleAppsScript.Events.SheetsOnEdit):
  * @return {GoogleAppsScript.Events.SheetsOnEdit} the Event object
  */
 export function getSheetEventObject(obj: SheetEventGS): GoogleAppsScript.Events.SheetsOnEdit {
-    return obj.getObject();
+  return obj.getObject();
 }
 
 /**
@@ -32,7 +30,7 @@ export function getSheetEventObject(obj: SheetEventGS): GoogleAppsScript.Events.
  * @return {SpreadsheetGS} the spreadsheet
  */
 export function getSheetEventActiveSheet(obj: SheetEventGS): SpreadsheetGS {
-    return obj.getActiveSheet();
+  return obj.getActiveSheet();
 }
 
 /**
@@ -42,7 +40,7 @@ export function getSheetEventActiveSheet(obj: SheetEventGS): SpreadsheetGS {
  * @return {string} the sheet name
  */
 export function getSheetEventSheetName(obj: SheetEventGS): string {
-    return obj.getSheetName();
+  return obj.getSheetName();
 }
 
 /**
@@ -52,7 +50,7 @@ export function getSheetEventSheetName(obj: SheetEventGS): string {
  * @return {SheetGS} the current sheet
  */
 export function getSheetEventSheet(obj: SheetEventGS): SheetGS {
-    return obj.getSheet();
+  return obj.getSheet();
 }
 
 /**
@@ -62,7 +60,7 @@ export function getSheetEventSheet(obj: SheetEventGS): SheetGS {
  * @return {number} the current row
  */
 export function getSheetEventRow(obj: SheetEventGS): number {
-    return obj.getRow();
+  return obj.getRow();
 }
 
 /**
@@ -72,7 +70,7 @@ export function getSheetEventRow(obj: SheetEventGS): number {
  * @return {number} the current column
  */
 export function getSheetEventColumn(obj: SheetEventGS): number {
-    return obj.getColumn();
+  return obj.getColumn();
 }
 
 /**
@@ -82,7 +80,7 @@ export function getSheetEventColumn(obj: SheetEventGS): number {
  * @return {string | Date} the value
  */
 export function getSheetEventEditedValue(obj: SheetEventGS): string | Date {
-    return obj.getEditedValue();
+  return obj.getEditedValue();
 }
 
 /**
@@ -92,7 +90,7 @@ export function getSheetEventEditedValue(obj: SheetEventGS): string | Date {
  * @return {boolean} true if the cell is in the trigger range
  */
 export function checkSheetEventCell(obj: SheetEventGS): boolean {
-    return obj.checkCell();
+  return obj.checkCell();
 }
 
 /**
@@ -105,7 +103,7 @@ export function checkSheetEventCell(obj: SheetEventGS): boolean {
  * @return {string} the value of the cell
  */
 export function getSheetEventValue(obj: SheetEventGS, row: number, col: number): string {
-    return obj.getValue(row, col);
+  return obj.getValue(row, col);
 }
 
 /**
@@ -116,8 +114,8 @@ export function getSheetEventValue(obj: SheetEventGS, row: number, col: number):
  * @return {SheetEventGS} the object for chaining
  */
 export function addSheetEventSheetName(obj: SheetEventGS, name: string): SheetEventGS {
-    return obj.addSheetName(name);
-};
+  return obj.addSheetName(name);
+}
 
 /**
  * Adds a column range for the trigger
@@ -127,10 +125,9 @@ export function addSheetEventSheetName(obj: SheetEventGS, name: string): SheetEv
  * @param {number} max the last column
  * @return {SheetEventGS} the object for chaining
  */
-export function addSheetEventTriggerColumnRange(obj: SheetEventGS, 
-    min: number = 0, max: number = 0): SheetEventGS {
-        return obj.addTriggerColumnRange(min, max);
-};
+export function addSheetEventTriggerColumnRange(obj: SheetEventGS, min: number = 0, max: number = 0): SheetEventGS {
+  return obj.addTriggerColumnRange(min, max);
+}
 
 /**
  * Adds a row range for the trigger
@@ -140,10 +137,9 @@ export function addSheetEventTriggerColumnRange(obj: SheetEventGS,
  * @param {number} max the last row
  * @return {SheetEventGS} the object for chaining
  */
-export function addSheetEventTriggerRowRange(obj: SheetEventGS, 
-    min: number = 0, max: number = 0): SheetEventGS {
-        return obj.addTriggerRowRange(min, max);
-};
+export function addSheetEventTriggerRowRange(obj: SheetEventGS, min: number = 0, max: number = 0): SheetEventGS {
+  return obj.addTriggerRowRange(min, max);
+}
 
 /**
  * Adds a range for the trigger
@@ -156,225 +152,225 @@ export function addSheetEventTriggerRowRange(obj: SheetEventGS,
  *  rows or columns
  * @return {SheetEventGS} the object for chaining
  */
-export function addSheetEventTriggerRange(obj: SheetEventGS, forRow: boolean, 
-    min: number | Array<number>, max: number | Array<number>): SheetEventGS {
-        return obj.addTriggerRange(forRow, min, max);
-};
+export function addSheetEventTriggerRange(
+  obj: SheetEventGS,
+  forRow: boolean,
+  min: number | Array<number>,
+  max: number | Array<number>,
+): SheetEventGS {
+  return obj.addTriggerRange(forRow, min, max);
+}
 
 /**
  * Class to process Spreadsheet events (like onEdit, onChange)
  *
  */
 export class SheetEventGS {
-    private _sheet: SheetGS;
-    private _sheetName: string;
-    private _row: number;
-    private _column: number;
-    private _value: string | Date;
-    private _triggerRanges: TriggerRanges;
-    private _triggerSheet: string;
-    private _event: GoogleAppsScript.Events.SheetsOnEdit;
-    private _activeSheet: SpreadsheetGS;
+  private _sheet: SheetGS;
+  private _sheetName: string;
+  private _row: number;
+  private _column: number;
+  private _value: string | Date;
+  private _triggerRanges: TriggerRanges;
+  private _triggerSheet: string;
+  private _event: GoogleAppsScript.Events.SheetsOnEdit;
+  private _activeSheet: SpreadsheetGS;
 
-    /**
-     *
-     * @param {GoogleAppsScript.Events.SheetsOnEdit} event the underlying
-     *  event object
-     */
-    constructor(private event: GoogleAppsScript.Events.SheetsOnEdit) {
-      const spreadsheet = new SpreadsheetGS(
-          event.source.getActiveSheet().getParent());
-      this._sheet = spreadsheet.getSheet(
-          event.source.getActiveSheet().getName());
-      this._sheetName = event.source.getActiveSheet().getName();
-      this._row = event.range.getRow();
-      this._column = event.range.getColumn();
-      this._value = event.range.getValue();
-      this._event = event;
-      this._activeSheet = spreadsheet;
-    }
+  /**
+   *
+   * @param {GoogleAppsScript.Events.SheetsOnEdit} event the underlying
+   *  event object
+   */
+  constructor(private event: GoogleAppsScript.Events.SheetsOnEdit) {
+    const spreadsheet = new SpreadsheetGS(event.source.getActiveSheet().getParent());
+    this._sheet = spreadsheet.getSheet(event.source.getActiveSheet().getName());
+    this._sheetName = event.source.getActiveSheet().getName();
+    this._row = event.range.getRow();
+    this._column = event.range.getColumn();
+    this._value = event.range.getValue();
+    this._event = event;
+    this._activeSheet = spreadsheet;
+  }
 
-    /**
-     * Gets the underlying Google Apps Script object for direct access
-     *
-     * @return {GoogleAppsScript.Events.SheetsOnEdit} the Event object
-     */
-    getObject(): GoogleAppsScript.Events.SheetsOnEdit {
-      return this._event;
-    }
+  /**
+   * Gets the underlying Google Apps Script object for direct access
+   *
+   * @return {GoogleAppsScript.Events.SheetsOnEdit} the Event object
+   */
+  getObject(): GoogleAppsScript.Events.SheetsOnEdit {
+    return this._event;
+  }
 
-    /**
-     * Gets the active spreadsheet
-     *
-     * @return {SpreadsheetGS} the spreadsheet
-     */
-    getActiveSheet(): SpreadsheetGS {
-      return this._activeSheet;
-    }
+  /**
+   * Gets the active spreadsheet
+   *
+   * @return {SpreadsheetGS} the spreadsheet
+   */
+  getActiveSheet(): SpreadsheetGS {
+    return this._activeSheet;
+  }
 
-    /**
-     * Gets the current sheet name
-     *
-     * @return {string} the sheet name
-     */
-    getSheetName(): string {
-      return this._sheetName;
-    }
+  /**
+   * Gets the current sheet name
+   *
+   * @return {string} the sheet name
+   */
+  getSheetName(): string {
+    return this._sheetName;
+  }
 
-    /**
-     * Get the current sheet
-     *
-     * @return {SheetGS} the current sheet
-     */
-    getSheet(): SheetGS {
-      return this._sheet;
-    }
+  /**
+   * Get the current sheet
+   *
+   * @return {SheetGS} the current sheet
+   */
+  getSheet(): SheetGS {
+    return this._sheet;
+  }
 
-    /**
-     * Get the current row
-     *
-     * @return {number} the current row
-     */
-    getRow(): number {
-      return this._row;
-    }
+  /**
+   * Get the current row
+   *
+   * @return {number} the current row
+   */
+  getRow(): number {
+    return this._row;
+  }
 
-    /**
-     * Get the current column
-     *
-     * @return {number} the current column
-     */
-    getColumn(): number {
-      return this._column;
-    }
+  /**
+   * Get the current column
+   *
+   * @return {number} the current column
+   */
+  getColumn(): number {
+    return this._column;
+  }
 
-    /**
-     * Get the value that has been edited
-     *
-     * @return {string | Date} the value
-     */
-    getEditedValue(): string | Date {
-      return this._value;
-    }
+  /**
+   * Get the value that has been edited
+   *
+   * @return {string | Date} the value
+   */
+  getEditedValue(): string | Date {
+    return this._value;
+  }
 
-    /**
-     * Check to see if the cell is in the specified trigger range
-     *
-     * @return {boolean} true if the cell is in the trigger range
-     */
-    checkCell(): boolean {
-      let foundColumn: boolean = false;
-      let foundRow: boolean = false;
-      if (this._triggerSheet == this._sheetName) {
-        const [columns, rows] = [this._triggerRanges.columns,
-          this._triggerRanges.rows];
+  /**
+   * Check to see if the cell is in the specified trigger range
+   *
+   * @return {boolean} true if the cell is in the trigger range
+   */
+  checkCell(): boolean {
+    let foundColumn: boolean = false;
+    let foundRow: boolean = false;
+    if (this._triggerSheet == this._sheetName) {
+      const [columns, rows] = [this._triggerRanges.columns, this._triggerRanges.rows];
 
-        for (const c of columns) {
-          if ((c[0] <= this._column) && (this._column <= c[1])) {
-            foundColumn = true;
-          }
+      for (const c of columns) {
+        if (c[0] <= this._column && this._column <= c[1]) {
+          foundColumn = true;
         }
-
-        for (const r of rows) {
-          if ((r[0] <= this._row) && (this._row <= r[1])) {
-            foundRow = true;
-          }
-        }
-
-        if (foundColumn && foundRow) return true;
       }
-      return false;
-    }
 
-    /**
-     * Gets the value from the underlying sheet
-     *
-     * @param {number} row the row of the cell
-     * @param {number} col the column of the cell
-     *
-     * @return {string} the value of the cell
-     */
-    getValue(row: number, col: number): string {
-      return this._sheet.getValue(row, col);
-    }
+      for (const r of rows) {
+        if (r[0] <= this._row && this._row <= r[1]) {
+          foundRow = true;
+        }
+      }
 
-    /**
+      if (foundColumn && foundRow) return true;
+    }
+    return false;
+  }
+
+  /**
+   * Gets the value from the underlying sheet
+   *
+   * @param {number} row the row of the cell
+   * @param {number} col the column of the cell
+   *
+   * @return {string} the value of the cell
+   */
+  getValue(row: number, col: number): string {
+    return this._sheet.getValue(row, col);
+  }
+
+  /**
    * Adds sheet to the trigger
    *
    * @param {string} name the name of the sheet
    * @return {SheetEventGS} the object for chaining
    */
-    addSheetName(name: string): SheetEventGS {
-      if (name as string) {
-        this._triggerSheet = name;
-        return this;
-      } else {
-        throw new Error('Sheet name is not found in Spreadsheet.addSheetName');
-      }
-    };
-
-    /**
-     * Adds a column range for the trigger
-     *
-     * @param {number} min the first column
-     * @param {number} max the last column
-     * @return {SheetEventGS} the object for chaining
-     */
-    addTriggerColumnRange(min: number = 0, max: number = 0): SheetEventGS {
-      this.addTriggerRange(false, min, max);
+  addSheetName(name: string): SheetEventGS {
+    if (name as string) {
+      this._triggerSheet = name;
       return this;
-    };
+    } else {
+      throw new Error('Sheet name is not found in Spreadsheet.addSheetName');
+    }
+  }
 
-    /**
-     * Adds a row range for the trigger
-     *
-     * @param {number} min the first row
-     * @param {number} max the last row
-     * @return {SheetEventGS} the object for chaining
-     */
-    addTriggerRowRange(min: number = 0, max: number = 0): SheetEventGS {
-      this.addTriggerRange(true, min, max);
-      return this;
-    };
+  /**
+   * Adds a column range for the trigger
+   *
+   * @param {number} min the first column
+   * @param {number} max the last column
+   * @return {SheetEventGS} the object for chaining
+   */
+  addTriggerColumnRange(min: number = 0, max: number = 0): SheetEventGS {
+    this.addTriggerRange(false, min, max);
+    return this;
+  }
 
-    /**
-     * Adds a range for the trigger
-     *
-     * @param {boolean} forRow true if the range is for rows
-     * @param {number | Array<number>} min the minimum row/column, or list of
-     *  rows or columns
-     * @param {number | Array<number>} max the maximum row/column, or list of
-     *  rows or columns
-     * @return {SheetEventGS} the object for chaining
-     */
-    addTriggerRange(forRow: boolean, min: number | Array<number>,
-        max: number | Array<number>): SheetEventGS {
-      if (min instanceof Array) {
-        for (let i = 0; i < min.length; i++) {
-          if (max instanceof Array) {
-            for (let j = 0; j < max.length; j++) {
-              if (forRow) this._triggerRanges.rows.push([min[i], max[j]]);
-              else this._triggerRanges.columns.push([min[i], max[j]]);
-            }
+  /**
+   * Adds a row range for the trigger
+   *
+   * @param {number} min the first row
+   * @param {number} max the last row
+   * @return {SheetEventGS} the object for chaining
+   */
+  addTriggerRowRange(min: number = 0, max: number = 0): SheetEventGS {
+    this.addTriggerRange(true, min, max);
+    return this;
+  }
+
+  /**
+   * Adds a range for the trigger
+   *
+   * @param {boolean} forRow true if the range is for rows
+   * @param {number | Array<number>} min the minimum row/column, or list of
+   *  rows or columns
+   * @param {number | Array<number>} max the maximum row/column, or list of
+   *  rows or columns
+   * @return {SheetEventGS} the object for chaining
+   */
+  addTriggerRange(forRow: boolean, min: number | Array<number>, max: number | Array<number>): SheetEventGS {
+    if (min instanceof Array) {
+      for (let i = 0; i < min.length; i++) {
+        if (max instanceof Array) {
+          for (let j = 0; j < max.length; j++) {
+            if (forRow) this._triggerRanges.rows.push([min[i], max[j]]);
+            else this._triggerRanges.columns.push([min[i], max[j]]);
+          }
+        } else {
+          if (typeof max === 'number') {
+            if (forRow) this._triggerRanges.rows.push([min[i], max]);
+            else this._triggerRanges.columns.push([min[i], max]);
           } else {
-            if (typeof max === 'number') {
-              if (forRow) this._triggerRanges.rows.push([min[i], max]);
-              else this._triggerRanges.columns.push([min[i], max]);
-            } else {
-              if (forRow) this._triggerRanges.rows.push([min[i], min[i]]);
-              else this._triggerRanges.columns.push([min[i], min[i]]);
-            }
+            if (forRow) this._triggerRanges.rows.push([min[i], min[i]]);
+            else this._triggerRanges.columns.push([min[i], min[i]]);
           }
         }
-      } else {
-        if (typeof max === 'number') {
-          if (forRow) this._triggerRanges.rows.push([min, max]);
-          else this._triggerRanges.columns.push([min, max]);
-        } else {
-          if (forRow) this._triggerRanges.rows.push([min, min]);
-          else this._triggerRanges.columns.push([min, min]);
-        }
       }
-      return this;
-    };
+    } else {
+      if (typeof max === 'number') {
+        if (forRow) this._triggerRanges.rows.push([min, max]);
+        else this._triggerRanges.columns.push([min, max]);
+      } else {
+        if (forRow) this._triggerRanges.rows.push([min, min]);
+        else this._triggerRanges.columns.push([min, min]);
+      }
+    }
+    return this;
+  }
 }

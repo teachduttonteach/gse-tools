@@ -1,16 +1,15 @@
-import {ClassInfo} from 'ClassInfo';
-import {ClassDataParams} from 'ClassDataParams';
-import {Work} from 'Work';
-import {Material} from 'Material';
+import { ClassInfo } from 'ClassInfo';
+import { ClassDataParams } from 'ClassDataParams';
+import { Work } from 'Work';
+import { Material } from 'Material';
 
 /**
  * Class to access a single course in Google Classroom
-  * @param {GoogleAppsScript.Classroom.Schema.Course} course the
-  *  Google course object
-  * @return {ClassGS} the object for chaining
-  */
-export function newClass(course: GoogleAppsScript.Classroom.Schema.Course):
-  ClassGS {
+ * @param {GoogleAppsScript.Classroom.Schema.Course} course the
+ *  Google course object
+ * @return {ClassGS} the object for chaining
+ */
+export function newClass(course: GoogleAppsScript.Classroom.Schema.Course): ClassGS {
   return new ClassGS(course);
 }
 
@@ -32,7 +31,7 @@ export function getClassName(obj: ClassGS): string {
  */
 export function getClassCalendarId(obj: ClassGS): string {
   return obj.getCalendarId();
-};
+}
 
 /**
  * Convert the current course's data into a ClassInfo object
@@ -43,8 +42,7 @@ export function getClassCalendarId(obj: ClassGS): string {
  *
  * @return {ClassInfo} the object for chaining
  */
-export function convertClassroomData(obj: ClassGS, args?: ClassDataParams):
-  ClassInfo {
+export function convertClassroomData(obj: ClassGS, args?: ClassDataParams): ClassInfo {
   return obj.convertClassroomData(args);
 }
 
@@ -64,31 +62,29 @@ export class ClassGS {
    *  Google course object
    */
   constructor(course: GoogleAppsScript.Classroom.Schema.Course) {
-    if ((course == undefined) || (course.id == undefined)) {
+    if (course == undefined || course.id == undefined) {
       throw new Error('Course not defined in ClassGS');
     }
     this._course = course;
 
     // Get the courses object
     const theseClassroomCourses = Classroom.Courses;
-    if ((theseClassroomCourses == undefined) ||
-    (theseClassroomCourses.CourseWork == undefined) ||
-    (theseClassroomCourses.Announcements == undefined)) {
+    if (
+      theseClassroomCourses == undefined ||
+      theseClassroomCourses.CourseWork == undefined ||
+      theseClassroomCourses.Announcements == undefined
+    ) {
       throw new Error('Could not find courses in ClassGS');
     }
 
     // Get the lists of classwork, announcements, and topics
-    const thisClassroomWork = theseClassroomCourses.CourseWork.list(
-        course.id, {orderBy: 'dueDate asc'}).courseWork;
-    const theseClassroomAnnouncements =
-      theseClassroomCourses.Announcements.list(course.id).announcements;
+    const thisClassroomWork = theseClassroomCourses.CourseWork.list(course.id, { orderBy: 'dueDate asc' }).courseWork;
+    const theseClassroomAnnouncements = theseClassroomCourses.Announcements.list(course.id).announcements;
     // @ts-ignore
-    const theseClassroomTopics = theseClassroomCourses.Topics.
-        list(course.id).topic;
+    const theseClassroomTopics = theseClassroomCourses.Topics.list(course.id).topic;
 
     // Check to make sure all of the objects exist
-    if ((thisClassroomWork == undefined) ||
-      (theseClassroomAnnouncements == undefined)) {
+    if (thisClassroomWork == undefined || theseClassroomAnnouncements == undefined) {
       throw new Error('No course work or announcements found in ClassGS');
     }
     this._courseWork = thisClassroomWork;
@@ -99,9 +95,10 @@ export class ClassGS {
     // Get all of the announcements into the appropriate array
     let announcement: GoogleAppsScript.Classroom.Schema.Announcement;
     for (announcement of theseClassroomAnnouncements) {
-      if ((announcement == null) || (announcement.text == null)) {
-        throw new Error('Cannot call announcements.forEach on an empty ' +
-        'announcement in ClassGS.convertClassroomData()');
+      if (announcement == null || announcement.text == null) {
+        throw new Error(
+          'Cannot call announcements.forEach on an empty ' + 'announcement in ClassGS.convertClassroomData()',
+        );
       }
       this._classInfo.addAnnouncement(announcement.text);
     }
@@ -130,11 +127,10 @@ export class ClassGS {
   getCalendarId(): string {
     const thisCalId = this._course.calendarId;
     if (thisCalId == undefined) {
-      throw new Error('Calendar id undefined ' +
-      'for course in ClassGS.getCalendarId()');
+      throw new Error('Calendar id undefined ' + 'for course in ClassGS.getCalendarId()');
     }
     return thisCalId;
-  };
+  }
 
   /**
    * Convert the current course's data into a ClassInfo object
@@ -168,12 +164,10 @@ export class ClassGS {
       // Get title, due date and description of the current task
       objWork.title = courseWork.title == undefined ? '' : courseWork.title;
       if (courseWork.dueDate != undefined) {
-        objWork.dueDate =
-        this._getDueDate(courseWork.dueDate, args);
+        objWork.dueDate = this._getDueDate(courseWork.dueDate, args);
       }
       if (courseWork.description != undefined) {
-        objWork.description =
-        courseWork.description;
+        objWork.description = courseWork.description;
       }
 
       // Get the materials from the course work
@@ -183,8 +177,7 @@ export class ClassGS {
         for (material of courseWork.materials) {
           const thisMaterial = material;
           if (thisMaterial == null) {
-            throw new Error('Could not find material in ' +
-              'ClassGS.convertClassroomData()');
+            throw new Error('Could not find material in ' + 'ClassGS.convertClassroomData()');
           }
           objWork.materials.push(this._getMaterials(thisMaterial));
         }
@@ -210,13 +203,8 @@ export class ClassGS {
    *
    * @return {string} the due date string
    */
-  private _getDueDate(workDueDate: GoogleAppsScript.Classroom.Schema.Date,
-      args: ClassDataParams): string {
-    const {
-      dueDateString = 'Due Date:',
-      dueDateDelim = '/',
-      dueDateOrder = 'MDY',
-    } = args;
+  private _getDueDate(workDueDate: GoogleAppsScript.Classroom.Schema.Date, args: ClassDataParams): string {
+    const { dueDateString = 'Due Date:', dueDateDelim = '/', dueDateOrder = 'MDY' } = args;
 
     // Add the corresponding piece of the date for each part of the order
     let dueDate = dueDateString + ' ';
@@ -241,44 +229,40 @@ export class ClassGS {
    * @return {Material} the material associated with the current task
    *  in a Material object
    */
-  private _getMaterials(thisMaterial:
-    GoogleAppsScript.Classroom.Schema.Material): Material {
+  private _getMaterials(thisMaterial: GoogleAppsScript.Classroom.Schema.Material): Material {
     const objMaterials: Material = {} as Material;
 
     // If it's a drive file, get the title and file link
     if (thisMaterial.driveFile != null) {
-      if ((thisMaterial.driveFile != null) &&
-      (thisMaterial.driveFile.driveFile != null)) {
+      if (thisMaterial.driveFile != null && thisMaterial.driveFile.driveFile != null) {
         const thisFile = thisMaterial.driveFile.driveFile;
         if (thisFile != null) {
           const thisTitle = thisFile.title;
           const thisLink = thisFile.alternateLink;
-          if ((thisTitle != null) && (thisLink != null)) {
+          if (thisTitle != null && thisLink != null) {
             objMaterials.title = thisTitle;
             objMaterials.file = thisLink;
           }
         }
       }
-    } else if ((thisMaterial.youtubeVideo != null) &&
-    (thisMaterial.youtubeVideo.alternateLink != null) &&
-    (thisMaterial.youtubeVideo.title != null)) {
+    } else if (
+      thisMaterial.youtubeVideo != null &&
+      thisMaterial.youtubeVideo.alternateLink != null &&
+      thisMaterial.youtubeVideo.title != null
+    ) {
       // If it's a YouTube video, get the link and title
 
       objMaterials.title = thisMaterial.youtubeVideo.title;
       objMaterials.video = thisMaterial.youtubeVideo.alternateLink;
-    } else if ((thisMaterial.link != null) &&
-    (thisMaterial.link.url != null) &&
-    (thisMaterial.link.title != null)) {
+    } else if (thisMaterial.link != null && thisMaterial.link.url != null && thisMaterial.link.title != null) {
       // If it's a link, get the url and the title
       objMaterials.link = thisMaterial.link.url;
       objMaterials.title = thisMaterial.link.title;
-    } else if ((thisMaterial.form != null) &&
-    (thisMaterial.form.title != null) &&
-    (thisMaterial.form.formUrl != null)) {
+    } else if (thisMaterial.form != null && thisMaterial.form.title != null && thisMaterial.form.formUrl != null) {
       // If it's a form, get the url and the title
       objMaterials.form = thisMaterial.form.formUrl;
       objMaterials.title = thisMaterial.form.title;
     }
     return objMaterials;
   }
-};
+}

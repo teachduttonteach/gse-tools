@@ -11,7 +11,8 @@
     "build": "tsc",
     "format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\"",
     "lint": "tslint -p tsconfig.json",
-    "clasp": "clasp push"
+    "clasp": "clasp push",
+    "update": "update.sh"
   },
   "repository": {
     "type": "git",
