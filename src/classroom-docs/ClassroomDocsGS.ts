@@ -6,6 +6,21 @@ import {docLevels} from '../docs/DocLevels';
 import {WriteDocsParams} from 'WriteDocsParams';
 
 /**
+ * Writes a document from the Classroom info
+ *
+ * @param {ClassroomDocsGS} obj the ClassroomDocs object
+ * @param {ClassInfo} data the object that holds
+ * @param {string} topicName the topic object that contains class info
+ * @param {WriteDocsParams} options the options for displaying the info
+ *
+ * @return {DocsGS} the object for chaining
+ */
+export function writeClassroomDocuments(obj: ClassroomDocsGS, data: ClassInfo,
+    topicName: string, options?: WriteDocsParams): DocsGS {
+  return obj.writeClassroomDocuments(data, topicName, options);
+}
+
+/**
  * Class to write a Google Document
  *
  */
