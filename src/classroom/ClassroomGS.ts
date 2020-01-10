@@ -2,6 +2,40 @@ import {ClassGS} from 'ClassGS';
 
 /**
  * Class to store the Google Classroom object
+  * Get the courses and coursework
+  */
+export function newClassroom() {
+  return new ClassroomGS();
+}
+
+/**
+ * Gets the underlying Google Apps Script object for direct access
+ *
+ * @param {ClassroomGS} obj the Classroom object
+ * @return {Array<GoogleAppsScript.Classroom.Schema.Course>} the list of
+ *  Course objects
+ */
+export function getClassroomObject(obj: ClassroomGS): 
+  Array<GoogleAppsScript.Classroom.Schema.Course> {
+    return obj.getObject();
+}
+
+/**
+ * Get the ClassGS object from the enrollment code that students use to
+ *  join the class
+ *
+ * @param {ClassroomGS} obj the Classroom object
+ * @param {string} enrollmentCode the enrollment code that students use to
+ *  join the class
+ *
+ * @return {ClassGS} the Class object
+ */
+export function getClassroomClass(obj: ClassroomGS, enrollmentCode: string): ClassGS {
+  return obj.getClass(enrollmentCode);
+}
+
+/**
+ * Class to store the Google Classroom object
  */
 export class ClassroomGS {
   private _classList: Array<GoogleAppsScript.Classroom.Schema.Course>;
