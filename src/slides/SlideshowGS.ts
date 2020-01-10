@@ -84,7 +84,7 @@ export function changeSlideshowPicture(obj: SlideshowGS, folder: string, slide: 
  *
  * @return {SlideGS} the slide object
  */
-export function getSlideshowSlide(obj: SlideshowGS, num: number): SlideGS {
+export function getSlide(obj: SlideshowGS, num: number): SlideGS {
   return obj.getSlide(num);
 }
 
@@ -98,7 +98,7 @@ export function getSlideshowSlide(obj: SlideshowGS, num: number): SlideGS {
  *
  * @return {SlideGS} the new slide object
  */
-export function addSlideshowSlide(obj: SlideshowGS, title: string, body: string, type: string): SlideGS {
+export function addSlide(obj: SlideshowGS, title: string, body: string, type: string): SlideGS {
   return obj.addSlide(title, body, type);
 }
 
@@ -110,7 +110,7 @@ export function addSlideshowSlide(obj: SlideshowGS, title: string, body: string,
  *
  * @return {SlideGS} the slide object
  */
-export function getSlideshowSlideById(obj: SlideshowGS, id: string): SlideGS {
+export function getSlideById(obj: SlideshowGS, id: string): SlideGS {
   return obj.getSlideById(id);
 }
 
@@ -122,7 +122,7 @@ export function getSlideshowSlideById(obj: SlideshowGS, id: string): SlideGS {
  *
  * @return {SlideshowGS} the object for chaining
  */
-export function removeSlideshowSlide(obj: SlideshowGS, id: string): SlideshowGS {
+export function removeSlide(obj: SlideshowGS, id: string): SlideshowGS {
   return obj.removeSlide(id);
 }
 
@@ -134,7 +134,7 @@ export function removeSlideshowSlide(obj: SlideshowGS, id: string): SlideshowGS 
  *
  * @return {SlideGS} the requested slide
  */
-export function getSlideshowSlideByType(obj: SlideshowGS, typeTitle: string): SlideGS {
+export function getSlideByType(obj: SlideshowGS, typeTitle: string): SlideGS {
   return obj.getSlideByType(typeTitle);
 }
 
@@ -147,7 +147,7 @@ export function getSlideshowSlideByType(obj: SlideshowGS, typeTitle: string): Sl
  *
  * @return {SlideshowGS} the object for chaining
  */
-export function setSlideshowSlideBodyByType(obj: SlideshowGS, typeTitle: string, slideText: string): SlideshowGS {
+export function setSlideBodyByType(obj: SlideshowGS, typeTitle: string, slideText: string): SlideshowGS {
   return obj.setSlideBodyByType(typeTitle, slideText);
 }
 
@@ -160,7 +160,7 @@ export function setSlideshowSlideBodyByType(obj: SlideshowGS, typeTitle: string,
  *
  * @return {SlideshowGS} the object for chaining
  */
-export function setSlideshowSlideTitleByType(obj: SlideshowGS, typeTitle: string, title: string): SlideshowGS {
+export function setSlideTitleByType(obj: SlideshowGS, typeTitle: string, title: string): SlideshowGS {
   return obj.setSlideTitleByType(typeTitle, title);
 }
 

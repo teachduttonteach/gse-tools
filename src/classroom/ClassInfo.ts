@@ -16,7 +16,7 @@ export function newClassInfo(): ClassInfo {
  * @param {ClassInfo} obj the ClassInfo object
  * @return {Array<string>} the topic ids
  */
-export function getClassInfoTopics(obj: ClassInfo): Array<string> {
+export function getTopics(obj: ClassInfo): Array<string> {
   return obj.getTopics();
 }
 
@@ -28,7 +28,7 @@ export function getClassInfoTopics(obj: ClassInfo): Array<string> {
  *
  * @return {string} the name of the topic
  */
-export function getClassInfoName(obj: ClassInfo, topicId: string): string {
+export function getName(obj: ClassInfo, topicId: string): string {
   return obj.getName(topicId);
 }
 
@@ -42,7 +42,7 @@ export function getClassInfoName(obj: ClassInfo, topicId: string): string {
  *
  * @return {ClassInfo} the object for chaining
  */
-export function addClassInfoTopic(obj: ClassInfo, topicId: string, courseWork: CourseWork): ClassInfo {
+export function addTopic(obj: ClassInfo, topicId: string, courseWork: CourseWork): ClassInfo {
   return obj.addTopic(topicId, courseWork);
 }
 
@@ -54,7 +54,7 @@ export function addClassInfoTopic(obj: ClassInfo, topicId: string, courseWork: C
  *
  * @return {ClassInfo} the object for chaining
  */
-export function addClassInfoAnnouncement(obj: ClassInfo, announcement: string): ClassInfo {
+export function addAnnouncement(obj: ClassInfo, announcement: string): ClassInfo {
   return obj.addAnnouncement(announcement);
 }
 
@@ -64,7 +64,7 @@ export function addClassInfoAnnouncement(obj: ClassInfo, announcement: string): 
  * @param {ClassInfo} obj the ClassInfo object
  * @return {Array<string>} the list of announcements
  */
-export function getClassInfoAnnouncements(obj: ClassInfo): Array<string> {
+export function getAnnouncements(obj: ClassInfo): Array<string> {
   return obj.getAnnouncements();
 }
 
@@ -77,7 +77,7 @@ export function getClassInfoAnnouncements(obj: ClassInfo): Array<string> {
  *
  * @return {ClassInfo} the object for chaining
  */
-export function addClassInfoCourseWork(obj: ClassInfo, topicId: string, courseWork: Work): ClassInfo {
+export function addCourseWork(obj: ClassInfo, topicId: string, courseWork: Work): ClassInfo {
   return obj.addCourseWork(topicId, courseWork);
 }
 
@@ -89,7 +89,7 @@ export function addClassInfoCourseWork(obj: ClassInfo, topicId: string, courseWo
  *
  * @return {CouseWork} the object for chaining
  */
-export function getClassInfoCourseWork(obj: ClassInfo, topicId: string): CourseWork {
+export function getCourseWork(obj: ClassInfo, topicId: string): CourseWork {
   return obj.getCourseWork(topicId);
 }
 

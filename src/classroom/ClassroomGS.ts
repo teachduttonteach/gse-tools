@@ -29,7 +29,7 @@ export function getClassroomObject(obj: ClassroomGS): Array<GoogleAppsScript.Cla
  *
  * @return {ClassGS} the Class object
  */
-export function getClassroomClass(obj: ClassroomGS, enrollmentCode: string): ClassGS {
+export function getClass(obj: ClassroomGS, enrollmentCode: string): ClassGS {
   return obj.getClass(enrollmentCode);
 }
 

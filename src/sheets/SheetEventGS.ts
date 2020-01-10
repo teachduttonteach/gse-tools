@@ -113,8 +113,8 @@ export function getSheetEventValue(obj: SheetEventGS, row: number, col: number):
  * @param {string} name the name of the sheet
  * @return {SheetEventGS} the object for chaining
  */
-export function addSheetEventSheetName(obj: SheetEventGS, name: string): SheetEventGS {
-  return obj.addSheetName(name);
+export function addSheetEventTriggerSheetName(obj: SheetEventGS, name: string): SheetEventGS {
+  return obj.addTriggerSheetName(name);
 }
 
 /**
@@ -301,7 +301,7 @@ export class SheetEventGS {
    * @param {string} name the name of the sheet
    * @return {SheetEventGS} the object for chaining
    */
-  addSheetName(name: string): SheetEventGS {
+  addTriggerSheetName(name: string): SheetEventGS {
     if (name as string) {
       this._triggerSheet = name;
       return this;
