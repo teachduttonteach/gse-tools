@@ -20,12 +20,14 @@ export function getDriveRandomPicture(obj: DriveGS, folder: string): GoogleAppsS
  *
  * @param {DriveGS} obj the Drive object
  * @param {string} id the id of the image or false if it is an invalid image
- *
+ * @param {boolean} isUrl whether the id is a link to the Google
+ *  Drive image
+ * 
  * @return {GoogleAppsScript.Base.Blob | boolean} the image blob or False
  *  if it could not be created
  */
-export function getDriveImageBlob(obj: DriveGS, id: string): GoogleAppsScript.Base.Blob | boolean {
-  return obj.getImageBlob(id);
+export function getDriveImageBlob(obj: DriveGS, id: string, isUrl: boolean = false): GoogleAppsScript.Base.Blob | boolean {
+  return obj.getImageBlob(id, isUrl);
 };
 
 /**
@@ -133,21 +135,23 @@ export class DriveGS {
    * Get the data (blob) of a specified image
    *
    * @param {string} id the id of the image or false if it is an invalid image
+   * @param {boolean} isUrl whether the id is a link to the Google
+   *  Drive image
    *
    * @return {GoogleAppsScript.Base.Blob | boolean} the image blob or False
    *  if it could not be created
    */
-  getImageBlob(id: string): GoogleAppsScript.Base.Blob | boolean {
+  getImageBlob(id: string, isUrl: boolean = false): GoogleAppsScript.Base.Blob | boolean {
     if (id == undefined) {
       throw new Error('Id needs to defined for DriveGS.getImageBlob()');
     }
+    if (isUrl) id = id.split("=")[1];
     if (DriveApp.getFileById(id) == null) {
       throw new Error('Could not file of id ' + id +
         ' in DriveGS.getImageBlob()');
     }
-    if (DriveApp.getFileById(id).getMimeType() in ValidImageTypes) {
+    if (ValidImageTypes.indexOf(DriveApp.getFileById(id).getMimeType()) != -1) 
       return DriveApp.getFileById(id).getBlob();
-    }
     return false;
   };
 

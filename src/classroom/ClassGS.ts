@@ -5,6 +5,50 @@ import {Material} from 'Material';
 
 /**
  * Class to access a single course in Google Classroom
+  * @param {GoogleAppsScript.Classroom.Schema.Course} course the
+  *  Google course object
+  */
+export function newClass(course: GoogleAppsScript.Classroom.Schema.Course):
+  ClassGS {
+    return new ClassGS(course);
+}
+
+/**
+ * Get the name of the course
+ *
+ * @param {ClassGS} obj the Class object
+ * @return {string} the name of the course
+ */
+export function getClassName(obj: ClassGS): string {
+  return obj.getName();
+}
+
+/**
+ * Gets the id of the calendar associated with the course
+ *
+ * @param {ClassGS} obj the Class object
+ * @return {string} the calendar id
+ */
+export function getClassCalendarId(obj: ClassGS): string {
+  return obj.getCalendarId();
+};
+
+/**
+ * Convert the current course's data into a ClassInfo object
+ *
+ * @param {ClassGS} obj the Class object
+ * @param {ClassDataParams} args the optional parameters for creating the
+ *  classroom data object
+ *
+ * @return {ClassInfo} the object for chaining
+ */
+export function convertClassroomData(obj: ClassGS, args?: ClassDataParams): 
+  ClassInfo {
+    return obj.convertClassroomData(args);
+}
+
+/**
+ * Class to access a single course in Google Classroom
  */
 export class ClassGS {
   private _classInfo: ClassInfo;
@@ -43,8 +87,7 @@ export class ClassGS {
 
     // Check to make sure all of the objects exist
     if ((thisClassroomWork == undefined) ||
-      (theseClassroomAnnouncements == undefined) ||
-      (theseClassroomTopics == undefined)) {
+      (theseClassroomAnnouncements == undefined)) {
       throw new Error('No course work or announcements found in ClassGS');
     }
     this._courseWork = thisClassroomWork;
@@ -63,7 +106,8 @@ export class ClassGS {
     }
 
     // Get all of the topics into the appropriate array
-    this._topics = theseClassroomTopics;
+    if (theseClassroomTopics == undefined) this._topics = [];
+    else this._topics = theseClassroomTopics;
   }
 
   /**

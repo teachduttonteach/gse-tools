@@ -12,6 +12,27 @@ export function newSlideshow(id: string) {
 }
 
 /**
+ * Clear the slideshow of slides
+ * 
+ * @param {SlideshowGS} obj the Slideshow object
+ * @return {SlideshowGS} the object for chaining
+ */
+export function clear(obj: SlideshowGS): SlideshowGS {
+  return obj.clear();
+}
+
+/**
+ * Gets the number of the slide in the slideshow template
+ *  that was most recently used
+ * 
+ * @param {SlideshowGS} obj the Slideshow object
+ * @return {number} the number of the slide 
+ */
+export function getSlideshowTemplateSlideUsed(obj: SlideshowGS): number {
+  return obj.getTemplateSlideUsed();
+}
+
+/**
  * Activate the Ui for the Presentation
  * @param {SlideshowGS} obj the Slideshow object
  * @return {SlideshowGS} the object for chaining
@@ -152,6 +173,7 @@ export class SlideshowGS extends UiGS {
   private _allSlides: Array<SlideGS>;
   _ui: GoogleAppsScript.Base.Ui;
   private _template: GoogleAppsScript.Slides.Presentation;
+  private _templateSlideUsed: number;
 
   /**
    *
@@ -165,6 +187,20 @@ export class SlideshowGS extends UiGS {
         ' in SlideshowGS()');
     }
     this._getAllSlides();
+    this._templateSlideUsed = -1;
+  }
+
+  /**
+   * Clear the slideshow of slides
+   * 
+   * @return {SlideshowGS} the object for chaining
+   */
+  clear(): SlideshowGS {
+    for (let s of this._allSlides) {
+      s.remove();
+    }
+    this._getAllSlides();
+    return this;
   }
 
   /**
@@ -247,6 +283,16 @@ export class SlideshowGS extends UiGS {
   };
 
   /**
+   * Gets the number of the slide in the slideshow template
+   *  that was most recently used
+   * 
+   * @return {number} the number of the slide 
+   */
+  getTemplateSlideUsed(): number {
+    return this._templateSlideUsed;
+  }
+
+  /**
    * Adds a slide to the Slideshow, using a template if present
    *
    * @param {string} title the title of the new slide
@@ -263,6 +309,7 @@ export class SlideshowGS extends UiGS {
           this._template.getSlides().length;
         slideAdded = this._presentation.
             appendSlide(this._template.getSlides()[slideToGet]);
+        this._templateSlideUsed = slideToGet;
       } else {
         slideAdded = this._presentation.
             appendSlide(this._template.getSlides()[0]);
@@ -271,6 +318,7 @@ export class SlideshowGS extends UiGS {
       slideAdded = this._presentation.
           appendSlide(SlidesApp.PredefinedLayout.TITLE_AND_BODY);
     }
+    this._getAllSlides();
     return new SlideGS(slideAdded).setTitle(title).setBody(body).
         setNotes(type);
   };
