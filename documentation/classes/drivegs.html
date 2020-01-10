@@ -88,6 +88,7 @@
 						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="drivegs.html#_createfile" class="tsd-kind-icon">_create<wbr>File</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="drivegs.html#getimageblob" class="tsd-kind-icon">get<wbr>Image<wbr>Blob</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="drivegs.html#getorcreatefilebyid" class="tsd-kind-icon">get<wbr>OrCreate<wbr>File<wbr>ById</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="drivegs.html#getorcreatefilebyname" class="tsd-kind-icon">get<wbr>OrCreate<wbr>File<wbr>ByName</a></li>
@@ -101,17 +102,61 @@
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Methods</h2>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="getimageblob" class="tsd-anchor"></a>
-					<h3>get<wbr>Image<wbr>Blob</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Image<wbr>Blob<span class="tsd-signature-symbol">(</span>id<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Blob</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">boolean</span></li>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-private">
+					<a name="_createfile" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> _create<wbr>File</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-private">
+						<li class="tsd-signature tsd-kind-icon">_create<wbr>File<span class="tsd-signature-symbol">(</span>fileName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, content<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, mimeType<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/e7db5d1/src/drive/DriveGS.ts#L40">drive/DriveGS.ts:40</a></li>
+									<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/1e42c6f/src/drive/DriveGS.ts#L246">drive/DriveGS.ts:246</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Creates a file with a particular MimeType</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>fileName: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>name of the file</p>
+									</div>
+								</li>
+								<li>
+									<h5>content: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>any initial content of the file</p>
+									</div>
+								</li>
+								<li>
+									<h5>mimeType: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>the MimeType of the file</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
+							<p>the ID of the created file</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="getimageblob" class="tsd-anchor"></a>
+					<h3>get<wbr>Image<wbr>Blob</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Image<wbr>Blob<span class="tsd-signature-symbol">(</span>id<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, isUrl<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Blob</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">boolean</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/1e42c6f/src/drive/DriveGS.ts#L156">drive/DriveGS.ts:156</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -127,12 +172,20 @@
 										<p>the id of the image or false if it is an invalid image</p>
 									</div>
 								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> isUrl: <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> =&nbsp;false</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>whether the id is a link to the Google
+										Drive image</p>
+									</div>
+								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Blob</span>
 								<span class="tsd-signature-symbol"> | </span>
 								<span class="tsd-signature-type">boolean</span>
 							</h4>
-							<p>the image blob or False if it could not be created</p>
+							<p>the image blob or False
+							if it could not be created</p>
 						</li>
 					</ul>
 				</section>
@@ -140,18 +193,19 @@
 					<a name="getorcreatefilebyid" class="tsd-anchor"></a>
 					<h3>get<wbr>OrCreate<wbr>File<wbr>ById</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>OrCreate<wbr>File<wbr>ById<span class="tsd-signature-symbol">(</span>fileId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, fileName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">File</span></li>
+						<li class="tsd-signature tsd-kind-icon">get<wbr>OrCreate<wbr>File<wbr>ById<span class="tsd-signature-symbol">(</span>fileId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, fileName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, mimeType<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">File</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/e7db5d1/src/drive/DriveGS.ts#L108">drive/DriveGS.ts:108</a></li>
+									<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/1e42c6f/src/drive/DriveGS.ts#L282">drive/DriveGS.ts:282</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Determines if a file (by id) exists; if it doesn&#39;t creates it from a template, then return the file in either case</p>
+									<p>Determines if a file (by id) exists; if it doesn&#39;t creates it from a
+									template, then return the file in either case</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -168,6 +222,12 @@
 										<p>the name of the new file</p>
 									</div>
 								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> mimeType: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;MimeTypes.DOCS</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>the MimeType of the file</p>
+									</div>
+								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">File</span></h4>
 							<p>the file as a Google object</p>
@@ -178,18 +238,19 @@
 					<a name="getorcreatefilebyname" class="tsd-anchor"></a>
 					<h3>get<wbr>OrCreate<wbr>File<wbr>ByName</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>OrCreate<wbr>File<wbr>ByName<span class="tsd-signature-symbol">(</span>fileName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">File</span></li>
+						<li class="tsd-signature tsd-kind-icon">get<wbr>OrCreate<wbr>File<wbr>ByName<span class="tsd-signature-symbol">(</span>fileName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, mimeType<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">File</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/e7db5d1/src/drive/DriveGS.ts#L93">drive/DriveGS.ts:93</a></li>
+									<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/1e42c6f/src/drive/DriveGS.ts#L225">drive/DriveGS.ts:225</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Determines if a file (by name) exists; if it doesn&#39;t creates it from a template, then return the file in either case</p>
+									<p>Determines if a file (by name) exists; if it doesn&#39;t creates it from a
+									template, then return the file in either case</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -198,6 +259,12 @@
 									<h5>fileName: <span class="tsd-signature-type">string</span></h5>
 									<div class="tsd-comment tsd-typography">
 										<p>the name of the file</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> mimeType: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;MimeTypes.DOCS</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>the MimeType of the file</p>
 									</div>
 								</li>
 							</ul>
@@ -216,12 +283,13 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/e7db5d1/src/drive/DriveGS.ts#L75">drive/DriveGS.ts:75</a></li>
+									<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/1e42c6f/src/drive/DriveGS.ts#L201">drive/DriveGS.ts:201</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Determines if a file (by id) exists; if it doesn&#39;t creates it from a template, then return the file in either case</p>
+									<p>Determines if a file (by id) exists; if it doesn&#39;t creates it from a
+									template, then return the file in either case</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -254,12 +322,13 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/e7db5d1/src/drive/DriveGS.ts#L55">drive/DriveGS.ts:55</a></li>
+									<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/1e42c6f/src/drive/DriveGS.ts#L178">drive/DriveGS.ts:178</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Determines if a file (by name) exists; if it doesn&#39;t creates it from a template, then return the file in either case</p>
+									<p>Determines if a file (by name) exists; if it doesn&#39;t creates it from a
+									template, then return the file in either case</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -292,7 +361,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/e7db5d1/src/drive/DriveGS.ts#L14">drive/DriveGS.ts:14</a></li>
+									<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/1e42c6f/src/drive/DriveGS.ts#L121">drive/DriveGS.ts:121</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -331,6 +400,9 @@
 					<li class="current tsd-kind-class">
 						<a href="drivegs.html" class="tsd-kind-icon">DriveGS</a>
 						<ul>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-private">
+								<a href="drivegs.html#_createfile" class="tsd-kind-icon">_create<wbr>File</a>
+							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="drivegs.html#getimageblob" class="tsd-kind-icon">get<wbr>Image<wbr>Blob</a>
 							</li>

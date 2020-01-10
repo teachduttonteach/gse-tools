@@ -127,13 +127,13 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>CalendarGS<span class="tsd-signature-symbol">(</span>id<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="calendargs.html" class="tsd-signature-type">CalendarGS</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>CalendarGS<span class="tsd-signature-symbol">(</span>id<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, hoursFromUTC<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="calendargs.html" class="tsd-signature-type">CalendarGS</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/e7db5d1/src/calendar/CalendarGS.ts#L23">calendar/CalendarGS.ts:23</a></li>
+									<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/1e42c6f/src/calendar/CalendarGS.ts#L125">calendar/CalendarGS.ts:125</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -151,6 +151,15 @@
 										</div>
 									</div>
 								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> hoursFromUTC: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;0</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<div class="lead">
+											<p>specify how many hours off of UTC you
+											want to display</p>
+										</div>
+									</div>
+								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="calendargs.html" class="tsd-signature-type">CalendarGS</a></h4>
 						</li>
@@ -165,7 +174,7 @@
 					<div class="tsd-signature tsd-kind-icon">_calendar<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Calendar</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/e7db5d1/src/calendar/CalendarGS.ts#L23">calendar/CalendarGS.ts:23</a></li>
+							<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/1e42c6f/src/calendar/CalendarGS.ts#L125">calendar/CalendarGS.ts:125</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -175,7 +184,7 @@
 					<div class="tsd-signature tsd-kind-icon">_date<wbr>Today<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Date</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/e7db5d1/src/calendar/CalendarGS.ts#L19">calendar/CalendarGS.ts:19</a></li>
+							<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/1e42c6f/src/calendar/CalendarGS.ts#L121">calendar/CalendarGS.ts:121</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -185,7 +194,7 @@
 					<div class="tsd-signature tsd-kind-icon">_end<wbr>Date<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Date</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/e7db5d1/src/calendar/CalendarGS.ts#L20">calendar/CalendarGS.ts:20</a></li>
+							<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/1e42c6f/src/calendar/CalendarGS.ts#L122">calendar/CalendarGS.ts:122</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -195,17 +204,17 @@
 					<div class="tsd-signature tsd-kind-icon">_id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/e7db5d1/src/calendar/CalendarGS.ts#L22">calendar/CalendarGS.ts:22</a></li>
+							<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/1e42c6f/src/calendar/CalendarGS.ts#L124">calendar/CalendarGS.ts:124</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
 					<a name="_oneday" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagPrivate">Private</span> _one<wbr>Day</h3>
-					<div class="tsd-signature tsd-kind-icon">_one<wbr>Day<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;24*60*60*1000</span></div>
+					<div class="tsd-signature tsd-kind-icon">_one<wbr>Day<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;24 * 60 * 60 * 1000</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/e7db5d1/src/calendar/CalendarGS.ts#L18">calendar/CalendarGS.ts:18</a></li>
+							<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/1e42c6f/src/calendar/CalendarGS.ts#L120">calendar/CalendarGS.ts:120</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -215,7 +224,7 @@
 					<div class="tsd-signature tsd-kind-icon">_upcoming<wbr>Event<wbr>Objects<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><a href="calendareventgs.html" class="tsd-signature-type">CalendarEventGS</a><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/e7db5d1/src/calendar/CalendarGS.ts#L21">calendar/CalendarGS.ts:21</a></li>
+							<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/1e42c6f/src/calendar/CalendarGS.ts#L123">calendar/CalendarGS.ts:123</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -232,7 +241,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/e7db5d1/src/calendar/CalendarGS.ts#L131">calendar/CalendarGS.ts:131</a></li>
+									<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/1e42c6f/src/calendar/CalendarGS.ts#L252">calendar/CalendarGS.ts:252</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -256,7 +265,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/e7db5d1/src/calendar/CalendarGS.ts#L46">calendar/CalendarGS.ts:46</a></li>
+									<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/1e42c6f/src/calendar/CalendarGS.ts#L158">calendar/CalendarGS.ts:158</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -279,7 +288,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/e7db5d1/src/calendar/CalendarGS.ts#L85">calendar/CalendarGS.ts:85</a></li>
+									<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/1e42c6f/src/calendar/CalendarGS.ts#L202">calendar/CalendarGS.ts:202</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -299,13 +308,15 @@
 								<li>
 									<h5>daysToLookAhead: <span class="tsd-signature-type">number</span></h5>
 									<div class="tsd-comment tsd-typography">
-										<p>the number of days ahead to find events on the calendar</p>
+										<p>the number of days ahead to find
+										events on the calendar</p>
 									</div>
 								</li>
 								<li>
 									<h5>eventOptions: <a href="../globals.html#dateparams" class="tsd-signature-type">DateParams</a></h5>
 									<div class="tsd-comment tsd-typography">
-										<p>options for displaying that there are no events and how to display the date; see above for defaults</p>
+										<p>options for displaying that there are
+										no events and how to display the date; see above for defaults</p>
 									</div>
 								</li>
 							</ul>
@@ -324,7 +335,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/e7db5d1/src/calendar/CalendarGS.ts#L114">calendar/CalendarGS.ts:114</a></li>
+									<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/1e42c6f/src/calendar/CalendarGS.ts#L231">calendar/CalendarGS.ts:231</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -377,7 +388,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/e7db5d1/src/calendar/CalendarGS.ts#L60">calendar/CalendarGS.ts:60</a></li>
+									<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/1e42c6f/src/calendar/CalendarGS.ts#L173">calendar/CalendarGS.ts:173</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -391,7 +402,8 @@
 								<li>
 									<h5>daysToLookAhead: <span class="tsd-signature-type">number</span></h5>
 									<div class="tsd-comment tsd-typography">
-										<p>the number of days ahead to find events on the calendar</p>
+										<p>the number of days ahead to find
+										events on the calendar</p>
 									</div>
 								</li>
 							</ul>

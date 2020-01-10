@@ -12,7 +12,8 @@
     "format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\"",
     "lint": "tslint -p tsconfig.json",
     "clasp": "clasp push",
-    "update": "update.sh"
+    "update": "update.sh",
+    "documentation": "typedoc --out documentation"
   },
   "repository": {
     "type": "git",
