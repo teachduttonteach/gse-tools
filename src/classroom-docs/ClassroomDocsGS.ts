@@ -1,6 +1,6 @@
-import { ClassInfo } from '../classroom/ClassInfo';
+import { ClassGS } from '../classroom/ClassGS';
 import { Work } from '../classroom/Work';
-import { Material } from '../classroom/Material';
+import { CourseMaterial } from '../classroom/CourseMaterial';
 import { DocsGS } from '../docs/DocsGS';
 import { docLevels } from '../docs/DocLevels';
 import { WriteDocsParams } from 'WriteDocsParams';
@@ -9,7 +9,7 @@ import { WriteDocsParams } from 'WriteDocsParams';
  * Writes a document from the Classroom info
  *
  * @param {ClassroomDocsGS} obj the ClassroomDocs object
- * @param {ClassInfo} data the object that holds
+ * @param {ClassGS} classData the object that holds the class info
  * @param {string} topicName the topic object that contains class info
  * @param {WriteDocsParams} options the options for displaying the info
  *
@@ -17,11 +17,11 @@ import { WriteDocsParams } from 'WriteDocsParams';
  */
 export function writeClassroomDocuments(
   obj: ClassroomDocsGS,
-  data: ClassInfo,
+  classData: ClassGS,
   topicName: string,
   options?: WriteDocsParams,
 ): DocsGS {
-  return obj.writeClassroomDocuments(data, topicName, options);
+  return obj.writeClassroomDocuments(classData, topicName, options);
 }
 
 /**
@@ -32,13 +32,13 @@ export class ClassroomDocsGS extends DocsGS {
   /**
    * Writes a document from the Classroom info
    *
-   * @param {ClassInfo} data the object that holds
+   * @param {ClassGS} classData the object that holds class data
    * @param {string} topicName the topic object that contains class info
    * @param {WriteDocsParams} options the options for displaying the info
    *
    * @return {DocsGS} the object for chaining
    */
-  writeClassroomDocuments(data: ClassInfo, topicName: string, options?: WriteDocsParams): DocsGS {
+  writeClassroomDocuments(classData: ClassGS, topicName: string, options?: WriteDocsParams): DocsGS {
     // Expand options
     if (options == undefined) options = {} as WriteDocsParams;
     const { displayAnnouncements = 1, displayCoursework = true, docTitle = undefined } = options;
@@ -46,7 +46,7 @@ export class ClassroomDocsGS extends DocsGS {
     // Clear the body and get the doc title
     this.clearBody();
     let thisTitle = docTitle;
-    if (thisTitle == undefined) thisTitle = data.getName(topicName);
+    if (thisTitle == undefined) thisTitle = classData.getTopicName(topicName);
     const thisLevel = docLevels('T');
     if (thisTitle == undefined || thisLevel == undefined) {
       throw new Error(
@@ -68,7 +68,7 @@ export class ClassroomDocsGS extends DocsGS {
 
     // Display the given number of announcements
     if (displayAnnouncements) {
-      const thisAnnouncements = data.getAnnouncements();
+      const thisAnnouncements = classData.getAnnouncements();
       if (thisAnnouncements == undefined) {
         throw new Error('Announcement titles undefined in ' + 'DocsGS.writeClassroomDocuments()');
       }
@@ -80,7 +80,7 @@ export class ClassroomDocsGS extends DocsGS {
     // Display the coursework
     if (displayCoursework) {
       // Get the coursework for the topic
-      const thisCoursework = data.getCourseWork(topicName);
+      const thisCoursework = classData.getTopicInfo(topicName);
       const thisTitles = thisCoursework.work;
       const thisLevel = thisCoursework.level;
       if (thisLevel == undefined || thisTitles == undefined) {
@@ -127,10 +127,10 @@ export class ClassroomDocsGS extends DocsGS {
   /**
    * Display the materials for the course with the associated options
    *
-   * @param {Array<Material>} materials the associated materials
+   * @param {Array<CourseMaterial>} materials the associated materials
    * @param {WriteDocsParams} options the options
    */
-  private _displayMaterial(materials: Array<Material>, options: WriteDocsParams): void {
+  private _displayMaterial(materials: Array<CourseMaterial>, options: WriteDocsParams): void {
     const { displayFiles = true, displayForms = true, displayLinks = true, displayVideos = true } = options;
 
     this.addText('Materials:', 'Normal');

@@ -195,7 +195,7 @@ export class DocsGS extends UiGS {
    *
    * @return {DocsGS} the object for chaining
    */
-  addText(text: string, level: string | number): DocsGS {
+  addText(text: string, level: string | number = 'N'): DocsGS {
     if (text == undefined) {
       throw new Error('Text needs to be defined for the' + ' heading in DocsGS.addText()');
     }

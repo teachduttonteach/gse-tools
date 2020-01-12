@@ -7,22 +7,31 @@ export class Test {
   _fn: string;
   _toPrint: string;
   _recipient: string;
+  _clearDoc: boolean;
 
-  constructor(mode: string = 'log', recipient: string = 'john.dutton@campusinternationalschool.org') {
-    if (mode.toLowerCase() == 'email') this._mode = 'email';
-    else if (mode.toLowerCase() == 'doc') this._mode = 'doc';
+  constructor(mode: string = 'log', recipient: string | boolean = 'john.dutton@campusinternationalschool.org') {
+    Logger.log("MODE = " + mode)
+    if (mode.toLowerCase() == 'email') {
+      this._mode = 'email';
+      if (typeof recipient === "string") this._recipient = recipient;
+    }
+    else if (mode.toLowerCase() == 'doc') {
+      Logger.log("Doc format")
+      this._mode = 'doc';
+      if (typeof recipient === "boolean") this._clearDoc = recipient;
+      else this._clearDoc = false;
+    }
     else this._mode = 'log';
     this._fn = '';
     this._toPrint = '';
-    this._recipient = recipient;
   }
 
   private _print(fn: string, conditions: string, resultsOfTest: string) {
     if (this._fn != fn) {
       this._fn = fn;
-      this._toPrint = 'Function: ' + this._fn + '\n';
+      this._toPrint += '*** Function: ' + this._fn + ' ***\n\n';
     }
-    this._toPrint += 'Conditions (' + conditions + '): ' + resultsOfTest + '\n';
+    this._toPrint += '*** Conditions for ' + fn + ' (' + conditions + '): ' + resultsOfTest + ' ***\n\n';
   }
 
   private _combinations(objectArguments: MapGS<string, Array<string>>): Array<MapGS<string, string>> {
@@ -56,20 +65,91 @@ export class Test {
     let results: string = '';
     try {
       results = functionToCall(...functionArguments);
+      if (typeof results === "object") results = JSON.stringify(results);
     } catch (e) {
-      this._print(functionToCall.name, functionArguments.toString(), 'Failed with ' + results);
-      throw e;
+      this._print(functionToCall.name, functionArguments.toString(), 'Failed with ' + e);
     }
 
     this._print(functionToCall.name, functionArguments.toString(), results);
   }
 
+  testEquals(testName: string, functionResult: any, desiredResult: any, 
+    parameters: string = "") {
+    this._print(testName, parameters, 
+      functionResult == desiredResult ? "Yes" : "No");
+  }
+
+  testObject(objectToTest: any) {
+    if (typeof objectToTest.getObject() === "object") {
+      this._print(objectToTest.constructor.name, "", "Has object");
+    } else {
+      this._print(objectToTest.constructor.name, "", "Does not have object")
+    }
+  }
+
+  private _executeTestMethod(methodToCall: CallableFunction, 
+    methodArguments: Array<any>, methodName: string) {
+
+    let results: string = '';
+    try {
+      results = methodToCall(...methodArguments);
+      if (typeof results === "object") results = JSON.stringify(results);
+    } catch (e) {
+      this._print(methodName, methodArguments.toString(), 
+        'Failed with ' + e);
+    }
+
+    this._print(methodName, methodArguments.toString(), results);  
+  }
+
+  private _executeTestMethodWithCall(methodToCall: CallableFunction, 
+    methodArguments: Array<any>, methodName: string, callMethod: string, 
+    onFirst: boolean = false) {
+
+    let results: string = '';
+    try {
+      if (onFirst) results = methodToCall(...methodArguments)[0][callMethod]();
+      else results = methodToCall(...methodArguments)[callMethod]();
+      if (typeof results === "object") results = JSON.stringify(results);
+    } catch (e) {
+      this._print(methodName, methodArguments.toString(), 
+        'Failed with ' + e);
+    }
+
+    this._print(methodName, methodArguments.toString(), results);  
+  }
+
+  testMethod(methodToCall: CallableFunction, methodArguments: Array<any> = [],
+    methodName: string) 
+  {
+    if (methodArguments[0] instanceof Array) {
+      for (const argumentSet of methodArguments) {
+        this._executeTestMethod(methodToCall, argumentSet, methodName);
+      }
+    } else {
+      this._executeTestMethod(methodToCall, methodArguments, methodName);
+    }
+  }
+
+  testMethodThenCall(methodToCall: CallableFunction, methodArguments: Array<any> = [],
+    callMethod: string, methodName: string, onFirst: boolean = false) 
+  {
+    if (methodArguments[0] instanceof Array) {
+      for (const argumentSet of methodArguments) {
+        this._executeTestMethodWithCall(methodToCall, argumentSet, methodName, callMethod, onFirst);
+      }
+    } else {
+      this._executeTestMethodWithCall(methodToCall, methodArguments, methodName, callMethod, onFirst);
+    }
+  }
+
   testEachArgumentOfMethod(
-    objectToTest: any,
     objectArguments: MapGS<string, Array<string>>,
     methodToCall: CallableFunction,
     methodArguments: Array<any>,
+    methodName: string
   ) {
+    let objectToTest: {[index: string]:any} = {};
     for (let i = 0; i < methodArguments.length; i++) {
       if (methodArguments[i] == 'objectToTest') methodArguments[i] = objectToTest;
     }
@@ -81,18 +161,18 @@ export class Test {
       for (const name of combo.keys()) {
         const val = combo.get(name);
         objectToTest[name] = val;
-        nameValPairs += name + "='" + val + "', ";
+        nameValPairs += name + "='" + val?.toString() + "', ";
       }
 
       let results: string = '';
       try {
         results = methodToCall(...methodArguments);
+        if (typeof results === "object") results = JSON.stringify(results);
       } catch (e) {
-        this._print(methodToCall.toString(), nameValPairs, 'Failed with ' + results);
-        throw e;
+        this._print(methodName, nameValPairs, 'Failed with ' + e);
       }
 
-      this._print(methodToCall.toString(), nameValPairs, results);
+      this._print(methodName, nameValPairs, results);
     }
   }
 
@@ -100,10 +180,10 @@ export class Test {
     if (this._mode == 'log') Logger.log(this._toPrint);
     else if (this._mode == 'email') MailApp.sendEmail(this._recipient, 'Testing gse-tools', this._toPrint);
     else {
-      let doc = new DocsGS(
-        new DriveGS().getOrCreateFileByName('Testing gse-tools ' + new Date().toLocaleDateString()).getId(),
-      );
-      doc.addText(this._toPrint, 'N');
+      const testDocId = new DriveGS().getOrCreateFileByName('Testing gse-tools ' + new Date().toLocaleDateString()).getId();
+      let doc = new DocsGS(testDocId);
+        if (this._clearDoc) doc.clearBody();
+        doc.addText(this._toPrint);
     }
   }
 }

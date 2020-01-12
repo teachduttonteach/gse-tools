@@ -5,6 +5,12 @@
       "userSymbol": "Classroom",
       "serviceId": "classroom",
       "version": "v1"
+    }],
+    "libraries": [{
+      "userSymbol":"gsetoolstest",
+      "libraryId": "1lQ63IAN9mpZSO-75uBJG5WBgpF-hnp_akAlJ1WHtzF8o7ej33TljlLqV",
+      "version": "3",
+      "developmentMode": true
     }]
   },
   "exceptionLogging": "STACKDRIVER",

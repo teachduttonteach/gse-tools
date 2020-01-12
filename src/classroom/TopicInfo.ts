@@ -3,7 +3,7 @@ import { Work } from './Work';
 /**
  * Type to hold all of the coursework in an object
  */
-export type CourseWork = {
+export type TopicInfo = {
   /**
    * default heading level from DocLevels (default: 2)
    */
