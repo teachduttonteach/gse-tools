@@ -4,14 +4,14 @@ import { docLevels } from '../docs/DocLevels';
  * Writes a document from the Classroom info
  *
  * @param {ClassroomDocsGS} obj the ClassroomDocs object
- * @param {ClassInfo} data the object that holds
+ * @param {ClassGS} classData the object that holds the class info
  * @param {string} topicName the topic object that contains class info
  * @param {WriteDocsParams} options the options for displaying the info
  *
  * @return {DocsGS} the object for chaining
  */
-export function writeClassroomDocuments(obj, data, topicName, options) {
-    return obj.writeClassroomDocuments(data, topicName, options);
+export function writeClassroomDocuments(obj, classData, topicName, options) {
+    return obj.writeClassroomDocuments(classData, topicName, options);
 }
 /**
  * Class to write a Google Document
@@ -21,26 +21,25 @@ export class ClassroomDocsGS extends DocsGS {
     /**
      * Writes a document from the Classroom info
      *
-     * @param {ClassInfo} data the object that holds
+     * @param {ClassGS} classData the object that holds class data
      * @param {string} topicName the topic object that contains class info
      * @param {WriteDocsParams} options the options for displaying the info
      *
      * @return {DocsGS} the object for chaining
      */
-    writeClassroomDocuments(data, topicName, options) {
+    writeClassroomDocuments(classData, topicName, options) {
         // Expand options
         if (options == undefined)
             options = {};
-        const { displayAnnouncements = 1, displayCoursework = true, docTitle = undefined, } = options;
+        const { displayAnnouncements = 1, displayCoursework = true, docTitle = undefined } = options;
         // Clear the body and get the doc title
         this.clearBody();
         let thisTitle = docTitle;
         if (thisTitle == undefined)
-            thisTitle = data.getName(topicName);
+            thisTitle = classData.getTopicName(topicName);
         const thisLevel = docLevels('T');
-        if ((thisTitle == undefined) || (thisLevel == undefined)) {
-            throw new Error('Title (' + thisTitle + ') or level (' + thisLevel +
-                ') not defined in DocsGS.writeClassroomDocuments()');
+        if (thisTitle == undefined || thisLevel == undefined) {
+            throw new Error('Title (' + thisTitle + ') or level (' + thisLevel + ') not defined in DocsGS.writeClassroomDocuments()');
         }
         // Display the title by removing the first child if necessary
         const thisBody = this._docObject.getBody();
@@ -50,13 +49,15 @@ export class ClassroomDocsGS extends DocsGS {
             thisChild.removeFromParent();
         }
         else
-            thisChild.asParagraph().setHeading(thisLevel).setText(thisTitle);
+            thisChild
+                .asParagraph()
+                .setHeading(thisLevel)
+                .setText(thisTitle);
         // Display the given number of announcements
         if (displayAnnouncements) {
-            const thisAnnouncements = data.getAnnouncements();
+            const thisAnnouncements = classData.getAnnouncements();
             if (thisAnnouncements == undefined) {
-                throw new Error('Announcement titles undefined in ' +
-                    'DocsGS.writeClassroomDocuments()');
+                throw new Error('Announcement titles undefined in ' + 'DocsGS.writeClassroomDocuments()');
             }
             for (let a = 0; a < displayAnnouncements; a++) {
                 this.addText(thisAnnouncements[a], 'Normal');
@@ -65,12 +66,11 @@ export class ClassroomDocsGS extends DocsGS {
         // Display the coursework
         if (displayCoursework) {
             // Get the coursework for the topic
-            const thisCoursework = data.getCourseWork(topicName);
+            const thisCoursework = classData.getTopicInfo(topicName);
             const thisTitles = thisCoursework.work;
             const thisLevel = thisCoursework.level;
-            if ((thisLevel == undefined) || (thisTitles == undefined)) {
-                throw new Error('Coursework titles undefined in ' +
-                    'DocsGS.writeClassroomDocuments()');
+            if (thisLevel == undefined || thisTitles == undefined) {
+                throw new Error('Coursework titles undefined in ' + 'DocsGS.writeClassroomDocuments()');
             }
             // For each of the pieces of course work ...
             for (const courseWork of thisTitles) {
@@ -97,19 +97,18 @@ export class ClassroomDocsGS extends DocsGS {
             this.addText(courseWork.description, 'Normal');
         }
         // Display the materials if they exist
-        if (displayMaterials && (courseWork.materials != null) &&
-            (courseWork.materials.length > 0)) {
+        if (displayMaterials && courseWork.materials != null && courseWork.materials.length > 0) {
             this._displayMaterial(courseWork.materials, options);
         }
     }
     /**
      * Display the materials for the course with the associated options
      *
-     * @param {Array<Material>} materials the associated materials
+     * @param {Array<CourseMaterial>} materials the associated materials
      * @param {WriteDocsParams} options the options
      */
     _displayMaterial(materials, options) {
-        const { displayFiles = true, displayForms = true, displayLinks = true, displayVideos = true, } = options;
+        const { displayFiles = true, displayForms = true, displayLinks = true, displayVideos = true } = options;
         this.addText('Materials:', 'Normal');
         for (const material of materials) {
             if (displayFiles && material.file) {
@@ -127,4 +126,3 @@ export class ClassroomDocsGS extends DocsGS {
         }
     }
 }
-;

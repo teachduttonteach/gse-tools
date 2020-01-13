@@ -128,7 +128,7 @@ export declare class DocsGS extends UiGS {
      *
      * @return {DocsGS} the object for chaining
      */
-    addText(text: string, level: string | number): DocsGS;
+    addText(text: string, level?: string | number): DocsGS;
     /**
      * Clears the body of text
      *

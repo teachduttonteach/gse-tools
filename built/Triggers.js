@@ -10,5 +10,8 @@ export function updateTriggers(formId, functionName) {
         if (t.getHandlerFunction() == functionName)
             ScriptApp.deleteTrigger(t);
     }
-    ScriptApp.newTrigger(functionName).forForm(formId).onFormSubmit().create();
+    ScriptApp.newTrigger(functionName)
+        .forForm(formId)
+        .onFormSubmit()
+        .create();
 }

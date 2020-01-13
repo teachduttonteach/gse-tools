@@ -8,7 +8,9 @@ import { ONE_DAY } from '../utils/Utilities';
  */
 function sendBirthdayEmail(lookAheadDays, emailToSend) {
     const spreadsheet = getDataSheet();
-    const studentInfo = spreadsheet.getSheet('Student Info').getMapData();
+    const studentInfo = spreadsheet
+        .getSheet('Student Info')
+        .getMapData();
     const today = new Date();
     let birthdays = '';
     for (const row of studentInfo.keys()) {
@@ -18,18 +20,22 @@ function sendBirthdayEmail(lookAheadDays, emailToSend) {
         }
         const thisBirthday = thisRow.get('Birthday');
         if (thisBirthday == null) {
-            throw new Error('Could not find birthday for ' +
-                row);
+            throw new Error('Could not find birthday for ' + row);
         }
         const studentDate = new Date(thisBirthday);
         const lookAheadDate = new Date();
-        lookAheadDate.setTime(today.getTime() + (lookAheadDays * ONE_DAY));
-        if ((studentDate.getTime() >= today.getTime()) &&
-            (studentDate.getTime() <= lookAheadDate.getTime())) {
-            birthdays += row + ' has birthday #' +
-                (today.getFullYear() - studentDate.getFullYear()) + ' on ' +
-                (studentDate.getMonth() + 1) + '/' + studentDate.getDate() + '\n';
+        lookAheadDate.setTime(today.getTime() + lookAheadDays * ONE_DAY);
+        if (studentDate.getTime() >= today.getTime() && studentDate.getTime() <= lookAheadDate.getTime()) {
+            birthdays +=
+                row +
+                    ' has birthday #' +
+                    (today.getFullYear() - studentDate.getFullYear()) +
+                    ' on ' +
+                    (studentDate.getMonth() + 1) +
+                    '/' +
+                    studentDate.getDate() +
+                    '\n';
         }
     }
-    MailApp.sendEmail(emailToSend, emailToSend, 'Today\'s Birthdays (plus the next ' + lookAheadDays + ' days)!', birthdays);
+    MailApp.sendEmail(emailToSend, emailToSend, "Today's Birthdays (plus the next " + lookAheadDays + ' days)!', birthdays);
 }

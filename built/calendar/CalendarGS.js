@@ -44,7 +44,7 @@ export function getCalendarId(obj) {
  *
  * @return {string} the list of due dates as a string for use in Slides
  */
-export function getCalendarUpcomingDueDates(obj, daysToLookAhead, eventOptions) {
+export function getUpcomingDueDates(obj, daysToLookAhead, eventOptions) {
     return obj.getUpcomingDueDates(daysToLookAhead, eventOptions);
 }
 /**
@@ -67,7 +67,7 @@ export function getCalendarUpcomingDueDates(obj, daysToLookAhead, eventOptions) 
  * @param {string} noEventString the string to display if there is no event
  * @return {Array<string>} the list of due dates as an array
  */
-export function getCalendarUpcomingDueDatesList(obj, daysToLookAhead, eventOptions, noEventString) {
+export function getUpcomingDueDatesList(obj, daysToLookAhead, eventOptions, noEventString) {
     return obj.getUpcomingDueDatesList(daysToLookAhead, eventOptions, noEventString);
 }
 /**
@@ -82,7 +82,7 @@ export function getCalendarUpcomingDueDatesList(obj, daysToLookAhead, eventOptio
  *
  * @return {Array<CalendarEventGS>} the list of calendar events
  */
-export function getCalendarUpcomingEvents(obj, daysToLookAhead) {
+export function getUpcomingEvents(obj, daysToLookAhead) {
     return obj.getUpcomingEvents(daysToLookAhead);
 }
 /**
@@ -115,15 +115,12 @@ export class CalendarGS {
         this._id = id;
         const minutesOffset = dateInComputersTimeZone.getTimezoneOffset();
         const minutesFromUTC = hoursFromUTC * 60;
-        const millisecondAdjustment = (minutesFromUTC - minutesOffset) *
-            60 * 1000;
+        const millisecondAdjustment = (minutesFromUTC - minutesOffset) * 60 * 1000;
         this._dateToday = new Date();
-        this._dateToday.setTime(dateInComputersTimeZone.getTime() -
-            millisecondAdjustment);
+        this._dateToday.setTime(dateInComputersTimeZone.getTime() - millisecondAdjustment);
         this._calendar = CalendarApp.getCalendarById(id);
         if (this._calendar == null) {
-            throw new Error('Could not find Calendar ' +
-                'with id ' + id + ' in CalendarGS()');
+            throw new Error('Could not find Calendar ' + 'with id ' + id + ' in CalendarGS()');
         }
     }
     /**
@@ -147,8 +144,7 @@ export class CalendarGS {
      */
     getUpcomingEvents(daysToLookAhead) {
         this._endDate = new Date();
-        this._endDate.setMilliseconds(this._dateToday.getMilliseconds() +
-            (daysToLookAhead * this._oneDay));
+        this._endDate.setMilliseconds(this._dateToday.getMilliseconds() + daysToLookAhead * this._oneDay);
         this._upcomingEventObjects = [];
         for (const event of this._calendar.getEvents(this._dateToday, this._endDate)) {
             this._upcomingEventObjects.push(new CalendarEventGS(event));
@@ -185,7 +181,6 @@ export class CalendarGS {
             return '\t' + eventOptions.noEventString;
         return dueDates;
     }
-    ;
     /**
      * Gets the upcoming due dates for events on the calendar
      * ```javascript
@@ -212,7 +207,6 @@ export class CalendarGS {
         }
         return dueDates;
     }
-    ;
     /**
      * Get the id of the Google Calendar
      *

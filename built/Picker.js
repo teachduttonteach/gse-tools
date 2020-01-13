@@ -26,20 +26,20 @@ export class Picker {
         const template = HtmlService.createTemplateFromFile('PickerBox.html');
         template.data = settings.get('Template');
         template.data['SELECTED_DOCUMENT'] = dialogName;
-        const html = template.evaluate().setWidth(+settings.get('DIALOG_WIDTH')).setHeight(+settings.get('DIALOG_HEIGHT'));
+        const html = template
+            .evaluate()
+            .setWidth(+settings.get('DIALOG_WIDTH'))
+            .setHeight(+settings.get('DIALOG_HEIGHT'));
         // Logger.log(html.getContent());
         return SpreadsheetApp.getUi().showModalDialog(html, dialogText);
     }
 }
-;
 /**
  * Displays a sidebar.
  */
 class Sidebar {
     constructor() {
-        const htmlOutput = HtmlService
-            .createHtmlOutput('<p>A change of speed, a change of style...</p>')
-            .setTitle('My add-on');
+        const htmlOutput = HtmlService.createHtmlOutput('<p>A change of speed, a change of style...</p>').setTitle('My add-on');
         SpreadsheetApp.getUi().showSidebar(htmlOutput);
     }
 }

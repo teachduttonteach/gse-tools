@@ -82,7 +82,7 @@ export declare function getSheetEventValue(obj: SheetEventGS, row: number, col: 
  * @param {string} name the name of the sheet
  * @return {SheetEventGS} the object for chaining
  */
-export declare function addSheetEventSheetName(obj: SheetEventGS, name: string): SheetEventGS;
+export declare function addSheetEventTriggerSheetName(obj: SheetEventGS, name: string): SheetEventGS;
 /**
  * Adds a column range for the trigger
  *
@@ -192,12 +192,12 @@ export declare class SheetEventGS {
      */
     getValue(row: number, col: number): string;
     /**
-   * Adds sheet to the trigger
-   *
-   * @param {string} name the name of the sheet
-   * @return {SheetEventGS} the object for chaining
-   */
-    addSheetName(name: string): SheetEventGS;
+     * Adds sheet to the trigger
+     *
+     * @param {string} name the name of the sheet
+     * @return {SheetEventGS} the object for chaining
+     */
+    addTriggerSheetName(name: string): SheetEventGS;
     /**
      * Adds a column range for the trigger
      *

@@ -15,8 +15,7 @@ export class SpreadsheetGS extends UiGS {
         if (typeof id === 'object')
             this._spreadsheet = id;
         else if (typeof id === 'string') {
-            this._spreadsheet =
-                SpreadsheetApp.openById(id);
+            this._spreadsheet = SpreadsheetApp.openById(id);
         }
         else
             this._spreadsheet = SpreadsheetApp.getActive();
@@ -67,7 +66,6 @@ export class SpreadsheetGS extends UiGS {
     getMapData(sheetName, rowFirst = true) {
         return this.getOrCreateSheet(sheetName).getMapData(rowFirst);
     }
-    ;
     /**
      * Gets the named sheet or creates it if it doesn't exist
      *
@@ -77,14 +75,12 @@ export class SpreadsheetGS extends UiGS {
      */
     getOrCreateSheet(sheetName) {
         if (sheetName == null) {
-            throw new Error('Sheet name not defined in ' +
-                'Spreadsheet.getOrCreateSheet');
+            throw new Error('Sheet name not defined in ' + 'Spreadsheet.getOrCreateSheet');
         }
         if (!this.hasSheet(sheetName))
             this.createSheet(sheetName);
         return this.getSheet(sheetName);
     }
-    ;
     /**
      * Create a new sheet in the Spreadsheet
      *
@@ -94,14 +90,11 @@ export class SpreadsheetGS extends UiGS {
      */
     createSheet(sheetName) {
         if (sheetName == null) {
-            throw new Error('Sheet name not defined in ' +
-                'Spreadsheet.createSheet');
+            throw new Error('Sheet name not defined in ' + 'Spreadsheet.createSheet');
         }
-        this._sheets[sheetName] =
-            new SheetGS(this._spreadsheet.insertSheet(sheetName));
+        this._sheets[sheetName] = new SheetGS(this._spreadsheet.insertSheet(sheetName));
         return this._sheets[sheetName];
     }
-    ;
     /**
      * Checks to see if the Spreadsheet has a named sheet
      *
@@ -111,15 +104,13 @@ export class SpreadsheetGS extends UiGS {
      */
     hasSheet(sheetName) {
         if (sheetName == null) {
-            throw new Error('Sheet name not defined in ' +
-                'Spreadsheet.hasSheet');
+            throw new Error('Sheet name not defined in ' + 'Spreadsheet.hasSheet');
         }
         const sheet = this._sheets[sheetName];
         if (sheet == null)
             return false;
         return true;
     }
-    ;
     /**
      * Gets the named sheet
      *
@@ -128,17 +119,15 @@ export class SpreadsheetGS extends UiGS {
      * @return {SheetGS} the requested sheet
      */
     getSheet(sheetName) {
-        if ((sheetName == null) || !(sheetName in this._sheets)) {
+        if (sheetName == null || !(sheetName in this._sheets)) {
             throw new Error('Sheet name not defined in Spreadsheet.getSheet');
         }
         const sheet = this._sheets[sheetName];
         if (sheet == null) {
-            throw new Error('Could not find sheet named ' +
-                sheetName + ' in Spreadsheet.getSheet');
+            throw new Error('Could not find sheet named ' + sheetName + ' in Spreadsheet.getSheet');
         }
         return sheet;
     }
-    ;
     /**
      * Adds a trigger for this Spreadsheet
      *
@@ -150,27 +139,30 @@ export class SpreadsheetGS extends UiGS {
      * @return {SpreadsheetGS} the Spreadsheet object for chaining
      */
     addTrigger(triggerType, sheetName, functionName) {
-        if ((triggerType == null) || (sheetName == null) || (functionName == null)) {
-            throw new Error('One of triggerType, sheetName or functionName is not ' +
-                'defined in Spreadsheet.addTrigger');
+        if (triggerType == null || sheetName == null || functionName == null) {
+            throw new Error('One of triggerType, sheetName or functionName is not ' + 'defined in Spreadsheet.addTrigger');
         }
         const sheet = this._sheets[sheetName];
         if (sheet == null) {
-            throw new Error('Sheet name is incorrect or not ' +
-                'found in Spreadsheet.addTrigger');
+            throw new Error('Sheet name is incorrect or not ' + 'found in Spreadsheet.addTrigger');
         }
         switch (triggerType) {
             case ScriptApp.EventType.ON_CHANGE:
-                ScriptApp.newTrigger(functionName).forSpreadsheet(sheet).onChange().
-                    create();
+                ScriptApp.newTrigger(functionName)
+                    .forSpreadsheet(sheet)
+                    .onChange()
+                    .create();
             case ScriptApp.EventType.ON_EDIT:
-                ScriptApp.newTrigger(functionName).forSpreadsheet(sheet).onEdit().
-                    create();
+                ScriptApp.newTrigger(functionName)
+                    .forSpreadsheet(sheet)
+                    .onEdit()
+                    .create();
             case ScriptApp.EventType.ON_FORM_SUBMIT:
-                ScriptApp.newTrigger(functionName).forSpreadsheet(sheet).
-                    onFormSubmit().create();
+                ScriptApp.newTrigger(functionName)
+                    .forSpreadsheet(sheet)
+                    .onFormSubmit()
+                    .create();
         }
         return this;
     }
-    ;
 }

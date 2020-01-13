@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>ClassInfo | gse-tools</title>
+	<title>CourseWorkGS | gse-tools</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -56,10 +56,10 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="classinfo.html">ClassInfo</a>
+					<a href="courseworkgs.html">CourseWorkGS</a>
 				</li>
 			</ul>
-			<h1>Class ClassInfo</h1>
+			<h1>Class CourseWorkGS</h1>
 		</div>
 	</div>
 </header>
@@ -69,7 +69,7 @@
 			<section class="tsd-panel tsd-comment">
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
-						<p>Class for all of the particular course information</p>
+						<p>Class for modifying the assignment before it&#39;s added to Classroom</p>
 					</div>
 				</div>
 			</section>
@@ -77,7 +77,7 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">ClassInfo</span>
+						<span class="target">CourseWorkGS</span>
 					</li>
 				</ul>
 			</section>
@@ -88,26 +88,24 @@
 						<section class="tsd-index-section ">
 							<h3>Constructors</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="classinfo.html#constructor" class="tsd-kind-icon">constructor</a></li>
+								<li class="tsd-kind-constructor tsd-parent-kind-class"><a href="courseworkgs.html#constructor" class="tsd-kind-icon">constructor</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section tsd-is-private tsd-is-private-protected">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="classinfo.html#_announcements" class="tsd-kind-icon">_announcements</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="classinfo.html#_topics" class="tsd-kind-icon">_topics</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="courseworkgs.html#_courseworkresource" class="tsd-kind-icon">_course<wbr>Work<wbr>Resource</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="classinfo.html#addannouncement" class="tsd-kind-icon">add<wbr>Announcement</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="classinfo.html#addcoursework" class="tsd-kind-icon">add<wbr>Course<wbr>Work</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="classinfo.html#addtopic" class="tsd-kind-icon">add<wbr>Topic</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="classinfo.html#getannouncements" class="tsd-kind-icon">get<wbr>Announcements</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="classinfo.html#getcoursework" class="tsd-kind-icon">get<wbr>Course<wbr>Work</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="classinfo.html#getname" class="tsd-kind-icon">get<wbr>Name</a></li>
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="classinfo.html#gettopics" class="tsd-kind-icon">get<wbr>Topics</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="courseworkgs.html#addmaterials" class="tsd-kind-icon">add<wbr>Materials</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="courseworkgs.html#assign" class="tsd-kind-icon">assign</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="courseworkgs.html#changetype" class="tsd-kind-icon">change<wbr>Type</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="courseworkgs.html#getresource" class="tsd-kind-icon">get<wbr>Resource</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="courseworkgs.html#schedule" class="tsd-kind-icon">schedule</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="courseworkgs.html#setduedateandtime" class="tsd-kind-icon">set<wbr>Due<wbr>Date<wbr>And<wbr>Time</a></li>
 							</ul>
 						</section>
 					</div>
@@ -119,21 +117,54 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Class<wbr>Info<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="classinfo.html" class="tsd-signature-type">ClassInfo</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Course<wbr>WorkGS<span class="tsd-signature-symbol">(</span>title<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, topicId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, description<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span>, maxPoints<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="courseworkgs.html" class="tsd-signature-type">CourseWorkGS</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/62b0aa4/src/classroom/ClassInfo.ts#L101">classroom/ClassInfo.ts:101</a></li>
+									<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/3eba3e0/src/classroom/CourseWorkGS.ts#L99">classroom/CourseWorkGS.ts:99</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Resets the announcements and topics.</p>
-								</div>
 							</div>
-							<h4 class="tsd-returns-title">Returns <a href="classinfo.html" class="tsd-signature-type">ClassInfo</a></h4>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>title: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<div class="lead">
+											<p>title of the assignment</p>
+										</div>
+									</div>
+								</li>
+								<li>
+									<h5>topicId: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<div class="lead">
+											<p>topic associated with the assignment</p>
+										</div>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> description: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;&quot;&quot;</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<div class="lead">
+											<p>optional description for the assignment</p>
+										</div>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> maxPoints: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;100</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<div class="lead">
+											<p>maximum points available, if 0 or blank is
+											ungraded</p>
+										</div>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="courseworkgs.html" class="tsd-signature-type">CourseWorkGS</a></h4>
 						</li>
 					</ul>
 				</section>
@@ -141,22 +172,12 @@
 			<section class="tsd-panel-group tsd-member-group tsd-is-private tsd-is-private-protected">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
-					<a name="_announcements" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagPrivate">Private</span> _announcements</h3>
-					<div class="tsd-signature tsd-kind-icon">_announcements<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></div>
+					<a name="_courseworkresource" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> _course<wbr>Work<wbr>Resource</h3>
+					<div class="tsd-signature tsd-kind-icon">_course<wbr>Work<wbr>Resource<span class="tsd-signature-symbol">:</span> <a href="../globals.html#courseworkresource" class="tsd-signature-type">CourseWorkResource</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/62b0aa4/src/classroom/ClassInfo.ts#L101">classroom/ClassInfo.ts:101</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
-					<a name="_topics" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagPrivate">Private</span> _topics</h3>
-					<div class="tsd-signature tsd-kind-icon">_topics<span class="tsd-signature-symbol">:</span> <a href="mapgs.html" class="tsd-signature-type">MapGS</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><a href="../globals.html#coursework" class="tsd-signature-type">CourseWork</a><span class="tsd-signature-symbol">&gt;</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/62b0aa4/src/classroom/ClassInfo.ts#L100">classroom/ClassInfo.ts:100</a></li>
+							<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/3eba3e0/src/classroom/CourseWorkGS.ts#L99">classroom/CourseWorkGS.ts:99</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -164,221 +185,205 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Methods</h2>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="addannouncement" class="tsd-anchor"></a>
-					<h3>add<wbr>Announcement</h3>
+					<a name="addmaterials" class="tsd-anchor"></a>
+					<h3>add<wbr>Materials</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">add<wbr>Announcement<span class="tsd-signature-symbol">(</span>announcement<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="classinfo.html" class="tsd-signature-type">ClassInfo</a></li>
+						<li class="tsd-signature tsd-kind-icon">add<wbr>Materials<span class="tsd-signature-symbol">(</span>materials<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><a href="../globals.html#coursematerial" class="tsd-signature-type">CourseMaterial</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="courseworkgs.html" class="tsd-signature-type">CourseWorkGS</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/62b0aa4/src/classroom/ClassInfo.ts#L156">classroom/ClassInfo.ts:156</a></li>
+									<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/3eba3e0/src/classroom/CourseWorkGS.ts#L128">classroom/CourseWorkGS.ts:128</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Adds an announcement to the coursework</p>
+									<p>Add materials to the assignment</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>announcement: <span class="tsd-signature-type">string</span></h5>
+									<h5>materials: <span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><a href="../globals.html#coursematerial" class="tsd-signature-type">CourseMaterial</a><span class="tsd-signature-symbol">&gt;</span></h5>
 									<div class="tsd-comment tsd-typography">
-										<p>the text of the announcement</p>
+										<p>materials to add to the
+										assignment</p>
 									</div>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="classinfo.html" class="tsd-signature-type">ClassInfo</a></h4>
+							<h4 class="tsd-returns-title">Returns <a href="courseworkgs.html" class="tsd-signature-type">CourseWorkGS</a></h4>
 							<p>the object for chaining</p>
 						</li>
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="addcoursework" class="tsd-anchor"></a>
-					<h3>add<wbr>Course<wbr>Work</h3>
+					<a name="assign" class="tsd-anchor"></a>
+					<h3>assign</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">add<wbr>Course<wbr>Work<span class="tsd-signature-symbol">(</span>topicId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, courseWork<span class="tsd-signature-symbol">: </span><a href="../globals.html#work" class="tsd-signature-type">Work</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="classinfo.html" class="tsd-signature-type">ClassInfo</a></li>
+						<li class="tsd-signature tsd-kind-icon">assign<span class="tsd-signature-symbol">(</span>studentIds<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="courseworkgs.html" class="tsd-signature-type">CourseWorkGS</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/62b0aa4/src/classroom/ClassInfo.ts#L178">classroom/ClassInfo.ts:178</a></li>
+									<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/3eba3e0/src/classroom/CourseWorkGS.ts#L191">classroom/CourseWorkGS.ts:191</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Adds course work to the object</p>
+									<p>Assign course work to a list of students instead of the entire class</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>topicId: <span class="tsd-signature-type">string</span></h5>
+									<h5>studentIds: <span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></h5>
 									<div class="tsd-comment tsd-typography">
-										<p>the topic id</p>
-									</div>
-								</li>
-								<li>
-									<h5>courseWork: <a href="../globals.html#work" class="tsd-signature-type">Work</a></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the work associated with this topic</p>
+										<p>list of student IDs to assign this
+										work to</p>
 									</div>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="classinfo.html" class="tsd-signature-type">ClassInfo</a></h4>
+							<h4 class="tsd-returns-title">Returns <a href="courseworkgs.html" class="tsd-signature-type">CourseWorkGS</a></h4>
 							<p>the object for chaining</p>
 						</li>
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="addtopic" class="tsd-anchor"></a>
-					<h3>add<wbr>Topic</h3>
+					<a name="changetype" class="tsd-anchor"></a>
+					<h3>change<wbr>Type</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">add<wbr>Topic<span class="tsd-signature-symbol">(</span>topicId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, courseWork<span class="tsd-signature-symbol">: </span><a href="../globals.html#coursework" class="tsd-signature-type">CourseWork</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="classinfo.html" class="tsd-signature-type">ClassInfo</a></li>
+						<li class="tsd-signature tsd-kind-icon">change<wbr>Type<span class="tsd-signature-symbol">(</span>type<span class="tsd-signature-symbol">: </span><a href="../enums/courseworktype.html" class="tsd-signature-type">CourseWorkType</a>, choices<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="courseworkgs.html" class="tsd-signature-type">CourseWorkGS</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/62b0aa4/src/classroom/ClassInfo.ts#L144">classroom/ClassInfo.ts:144</a></li>
+									<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/3eba3e0/src/classroom/CourseWorkGS.ts#L176">classroom/CourseWorkGS.ts:176</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Adds a topic to the course</p>
+									<p>Creates the assignment as a short answer question or multiple choice</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>topicId: <span class="tsd-signature-type">string</span></h5>
+									<h5>type: <a href="../enums/courseworktype.html" class="tsd-signature-type">CourseWorkType</a></h5>
 									<div class="tsd-comment tsd-typography">
-										<p>the topic id</p>
+										<p>the type of course work (not an assignment)</p>
 									</div>
 								</li>
 								<li>
-									<h5>courseWork: <a href="../globals.html#coursework" class="tsd-signature-type">CourseWork</a></h5>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> choices: <span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></h5>
 									<div class="tsd-comment tsd-typography">
-										<p>the coursework object associated with
-										the topic</p>
+										<p>choices for a multiple choice question</p>
 									</div>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="classinfo.html" class="tsd-signature-type">ClassInfo</a></h4>
+							<h4 class="tsd-returns-title">Returns <a href="courseworkgs.html" class="tsd-signature-type">CourseWorkGS</a></h4>
 							<p>the object for chaining</p>
 						</li>
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="getannouncements" class="tsd-anchor"></a>
-					<h3>get<wbr>Announcements</h3>
+					<a name="getresource" class="tsd-anchor"></a>
+					<h3>get<wbr>Resource</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Announcements<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Resource<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../globals.html#courseworkresource" class="tsd-signature-type">CourseWorkResource</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/62b0aa4/src/classroom/ClassInfo.ts#L166">classroom/ClassInfo.ts:166</a></li>
+									<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/3eba3e0/src/classroom/CourseWorkGS.ts#L203">classroom/CourseWorkGS.ts:203</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Gets the list of announcements for the coursework</p>
+									<p>Get the underyling resource for adding to Classroom</p>
 								</div>
 							</div>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></h4>
-							<p>the list of announcements</p>
+							<h4 class="tsd-returns-title">Returns <a href="../globals.html#courseworkresource" class="tsd-signature-type">CourseWorkResource</a></h4>
+							<p>the resource to add</p>
 						</li>
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="getcoursework" class="tsd-anchor"></a>
-					<h3>get<wbr>Course<wbr>Work</h3>
+					<a name="schedule" class="tsd-anchor"></a>
+					<h3>schedule</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Course<wbr>Work<span class="tsd-signature-symbol">(</span>topicId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../globals.html#coursework" class="tsd-signature-type">CourseWork</a></li>
+						<li class="tsd-signature tsd-kind-icon">schedule<span class="tsd-signature-symbol">(</span>time<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Date</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="courseworkgs.html" class="tsd-signature-type">CourseWorkGS</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/62b0aa4/src/classroom/ClassInfo.ts#L194">classroom/ClassInfo.ts:194</a></li>
+									<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/3eba3e0/src/classroom/CourseWorkGS.ts#L163">classroom/CourseWorkGS.ts:163</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Gets the course work associated with the specified topic</p>
+									<p>Schedule the assignment</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>topicId: <span class="tsd-signature-type">string</span></h5>
+									<h5>time: <span class="tsd-signature-type">Date</span></h5>
 									<div class="tsd-comment tsd-typography">
-										<p>the topic id</p>
+										<p>the date and time to schedule it for</p>
 									</div>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="../globals.html#coursework" class="tsd-signature-type">CourseWork</a></h4>
+							<h4 class="tsd-returns-title">Returns <a href="courseworkgs.html" class="tsd-signature-type">CourseWorkGS</a></h4>
 							<p>the object for chaining</p>
 						</li>
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="getname" class="tsd-anchor"></a>
-					<h3>get<wbr>Name</h3>
+					<a name="setduedateandtime" class="tsd-anchor"></a>
+					<h3>set<wbr>Due<wbr>Date<wbr>And<wbr>Time</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Name<span class="tsd-signature-symbol">(</span>topicId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+						<li class="tsd-signature tsd-kind-icon">set<wbr>Due<wbr>Date<wbr>And<wbr>Time<span class="tsd-signature-symbol">(</span>dueDate<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Date</span>, dueHour<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, dueMinute<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="courseworkgs.html" class="tsd-signature-type">CourseWorkGS</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/62b0aa4/src/classroom/ClassInfo.ts#L127">classroom/ClassInfo.ts:127</a></li>
+									<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/3eba3e0/src/classroom/CourseWorkGS.ts#L141">classroom/CourseWorkGS.ts:141</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Gets the name of a topic</p>
+									<p>Set the due date and time</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>topicId: <span class="tsd-signature-type">string</span></h5>
+									<h5>dueDate: <span class="tsd-signature-type">Date</span></h5>
 									<div class="tsd-comment tsd-typography">
-										<p>the topic id</p>
+										<p>the date this assignment is due</p>
+									</div>
+								</li>
+								<li>
+									<h5>dueHour: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>the hour this assignment is due</p>
+									</div>
+								</li>
+								<li>
+									<h5>dueMinute: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>the minute this assignment is due</p>
 									</div>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
-							<p>the name of the topic</p>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="gettopics" class="tsd-anchor"></a>
-					<h3>get<wbr>Topics</h3>
-					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Topics<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/62b0aa4/src/classroom/ClassInfo.ts#L116">classroom/ClassInfo.ts:116</a></li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Get the topic ids</p>
-								</div>
-							</div>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></h4>
-							<p>the topic ids</p>
+							<h4 class="tsd-returns-title">Returns <a href="courseworkgs.html" class="tsd-signature-type">CourseWorkGS</a></h4>
+							<p>the object for chaining</p>
 						</li>
 					</ul>
 				</section>
@@ -397,37 +402,31 @@
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-class">
-						<a href="classinfo.html" class="tsd-kind-icon">Class<wbr>Info</a>
+						<a href="courseworkgs.html" class="tsd-kind-icon">Course<wbr>WorkGS</a>
 						<ul>
 							<li class=" tsd-kind-constructor tsd-parent-kind-class">
-								<a href="classinfo.html#constructor" class="tsd-kind-icon">constructor</a>
+								<a href="courseworkgs.html#constructor" class="tsd-kind-icon">constructor</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
-								<a href="classinfo.html#_announcements" class="tsd-kind-icon">_announcements</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
-								<a href="classinfo.html#_topics" class="tsd-kind-icon">_topics</a>
+								<a href="courseworkgs.html#_courseworkresource" class="tsd-kind-icon">_course<wbr>Work<wbr>Resource</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="classinfo.html#addannouncement" class="tsd-kind-icon">add<wbr>Announcement</a>
+								<a href="courseworkgs.html#addmaterials" class="tsd-kind-icon">add<wbr>Materials</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="classinfo.html#addcoursework" class="tsd-kind-icon">add<wbr>Course<wbr>Work</a>
+								<a href="courseworkgs.html#assign" class="tsd-kind-icon">assign</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="classinfo.html#addtopic" class="tsd-kind-icon">add<wbr>Topic</a>
+								<a href="courseworkgs.html#changetype" class="tsd-kind-icon">change<wbr>Type</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="classinfo.html#getannouncements" class="tsd-kind-icon">get<wbr>Announcements</a>
+								<a href="courseworkgs.html#getresource" class="tsd-kind-icon">get<wbr>Resource</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="classinfo.html#getcoursework" class="tsd-kind-icon">get<wbr>Course<wbr>Work</a>
+								<a href="courseworkgs.html#schedule" class="tsd-kind-icon">schedule</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="classinfo.html#getname" class="tsd-kind-icon">get<wbr>Name</a>
-							</li>
-							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="classinfo.html#gettopics" class="tsd-kind-icon">get<wbr>Topics</a>
+								<a href="courseworkgs.html#setduedateandtime" class="tsd-kind-icon">set<wbr>Due<wbr>Date<wbr>And<wbr>Time</a>
 							</li>
 						</ul>
 					</li>

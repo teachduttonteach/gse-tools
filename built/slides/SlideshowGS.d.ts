@@ -2,10 +2,10 @@
 import { UiGS } from '../UiGS';
 import { SlideGS } from './SlideGS';
 /**
-* Class to access methods and properties of Google Presentations
-*
-* @param {string} id the id of the presentation
-*/
+ * Class to access methods and properties of Google Presentations
+ *
+ * @param {string} id the id of the presentation
+ */
 export declare function newSlideshow(id: string): SlideshowGS;
 /**
  * Clear the slideshow of slides
@@ -62,7 +62,7 @@ export declare function changeSlideshowPicture(obj: SlideshowGS, folder: string,
  *
  * @return {SlideGS} the slide object
  */
-export declare function getSlideshowSlide(obj: SlideshowGS, num: number): SlideGS;
+export declare function getSlide(obj: SlideshowGS, num: number): SlideGS;
 /**
  * Adds a slide to the Slideshow, using a template if present
  *
@@ -73,7 +73,7 @@ export declare function getSlideshowSlide(obj: SlideshowGS, num: number): SlideG
  *
  * @return {SlideGS} the new slide object
  */
-export declare function addSlideshowSlide(obj: SlideshowGS, title: string, body: string, type: string): SlideGS;
+export declare function addSlide(obj: SlideshowGS, title: string, body: string, type: string): SlideGS;
 /**
  * Gets the slide in the presentation from the id of the slide
  *
@@ -82,7 +82,7 @@ export declare function addSlideshowSlide(obj: SlideshowGS, title: string, body:
  *
  * @return {SlideGS} the slide object
  */
-export declare function getSlideshowSlideById(obj: SlideshowGS, id: string): SlideGS;
+export declare function getSlideById(obj: SlideshowGS, id: string): SlideGS;
 /**
  * Removes a slide from the presentation
  *
@@ -91,7 +91,7 @@ export declare function getSlideshowSlideById(obj: SlideshowGS, id: string): Sli
  *
  * @return {SlideshowGS} the object for chaining
  */
-export declare function removeSlideshowSlide(obj: SlideshowGS, id: string): SlideshowGS;
+export declare function removeSlide(obj: SlideshowGS, id: string): SlideshowGS;
 /**
  * Gets the slide type from the slide notes and adds the slide if not present
  *
@@ -100,7 +100,7 @@ export declare function removeSlideshowSlide(obj: SlideshowGS, id: string): Slid
  *
  * @return {SlideGS} the requested slide
  */
-export declare function getSlideshowSlideByType(obj: SlideshowGS, typeTitle: string): SlideGS;
+export declare function getSlideByType(obj: SlideshowGS, typeTitle: string): SlideGS;
 /**
  * Sets the body for the given slide type
  *
@@ -110,7 +110,7 @@ export declare function getSlideshowSlideByType(obj: SlideshowGS, typeTitle: str
  *
  * @return {SlideshowGS} the object for chaining
  */
-export declare function setSlideshowSlideBodyByType(obj: SlideshowGS, typeTitle: string, slideText: string): SlideshowGS;
+export declare function setSlideBodyByType(obj: SlideshowGS, typeTitle: string, slideText: string): SlideshowGS;
 /**
  * Sets the title for the given slide type
  *
@@ -120,7 +120,7 @@ export declare function setSlideshowSlideBodyByType(obj: SlideshowGS, typeTitle:
  *
  * @return {SlideshowGS} the object for chaining
  */
-export declare function setSlideshowSlideTitleByType(obj: SlideshowGS, typeTitle: string, title: string): SlideshowGS;
+export declare function setSlideTitleByType(obj: SlideshowGS, typeTitle: string, title: string): SlideshowGS;
 /**
  * Class to access methods and properties of Google Presentations
  */

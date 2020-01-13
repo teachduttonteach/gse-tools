@@ -40,7 +40,7 @@ export declare function getCalendarId(obj: CalendarGS): string;
  *
  * @return {string} the list of due dates as a string for use in Slides
  */
-export declare function getCalendarUpcomingDueDates(obj: CalendarGS, daysToLookAhead: number, eventOptions: DateParams): string;
+export declare function getUpcomingDueDates(obj: CalendarGS, daysToLookAhead: number, eventOptions: DateParams): string;
 /**
  * Gets the upcoming due dates for events on the calendar
  * ```javascript
@@ -61,7 +61,7 @@ export declare function getCalendarUpcomingDueDates(obj: CalendarGS, daysToLookA
  * @param {string} noEventString the string to display if there is no event
  * @return {Array<string>} the list of due dates as an array
  */
-export declare function getCalendarUpcomingDueDatesList(obj: CalendarGS, daysToLookAhead: number, eventOptions: DateParams, noEventString?: string): string[];
+export declare function getUpcomingDueDatesList(obj: CalendarGS, daysToLookAhead: number, eventOptions: DateParams, noEventString?: string): string[];
 /**
  * Gets the upcoming events on the calendar
  * ```javascript
@@ -74,7 +74,7 @@ export declare function getCalendarUpcomingDueDatesList(obj: CalendarGS, daysToL
  *
  * @return {Array<CalendarEventGS>} the list of calendar events
  */
-export declare function getCalendarUpcomingEvents(obj: CalendarGS, daysToLookAhead: number): CalendarEventGS[];
+export declare function getUpcomingEvents(obj: CalendarGS, daysToLookAhead: number): CalendarEventGS[];
 /**
  * Class to hold properties and methods to manipulate the Google Calendar
  *

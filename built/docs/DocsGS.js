@@ -63,7 +63,6 @@ export function changeDocsSeparator(obj, separator) {
 export function appendDocsItem(obj, text, title, link) {
     return obj.appendItem(text, title, link);
 }
-;
 /**
  * Adds text to the document
  *
@@ -76,7 +75,6 @@ export function appendDocsItem(obj, text, title, link) {
 export function addDocsText(obj, text, level) {
     return obj.addText(text, level);
 }
-;
 /**
  * Clears the body of text
  *
@@ -160,16 +158,16 @@ export class DocsGS extends UiGS {
      * @return {DocsGS} the object for chaining
      */
     appendItem(text, title, link) {
-        if ((text == null) || (title == null) || (link == null)) {
-            throw new Error('Text, title and link need to be defined for ' +
-                'DocsGS.appendItem()');
+        if (text == null || title == null || link == null) {
+            throw new Error('Text, title and link need to be defined for ' + 'DocsGS.appendItem()');
         }
-        this._docObject.getBody().
-            appendListItem(text + this._titleDelim + ' ' + title).
-            setGlyphType(this._separator).setLinkUrl(link);
+        this._docObject
+            .getBody()
+            .appendListItem(text + this._titleDelim + ' ' + title)
+            .setGlyphType(this._separator)
+            .setLinkUrl(link);
         return this;
     }
-    ;
     /**
      * Adds text to the document
      *
@@ -178,26 +176,25 @@ export class DocsGS extends UiGS {
      *
      * @return {DocsGS} the object for chaining
      */
-    addText(text, level) {
+    addText(text, level = 'N') {
         if (text == undefined) {
-            throw new Error('Text needs to be defined for the' +
-                ' heading in DocsGS.addText()');
+            throw new Error('Text needs to be defined for the' + ' heading in DocsGS.addText()');
         }
         if (level == undefined) {
-            throw new Error('Level (' + level + ') needs to ' +
-                'be a ParagraphHeading type in DocsGS.addText()');
+            throw new Error('Level (' + level + ') needs to ' + 'be a ParagraphHeading type in DocsGS.addText()');
         }
         if (typeof level === 'string')
             level = level.substr(0, 1).toUpperCase();
         const thisLevel = docLevels(level);
         if (thisLevel == null) {
-            throw new Error('Level (' + level + ') needs to ' +
-                'be a ParagraphHeading type in DocsGS.addText()');
+            throw new Error('Level (' + level + ') needs to ' + 'be a ParagraphHeading type in DocsGS.addText()');
         }
-        this._docObject.getBody().appendParagraph(text).setHeading(thisLevel);
+        this._docObject
+            .getBody()
+            .appendParagraph(text)
+            .setHeading(thisLevel);
         return this;
     }
-    ;
     /**
      * Clears the body of text
      *
@@ -208,4 +205,3 @@ export class DocsGS extends UiGS {
         return this;
     }
 }
-;

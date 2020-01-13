@@ -36,7 +36,6 @@ export function getFormsObject(obj) {
 export function convertFormsLinebreaksToList(obj, text) {
     return obj.convertLinebreaksToList(text);
 }
-;
 /**
  * Add an item to the form
  *
@@ -52,7 +51,6 @@ export function convertFormsLinebreaksToList(obj, text) {
 export function addFormsItem(obj, title, questionType, optionsList, mcGridRowsList) {
     return obj.addItem(title, questionType, optionsList, mcGridRowsList);
 }
-;
 /**
  * Adds a paragraph item to the form
  *
@@ -64,7 +62,6 @@ export function addFormsItem(obj, title, questionType, optionsList, mcGridRowsLi
 export function addFormsParagraph(obj, title) {
     return obj.addParagraph(title);
 }
-;
 /**
  * Adds a true/false item to the form
  *
@@ -76,7 +73,6 @@ export function addFormsParagraph(obj, title) {
 export function addFormsTrueFalse(obj, title) {
     return obj.addTrueFalse(title);
 }
-;
 /**
  * Returns an array of values from either an array or a string
  *
@@ -129,7 +125,6 @@ export function addFormsMultipleCheck(obj, title, items) {
 export function addFormsMultipleGridChoice(obj, title, columns, rows) {
     return obj.addMultipleGridChoice(title, columns, rows);
 }
-;
 /**
  * Adds a multiple checkbox grid item to the form
  *
@@ -145,7 +140,6 @@ export function addFormsMultipleGridChoice(obj, title, columns, rows) {
 export function addFormsMultipleGridCheck(obj, title, columns, rows) {
     return obj.addMultipleGridCheck(title, columns, rows);
 }
-;
 /**
  * Add an image to the form
  *
@@ -157,7 +151,6 @@ export function addFormsMultipleGridCheck(obj, title, columns, rows) {
 export function addFormsImage(obj, file) {
     return obj.addImage(file);
 }
-;
 /**
  * Delete the items on this form
  *
@@ -167,7 +160,6 @@ export function addFormsImage(obj, file) {
 export function deleteFormsItems(obj) {
     return obj.deleteItems();
 }
-;
 /**
  * Set the title of the form
  *
@@ -190,13 +182,11 @@ export class FormsGS extends UiGS {
     constructor(id) {
         super();
         if (id == null) {
-            throw new Error('Form id needs to be defined in Form(): ' +
-                id);
+            throw new Error('Form id needs to be defined in Form(): ' + id);
         }
         this._form = FormApp.openById(id);
         if (this._form == null) {
-            throw new Error('Form not found with id ' + id +
-                ' in Form()');
+            throw new Error('Form not found with id ' + id + ' in Form()');
         }
     }
     /**
@@ -226,11 +216,10 @@ export class FormsGS extends UiGS {
      * @return {Array<string>} the list
      */
     convertLinebreaksToList(text) {
-        if ((text == null) || (text == ''))
+        if (text == null || text == '')
             return [];
         return text.split('\n');
     }
-    ;
     /**
      * Add an item to the form
      *
@@ -248,8 +237,10 @@ export class FormsGS extends UiGS {
                 this._form.addParagraphTextItem().setTitle(title);
                 break;
             case QuestionType.TRUE_FALSE:
-                this._form.addMultipleChoiceItem().setTitle(title).
-                    setChoiceValues(['True', 'False']);
+                this._form
+                    .addMultipleChoiceItem()
+                    .setTitle(title)
+                    .setChoiceValues(['True', 'False']);
                 break;
             case QuestionType.MULTIPLE_CHOICE:
                 this._form.addMultipleChoiceItem().setTitle(title);
@@ -276,8 +267,7 @@ export class FormsGS extends UiGS {
             case QuestionType.MC_GRID:
                 const item = this._form.addGridItem().setTitle(title);
                 if (optionsList == undefined) {
-                    throw new Error('Options list must be ' +
-                        'defined in FormsGS.addItem()');
+                    throw new Error('Options list must be ' + 'defined in FormsGS.addItem()');
                 }
                 else if (typeof optionsList === 'string') {
                     item.setColumns(this.convertLinebreaksToList(optionsList));
@@ -285,8 +275,7 @@ export class FormsGS extends UiGS {
                 else
                     item.setColumns(optionsList);
                 if (mcGridRowsList == undefined) {
-                    throw new Error('Grid rows list must be defined in ' +
-                        'FormsGS.addItem()');
+                    throw new Error('Grid rows list must be defined in ' + 'FormsGS.addItem()');
                 }
                 else if (typeof mcGridRowsList === 'string') {
                     item.setRows(this.convertLinebreaksToList(mcGridRowsList));
@@ -297,8 +286,7 @@ export class FormsGS extends UiGS {
             case QuestionType.MS_GRID:
                 const gridItem = this._form.addCheckboxGridItem().setTitle(title);
                 if (optionsList == undefined) {
-                    throw new Error('Options list must be ' +
-                        'defined in FormsGS.addItem()');
+                    throw new Error('Options list must be ' + 'defined in FormsGS.addItem()');
                 }
                 else if (typeof optionsList === 'string') {
                     gridItem.setColumns(this.convertLinebreaksToList(optionsList));
@@ -306,8 +294,7 @@ export class FormsGS extends UiGS {
                 else
                     gridItem.setColumns(optionsList);
                 if (mcGridRowsList == undefined) {
-                    throw new Error('Grid rows list ' +
-                        'must be defined in FormsGS.addItem()');
+                    throw new Error('Grid rows list ' + 'must be defined in FormsGS.addItem()');
                 }
                 else if (typeof mcGridRowsList === 'string') {
                     gridItem.setRows(this.convertLinebreaksToList(mcGridRowsList));
@@ -321,7 +308,6 @@ export class FormsGS extends UiGS {
         }
         return this;
     }
-    ;
     /**
      * Adds a paragraph item to the form
      *
@@ -331,13 +317,11 @@ export class FormsGS extends UiGS {
      */
     addParagraph(title) {
         if (title == null) {
-            throw new Error('Title needs to be defined for ' +
-                'Form.addParagraph');
+            throw new Error('Title needs to be defined for ' + 'Form.addParagraph');
         }
         this._form.addParagraphTextItem().setTitle(title);
         return this;
     }
-    ;
     /**
      * Adds a true/false item to the form
      *
@@ -347,13 +331,11 @@ export class FormsGS extends UiGS {
      */
     addTrueFalse(title) {
         if (title == null) {
-            throw new Error('Title needs to be defined for ' +
-                'Form.addTrueFalse');
+            throw new Error('Title needs to be defined for ' + 'Form.addTrueFalse');
         }
         this.addMultipleChoice(title, ['True', 'False']);
         return this;
     }
-    ;
     /**
      * Returns an array of values from either an array or a string
      *
@@ -412,7 +394,6 @@ export class FormsGS extends UiGS {
         mcItem.setRows(this.setValuesFromList(rows));
         return this;
     }
-    ;
     /**
      * Adds a multiple checkbox grid item to the form
      *
@@ -430,7 +411,6 @@ export class FormsGS extends UiGS {
         mcItem.setRows(this.setValuesFromList(rows));
         return this;
     }
-    ;
     /**
      * Add an image to the form
      *
@@ -440,13 +420,11 @@ export class FormsGS extends UiGS {
      */
     addImage(file) {
         if (file == null) {
-            throw new Error('Could not find image in ' +
-                'FormsGS.addImage()');
+            throw new Error('Could not find image in ' + 'FormsGS.addImage()');
         }
         this._form.addImageItem().setImage(file);
         return this;
     }
-    ;
     /**
      * Delete the items on this form
      *
@@ -459,7 +437,6 @@ export class FormsGS extends UiGS {
         this._form.deleteAllResponses();
         return this;
     }
-    ;
     /**
      * Set the title of the form
      *
@@ -472,4 +449,3 @@ export class FormsGS extends UiGS {
         return this;
     }
 }
-;

@@ -38,7 +38,6 @@ export function replaceSlideImage(obj, picture, imageNumber = 0) {
 export function getSlideNotes(obj) {
     return obj.getNotes();
 }
-;
 /**
  * Set the speaker notes to the specified text
  *
@@ -50,7 +49,6 @@ export function getSlideNotes(obj) {
 export function setSlideNotes(obj, text) {
     return obj.setNotes(text);
 }
-;
 /**
  * Sets the title of the slide
  *
@@ -62,7 +60,6 @@ export function setSlideNotes(obj, text) {
 export function setSlideTitle(obj, title) {
     return obj.setTitle(title);
 }
-;
 /**
  * Sets the body of the slide
  *
@@ -74,7 +71,6 @@ export function setSlideTitle(obj, title) {
 export function setSlideBody(obj, body) {
     return obj.setBody(body);
 }
-;
 /**
  * Sets the body of the slide to a list
  *
@@ -89,7 +85,6 @@ export function setSlideBody(obj, body) {
 export function setSlideList(obj, text, bulletType = SlidesApp.ListPreset.DISC_CIRCLE_SQUARE) {
     return obj.setList(text, bulletType);
 }
-;
 /**
  * Add items to a list on a slide
  *
@@ -104,7 +99,6 @@ export function setSlideList(obj, text, bulletType = SlidesApp.ListPreset.DISC_C
 export function addSlideItems(obj, questionOptions, bulletType = SlidesApp.ListPreset.DISC_CIRCLE_SQUARE) {
     return obj.addItems(questionOptions, bulletType);
 }
-;
 /**
  * Adds the item to the slide of a particular type
  *
@@ -120,7 +114,6 @@ export function addSlideItems(obj, questionOptions, bulletType = SlidesApp.ListP
 export function addSlideItem(obj, type, itemsToAdd, bulletType = SlidesApp.ListPreset.DISC_CIRCLE_SQUARE) {
     return obj.addItem(type, itemsToAdd, bulletType);
 }
-;
 /**
  * Change the picture displayed in the slide
  *
@@ -134,7 +127,6 @@ export function addSlideItem(obj, type, itemsToAdd, bulletType = SlidesApp.ListP
 export function changeSlidePicture(obj, chosenPictureBlob, pictureNumber = 0) {
     return obj.changePicture(chosenPictureBlob, pictureNumber);
 }
-;
 /**
  * Sets the dimensions of the slide for picture orientation
  *
@@ -148,7 +140,6 @@ export function changeSlidePicture(obj, chosenPictureBlob, pictureNumber = 0) {
 export function setSlideDimensions(obj, dimensions) {
     return obj.setDimensions(dimensions);
 }
-;
 /**
  * Position the picture on the slide according to the size of the image
  *
@@ -163,7 +154,6 @@ export function setSlideDimensions(obj, dimensions) {
 export function positionSlidePicture(obj, id, bottom = true, right = true) {
     return obj.positionPicture(id, bottom, right);
 }
-;
 /**
  * Get the page elements on the slide
  *
@@ -173,7 +163,6 @@ export function positionSlidePicture(obj, id, bottom = true, right = true) {
 export function getSlidePageElements(obj) {
     return obj.getPageElements();
 }
-;
 /**
  * Removes the current slide
  * @param {SlideGS} obj the Slide object
@@ -220,8 +209,7 @@ export class SlideGS {
         }
         let foundImages = 0;
         for (let j = 0; j < this._pageElements.length; j++) {
-            if (this._pageElements[j].getPageElementType() ==
-                SlidesApp.PageElementType.IMAGE) {
+            if (this._pageElements[j].getPageElementType() == SlidesApp.PageElementType.IMAGE) {
                 if (foundImages == imageNumber) {
                     this._pageElements[j].asImage().replace(picture);
                     return j;
@@ -230,8 +218,7 @@ export class SlideGS {
                     foundImages++;
             }
         }
-        throw new Error('Could not find picture number ' + imageNumber +
-            ' on slide in Slide.replaceImage');
+        throw new Error('Could not find picture number ' + imageNumber + ' on slide in Slide.replaceImage');
     }
     /**
      * Get the speaker notes from the slide
@@ -239,10 +226,12 @@ export class SlideGS {
      * @return {string} the speaker notes
      */
     getNotes() {
-        return this._slide.getNotesPage().getSpeakerNotesShape().getText().
-            asString();
+        return this._slide
+            .getNotesPage()
+            .getSpeakerNotesShape()
+            .getText()
+            .asString();
     }
-    ;
     /**
      * Set the speaker notes to the specified text
      *
@@ -254,11 +243,13 @@ export class SlideGS {
         if (text == null) {
             throw new Error('Notes text cannot be blank in Slide.setNotes');
         }
-        this._slide.getNotesPage().getSpeakerNotesShape().getText().
-            setText(text);
+        this._slide
+            .getNotesPage()
+            .getSpeakerNotesShape()
+            .getText()
+            .setText(text);
         return this;
     }
-    ;
     /**
      * Sets the title of the slide
      *
@@ -270,11 +261,13 @@ export class SlideGS {
         if (title == null) {
             throw new Error('Slide title cannot be blank in Slide.setTitle');
         }
-        this._slide.getPlaceholder(SlidesApp.PlaceholderType.TITLE).asShape().
-            getText().setText(title);
+        this._slide
+            .getPlaceholder(SlidesApp.PlaceholderType.TITLE)
+            .asShape()
+            .getText()
+            .setText(title);
         return this;
     }
-    ;
     /**
      * Sets the body of the slide
      *
@@ -286,11 +279,13 @@ export class SlideGS {
         if (body == null) {
             throw new Error('Body cannot be blank in Slide.setBody');
         }
-        this._slide.getPlaceholder(SlidesApp.PlaceholderType.BODY).asShape().
-            getText().setText(body);
+        this._slide
+            .getPlaceholder(SlidesApp.PlaceholderType.BODY)
+            .asShape()
+            .getText()
+            .setText(body);
         return this;
     }
-    ;
     /**
      * Sets the body of the slide to a list
      *
@@ -305,11 +300,15 @@ export class SlideGS {
         if (text == null) {
             throw new Error('Text cannot be blank in Slide.setList');
         }
-        this._slide.getPlaceholder(SlidesApp.PlaceholderType.BODY).asShape().
-            getText().setText(text).getListStyle().applyListPreset(bulletType);
+        this._slide
+            .getPlaceholder(SlidesApp.PlaceholderType.BODY)
+            .asShape()
+            .getText()
+            .setText(text)
+            .getListStyle()
+            .applyListPreset(bulletType);
         return this;
     }
-    ;
     /**
      * Add items to a list on a slide
      *
@@ -333,7 +332,6 @@ export class SlideGS {
         this.setList(textRange, bulletType);
         return this;
     }
-    ;
     /**
      * Adds the item to the slide of a particular type
      *
@@ -357,7 +355,6 @@ export class SlideGS {
         }
         return this;
     }
-    ;
     /**
      * Change the picture displayed in the slide
      *
@@ -369,13 +366,11 @@ export class SlideGS {
      */
     changePicture(chosenPictureBlob, pictureNumber = 0) {
         if (chosenPictureBlob == null) {
-            throw new Error('Slide and blob of chosen picture need to be ' +
-                'defined in Slides.changePicture');
+            throw new Error('Slide and blob of chosen picture need to be ' + 'defined in Slides.changePicture');
         }
         let countPictures = 0;
         for (let pictureId = 0; pictureId < this._pageElements.length; pictureId++) {
-            if (this._pageElements[pictureId].getPageElementType() ==
-                SlidesApp.PageElementType.IMAGE) {
+            if (this._pageElements[pictureId].getPageElementType() == SlidesApp.PageElementType.IMAGE) {
                 if (countPictures == pictureNumber) {
                     this._pageElements[pictureId].asImage().replace(chosenPictureBlob);
                     return pictureId;
@@ -385,7 +380,6 @@ export class SlideGS {
         }
         return -1;
     }
-    ;
     /**
      * Sets the dimensions of the slide for picture orientation
      *
@@ -397,13 +391,11 @@ export class SlideGS {
      */
     setDimensions(dimensions) {
         if (dimensions == undefined) {
-            throw new Error('Height and width of dimensions need to all be ' +
-                'integers in Slides.setDimensions');
+            throw new Error('Height and width of dimensions need to all be ' + 'integers in Slides.setDimensions');
         }
         this._dimensions = dimensions;
         return this;
     }
-    ;
     /**
      * Position the picture on the slide according to the size of the image
      *
@@ -416,33 +408,28 @@ export class SlideGS {
      */
     positionPicture(id, bottom = true, right = true) {
         if (id == null) {
-            throw new Error('ID and Slide need to be defined in ' +
-                'SlidesGS.positionPicture()');
+            throw new Error('ID and Slide need to be defined in ' + 'SlidesGS.positionPicture()');
         }
         if (this._pageElements == null) {
-            throw new Error('Could not get slide specified by Slide object in ' +
-                'Slides.positionPicture');
+            throw new Error('Could not get slide specified by Slide object in ' + 'Slides.positionPicture');
         }
         if (this._pageElements[id] == null) {
-            throw new Error('Could not get element id (' + id +
-                ') off of Slide object in Slides.positionPicture');
+            throw new Error('Could not get element id (' + id + ') off of Slide object in Slides.positionPicture');
         }
         const height = this._pageElements[id].getHeight();
         const width = this._pageElements[id].getWidth();
-        const { maxHeight = 300, maxWidth = 250, totalHeight = 400, totalWidth = 720, margin = 10, } = this._dimensions;
+        const { maxHeight = 300, maxWidth = 250, totalHeight = 400, totalWidth = 720, margin = 10 } = this._dimensions;
         if (height > width) {
             const newWidth = (maxHeight / height) * width;
             this._pageElements[id].setWidth(newWidth);
             this._pageElements[id].setHeight(maxHeight);
             if (right) {
-                this._pageElements[id].
-                    setLeft(totalWidth - newWidth - margin);
+                this._pageElements[id].setLeft(totalWidth - newWidth - margin);
             }
             else
                 this._pageElements[id].setLeft(margin);
             if (bottom) {
-                this._pageElements[id].
-                    setTop(totalHeight - maxHeight - margin);
+                this._pageElements[id].setTop(totalHeight - maxHeight - margin);
             }
             else
                 this._pageElements[id].setTop(margin);
@@ -452,21 +439,18 @@ export class SlideGS {
             this._pageElements[id].setHeight(newHeight);
             this._pageElements[id].setWidth(maxWidth);
             if (bottom) {
-                this._pageElements[id].
-                    setTop(totalHeight - newHeight - margin);
+                this._pageElements[id].setTop(totalHeight - newHeight - margin);
             }
             else
                 this._pageElements[id].setTop(margin);
             if (right) {
-                this._pageElements[id].
-                    setLeft(totalWidth - maxWidth - margin);
+                this._pageElements[id].setLeft(totalWidth - maxWidth - margin);
             }
             else
                 this._pageElements[id].setLeft(margin);
         }
         return this;
     }
-    ;
     /**
      * Get the page elements on the slide
      *
@@ -475,7 +459,6 @@ export class SlideGS {
     getPageElements() {
         return this._pageElements;
     }
-    ;
     /**
      * Removes the current slide
      */
@@ -483,4 +466,3 @@ export class SlideGS {
         this._slide.remove();
     }
 }
-;

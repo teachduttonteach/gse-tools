@@ -100,10 +100,9 @@ export function getSheetEventValue(obj, row, col) {
  * @param {string} name the name of the sheet
  * @return {SheetEventGS} the object for chaining
  */
-export function addSheetEventSheetName(obj, name) {
-    return obj.addSheetName(name);
+export function addSheetEventTriggerSheetName(obj, name) {
+    return obj.addTriggerSheetName(name);
 }
-;
 /**
  * Adds a column range for the trigger
  *
@@ -115,7 +114,6 @@ export function addSheetEventSheetName(obj, name) {
 export function addSheetEventTriggerColumnRange(obj, min = 0, max = 0) {
     return obj.addTriggerColumnRange(min, max);
 }
-;
 /**
  * Adds a row range for the trigger
  *
@@ -127,7 +125,6 @@ export function addSheetEventTriggerColumnRange(obj, min = 0, max = 0) {
 export function addSheetEventTriggerRowRange(obj, min = 0, max = 0) {
     return obj.addTriggerRowRange(min, max);
 }
-;
 /**
  * Adds a range for the trigger
  *
@@ -142,7 +139,6 @@ export function addSheetEventTriggerRowRange(obj, min = 0, max = 0) {
 export function addSheetEventTriggerRange(obj, forRow, min, max) {
     return obj.addTriggerRange(forRow, min, max);
 }
-;
 /**
  * Class to process Spreadsheet events (like onEdit, onChange)
  *
@@ -229,15 +225,14 @@ export class SheetEventGS {
         let foundColumn = false;
         let foundRow = false;
         if (this._triggerSheet == this._sheetName) {
-            const [columns, rows] = [this._triggerRanges.columns,
-                this._triggerRanges.rows];
+            const [columns, rows] = [this._triggerRanges.columns, this._triggerRanges.rows];
             for (const c of columns) {
-                if ((c[0] <= this._column) && (this._column <= c[1])) {
+                if (c[0] <= this._column && this._column <= c[1]) {
                     foundColumn = true;
                 }
             }
             for (const r of rows) {
-                if ((r[0] <= this._row) && (this._row <= r[1])) {
+                if (r[0] <= this._row && this._row <= r[1]) {
                     foundRow = true;
                 }
             }
@@ -258,12 +253,12 @@ export class SheetEventGS {
         return this._sheet.getValue(row, col);
     }
     /**
-   * Adds sheet to the trigger
-   *
-   * @param {string} name the name of the sheet
-   * @return {SheetEventGS} the object for chaining
-   */
-    addSheetName(name) {
+     * Adds sheet to the trigger
+     *
+     * @param {string} name the name of the sheet
+     * @return {SheetEventGS} the object for chaining
+     */
+    addTriggerSheetName(name) {
         if (name) {
             this._triggerSheet = name;
             return this;
@@ -272,7 +267,6 @@ export class SheetEventGS {
             throw new Error('Sheet name is not found in Spreadsheet.addSheetName');
         }
     }
-    ;
     /**
      * Adds a column range for the trigger
      *
@@ -284,7 +278,6 @@ export class SheetEventGS {
         this.addTriggerRange(false, min, max);
         return this;
     }
-    ;
     /**
      * Adds a row range for the trigger
      *
@@ -296,7 +289,6 @@ export class SheetEventGS {
         this.addTriggerRange(true, min, max);
         return this;
     }
-    ;
     /**
      * Adds a range for the trigger
      *
@@ -350,5 +342,4 @@ export class SheetEventGS {
         }
         return this;
     }
-    ;
 }

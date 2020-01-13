@@ -68,21 +68,21 @@ export declare function getSheetValues(obj: SheetGS, row: number, col: number, n
  */
 export declare function getSheetMapValues(obj: SheetGS, row: number, col: number, numRows: number, numCols: number): MapGS<string | Date, MapGS<string | Date, string | Date>>;
 /**
-* Gets an entire column from the sheet as an array
-*
-* @param {SheetGS} obj the Sheet object
-* @param {number} numColumn number of the column
-* @return {Array<string | Date>} the column as an array
-*/
+ * Gets an entire column from the sheet as an array
+ *
+ * @param {SheetGS} obj the Sheet object
+ * @param {number} numColumn number of the column
+ * @return {Array<string | Date>} the column as an array
+ */
 export declare function getSheetColumn(obj: SheetGS, numColumn: number): Array<string | Date>;
 /**
-* Gets an entire column from the sheet as a Map of column names to values
-*
-* @param {SheetGS} obj the Sheet object
-* @param {number} numColumn number of the column
-* @return {MapGS<string | Date, string | Date>}
-*   the row names with column values
-*/
+ * Gets an entire column from the sheet as a Map of column names to values
+ *
+ * @param {SheetGS} obj the Sheet object
+ * @param {number} numColumn number of the column
+ * @return {MapGS<string | Date, string | Date>}
+ *   the row names with column values
+ */
 export declare function getSheetMapColumn(obj: SheetGS, numColumn: number): MapGS<string | Date, string | Date>;
 /**
  * Converts linebreaks in the string to an array
@@ -180,16 +180,16 @@ export declare function setSheetMapValues(obj: SheetGS, value: string | Date, ro
     value: string | Date;
 }>): SheetGS;
 /**
-* Get the data from the Sheet as an object with rows (or columns) as the
-*  keys and columns (or rows) as the values
-*
-* @param {SheetGS} obj the Sheet object
-* @param {boolean} rowFirst if true, rows will be the keys and columns will
-*  be in the values along with the value found at that cell
-*
-* @return {MapGS<string | Date, MapGS<string | Date, string | Date>>}
-*  the data object
-*/
+ * Get the data from the Sheet as an object with rows (or columns) as the
+ *  keys and columns (or rows) as the values
+ *
+ * @param {SheetGS} obj the Sheet object
+ * @param {boolean} rowFirst if true, rows will be the keys and columns will
+ *  be in the values along with the value found at that cell
+ *
+ * @return {MapGS<string | Date, MapGS<string | Date, string | Date>>}
+ *  the data object
+ */
 export declare function getSheetMapData(obj: SheetGS, rowFirst?: boolean): MapGS<string | Date, MapGS<string | Date, string | Date>>;
 /**
  * Clears data from the underlying Sheet object
@@ -443,19 +443,19 @@ export declare class SheetGS {
      */
     getMapValues(row: number, col: number, numRows: number, numCols: number): MapGS<string | Date, MapGS<string | Date, string | Date>>;
     /**
-    * Gets an entire column from the sheet as an array
-    *
-    * @param {number} numColumn number of the column
-    * @return {Array<string | Date>} the column as an array
-    */
+     * Gets an entire column from the sheet as an array
+     *
+     * @param {number} numColumn number of the column
+     * @return {Array<string | Date>} the column as an array
+     */
     getColumn(numColumn: number): Array<string | Date>;
     /**
-    * Gets an entire column from the sheet as a Map of column names to values
-    *
-    * @param {number} numColumn number of the column
-    * @return {MapGS<string | Date, string | Date>}
-    *   the row names with column values
-    */
+     * Gets an entire column from the sheet as a Map of column names to values
+     *
+     * @param {number} numColumn number of the column
+     * @return {MapGS<string | Date, string | Date>}
+     *   the row names with column values
+     */
     getMapColumn(numColumn: number): MapGS<string | Date, string | Date>;
     /**
      * Converts linebreaks in the string to an array
@@ -546,15 +546,15 @@ export declare class SheetGS {
         value: string | Date;
     }>): SheetGS;
     /**
-   * Get the data from the Sheet as an object with rows (or columns) as the
-   *  keys and columns (or rows) as the values
-   *
-   * @param {boolean} rowFirst if true, rows will be the keys and columns will
-   *  be in the values along with the value found at that cell
-   *
-   * @return {MapGS<string | Date, MapGS<string | Date, string | Date>>}
-   *  the data object
-   */
+     * Get the data from the Sheet as an object with rows (or columns) as the
+     *  keys and columns (or rows) as the values
+     *
+     * @param {boolean} rowFirst if true, rows will be the keys and columns will
+     *  be in the values along with the value found at that cell
+     *
+     * @return {MapGS<string | Date, MapGS<string | Date, string | Date>>}
+     *  the data object
+     */
     getMapData(rowFirst?: boolean): MapGS<string | Date, MapGS<string | Date, string | Date>>;
     /**
      * Clears data from the underlying Sheet object

@@ -6,4 +6,3 @@ export var Features;
     Features["SIMPLE_UPLOAD_ENABLED"] = "SIMPLE_UPLOAD_ENABLED";
     Features["SUPPORT_DRIVES"] = "SUPPORT_DRIVES";
 })(Features || (Features = {}));
-;

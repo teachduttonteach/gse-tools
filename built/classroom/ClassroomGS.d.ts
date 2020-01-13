@@ -2,8 +2,10 @@
 import { ClassGS } from 'ClassGS';
 /**
  * Class to store the Google Classroom object
-  * Get the courses and coursework
-  */
+ * Get the courses and coursework
+ *
+ * @return {ClassroomGS} the Classroom object
+ */
 export declare function newClassroom(): ClassroomGS;
 /**
  * Gets the underlying Google Apps Script object for direct access
@@ -23,7 +25,7 @@ export declare function getClassroomObject(obj: ClassroomGS): Array<GoogleAppsSc
  *
  * @return {ClassGS} the Class object
  */
-export declare function getClassroomClass(obj: ClassroomGS, enrollmentCode: string): ClassGS;
+export declare function getGoogleClass(obj: ClassroomGS, enrollmentCode: string): ClassGS;
 /**
  * Class to store the Google Classroom object
  */

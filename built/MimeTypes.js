@@ -17,4 +17,3 @@ export var MimeTypes;
     MimeTypes["VIDEO"] = "application/vnd.google-apps.video";
     MimeTypes["DRIVE_SDK"] = "application/vnd.google-apps.drive-sdk";
 })(MimeTypes || (MimeTypes = {}));
-;

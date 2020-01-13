@@ -116,7 +116,7 @@ export class MapGS {
     _getMember(key) {
         for (let k = 0; k < this.size; k++) {
             const currentKey = this._keys[k];
-            if ((key instanceof Date) && (currentKey instanceof Date)) {
+            if (key instanceof Date && currentKey instanceof Date) {
                 if (areDatesEqual(key, currentKey))
                     return k;
             }
@@ -167,7 +167,7 @@ export class MapGS {
         const returnValues = [];
         for (let k = 0; k < this.size; k++) {
             const currentKey = this._keys[k];
-            if ((key instanceof Date) && (currentKey instanceof Date)) {
+            if (key instanceof Date && currentKey instanceof Date) {
                 if (areDatesEqual(key, currentKey)) {
                     returnValues.push(k);
                 }

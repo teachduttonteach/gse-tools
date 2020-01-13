@@ -3,10 +3,10 @@ import { MapGS } from '../map/MapGS';
 import { SheetEventGS } from '../sheets/SheetEventGS';
 import { getDataSheet } from '../drive-sheets/DataSheet';
 /**
-   * Change the attendance value for the student and date
-   * @param {SheetEventGS} _e the Google event
-   * @param {AttendanceParams} args the parameters for attendance
-   */
+ * Change the attendance value for the student and date
+ * @param {SheetEventGS} _e the Google event
+ * @param {AttendanceParams} args the parameters for attendance
+ */
 function changeAttendance(_e, args) {
     if (args == null)
         args = {};
@@ -22,26 +22,27 @@ function changeAttendance(_e, args) {
         const currentDate = attendanceSheet.getValue(1, topRow.length);
         const secondaryColumns = [];
         for (const columnToCheck of secondaryColumnsToCheck) {
-            secondaryColumns.push({ name: columnToCheck.name,
-                value: attendanceSheet.getValue(columnToCheck.value[0], columnToCheck.value[1]) });
+            secondaryColumns.push({
+                name: columnToCheck.name,
+                value: attendanceSheet.getValue(columnToCheck.value[0], columnToCheck.value[1]),
+            });
         }
         if (e.getRow() === 1) {
-            if ((e.getColumn() === 1) || (e.getColumn() === topRow.length)) {
+            if (e.getColumn() === 1 || e.getColumn() === topRow.length) {
                 // check to see if both 0 and 2 are defined
-                if ((name != null) && (attendance != null)) {
+                if (name != null && attendance != null) {
                     attendanceSheet.clear(2, 1, maximumLength, topRow.length);
                     const returnColumnNames = [fullnameColumnName];
                     for (const colName of topRow) {
                         returnColumnNames.push(colName);
                     }
                     returnColumnNames.push(currentDate);
-                    const records = studentInfoSheet.
-                        getRecordsMatchingColumnValue(secondaryColumns[0].name, secondaryColumns[0].value, returnColumnNames, true);
+                    const records = studentInfoSheet.getRecordsMatchingColumnValue(secondaryColumns[0].name, secondaryColumns[0].value, returnColumnNames, true);
                     attendanceSheet.setValues(records, 2, 1, records.length - 1, topRow.length);
                 }
             }
         }
-        else if ((e.getColumn() > 1) && (e.getColumn() < topRow.length)) {
+        else if (e.getColumn() > 1 && e.getColumn() < topRow.length) {
             studentInfoSheet.setMapValues(e.getEditedValue(), name, topRow[e.getColumn() - 1], secondaryColumns);
         }
         else if (e.getColumn() === topRow.length) {

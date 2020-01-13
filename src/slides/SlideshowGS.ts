@@ -17,7 +17,7 @@ export function newSlideshow(id: string) {
  * @param {SlideshowGS} obj the Slideshow object
  * @return {SlideshowGS} the object for chaining
  */
-export function clear(obj: SlideshowGS): SlideshowGS {
+export function clearSlideshow(obj: SlideshowGS): SlideshowGS {
   return obj.clear();
 }
 

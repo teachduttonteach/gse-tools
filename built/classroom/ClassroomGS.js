@@ -1,8 +1,10 @@
 import { ClassGS } from 'ClassGS';
 /**
  * Class to store the Google Classroom object
-  * Get the courses and coursework
-  */
+ * Get the courses and coursework
+ *
+ * @return {ClassroomGS} the Classroom object
+ */
 export function newClassroom() {
     return new ClassroomGS();
 }
@@ -26,7 +28,7 @@ export function getClassroomObject(obj) {
  *
  * @return {ClassGS} the Class object
  */
-export function getClassroomClass(obj, enrollmentCode) {
+export function getGoogleClass(obj, enrollmentCode) {
     return obj.getClass(enrollmentCode);
 }
 /**

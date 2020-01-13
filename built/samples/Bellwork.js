@@ -22,13 +22,11 @@ function updateBellwork(args) {
     while (bellworkSettings.hasNext()) {
         const row = bellworkSettings.next();
         const thisRow = bellworkSettings.get(row);
-        if ((thisRow == undefined) || (bellworkFormColumnName == undefined) ||
-            (spreadsheetColumnName == undefined)) {
+        if (thisRow == undefined || bellworkFormColumnName == undefined || spreadsheetColumnName == undefined) {
             throw new Error('Could not find row in bellworkSettings');
         }
         const thisBellworkForm = thisRow.get(bellworkFormColumnName);
-        if ((thisBellworkForm == undefined) ||
-            (typeof thisBellworkForm !== 'string')) {
+        if (thisBellworkForm == undefined || typeof thisBellworkForm !== 'string') {
             throw new Error('Classroom code not found');
         }
         const thisSpreadsheet = thisRow.get(spreadsheetColumnName);
@@ -52,46 +50,37 @@ function updateTodaysQuestion(args, row) {
     const { bellworkDateColumnName = 'Bellwork Date', spreadsheetColumnName = 'Spreadsheet', sheetNameColumnName = 'Sheet Name', bellworkSheetColumnEnd = 'END', bellworkColumnName = 'Bellwork Column', questionTypeColumnName = 'Question Type Column', displayBellworkOnForm = true, displayBellworkOnSlide = true, displayExitTicketOnSlide = true, displayUpcomingDueDates = true, } = args;
     const dateToday = new Date();
     const thisQuestionSpreadsheetName = row.get(spreadsheetColumnName);
-    if ((thisQuestionSpreadsheetName == null) ||
-        (typeof thisQuestionSpreadsheetName !== 'string')) {
-        throw new Error('Could not find spreadsheet column name in ' +
-            'Samples.updateTodaysQuestion()');
+    if (thisQuestionSpreadsheetName == null || typeof thisQuestionSpreadsheetName !== 'string') {
+        throw new Error('Could not find spreadsheet column name in ' + 'Samples.updateTodaysQuestion()');
     }
     const questionSpreadsheet = new SpreadsheetGS(thisQuestionSpreadsheetName);
     const thisSheetNameColumnName = row.get(sheetNameColumnName);
-    if ((thisSheetNameColumnName == null) ||
-        (typeof thisSheetNameColumnName !== 'string')) {
-        throw new Error('Could not find sheet name column name in ' +
-            'Samples.updateTodaysQuestion()');
+    if (thisSheetNameColumnName == null || typeof thisSheetNameColumnName !== 'string') {
+        throw new Error('Could not find sheet name column name in ' + 'Samples.updateTodaysQuestion()');
     }
     const questionSheet = questionSpreadsheet.getSheet(thisSheetNameColumnName);
     const thisBellworkDateColumnName = row.get(bellworkDateColumnName);
     if (thisBellworkDateColumnName == null) {
-        throw new Error('Could not find bellwork date column name in ' +
-            'Samples.updateTodaysQuestion()');
+        throw new Error('Could not find bellwork date column name in ' + 'Samples.updateTodaysQuestion()');
     }
     let questionRow = questionSheet.skipBlankRows(1, +thisBellworkDateColumnName);
-    while (questionSheet.getValue(questionRow, +thisBellworkDateColumnName) !=
-        bellworkSheetColumnEnd) {
+    while (questionSheet.getValue(questionRow, +thisBellworkDateColumnName) != bellworkSheetColumnEnd) {
         const dateInCell = new Date(questionSheet.getValue(questionRow, +thisBellworkDateColumnName));
         if (areDatesEqual(dateToday, dateInCell, 'month')) {
             const thisBellworkColumnName = row.get(bellworkColumnName);
             if (thisBellworkColumnName == null) {
-                throw new Error('Could not find bellwork column name in ' +
-                    'Samples.doForBellwork()');
+                throw new Error('Could not find bellwork column name in ' + 'Samples.doForBellwork()');
             }
             const questionTitle = questionSheet.getValue(questionRow, +thisBellworkColumnName);
             const thisQuestionTypeColumnName = row.get(questionTypeColumnName);
             if (thisQuestionTypeColumnName == null) {
-                throw new Error('Could not find question type column name in ' +
-                    'Samples.doForBellwork()');
+                throw new Error('Could not find question type column name in ' + 'Samples.doForBellwork()');
             }
             const questionType = questionSheet.getValue(questionRow, +thisQuestionTypeColumnName);
             if (displayBellworkOnForm) {
                 showBellworkOnForm(args, row, questionRow, questionSheet, questionTitle, questionType);
             }
-            if (displayBellworkOnSlide || displayExitTicketOnSlide ||
-                displayUpcomingDueDates) {
+            if (displayBellworkOnSlide || displayExitTicketOnSlide || displayUpcomingDueDates) {
                 showBellworkOnSlide(args, row, questionRow, questionSheet, questionTitle, questionType);
             }
             return true;
@@ -114,60 +103,48 @@ function updateTodaysQuestion(args, row) {
  */
 function showBellworkOnSlide(args, row, questionRow, questionSheet, questionTitle, questionType) {
     const { bellworkSlideName = 'Bellwork', dailyPicturesColumnName = 'Daily Pictures', daysToLookAheadColumnName = 'Days to Look Ahead', upcomingDueDatesSlideName = 'Upcoming Due Dates', exitTicketColumnName = 'Exit Ticket Column', exitQuestionSlideName = 'Exit Question', optionsColumnName = 'Options Column', dueDateParams = {}, slideshowColumnName = 'Slideshow', classroomCodeColumnName = 'Classroom Code', displayBellworkOnSlide = true, displayExitTicketOnSlide = true, displayUpcomingDueDates = true, } = args;
-    if (displayBellworkOnSlide || displayExitTicketOnSlide ||
-        displayUpcomingDueDates) {
+    if (displayBellworkOnSlide || displayExitTicketOnSlide || displayUpcomingDueDates) {
         const thisSlideshowColumnName = row.get(slideshowColumnName);
-        if ((thisSlideshowColumnName == null) ||
-            (typeof thisSlideshowColumnName !== 'string')) {
-            throw new Error('Could not find slide show column name in ' +
-                'Samples.updateTodaysQuestion()');
+        if (thisSlideshowColumnName == null || typeof thisSlideshowColumnName !== 'string') {
+            throw new Error('Could not find slide show column name in ' + 'Samples.updateTodaysQuestion()');
         }
         const slideShow = new SlideshowGS(thisSlideshowColumnName);
         if (displayBellworkOnSlide) {
             const bellworkSlide = slideShow.getSlideByType(bellworkSlideName);
             const theseOptionsColumnName = row.get(optionsColumnName);
             if (theseOptionsColumnName != null) {
-                const theseOptions = questionSheet.
-                    getValue(questionRow, +theseOptionsColumnName);
-                if ((theseOptions != null) && (theseOptions != '')) {
+                const theseOptions = questionSheet.getValue(questionRow, +theseOptionsColumnName);
+                if (theseOptions != null && theseOptions != '') {
                     bellworkSlide.addItem(questionType, theseOptions);
                 }
             }
             bellworkSlide.setTitle(questionTitle);
             const theseDailyPicturesColumnName = row.get(dailyPicturesColumnName);
             if (theseDailyPicturesColumnName == null) {
-                throw new Error('Could not find daily pictures column name in ' +
-                    'Samples.updateTodaysQuestion()');
+                throw new Error('Could not find daily pictures column name in ' + 'Samples.updateTodaysQuestion()');
             }
-            slideShow.changeSlidePicture(questionSheet.
-                getValue(questionRow, +theseDailyPicturesColumnName), bellworkSlide);
+            slideShow.changeSlidePicture(questionSheet.getValue(questionRow, +theseDailyPicturesColumnName), bellworkSlide);
         }
         if (displayUpcomingDueDates) {
             const allClasses = new ClassroomGS();
             const thisClassroomCode = row.get(classroomCodeColumnName);
-            if ((thisClassroomCode == undefined) ||
-                (typeof thisClassroomCode !== 'string')) {
+            if (thisClassroomCode == undefined || typeof thisClassroomCode !== 'string') {
                 throw new Error('Classroom code not found');
             }
             const currentClass = allClasses.getClass(thisClassroomCode);
             const thisDaysToLookAhead = row.get(daysToLookAheadColumnName);
             if (thisDaysToLookAhead == null) {
-                throw new Error('Could not find days to look ahead in ' +
-                    'Samples.doForBellwork()');
+                throw new Error('Could not find days to look ahead in ' + 'Samples.doForBellwork()');
             }
-            const upcomingEvents = new CalendarGS(currentClass.getCalendarId()).
-                getUpcomingDueDates(+thisDaysToLookAhead, dueDateParams);
-            slideShow.getSlideByType(upcomingDueDatesSlideName).
-                setList(upcomingEvents);
+            const upcomingEvents = new CalendarGS(currentClass.getCalendarId()).getUpcomingDueDates(+thisDaysToLookAhead, dueDateParams);
+            slideShow.getSlideByType(upcomingDueDatesSlideName).setList(upcomingEvents);
         }
         if (displayExitTicketOnSlide) {
             const thisExitTicketColumnName = row.get(exitTicketColumnName);
             if (thisExitTicketColumnName == null) {
-                throw new Error('Could not find exit ticket column name in ' +
-                    'Samples.doForBellwork()');
+                throw new Error('Could not find exit ticket column name in ' + 'Samples.doForBellwork()');
             }
-            slideShow.setSlideBodyByType(questionSheet.
-                getValue(questionRow, +thisExitTicketColumnName), exitQuestionSlideName);
+            slideShow.setSlideBodyByType(questionSheet.getValue(questionRow, +thisExitTicketColumnName), exitQuestionSlideName);
         }
     }
 }
@@ -186,22 +163,20 @@ function showBellworkOnForm(args, row, questionRow, questionSheet, questionTitle
     const { bellworkTitleColumnName = 'Bellwork Title', dateDelimiter = '/', dateInBellworkTitle = true, gridRowsColumnName = 'Grid Rows Column', imageColumnName = 'Image Column', dueDateParams = {}, bellworkFormColumnName = 'Bellwork Form', } = args;
     const dateToday = new Date();
     const thisBellworkForm = row.get(bellworkFormColumnName);
-    if ((thisBellworkForm == null) || (typeof thisBellworkForm !== 'string')) {
-        throw new Error('Could not find bellwork form column name in ' +
-            'Samples.updateTodaysQuestion()');
+    if (thisBellworkForm == null || typeof thisBellworkForm !== 'string') {
+        throw new Error('Could not find bellwork form column name in ' + 'Samples.updateTodaysQuestion()');
     }
     const bellworkForm = new FormsGS(thisBellworkForm);
     let thisBellworkTitleColumnName = row.get(bellworkTitleColumnName);
-    if ((thisBellworkTitleColumnName == null) ||
-        (typeof thisBellworkTitleColumnName !== 'string')) {
+    if (thisBellworkTitleColumnName == null || typeof thisBellworkTitleColumnName !== 'string') {
         thisBellworkTitleColumnName = 'Bellwork';
     }
     if (dateInBellworkTitle) {
         const thisMonth = Number(dateToday.getUTCMonth()) + 1;
         const thisDay = dateToday.getUTCDate();
-        if ((dueDateParams == null) || (dueDateParams.dateOrder == null) ||
-            (dueDateParams.dateOrder.indexOf('M') >
-                dueDateParams.dateOrder.indexOf('D'))) {
+        if (dueDateParams == null ||
+            dueDateParams.dateOrder == null ||
+            dueDateParams.dateOrder.indexOf('M') > dueDateParams.dateOrder.indexOf('D')) {
             thisBellworkTitleColumnName += ' ' + thisDay + dateDelimiter + thisMonth;
         }
         else {
@@ -213,14 +188,12 @@ function showBellworkOnForm(args, row, questionRow, questionSheet, questionTitle
     const theseGridRowsColumnName = row.get(gridRowsColumnName);
     let theseOptionsValue = '';
     if (theseOptionsColumnName != null) {
-        theseOptionsValue =
-            questionSheet.getValue(questionRow, +theseOptionsColumnName);
+        theseOptionsValue = questionSheet.getValue(questionRow, +theseOptionsColumnName);
     }
     if (theseOptionsValue != '') {
         let theseRowsValue = '';
         if (theseGridRowsColumnName != null) {
-            theseRowsValue =
-                questionSheet.getValue(questionRow, +theseGridRowsColumnName);
+            theseRowsValue = questionSheet.getValue(questionRow, +theseGridRowsColumnName);
         }
         if (theseRowsValue != '') {
             bellworkForm.addItem(questionTitle, questionType, bellworkForm.convertLinebreaksToList(theseOptionsValue), bellworkForm.convertLinebreaksToList(theseRowsValue));
@@ -234,10 +207,9 @@ function showBellworkOnForm(args, row, questionRow, questionSheet, questionTitle
     }
     const thisImageColumnName = row.get(imageColumnName);
     if (thisImageColumnName != null) {
-        const imageFileID = questionSheet.
-            getValue(questionRow, +thisImageColumnName);
+        const imageFileID = questionSheet.getValue(questionRow, +thisImageColumnName);
         const thisImageBlob = new DriveGS().getImageBlob(imageFileID);
-        if ((thisImageBlob != false) && (thisImageBlob != true)) {
+        if (thisImageBlob != false && thisImageBlob != true) {
             bellworkForm.addImage(thisImageBlob);
         }
     }

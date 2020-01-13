@@ -129,10 +129,10 @@ declare class GroupSet {
      */
     addStudentToRandomGroup(student: StudentForGroups): GroupSet;
     /**
-     * Get the list of groups in the set
-     *
-     @return {Array<GroupOfStudents>} the list of groups in the set
-     */
+       * Get the list of groups in the set
+       *
+       @return {Array<GroupOfStudents>} the list of groups in the set
+       */
     getGroups(): Array<GroupOfStudents>;
 }
 /**

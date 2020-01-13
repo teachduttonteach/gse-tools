@@ -11,7 +11,6 @@ const ValidImageTypes = ['image/png', 'image/gif', 'image/jpeg'];
 export function getDriveRandomPicture(obj, folder) {
     return obj.getRandomPicture(folder);
 }
-;
 /**
  * Get the data (blob) of a specified image
  *
@@ -26,7 +25,6 @@ export function getDriveRandomPicture(obj, folder) {
 export function getDriveImageBlob(obj, id, isUrl = false) {
     return obj.getImageBlob(id, isUrl);
 }
-;
 /**
  * Determines if a file (by name) exists; if it doesn't creates it from a
  *  template, then return the file in either case
@@ -40,7 +38,6 @@ export function getDriveImageBlob(obj, id, isUrl = false) {
 export function getOrCreateDriveFileFromTemplateByName(obj, fileName, templateName) {
     return obj.getOrCreateFileFromTemplateByName(fileName, templateName);
 }
-;
 /**
  * Determines if a file (by id) exists; if it doesn't creates it from a
  *  template, then return the file in either case
@@ -54,7 +51,6 @@ export function getOrCreateDriveFileFromTemplateByName(obj, fileName, templateNa
 export function getOrCreateDriveFileFromTemplateById(obj, fileId, templateId) {
     return obj.getOrCreateFileFromTemplateById(fileId, templateId);
 }
-;
 /**
  * Determines if a file (by name) exists; if it doesn't creates it from a
  *  template, then return the file in either case
@@ -68,7 +64,6 @@ export function getOrCreateDriveFileFromTemplateById(obj, fileId, templateId) {
 export function getOrCreateDriveFileByName(obj, fileName, mimeType = MimeTypes.DOCS) {
     return obj.getOrCreateFileByName(fileName, mimeType);
 }
-;
 /**
  * Determines if a file (by id) exists; if it doesn't creates it from a
  *  template, then return the file in either case
@@ -83,7 +78,6 @@ export function getOrCreateDriveFileByName(obj, fileName, mimeType = MimeTypes.D
 export function getOrCreateDriveFileById(obj, fileId, fileName, mimeType = MimeTypes.DOCS) {
     return obj.getOrCreateFileById(fileId, fileName, mimeType);
 }
-;
 /**
  * Class to provide access and functions to Google Drive
  */
@@ -114,10 +108,8 @@ export class DriveGS {
         if (allPictures.length == 0) {
             throw new Error('No pictures found in Drive.getRandomPicture');
         }
-        return allPictures[Math.floor(Math.random() *
-            Math.floor(allPictures.length))];
+        return allPictures[Math.floor(Math.random() * Math.floor(allPictures.length))];
     }
-    ;
     /**
      * Get the data (blob) of a specified image
      *
@@ -133,16 +125,14 @@ export class DriveGS {
             throw new Error('Id needs to defined for DriveGS.getImageBlob()');
         }
         if (isUrl)
-            id = id.split("=")[1];
+            id = id.split('=')[1];
         if (DriveApp.getFileById(id) == null) {
-            throw new Error('Could not file of id ' + id +
-                ' in DriveGS.getImageBlob()');
+            throw new Error('Could not file of id ' + id + ' in DriveGS.getImageBlob()');
         }
         if (ValidImageTypes.indexOf(DriveApp.getFileById(id).getMimeType()) != -1)
             return DriveApp.getFileById(id).getBlob();
         return false;
     }
-    ;
     /**
      * Determines if a file (by name) exists; if it doesn't creates it from a
      *  template, then return the file in either case
@@ -153,9 +143,8 @@ export class DriveGS {
      * @return {GoogleAppsScript.Drive.File} the file as a Google Object
      */
     getOrCreateFileFromTemplateByName(fileName, templateName) {
-        if ((fileName == null) || (templateName == null)) {
-            throw new Error('File name and template name need to be defined for ' +
-                'Drive.getOrCreateFile');
+        if (fileName == null || templateName == null) {
+            throw new Error('File name and template name need to be defined for ' + 'Drive.getOrCreateFile');
         }
         const fileObject = DriveApp.getFilesByName(fileName);
         if (!fileObject.hasNext()) {
@@ -166,7 +155,6 @@ export class DriveGS {
         }
         return fileObject.next();
     }
-    ;
     /**
      * Determines if a file (by id) exists; if it doesn't creates it from a
      *  template, then return the file in either case
@@ -177,23 +165,19 @@ export class DriveGS {
      * @return {GoogleAppsScript.Drive.File} the file as a Google object
      */
     getOrCreateFileFromTemplateById(fileId, templateId) {
-        if ((fileId == null) || (templateId == null)) {
-            throw new Error('File id ' +
-                'and template id need to be defined for ' +
-                'Drive.getOrCreateFileFromTemplateById');
+        if (fileId == null || templateId == null) {
+            throw new Error('File id ' + 'and template id need to be defined for ' + 'Drive.getOrCreateFileFromTemplateById');
         }
         const fileObject = DriveApp.getFileById(fileId);
         if (fileObject == null) {
             const templateFile = DriveApp.getFileById(templateId);
             if (templateFile == null) {
-                throw new Error('Could not find template ' +
-                    'file in DriveGS.getOrCreateFileFromTemplateById');
+                throw new Error('Could not find template ' + 'file in DriveGS.getOrCreateFileFromTemplateById');
             }
             return templateFile.makeCopy();
         }
         return fileObject;
     }
-    ;
     /**
      * Determines if a file (by name) exists; if it doesn't creates it from a
      *  template, then return the file in either case
@@ -205,8 +189,7 @@ export class DriveGS {
      */
     getOrCreateFileByName(fileName, mimeType = MimeTypes.DOCS) {
         if (fileName == null) {
-            throw new Error('File name needs to be defined ' +
-                'for Drive.getOrCreateFileByName');
+            throw new Error('File name needs to be defined ' + 'for Drive.getOrCreateFileByName');
         }
         let fileObject = DriveApp.getFilesByName(fileName);
         if (!fileObject.hasNext()) {
@@ -215,7 +198,6 @@ export class DriveGS {
         }
         return fileObject.next();
     }
-    ;
     /**
      * Creates a file with a particular MimeType
      *
@@ -237,8 +219,7 @@ export class DriveGS {
             case MimeTypes.PHOTO:
             case MimeTypes.SITES:
             case MimeTypes.VIDEO:
-                throw new Error('Cannot create file of type ' + mimeType +
-                    ' from DriveGS.getOrCreateFileByName()');
+                throw new Error('Cannot create file of type ' + mimeType + ' from DriveGS.getOrCreateFileByName()');
             case MimeTypes.DOCS:
                 return DocumentApp.create(fileName).getId();
             case MimeTypes.FORMS:
@@ -262,9 +243,8 @@ export class DriveGS {
      * @return {GoogleAppsScript.Drive.File} the file as a Google object
      */
     getOrCreateFileById(fileId, fileName, mimeType = MimeTypes.DOCS) {
-        if ((fileId == null) || (fileName == null)) {
-            throw new Error('File id and file name need to be defined for ' +
-                'Drive.getOrCreateFileById');
+        if (fileId == null || fileName == null) {
+            throw new Error('File id and file name need to be defined for ' + 'Drive.getOrCreateFileById');
         }
         let fileObject = DriveApp.getFileById(fileId);
         if (fileObject == null) {
@@ -272,6 +252,4 @@ export class DriveGS {
         }
         return fileObject;
     }
-    ;
 }
-;

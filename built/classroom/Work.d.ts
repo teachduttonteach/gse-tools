@@ -1,4 +1,4 @@
-import { Material } from './Material';
+import { CourseMaterial } from './CourseMaterial';
 /**
  * Type to hold an individual instance of course work
  */
@@ -18,5 +18,5 @@ export declare type Work = {
     /**
      * array of materials associated with the task
      */
-    materials: Array<Material>;
+    materials: Array<CourseMaterial>;
 };

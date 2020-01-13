@@ -91,5 +91,4 @@ export class CalendarEventGS {
             return this._date + dateDelim + this._month + dateString;
         }
     }
-    ;
 }

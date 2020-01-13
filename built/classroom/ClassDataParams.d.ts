@@ -1,5 +1,5 @@
 /**
- * Type to hold the parameters for the convertClassroomData method
+ * Type to hold the parameters for the Class data
  */
 export declare type ClassDataParams = {
     /**
