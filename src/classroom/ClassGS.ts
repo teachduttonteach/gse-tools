@@ -1,14 +1,11 @@
-import { ClassDataParams } from 'ClassDataParams';
-import { Work } from 'Work';
-import { CourseMaterial, addCourseMaterials } from './CourseMaterial';
-import { TopicInfo } from './TopicInfo';
-import { MapGS } from '../map/MapGS';
-import { CourseWorkResource } from './CourseWorkResource';
-import { TopicResource } from './TopicResource';
-import { AnnouncementResource } from './AnnouncementResource';
-import { AnnouncementState, CourseWorkState, CourseWorkType, AssigneeMode, SubmissionModificationMode } from './Enums';
-import { TimeOfDay } from './TimeOfDay'
-import {CourseWorkGS} from "./CourseWorkGS"
+import {ClassDataParams} from 'ClassDataParams';
+import {Work} from 'Work';
+import {CourseMaterial} from './CourseMaterial';
+import {TopicInfo} from './TopicInfo';
+import {MapGS} from '../map/MapGS';
+import {TopicResource} from './TopicResource';
+import {CourseWorkGS} from './CourseWorkGS';
+import {CourseAnnouncementGS} from './CourseAnnouncementGS';
 
 /**
  * Class to access a single course in Google Classroom
@@ -16,49 +13,58 @@ import {CourseWorkGS} from "./CourseWorkGS"
  *  Google course object
  * @return {ClassGS} the object for chaining
  */
-export function newClass(course: GoogleAppsScript.Classroom.Schema.Course): ClassGS {
+export function newClass(course: GoogleAppsScript.Classroom.Schema.Course):
+  ClassGS {
   return new ClassGS(course);
 }
 
-    /**
-   * Adds course work to the object
-   *
-   * @param {ClassGS} obj the Class object
-   * @param {CourseWorkGS} work the work associated with this topic
-   *
-   * @return {ClassGS} the object for chaining
-   */
-  export function addCourseWork(obj: ClassGS, work: CourseWorkGS): 
-    ClassGS {
-    return obj.addCourseWork(work);
-  }
+/**
+ * Get the list of students associated with the class
+ *
+ * @param {ClassGS} obj the Class object
+ * @return {MapGS<string, string>} a map of the student ID to the full name
+ */
+export function getClassStudents(obj: ClassGS): MapGS<string, string> {
+  return obj.getStudents();
+}
 
-  /**
-   * Adds a topic to the course
-   *
-   * @param {ClassGS} obj the Class object
-   * @param {string} topic the topic name
-   *
-   * @return {ClassGS} the object for chaining
-   */
-  export function addClassTopic(obj: ClassGS, topic: string): ClassGS {
-    return obj.addTopic(topic);
-  }
+/**
+ * Adds course work to the object
+ *
+ * @param {ClassGS} obj the Class object
+ * @param {CourseWorkGS} work the work associated with this topic
+ *
+ * @return {ClassGS} the object for chaining
+ */
+export function addCourseWork(obj: ClassGS, work: CourseWorkGS):
+  ClassGS {
+  return obj.addCourseWork(work);
+}
 
-  /**
-   * Adds an announcement to the coursework
-   *
-   * @param {ClassGS} obj the Class object
-   * @param {string} announcement the text of the announcement
-   * @param {Array<CourseMaterial>} materials the materials for the announcement
-   *
-   * @return {ClassGS} the object for chaining
-   */
-  export function addClassAnnouncement(obj: ClassGS, 
-    announcement: string, materials: Array<CourseMaterial> = []): ClassGS {
-    return obj.addAnnouncement(announcement, materials);
-  }
+/**
+ * Adds a topic to the course
+ *
+ * @param {ClassGS} obj the Class object
+ * @param {string} topic the topic name
+ *
+ * @return {ClassGS} the object for chaining
+ */
+export function addClassTopic(obj: ClassGS, topic: string): ClassGS {
+  return obj.addTopic(topic);
+}
 
+/**
+ * Adds an announcement to the coursework
+ *
+ * @param {ClassGS} obj the Class object
+ * @param {CourseAnnouncementGS} announcement the announcement object
+ *
+ * @return {ClassGS} the object for chaining
+ */
+export function addClassAnnouncement(obj: ClassGS,
+    announcement: CourseAnnouncementGS): ClassGS {
+  return obj.addAnnouncement(announcement);
+}
 
 /**
  * Get the topic ids
@@ -134,7 +140,7 @@ export class ClassGS {
   private _id: string;
 
 
-    /**
+  /**
    * Gets the due date string
    *
    * @param {GoogleAppsScript.Classroom.Schema.Date} workDueDate the Google
@@ -144,8 +150,10 @@ export class ClassGS {
    *
    * @return {string} the due date string
    */
-  private _getDueDate(workDueDate: GoogleAppsScript.Classroom.Schema.Date, args: ClassDataParams): string {
-    const { dueDateString = 'Due Date:', dueDateDelim = '/', dueDateOrder = 'MDY' } = args;
+  private _getDueDate(workDueDate: GoogleAppsScript.Classroom.Schema.Date,
+      args: ClassDataParams): string {
+    const {dueDateString = 'Due Date:', dueDateDelim = '/',
+      dueDateOrder = 'MDY'} = args;
 
     // Add the corresponding piece of the date for each part of the order
     let dueDate = dueDateString + ' ';
@@ -165,11 +173,11 @@ export class ClassGS {
    *
    * @param {GoogleAppsScript.Classroom.Schema.Course} course the
    *  Google course object
-   * @param {ClassDataParams} args the optional parameters for creating the 
+   * @param {ClassDataParams} args the optional parameters for creating the
    *  classroom data object
    */
-  constructor(course: GoogleAppsScript.Classroom.Schema.Course, 
-    args?: ClassDataParams) {
+  constructor(course: GoogleAppsScript.Classroom.Schema.Course,
+      args?: ClassDataParams) {
     if (course == undefined || course.id == undefined) {
       throw new Error('Course not defined in ClassGS');
     }
@@ -187,7 +195,7 @@ export class ClassGS {
 
     this._announcements = [];
     if (theseClassroomCourses.Announcements != undefined) {
-      const theseClassroomAnnouncements = 
+      const theseClassroomAnnouncements =
       theseClassroomCourses.Announcements.list(course.id).announcements;
       // Get all of the announcements into the appropriate array
       let announcement: GoogleAppsScript.Classroom.Schema.Announcement;
@@ -195,7 +203,8 @@ export class ClassGS {
         for (announcement of theseClassroomAnnouncements) {
           if (announcement == null || announcement.text == null) {
             throw new Error(
-              'Cannot call announcements.forEach on an empty ' + 'announcement in ClassGS.convertClassroomData()',
+                'Cannot call announcements.forEach on an empty ' +
+              'announcement in ClassGS.convertClassroomData()',
             );
           }
           this._announcements.push(announcement.text);
@@ -203,14 +212,13 @@ export class ClassGS {
       }
     }
 
-    const theseClassroomTopics = 
+    const theseClassroomTopics =
     // @ts-ignore
       theseClassroomCourses.Topics.list(course.id).topic;
 
     // Get all of the topics into the appropriate Map
     this._topics = new MapGS<string, TopicInfo>();
     if (theseClassroomTopics != undefined) {
-
       // Add each topic
       // @ts-ignore
       let topic: GoogleAppsScript.Classroom.Schema.Topic;
@@ -227,16 +235,15 @@ export class ClassGS {
     if (args == undefined) args = {} as ClassDataParams;
 
     // Get the lists of classwork, announcements, and topics
-    const thisClassroomWork = 
+    const thisClassroomWork =
       theseClassroomCourses.CourseWork.list(
-      course.id, { orderBy: 'dueDate asc' }).courseWork;
+          course.id, {orderBy: 'dueDate asc'}).courseWork;
 
-    if (thisClassroomWork != undefined) { 
-
+    if (thisClassroomWork != undefined) {
       // Loop through each task and add to coursework
       let courseWork: GoogleAppsScript.Classroom.Schema.CourseWork;
       for (courseWork of thisClassroomWork) {
-        const objWork: Work = {} as Work;
+        let objWork: Work = {} as Work;
 
         // Get title, due date and description of the current task
         objWork.title = courseWork.title == undefined ? '' : courseWork.title;
@@ -251,7 +258,7 @@ export class ClassGS {
 
         // Get the materials from the course work
         if (courseWork.materials != undefined) {
-          this._addCourseMaterials(courseWork.materials, objWork);
+          objWork = this._addCourseMaterials(courseWork.materials, objWork);
         }
 
         // Add the course work to the array
@@ -262,23 +269,31 @@ export class ClassGS {
         }
       }
     }
-
   }
 
+  /**
+   * Add course materials to a Work object
+   *
+   * @param {Array<GoogleAppsScript.Classroom.Schema.Material>} materials list
+   *  of materials for the course
+   * @param {Work} objWork the work object to put the materials into
+   */
   private _addCourseMaterials(
-    materials: GoogleAppsScript.Classroom.Schema.Material[], objWork: Work) {
-
+      materials: Array<GoogleAppsScript.Classroom.Schema.Material>,
+      objWork: Work): Work {
     objWork.materials = [];
     let material: GoogleAppsScript.Classroom.Schema.Material;
     for (material of materials) {
       const thisMaterial = material;
       if (thisMaterial == null) {
-        throw new Error('Could not find material in ' + 'ClassGS.convertClassroomData()');
+        throw new Error('Could not find material in ' +
+          'ClassGS.convertClassroomData()');
       }
       objWork.materials.push(this._getMaterials(thisMaterial));
     }
+    return objWork;
   }
-  
+
   /**
    * Get the topic ids
    *
@@ -298,7 +313,8 @@ export class ClassGS {
   getTopicName(topicId: string): string {
     const thisTopic = this._topics.get(topicId);
     if (thisTopic == undefined) {
-      throw new Error('Topic ' + topicId + ' not defined in ClassInfo.getName()');
+      throw new Error('Topic ' + topicId +
+        ' not defined in ClassInfo.getName()');
     }
     return thisTopic.name;
   }
@@ -321,12 +337,14 @@ export class ClassGS {
    */
   getTopicInfo(topicId: string): TopicInfo {
     if (topicId == undefined) {
-      throw new Error('Topic name ' + topicId + ' undefined in Topic.getTopicInfo()');
+      throw new Error('Topic name ' + topicId +
+        ' undefined in Topic.getTopicInfo()');
     }
     const thisTopicInfo = this._topics.get(topicId);
 
     if (thisTopicInfo == undefined) {
-      throw new Error('Could not find course work in ' + topicId + ' in Topic.getTopicInfo()');
+      throw new Error('Could not find course work in ' + topicId +
+        ' in Topic.getTopicInfo()');
     }
     return thisTopicInfo;
   }
@@ -350,7 +368,8 @@ export class ClassGS {
   getCalendarId(): string {
     const thisCalId = this._course.calendarId;
     if (thisCalId == undefined) {
-      throw new Error('Calendar id undefined ' + 'for course in ClassGS.getCalendarId()');
+      throw new Error('Calendar id undefined ' +
+        'for course in ClassGS.getCalendarId()');
     }
     return thisCalId;
   }
@@ -364,12 +383,15 @@ export class ClassGS {
    * @return {CourseMaterial} the material associated with the current task
    *  in a Material object
    */
-  private _getMaterials(thisMaterial: GoogleAppsScript.Classroom.Schema.Material): CourseMaterial {
+  private _getMaterials(
+      thisMaterial: GoogleAppsScript.Classroom.Schema.Material):
+      CourseMaterial {
     const objMaterials: CourseMaterial = {} as CourseMaterial;
 
     // If it's a drive file, get the title and file link
     if (thisMaterial.driveFile != null) {
-      if (thisMaterial.driveFile != null && thisMaterial.driveFile.driveFile != null) {
+      if (thisMaterial.driveFile != null &&
+        thisMaterial.driveFile.driveFile != null) {
         const thisFile = thisMaterial.driveFile.driveFile;
         if (thisFile != null) {
           const thisTitle = thisFile.title;
@@ -389,11 +411,13 @@ export class ClassGS {
 
       objMaterials.title = thisMaterial.youtubeVideo.title;
       objMaterials.video = thisMaterial.youtubeVideo.alternateLink;
-    } else if (thisMaterial.link != null && thisMaterial.link.url != null && thisMaterial.link.title != null) {
+    } else if (thisMaterial.link != null && thisMaterial.link.url != null &&
+      thisMaterial.link.title != null) {
       // If it's a link, get the url and the title
       objMaterials.link = thisMaterial.link.url;
       objMaterials.title = thisMaterial.link.title;
-    } else if (thisMaterial.form != null && thisMaterial.form.title != null && thisMaterial.form.formUrl != null) {
+    } else if (thisMaterial.form != null && thisMaterial.form.title != null &&
+      thisMaterial.form.formUrl != null) {
       // If it's a form, get the url and the title
       objMaterials.form = thisMaterial.form.formUrl;
       objMaterials.title = thisMaterial.form.title;
@@ -401,17 +425,26 @@ export class ClassGS {
     return objMaterials;
   }
 
+  /**
+   * Get the list of students associated with the class
+   *
+   * @return {MapGS<string, string>} a map of the student ID to the full name
+   */
   getStudents(): MapGS<string, string> {
-    let studentList: MapGS<string, string> = new MapGS<string, string>();
-    if ((Classroom.Courses != undefined) && (Classroom.Courses.Students != undefined)) {
-      let thisStudentList = Classroom.Courses.Students.list(this._id);
-      if ((thisStudentList != undefined) && (thisStudentList.students != undefined)) {
-        for (let s of thisStudentList.students) {
-          if ((s.userId != undefined) && (s.profile != undefined) && (s.profile.name != undefined) && (s.profile.name.fullName != undefined)) {
+    const studentList: MapGS<string, string> = new MapGS<string, string>();
+    if ((Classroom.Courses != undefined) &&
+      (Classroom.Courses.Students != undefined)) {
+      const thisStudentList = Classroom.Courses.Students.list(this._id);
+      if ((thisStudentList != undefined) &&
+        (thisStudentList.students != undefined)) {
+        for (const s of thisStudentList.students) {
+          if ((s.userId != undefined) && (s.profile != undefined) &&
+          (s.profile.name != undefined) &&
+          (s.profile.name.fullName != undefined)) {
             studentList.set(s.userId, s.profile.name.fullName);
           }
         }
-      }  
+      }
     }
     return studentList;
   }
@@ -438,8 +471,8 @@ export class ClassGS {
   addTopic(topic: string): ClassGS {
     const newTopic: TopicResource = {} as TopicResource;
     newTopic.name = topic;
-  
-    //@ts-ignore
+
+    // @ts-ignore
     Classroom.Courses?.Topics?.create(newTopic, this._id);
     return this;
   }
@@ -450,17 +483,12 @@ export class ClassGS {
    * @param {string} announcement the text of the announcement
    * @param {Array<CourseMaterial>} materials the
    *  materials associated with the announcement
-   * 
+   *
    * @return {ClassGS} the object for chaining
    */
-  addAnnouncement(announcement: string, materials: Array<CourseMaterial> = []): ClassGS {
-    const announcementResource: AnnouncementResource = {} as AnnouncementResource;
-    announcementResource.text = announcement;
-    announcementResource.materials = addCourseMaterials(materials);
-    announcementResource.state = AnnouncementState.PUBLISHED;
-
-    Classroom.Courses?.Announcements?.create(announcementResource, this._id);
+  addAnnouncement(announcement: CourseAnnouncementGS): ClassGS {
+    Classroom.Courses?.Announcements?.
+      create(announcement.getResource(), this._id);
     return this;
   }
-
 }

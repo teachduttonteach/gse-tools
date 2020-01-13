@@ -1,4 +1,4 @@
-import { Work } from './Work';
+import {Work} from './Work';
 
 /**
  * Type to hold all of the coursework in an object
