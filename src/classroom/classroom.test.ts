@@ -5,6 +5,7 @@ import {MapGS} from '../map/MapGS';
 import {Work} from './Work';
 import {CourseMaterial} from './CourseMaterial';
 import {TopicResource} from './TopicResource';
+import { CourseAnnouncementGS } from './CourseAnnouncementGS';
 
 /** Test functions in app */
 function test() {
@@ -52,6 +53,25 @@ function test() {
   annMaterial.link = 'https://teachduttonteach.com';
   const annMaterials = [annMaterial];
 
+  testSuite.testMethod(testClass.getStudents.bind(testClass), [], 'getStudents');
+
+  const students = testClass.getStudents();
+  Logger.log(JSON.stringify(students));
+  const newDate = new Date();
+  newDate.setUTCDate(newDate.getUTCDate() + 4);
+
+  const courseAnnouncement = new CourseAnnouncementGS("This is an announcement in the CA with materials");
+  courseAnnouncement.addMaterials(annMaterials);
+  
+  const courseAnnouncement2 = new CourseAnnouncementGS("This is an announcement in the CA with materials and students");
+  courseAnnouncement2.addMaterials(annMaterials);
+  courseAnnouncement2.assign(students.keys());
+  
+  const courseAnnouncement3 = new CourseAnnouncementGS("This is an announcement in the CA with materials, schedule and students");
+  courseAnnouncement3.addMaterials(annMaterials);
+  courseAnnouncement3.assign(students.keys());
+  courseAnnouncement3.schedule(newDate);
+  
   // getName
   testSuite.testEquals('Class name', testClass.getName(), 'gse-tools Test');
 
@@ -68,9 +88,16 @@ function test() {
   testSuite.testMethod(testClass.addTopic.bind(testClass), [newTopicName], 'addTopic');
 
   // addAnnouncement
-  testSuite.testMethod(testClass.addAnnouncement.bind(testClass), ['This is just a test', annMaterials], 'addAnnouncement');
+  testSuite.testMethod(testClass.addAnnouncement.bind(testClass), [courseAnnouncement], 'addAnnouncement1');
 
-  // getAnnouncements
+ // addAnnouncement
+ testSuite.testMethod(testClass.addAnnouncement.bind(testClass), [courseAnnouncement2], 'addAnnouncement2');
+
+ // addAnnouncement
+ testSuite.testMethod(testClass.addAnnouncement.bind(testClass), [courseAnnouncement3], 'addAnnouncement3');
+
+ 
+ // getAnnouncements
   testSuite.testMethod(testClass.getAnnouncements.bind(testClass), [], 'getAnnouncements');
 
   // addCourseWork

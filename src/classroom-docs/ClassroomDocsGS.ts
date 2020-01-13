@@ -2,7 +2,7 @@ import { ClassGS } from '../classroom/ClassGS';
 import { Work } from '../classroom/Work';
 import { CourseMaterial } from '../classroom/CourseMaterial';
 import { DocsGS } from '../docs/DocsGS';
-import { docLevels } from '../docs/DocLevels';
+import { getDocLevels } from '../docs/DocLevels';
 import { WriteDocsParams } from 'WriteDocsParams';
 
 /**
@@ -47,7 +47,7 @@ export class ClassroomDocsGS extends DocsGS {
     this.clearBody();
     let thisTitle = docTitle;
     if (thisTitle == undefined) thisTitle = classData.getTopicName(topicName);
-    const thisLevel = docLevels('T');
+    const thisLevel = getDocLevels('T');
     if (thisTitle == undefined || thisLevel == undefined) {
       throw new Error(
         'Title (' + thisTitle + ') or level (' + thisLevel + ') not defined in DocsGS.writeClassroomDocuments()',

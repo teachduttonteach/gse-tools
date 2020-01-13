@@ -204,7 +204,7 @@ export class ClassGS {
           if (announcement == null || announcement.text == null) {
             throw new Error(
                 'Cannot call announcements.forEach on an empty ' +
-              'announcement in ClassGS.convertClassroomData()',
+              'announcement in ClassGS()',
             );
           }
           this._announcements.push(announcement.text);
@@ -287,7 +287,7 @@ export class ClassGS {
       const thisMaterial = material;
       if (thisMaterial == null) {
         throw new Error('Could not find material in ' +
-          'ClassGS.convertClassroomData()');
+          'ClassGS._addCourseMaterials()');
       }
       objWork.materials.push(this._getMaterials(thisMaterial));
     }
@@ -461,6 +461,8 @@ export class ClassGS {
     return this;
   }
 
+  // TODO: Check to see if topic already exists
+  // TODO: Update topics, classwork, announcements after they have been added
   /**
    * Adds a topic to the course
    *

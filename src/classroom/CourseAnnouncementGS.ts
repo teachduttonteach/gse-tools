@@ -101,6 +101,7 @@ export class CourseAnnouncementGS {
   schedule(time: Date): CourseAnnouncementGS {
     this._announcementResource.state = AnnouncementState.DRAFT;
     this._announcementResource.scheduledTime = time.toISOString();
+    Logger.log("Scheduled time: " + this._announcementResource.scheduledTime.toString());
     return this;
   }
 
@@ -115,6 +116,8 @@ export class CourseAnnouncementGS {
   assign(studentIds: Array<string>): CourseAnnouncementGS {
     this._announcementResource.assigneeMode =
       AssigneeMode.INDIVIDUAL_STUDENTS;
+    this._announcementResource.individualStudentsOptions = 
+      {} as GoogleAppsScript.Classroom.Schema.IndividualStudentsOptions;
     this._announcementResource.individualStudentsOptions.studentIds =
       studentIds;
     return this;

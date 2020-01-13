@@ -77,14 +77,13 @@ function updateClassroomFiles(args: ClassroomArgs): void {
 function updateGoogleClassroom(args: ClassroomArgs, currentClass: ClassGS) {
   const { newFileName = 'Google Classroom Summary', templateName = 'Google Classroom Summary Template' } = args;
 
-  const gClassData = currentClass.convertClassroomData();
   const gDrive = new DriveGS();
-  const theseTopics: Array<string> = gClassData.getTopics();
+  const theseTopics: Array<string> = currentClass.getTopics();
   for (let topic = 0; topic < theseTopics.length; topic++) {
     const fileObject = gDrive.getOrCreateFileFromTemplateByName(
       'Topic ' + topic + ' for ' + currentClass.getName() + ': ' + newFileName,
       templateName,
     );
-    new ClassroomDocsGS(fileObject.getId()).writeClassroomDocuments(gClassData, theseTopics[topic]);
+    new ClassroomDocsGS(fileObject.getId()).writeClassroomDocuments(currentClass, theseTopics[topic]);
   }
 }

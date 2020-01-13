@@ -1,5 +1,5 @@
 import { UiGS } from '../UiGS';
-import { docLevels } from './DocLevels';
+import { getDocLevels } from './DocLevels';
 
 /**
  * Class to write a Google Document
@@ -205,7 +205,7 @@ export class DocsGS extends UiGS {
     }
     if (typeof level === 'string') level = level.substr(0, 1).toUpperCase();
 
-    const thisLevel = docLevels(level);
+    const thisLevel = getDocLevels(level);
     if (thisLevel == null) {
       throw new Error('Level (' + level + ') needs to ' + 'be a ParagraphHeading type in DocsGS.addText()');
     }
