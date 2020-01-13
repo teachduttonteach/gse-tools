@@ -13,7 +13,7 @@
     "lint": "tslint -p tsconfig.json",
     "clasp": "clasp push",
     "update": "update.sh",
-    "documentation": "typedoc --out documentation"
+    "documentation": "typedoc --out docs"
   },
   "repository": {
     "type": "git",
