@@ -6,6 +6,126 @@ import { MapGS } from '../map/MapGS';
  * Gets the data from a Google Sheet and provides an interface to it in an
  *  efficient way.
  *
+ * @return {SpreadsheetGS} the Spreadsheet object
+ */
+export function newSpreadsheet(
+  id?: GoogleAppsScript.Spreadsheet.Spreadsheet | string | any): 
+  SpreadsheetGS {
+    return new SpreadsheetGS(id);
+}
+
+/**
+ * Activate the UI for the spreadsheet
+ *
+ * @param {SpreadsheetGS} obj the Spreadsheet object
+ * @return {SpreadsheetGS} the object for chaining
+ */
+export function activateSpreadsheetUi(obj: SpreadsheetGS): SpreadsheetGS {
+  return obj.activateUi();
+}
+
+/**
+ * Gets the underlying Google Apps Script object for direct access
+ *
+ * @param {SpreadsheetGS} obj the Spreadsheet object
+ * @return {GoogleAppsScript.Spreadsheet.Spreadsheet} the Spreadsheet object
+ */
+export function getSpreadsheetObject(obj: SpreadsheetGS): 
+  GoogleAppsScript.Spreadsheet.Spreadsheet {
+
+  return obj.getObject();
+}
+
+/**
+ * Get the data from the Spreadsheet as an object with rows (or columns) as
+ *  the keys and columns (or rows) as the values
+ *
+ * @param {SpreadsheetGS} obj the Spreadsheet object
+ * @param {string} sheetName the sheet name
+ * @param {boolean} rowFirst if true, rows will be the keys and columns
+ *  will be in the values along with the value found at that cell
+ *
+ * @return {MapGS<string | Date, MapGS<string | Date, string | Date>>} the
+ *  data object
+ */
+export function getSpreadsheetMapData(obj: SpreadsheetGS, sheetName: string, 
+  rowFirst: boolean = true): 
+  MapGS<string | Date, MapGS<string | Date, string | Date>> {
+
+    return obj.getMapData(sheetName, rowFirst);
+}
+
+/**
+ * Gets the named sheet or creates it if it doesn't exist
+ *
+ * @param {SpreadsheetGS} obj the Spreadsheet object
+ * @param {string} sheetName the name of the sheet
+ * @return {SheetGS} the specified sheet
+ */
+export function getOrCreateSheet(obj: SpreadsheetGS, sheetName: string): 
+  SheetGS {
+
+    return obj.getOrCreateSheet(sheetName);
+}
+
+/**
+ * Create a new sheet in the Spreadsheet
+ *
+ * @param {SpreadsheetGS} obj the Spreadsheet object
+ * @param {string} sheetName the name of the sheet to create
+ *
+ * @return {SheetGS} the new sheet
+ */
+export function createSheet(obj: SpreadsheetGS, sheetName: string): SheetGS {
+  return obj.createSheet(sheetName);
+}
+
+/**
+ * Checks to see if the Spreadsheet has a named sheet
+ *
+ * @param {SpreadsheetGS} obj the Spreadsheet object
+ * @param {string} sheetName the sheet name requested
+ * @return {boolean} true if it has the named sheet
+ */
+export function hasSheet(obj: SpreadsheetGS, sheetName: string): boolean {
+  return obj.hasSheet(sheetName);
+}
+
+/**
+ * Gets the named sheet
+ *
+ * @param {SpreadsheetGS} obj the Spreadsheet object
+ * @param {string} sheetName the name of the sheet to get
+ *
+ * @return {SheetGS} the requested sheet
+ */
+export function getSheet(obj: SpreadsheetGS, sheetName: string): SheetGS {
+  return obj.getSheet(sheetName);
+}
+
+/**
+ * Adds a trigger for this Spreadsheet
+ *
+ * @param {SpreadsheetGS} obj the Spreadsheet object
+ * @param {GoogleAppsScript.Script.EventType} triggerType the type of
+ *  trigger to add, from Script.EventType
+ * @param {string} sheetName the name of the sheet
+ * @param {string} functionName the name of the function to call
+ *
+ * @return {SpreadsheetGS} the Spreadsheet object for chaining
+ */
+export function addSpreadsheetTrigger(obj: SpreadsheetGS, 
+  triggerType: GoogleAppsScript.Script.EventType, sheetName: string, 
+  functionName: string): SpreadsheetGS {
+
+    return obj.addTrigger(triggerType, sheetName, functionName);
+}
+
+
+/**
+ * Gets the data from a Google Sheet and provides an interface to it in an
+ *  efficient way.
+ *
  */
 export class SpreadsheetGS extends UiGS {
   private _spreadsheet: GoogleAppsScript.Spreadsheet.Spreadsheet;
@@ -68,7 +188,8 @@ export class SpreadsheetGS extends UiGS {
    * @return {MapGS<string | Date, MapGS<string | Date, string | Date>>} the
    *  data object
    */
-  getMapData(sheetName: string, rowFirst: boolean = true): MapGS<string | Date, MapGS<string | Date, string | Date>> {
+  getMapData(sheetName: string, rowFirst: boolean = true): MapGS<string | Date,
+    MapGS<string | Date, string | Date>> {
     return this.getOrCreateSheet(sheetName).getMapData(rowFirst);
   }
 
@@ -81,7 +202,8 @@ export class SpreadsheetGS extends UiGS {
    */
   getOrCreateSheet(sheetName: string): SheetGS {
     if (sheetName == null) {
-      throw new Error('Sheet name not defined in ' + 'Spreadsheet.getOrCreateSheet');
+      throw new Error('Sheet name not defined in ' + 
+        'Spreadsheet.getOrCreateSheet');
     }
     if (!this.hasSheet(sheetName)) this.createSheet(sheetName);
     return this.getSheet(sheetName);
@@ -98,7 +220,8 @@ export class SpreadsheetGS extends UiGS {
     if (sheetName == null) {
       throw new Error('Sheet name not defined in ' + 'Spreadsheet.createSheet');
     }
-    (this._sheets as { [key: string]: any })[sheetName] = new SheetGS(this._spreadsheet.insertSheet(sheetName));
+    (this._sheets as { [key: string]: any })[sheetName] = 
+      new SheetGS(this._spreadsheet.insertSheet(sheetName));
     return (this._sheets as { [key: string]: any })[sheetName];
   }
 
@@ -113,7 +236,8 @@ export class SpreadsheetGS extends UiGS {
     if (sheetName == null) {
       throw new Error('Sheet name not defined in ' + 'Spreadsheet.hasSheet');
     }
-    const sheet: GoogleAppsScript.Spreadsheet.Sheet = (this._sheets as { [key: string]: any })[sheetName];
+    const sheet: GoogleAppsScript.Spreadsheet.Sheet = 
+      (this._sheets as { [key: string]: any })[sheetName];
     if (sheet == null) return false;
     return true;
   }

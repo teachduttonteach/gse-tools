@@ -116,6 +116,7 @@ function changeAttendance(_e: GoogleAppsScript.Events.SheetsOnEdit, args?: Atten
 /**
  * Updates the date codes for the selected periods
  */
+/*
 function updateDateCodes() {
   const spreadsheet = getDataSheet();
   let sheet = spreadsheet.getSheet('Daily Schedule');
@@ -147,3 +148,4 @@ function updateDateCodes() {
     }
   }
 }
+*/
