@@ -1,5 +1,5 @@
 import { SpreadsheetGS } from './SpreadsheetGS';
-import { getDataSheet } from '../drive-sheets/DataSheet';
+import { getDataSheet } from '../DataSheet';
 import { setCache, getCache } from '../Cache';
 import { SidebarButton } from '../SidebarButton';
 
@@ -272,8 +272,8 @@ export type GroupParams = {
    */
   calculateGroupsFunction?: string;
   /**
-   * The column name in the settings sheet that contains the column name for
-   * the sheet name that has the students and scores on it; default is
+   * The column in the settings (data) sheet that contains the name of the 
+   * column in the sheet that has the students and scores on it; default is
    * "Sheet Name"
    */
   sheetNameColumnName?: string;
