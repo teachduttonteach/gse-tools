@@ -1,7 +1,7 @@
 import { SpreadsheetGS } from '../sheets/SpreadsheetGS';
 import { ClassroomGS } from '../classroom/ClassroomGS';
 import { DriveGS } from '../drive/DriveGS';
-import { getDataSheet } from '../drive-sheets/DataSheet';
+import { getDataSheet } from '../DataSheet';
 import { ClassGS } from '../classroom/ClassGS';
 import { ClassroomDocsGS } from '../classroom-docs/ClassroomDocsGS';
 import { DateParams } from '../calendar/DateParams';

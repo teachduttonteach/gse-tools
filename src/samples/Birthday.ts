@@ -1,4 +1,4 @@
-import { getDataSheet } from '../drive-sheets/DataSheet';
+import { getDataSheet } from '../DataSheet';
 import { ONE_DAY } from '../utils/Utilities';
 import { SpreadsheetGS } from '../sheets/SpreadsheetGS';
 import { MapGS } from '../map/MapGS';

@@ -1,7 +1,7 @@
 import { SpreadsheetGS } from '../sheets/SpreadsheetGS';
 import { ClassroomGS } from '../classroom/ClassroomGS';
 import { DriveGS } from '../drive/DriveGS';
-import { getDataSheet } from '../drive-sheets/DataSheet';
+import { getDataSheet } from '../DataSheet';
 import { updateTriggers } from '../Triggers';
 import { areDatesEqual } from '../utils/Utilities';
 import { SheetGS } from '../sheets/SheetGS';

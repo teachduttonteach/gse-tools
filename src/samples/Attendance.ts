@@ -1,7 +1,7 @@
 import { SpreadsheetGS } from '../sheets/SpreadsheetGS';
 import { MapGS } from '../map/MapGS';
 import { SheetEventGS } from '../sheets/SheetEventGS';
-import { getDataSheet } from '../drive-sheets/DataSheet';
+import { getDataSheet } from '../DataSheet';
 
 /**
  * Parameters to run attendance
