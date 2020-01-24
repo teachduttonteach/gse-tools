@@ -6,6 +6,7 @@ import {Work} from './Work';
 import {CourseMaterial} from './CourseMaterial';
 import {TopicResource} from './TopicResource';
 import { CourseAnnouncementGS } from './CourseAnnouncementGS';
+import { CourseWorkGS } from './CourseWorkGS';
 
 /** Test functions in app */
 function test() {
@@ -45,7 +46,7 @@ function test() {
   const testClassroom = new ClassroomGS();
   const testClass = testClassroom.getClass('izg4qrh'); // gse-tools Test
   const testTopic = testClass.getTopics()[0];
-  const testCourseWork = testClass.getTopicInfo(testTopic);
+  //const testCourseWork = testClass.getTopicInfo(testTopic);
 
   const newTopicName = 'For Testing (Second)';
   const annMaterial: CourseMaterial = {} as CourseMaterial;
@@ -71,6 +72,8 @@ function test() {
   courseAnnouncement3.addMaterials(annMaterials);
   courseAnnouncement3.assign(students.keys());
   courseAnnouncement3.schedule(newDate);
+
+  const testCourseWork = new CourseWorkGS("Test Assignment", testTopic);
   
   // getName
   testSuite.testEquals('Class name', testClass.getName(), 'gse-tools Test');
@@ -82,7 +85,7 @@ function test() {
   testSuite.testMethod(testClass.getTopics.bind(testClass), [], 'getTopics');
 
   // getTopicName
-  testSuite.testEquals('ClassInfo first topic name', testClass.getTopicName(testTopic), 'Environmental Systems and Societies');
+  testSuite.testEquals('ClassInfo first topic name', testClass.getTopicName(testTopic), 'For Testing (Second)');
 
   // addTopic
   testSuite.testMethod(testClass.addTopic.bind(testClass), [newTopicName], 'addTopic');
@@ -101,7 +104,7 @@ function test() {
   testSuite.testMethod(testClass.getAnnouncements.bind(testClass), [], 'getAnnouncements');
 
   // addCourseWork
-  testSuite.testEachArgumentOfMethod(workParams, testClass.addCourseWork.bind(testClass), [testTopic, 'objectToTest'], 'testEachArgumentOfMethod');
+  testSuite.testEachArgumentOfMethod(workParams, testClass.addCourseWork.bind(testClass), [testCourseWork, 'objectToTest'], 'addCourseWork');
 
   // getTopicInfo
   testSuite.testMethod(testClass.getTopicInfo.bind(testClass), [testTopic], 'getCourseWork');

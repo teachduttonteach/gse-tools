@@ -304,6 +304,15 @@ export class ClassGS {
   }
 
   /**
+   * Get the topic names
+   *
+   * @return {Array<string>} the topic names
+   */
+  getTopicNames(): Array<string> {
+    return this._topics.values().map(a => a.name);
+  }
+
+  /**
    * Gets the name of a topic
    *
    * @param {string} topicId the topic id
@@ -314,7 +323,7 @@ export class ClassGS {
     const thisTopic = this._topics.get(topicId);
     if (thisTopic == undefined) {
       throw new Error('Topic ' + topicId +
-        ' not defined in ClassInfo.getName()');
+        ' not defined in ClassGS.getTopicName()');
     }
     return thisTopic.name;
   }
@@ -344,7 +353,7 @@ export class ClassGS {
 
     if (thisTopicInfo == undefined) {
       throw new Error('Could not find course work in ' + topicId +
-        ' in Topic.getTopicInfo()');
+        ' in ClassGS.getTopicInfo()');
     }
     return thisTopicInfo;
   }
@@ -457,7 +466,11 @@ export class ClassGS {
    * @return {ClassGS} the object for chaining
    */
   addCourseWork(work: CourseWorkGS): ClassGS {
-    Classroom.Courses?.CourseWork?.create(work.getResource(), this._id);
+    if (Classroom.Courses == undefined) throw new Error("Could not find " +
+    "Courses in Classroom");
+    if (Classroom.Courses.CourseWork == undefined) throw new Error("Could " +
+    "not find Classwork in Classroom.Courses");
+    Classroom.Courses.CourseWork.create(work.getResource(), this._id);
     return this;
   }
 
@@ -471,6 +484,11 @@ export class ClassGS {
    * @return {ClassGS} the object for chaining
    */
   addTopic(topic: string): ClassGS {
+    if (this.getTopicNames().indexOf(topic) > -1) {
+      Logger.log("WARNING: Topic '" + topic + "' already exists.");
+      return this;
+    }
+
     const newTopic: TopicResource = {} as TopicResource;
     newTopic.name = topic;
 

@@ -160,7 +160,7 @@ export class DocsGS extends UiGS {
    * @return {DocsGS} the object for chaining
    */
   changeSeparator(separator: GoogleAppsScript.Document.GlyphType): DocsGS {
-    if (!(separator in DocumentApp.GlyphType)) {
+    if (DocumentApp.GlyphType[separator] == null) {
       throw new Error('Invalid separator defined for Docs.changeSeparator');
     }
     this._separator = separator;
