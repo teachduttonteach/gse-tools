@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>&#x27;gse-tools&#x27;</title>
+	<title>gse-tools</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="assets/css/main.css">
@@ -22,7 +22,7 @@
 						<li class="state loading">Preparing search index...</li>
 						<li class="state failure">The search index is not available</li>
 					</ul>
-					<a href="index.html" class="title">&#x27;gse-tools&#x27;</a>
+					<a href="index.html" class="title">gse-tools</a>
 				</div>
 				<div class="table-cell" id="tsd-widgets">
 					<div id="tsd-filter">
@@ -56,7 +56,7 @@
 					<a href="globals.html">Globals</a>
 				</li>
 			</ul>
-			<h1> &#x27;gse-tools&#x27;</h1>
+			<h1> gse-tools</h1>
 		</div>
 	</div>
 </header>
@@ -106,11 +106,6 @@
 				</a>
 				<p>Project key: <code>1PlSc90WZcf1Jah-VrmsdECaavaRP18FHnyCWe4HRuw7bX09c2e9aFDvV</code></p>
 				<p>Files: <a href="https://teachduttonteach.github.io/gse-tools/classes/drivegs.html">DriveGS</a></p>
-				<a href="#gse-tools-drive-sheets" id="gse-tools-drive-sheets" style="color: inherit; text-decoration: none;">
-					<h3>gse-tools-drive-sheets</h3>
-				</a>
-				<p>Project key: <code>1HEULrHr3_l8Np8a4ya40KCPf3y0MkENHOdB3gVZpzHuXvqmQLPMZu8qj</code></p>
-				<p>Files: <a href="https://teachduttonteach.github.io/gse-tools/classes/spreadsheetgs.html">SpreadsheetGS</a>, <a href="https://teachduttonteach.github.io/gse-tools/classes/sheetgs.html">SheetGS</a>, <a href="https://teachduttonteach.github.io/gse-tools/classes/drivegs.html">DriveGS</a>, <a href="https://teachduttonteach.github.io/gse-tools/classes/mapgs.html">MapGS</a>, <a href="https://teachduttonteach.github.io/gse-tools/classes/uigs.html">UiGS</a></p>
 				<a href="#gse-tools-forms" id="gse-tools-forms" style="color: inherit; text-decoration: none;">
 					<h3>gse-tools-forms</h3>
 				</a>
@@ -136,14 +131,22 @@
 				<p>Google Apps Script (GAS) offers a flexible, comprehensive library that has been harnessed by professionals and hobbyists across the world. Since <a href="https://edu.google.com/products/gsuite-for-education/?modal_active=none">G Suite for Education</a> has proliferated in school districts, more educators and technology officers have taken advantage of the GAS library to improve their workflow and student experience. But there are still three main problems:</p>
 				<ul>
 					<li>Most educators don&#39;t know how to code</li>
-					<li>There are idiosyncracies in the GAS library that require digging through documentation and discussion boards in order to solve</li>
+					<li>There are idiosyncrasies in the GAS library that require digging through documentation and discussion boards in order to solve</li>
 					<li>Some apps, like Sheets, require high numbers of API calls to do simple tasks, slowing scripts down</li>
 				</ul>
 				<p>While this project cannot magically impart basic coding skills to teachers, the <strong>aims</strong> of the project can help bridge the gap between professional programmer and the average educator:</p>
 				<ul>
-					<li>Provide a library that reduces common complex education-focused tasks to one function or method</li>
-					<li>Hide GAS idiosyncracies in modules, improving coding efficiency at the expense of code flexibility</li>
-					<li>Reduce API calls where possible</li>
+					<li>Provide a library that reduces common complex education-focused tasks to one function or method<ul>
+							<li>In GAS, to add a list to a slide, you could call <code>slide.getPlaceholder(SlidesApp.PlaceholderType.BODY).asShape().getText().setText(text).getListStyle().applyListPreset(bulletType);</code></li>
+							<li>In <strong>gse-tools</strong>, the code is simplified: <code>slide.setList(listText);</code></li>
+						</ul>
+					</li>
+					<li>Hide GAS idiosyncrasies in modules, improving coding efficiency at the expense of code flexibility</li>
+					<li>Reduce API calls where possible<ul>
+							<li>In GAS, searching for the value of a cell in a Sheet requires an API call to the Sheet for every single cell searched</li>
+							<li>In <strong>gse-tools</strong>, all of the cell values are held in a variable and can be searched multiple times with no expensive API calls</li>
+						</ul>
+					</li>
 					<li>Allow for programmers with a wider variety of experience levels to use the library</li>
 				</ul>
 				<a href="#javascript-typescript-amp-classes" id="javascript-typescript-amp-classes" style="color: inherit; text-decoration: none;">
@@ -179,7 +182,12 @@
 				<pre><code><span class="hljs-comment">// Get completed tasks (with percentage and comments) for a student</span>
 <span class="hljs-keyword">var</span> sheets = <span class="hljs-keyword">new</span> <span class="hljs-type">gsetools</span>.<span class="hljs-keyword">new</span><span class="hljs-type">Spreadsheet</span>();
 <span class="hljs-keyword">var</span> gradeSheet = gsetools.getSheet(sheets, <span class="hljs-string">"Grades"</span>);
-<span class="hljs-keyword">var</span> studentGrades = gsetools.getSheetRecordsMatchingColumnValue(gradeSheet, <span class="hljs-string">"Name"</span>, <span class="hljs-string">"John Joe"</span>, [<span class="hljs-string">"Task"</span>, <span class="hljs-string">"%"</span>, <span class="hljs-string">"Comments]);</span></code></pre><footer>&copy; 2020 John A. Dutton</footer>
+<span class="hljs-keyword">var</span> studentGrades = gsetools.getSheetRecordsMatchingColumnValue(gradeSheet, <span class="hljs-string">"Name"</span>, <span class="hljs-string">"John Joe"</span>, [<span class="hljs-string">"Task"</span>, <span class="hljs-string">"%"</span>, <span class="hljs-string">"Comments]);</span></code></pre>
+				<a href="#getobject" id="getobject" style="color: inherit; text-decoration: none;">
+					<h4>getObject()</h4>
+				</a>
+				<p>The intent of this library is not to funnel all programmatic access to GAS through the library itself. <strong>gse-tools</strong> can and should be used alongside GAS code. Every class in this library has a <code>getObject()</code> method which returns the underlying GAS object for direct access. If using the functions for library access, the class name goes between <code>get</code> and <code>object()</code>, e.g., <code>getSheetObject()</code>.</p>
+				<footer>&copy; 2020 John A. Dutton</footer>
 			</div>
 		</div>
 		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
@@ -577,12 +585,6 @@
 						<a href="globals.html#getdocsobject" class="tsd-kind-icon">get<wbr>Docs<wbr>Object</a>
 					</li>
 					<li class=" tsd-kind-function">
-						<a href="globals.html#getdriveimageblob" class="tsd-kind-icon">get<wbr>Drive<wbr>Image<wbr>Blob</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#getdriverandompicture" class="tsd-kind-icon">get<wbr>Drive<wbr>Random<wbr>Picture</a>
-					</li>
-					<li class=" tsd-kind-function">
 						<a href="globals.html#getformeventemail" class="tsd-kind-icon">get<wbr>Form<wbr>Event<wbr>Email</a>
 					</li>
 					<li class=" tsd-kind-function">
@@ -598,25 +600,31 @@
 						<a href="globals.html#getgoogleclass" class="tsd-kind-icon">get<wbr>Google<wbr>Class</a>
 					</li>
 					<li class=" tsd-kind-function">
+						<a href="globals.html#getimageblob" class="tsd-kind-icon">get<wbr>Image<wbr>Blob</a>
+					</li>
+					<li class=" tsd-kind-function">
 						<a href="globals.html#getnamefromemail" class="tsd-kind-icon">get<wbr>Name<wbr>From<wbr>Email</a>
 					</li>
 					<li class=" tsd-kind-function">
 						<a href="globals.html#getoauthtoken" class="tsd-kind-icon">getOAuth<wbr>Token</a>
 					</li>
 					<li class=" tsd-kind-function">
-						<a href="globals.html#getorcreatedrivefilebyid" class="tsd-kind-icon">get<wbr>OrCreate<wbr>Drive<wbr>File<wbr>ById</a>
+						<a href="globals.html#getorcreatefilebyid" class="tsd-kind-icon">get<wbr>OrCreate<wbr>File<wbr>ById</a>
 					</li>
 					<li class=" tsd-kind-function">
-						<a href="globals.html#getorcreatedrivefilebyname" class="tsd-kind-icon">get<wbr>OrCreate<wbr>Drive<wbr>File<wbr>ByName</a>
+						<a href="globals.html#getorcreatefilebyname" class="tsd-kind-icon">get<wbr>OrCreate<wbr>File<wbr>ByName</a>
 					</li>
 					<li class=" tsd-kind-function">
-						<a href="globals.html#getorcreatedrivefilefromtemplatebyid" class="tsd-kind-icon">get<wbr>OrCreate<wbr>Drive<wbr>File<wbr>From<wbr>Template<wbr>ById</a>
+						<a href="globals.html#getorcreatefilefromtemplatebyid" class="tsd-kind-icon">get<wbr>OrCreate<wbr>File<wbr>From<wbr>Template<wbr>ById</a>
 					</li>
 					<li class=" tsd-kind-function">
-						<a href="globals.html#getorcreatedrivefilefromtemplatebyname" class="tsd-kind-icon">get<wbr>OrCreate<wbr>Drive<wbr>File<wbr>From<wbr>Template<wbr>ByName</a>
+						<a href="globals.html#getorcreatefilefromtemplatebyname" class="tsd-kind-icon">get<wbr>OrCreate<wbr>File<wbr>From<wbr>Template<wbr>ByName</a>
 					</li>
 					<li class=" tsd-kind-function">
 						<a href="globals.html#getorcreatesheet" class="tsd-kind-icon">get<wbr>OrCreate<wbr>Sheet</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#getrandompicture" class="tsd-kind-icon">get<wbr>Random<wbr>Picture</a>
 					</li>
 					<li class=" tsd-kind-function">
 						<a href="globals.html#getsheet" class="tsd-kind-icon">get<wbr>Sheet</a>
