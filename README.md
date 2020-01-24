@@ -42,11 +42,6 @@ Project key: `1PlSc90WZcf1Jah-VrmsdECaavaRP18FHnyCWe4HRuw7bX09c2e9aFDvV`
 
 Files: [DriveGS](https://teachduttonteach.github.io/gse-tools/classes/drivegs.html)
 
-### gse-tools-drive-sheets
-Project key: `1HEULrHr3_l8Np8a4ya40KCPf3y0MkENHOdB3gVZpzHuXvqmQLPMZu8qj`
-
-Files: [SpreadsheetGS](https://teachduttonteach.github.io/gse-tools/classes/spreadsheetgs.html), [SheetGS](https://teachduttonteach.github.io/gse-tools/classes/sheetgs.html), [DriveGS](https://teachduttonteach.github.io/gse-tools/classes/drivegs.html), [MapGS](https://teachduttonteach.github.io/gse-tools/classes/mapgs.html), [UiGS](https://teachduttonteach.github.io/gse-tools/classes/uigs.html)
-
 ### gse-tools-forms
 Project key: `1oyfsFWcowJSVKND18FrPkDklCVMyhEEOW05EJ_eo-QoZDhxD85QnfFSL`
 
@@ -70,14 +65,18 @@ Files: [SlideshowGS](https://teachduttonteach.github.io/gse-tools/classes/slides
 Google Apps Script (GAS) offers a flexible, comprehensive library that has been harnessed by professionals and hobbyists across the world. Since [G Suite for Education](https://edu.google.com/products/gsuite-for-education/?modal_active=none) has proliferated in school districts, more educators and technology officers have taken advantage of the GAS library to improve their workflow and student experience. But there are still three main problems:
 
 * Most educators don't know how to code
-* There are idiosyncracies in the GAS library that require digging through documentation and discussion boards in order to solve
+* There are idiosyncrasies in the GAS library that require digging through documentation and discussion boards in order to solve
 * Some apps, like Sheets, require high numbers of API calls to do simple tasks, slowing scripts down
 
 While this project cannot magically impart basic coding skills to teachers, the **aims** of the project can help bridge the gap between professional programmer and the average educator:
 
 - Provide a library that reduces common complex education-focused tasks to one function or method
-- Hide GAS idiosyncracies in modules, improving coding efficiency at the expense of code flexibility
+    - In GAS, to add a list to a slide, you could call `slide.getPlaceholder(SlidesApp.PlaceholderType.BODY).asShape().getText().setText(text).getListStyle().applyListPreset(bulletType);`
+    - In **gse-tools**, the code is simplified: `slide.setList(listText);`
+- Hide GAS idiosyncrasies in modules, improving coding efficiency at the expense of code flexibility
 - Reduce API calls where possible
+    - In GAS, searching for the value of a cell in a Sheet requires an API call to the Sheet for every single cell searched
+    - In **gse-tools**, all of the cell values are held in a variable and can be searched multiple times with no expensive API calls
 - Allow for programmers with a wider variety of experience levels to use the library
 
 ## JavaScript, TypeScript & Classes
@@ -110,5 +109,8 @@ In order to address this concern, **gse-tools** has been written in both object-
     var sheets = new gsetools.newSpreadsheet();
     var gradeSheet = gsetools.getSheet(sheets, "Grades");
     var studentGrades = gsetools.getSheetRecordsMatchingColumnValue(gradeSheet, "Name", "John Joe", ["Task", "%", "Comments]);
+
+#### getObject()
+The intent of this library is not to funnel all programmatic access to GAS through the library itself. **gse-tools** can and should be used alongside GAS code. Every class in this library has a `getObject()` method which returns the underlying GAS object for direct access. If using the functions for library access, the class name goes between `get` and `object()`, e.g., `getSheetObject()`.
 
 <footer>&copy; 2020 John A. Dutton</footer>
