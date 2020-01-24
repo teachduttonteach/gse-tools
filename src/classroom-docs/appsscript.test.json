@@ -1,0 +1,18 @@
+{
+  "timeZone": "America/New_York",
+  "dependencies": {
+    "libraries": [{
+      "userSymbol": "gsetoolstest",
+      "libraryId": "1lQ63IAN9mpZSO-75uBJG5WBgpF-hnp_akAlJ1WHtzF8o7ej33TljlLqV",
+      "version": "4",
+      "developmentMode": true
+    }],
+    "enabledAdvancedServices": [{
+      "userSymbol": "Classroom",
+      "serviceId": "classroom",
+      "version": "v1"
+    }]
+  },
+  "exceptionLogging": "STACKDRIVER",
+  "oauthScopes": ["https://www.googleapis.com/auth/script.scriptapp", "https://www.googleapis.com/auth/classroom.profile.emails", "https://www.googleapis.com/auth/classroom.profile.photos", "https://www.googleapis.com/auth/classroom.rosters", "https://www.googleapis.com/auth/classroom.courses", "https://www.googleapis.com/auth/classroom.coursework.me", "https://www.googleapis.com/auth/classroom.coursework.me.readonly", "https://www.googleapis.com/auth/classroom.coursework.students", "https://www.googleapis.com/auth/classroom.coursework.students.readonly", "https://www.googleapis.com/auth/classroom.announcements", "https://www.googleapis.com/auth/classroom.announcements.readonly", "https://www.googleapis.com/auth/classroom.topics", "https://www.googleapis.com/auth/classroom.topics.readonly", "https://www.googleapis.com/auth/script.container.ui", "https://www.googleapis.com/auth/drive.readonly", "https://www.googleapis.com/auth/drive", "https://www.googleapis.com/auth/documents"]
+}
