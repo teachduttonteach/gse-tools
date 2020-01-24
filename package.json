@@ -13,7 +13,7 @@
     "lint": "tslint -p tsconfig.json",
     "clasp": "clasp push",
     "update": "update.sh",
-    "documentation": "typedoc --categorizeByGroup --name 'gse-tools' --readme README.md --out docs"
+    "documentation": "typedoc --categorizeByGroup --name gse-tools --readme README.md --out docs"
   },
   "repository": {
     "type": "git",
