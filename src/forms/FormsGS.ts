@@ -1,5 +1,6 @@
 import { UiGS } from '../UiGS';
 import { QuestionType } from '../enums/QuestionType';
+import { DriveGS } from '../drive/DriveGS';
 
 /**
  * Class to manipulate Google Forms
@@ -15,7 +16,7 @@ export function newForms(id: string): FormsGS {
  * @param {FormsGS} obj the Forms object
  * @return {FormsGS} the object for chaining
  */
-export function activateFormsUi(obj: FormsGS): FormsGS {
+export function activateFormUi(obj: FormsGS): FormsGS {
   return obj.activateUi();
 }
 
@@ -25,7 +26,7 @@ export function activateFormsUi(obj: FormsGS): FormsGS {
  * @param {FormsGS} obj the Forms object
  * @return {GoogleAppsScript.Forms.Form} the Google Form object
  */
-export function getFormsObject(obj: FormsGS): GoogleAppsScript.Forms.Form {
+export function getFormObject(obj: FormsGS): GoogleAppsScript.Forms.Form {
   return obj.getObject();
 }
 
@@ -37,7 +38,7 @@ export function getFormsObject(obj: FormsGS): GoogleAppsScript.Forms.Form {
  *
  * @return {Array<string>} the list
  */
-export function convertFormsLinebreaksToList(obj: FormsGS, text: string): Array<string> {
+export function convertFormLinebreaksToList(obj: FormsGS, text: string): Array<string> {
   return obj.convertLinebreaksToList(text);
 }
 
@@ -53,7 +54,7 @@ export function convertFormsLinebreaksToList(obj: FormsGS, text: string): Array<
  *
  * @return {FormsGS} the object for chaining
  */
-export function addFormsItem(
+export function addFormItem(
   obj: FormsGS,
   title: string,
   questionType: string,
@@ -71,7 +72,7 @@ export function addFormsItem(
  *
  * @return {FormsGS} the object for chaining
  */
-export function addFormsParagraph(obj: FormsGS, title: string): FormsGS {
+export function addFormParagraph(obj: FormsGS, title: string): FormsGS {
   return obj.addParagraph(title);
 }
 
@@ -83,7 +84,7 @@ export function addFormsParagraph(obj: FormsGS, title: string): FormsGS {
  *
  * @return {FormsGS} the object for chaining
  */
-export function addFormsTrueFalse(obj: FormsGS, title: string): FormsGS {
+export function addFormTrueFalse(obj: FormsGS, title: string): FormsGS {
   return obj.addTrueFalse(title);
 }
 
@@ -95,7 +96,7 @@ export function addFormsTrueFalse(obj: FormsGS, title: string): FormsGS {
  *
  * @return {Array<string>} the array of values
  */
-export function setFormsValuesFromList(obj: FormsGS, values: Array<string> | string): Array<string> {
+export function setFormValuesFromList(obj: FormsGS, values: Array<string> | string): Array<string> {
   return obj.setValuesFromList(values);
 }
 
@@ -109,7 +110,7 @@ export function setFormsValuesFromList(obj: FormsGS, values: Array<string> | str
  *
  * @return {FormsGS} the object for chaining
  */
-export function addFormsMultipleChoice(obj: FormsGS, title: string, items: Array<string> | string): FormsGS {
+export function addFormMultipleChoice(obj: FormsGS, title: string, items: Array<string> | string): FormsGS {
   return obj.addMultipleChoice(title, items);
 }
 
@@ -123,7 +124,7 @@ export function addFormsMultipleChoice(obj: FormsGS, title: string, items: Array
  *
  * @return {FormsGS} the object for chaining
  */
-export function addFormsMultipleCheck(obj: FormsGS, title: string, items: Array<string> | string): FormsGS {
+export function addFormMultipleCheck(obj: FormsGS, title: string, items: Array<string> | string): FormsGS {
   return obj.addMultipleCheck(title, items);
 }
 
@@ -139,7 +140,7 @@ export function addFormsMultipleCheck(obj: FormsGS, title: string, items: Array<
  *
  * @return {FormsGS} the object for chaining
  */
-export function addFormsMultipleGridChoice(
+export function addFormMultipleGridChoice(
   obj: FormsGS,
   title: string,
   columns: Array<string> | string,
@@ -160,7 +161,7 @@ export function addFormsMultipleGridChoice(
  *
  * @return {FormsGS} the object for chaining
  */
-export function addFormsMultipleGridCheck(
+export function addFormMultipleGridCheck(
   obj: FormsGS,
   title: string,
   columns: Array<string> | string,
@@ -177,7 +178,7 @@ export function addFormsMultipleGridCheck(
  *
  * @return {FormsGS} the object for chaining
  */
-export function addFormsImage(obj: FormsGS, file: GoogleAppsScript.Base.BlobSource): FormsGS {
+export function addFormImage(obj: FormsGS, file: GoogleAppsScript.Base.BlobSource): FormsGS {
   return obj.addImage(file);
 }
 
@@ -187,7 +188,7 @@ export function addFormsImage(obj: FormsGS, file: GoogleAppsScript.Base.BlobSour
  * @param {FormsGS} obj the Forms object
  * @return {FormsGS} the object for chaining
  */
-export function deleteFormsItems(obj: FormsGS): FormsGS {
+export function deleteFormItems(obj: FormsGS): FormsGS {
   return obj.deleteItems();
 }
 
@@ -199,9 +200,56 @@ export function deleteFormsItems(obj: FormsGS): FormsGS {
  *
  * @return {FormsGS} the object for chaining
  */
-export function setFormsTitle(obj: FormsGS, title: string): FormsGS {
+export function setFormTitle(obj: FormsGS, title: string): FormsGS {
   return obj.setTitle(title);
 }
+
+/**
+ * Adds a trigger for this Form
+ *
+ * @param {FormsGS} obj the Forms object
+ * @param {GoogleAppsScript.Script.EventType} triggerType the type of
+ *  trigger to add, from Script.EventType
+ * @param {string} functionName the name of the function to call
+ *
+ * @return {FormsGS} the Form object for chaining
+ */
+export function addFormTrigger(obj: FormsGS, 
+  triggerType: GoogleAppsScript.Script.EventType, functionName: string): 
+  FormsGS {
+  return obj.addTrigger(triggerType, functionName);
+}
+
+/**
+ * Update triggers for a particular form
+ *
+ * @param {FormsGS} obj the Forms object
+ * @param {GoogleAppsScript.Script.EventType} triggerType the type of
+ *  trigger to add, from Script.EventType
+ * @param {string} functionName the function to call when triggered on form
+ *  submit
+ * @return {FormsGS} the object for chaining
+ */
+export function replaceFormTrigger(
+  obj: FormsGS, triggerType: GoogleAppsScript.Script.EventType, 
+  functionName?: string): FormsGS {
+
+  return obj.replaceTrigger(triggerType, functionName);
+}
+
+/**
+ * Delete triggers for a particular function
+ *
+ * @param {FormsGS} obj the Forms object
+ * @param {string} functionName the function to delete triggers for
+ * @return {FormsGS} the object for chaining
+ */
+export function deleteFormTriggers(obj: FormsGS, functionName?: string): 
+  FormsGS {
+
+  return obj.deleteTriggers(functionName);
+}
+
 
 /**
  * Class to manipulate Google Forms
@@ -274,6 +322,15 @@ export class FormsGS extends UiGS {
     optionsList?: string | Array<string>,
     mcGridRowsList?: string | Array<string>,
   ): FormsGS {
+    if (title == null) {
+      throw new Error("Title of form question cannot be blank in " +
+        "FormsGS.addItem()");
+    }
+    if (questionType == null) {
+      throw new Error("Question type cannot be blank in " +
+        "FormsGS.addItem()")
+    }
+
     switch (questionType) {
       case QuestionType.PARAGRAPH:
         this._form.addParagraphTextItem().setTitle(title);
@@ -468,7 +525,34 @@ export class FormsGS extends UiGS {
     if (file == null) {
       throw new Error('Could not find image in ' + 'FormsGS.addImage()');
     }
-    this._form.addImageItem().setImage(file);
+    try {
+      this._form.addImageItem().setImage(file);
+    } catch(e) {
+      Logger.log("Could not add image to form in FormsGS.addImage(): " + e);
+    }
+    return this;
+  }
+
+  /**
+   * Add an image to the form
+   *
+   * @param {string} id the id of the image to add
+   *
+   * @return {FormsGS} the object for chaining
+   */
+  addImageFromId(id: string): FormsGS {
+    if (id == null) {
+      throw new Error('Image id not defined in FormsGS.addImageFromId()');
+    }
+    try {
+      const imageBlob = new DriveGS().getImageBlob(id);
+      if (typeof imageBlob !== "boolean") 
+        this.addImage(imageBlob);
+      else Logger.log("Could not find image in FormsGS.addImageFromId()");
+    } catch(e) {
+      Logger.log("Could not add image to form in FormsGS.addImageFromId(): " +
+       e);
+    }
     return this;
   }
 
@@ -494,6 +578,76 @@ export class FormsGS extends UiGS {
    */
   setTitle(title: string): FormsGS {
     this._form.setTitle(title);
+    return this;
+  }
+
+  /**
+   * Adds a trigger for this Form
+   *
+   * @param {GoogleAppsScript.Script.EventType | string} triggerType the type 
+   *  of trigger to add, from Script.EventType; or, 'Open' or 'Submit'
+   * @param {string} functionName the name of the function to call
+   *
+   * @return {FormsGS} the Form object for chaining
+   */
+  addTrigger(triggerType: GoogleAppsScript.Script.EventType | string, 
+    functionName?: string): FormsGS {
+    
+    if (triggerType == null) {
+      throw new Error('Trigger type must be defined in FormsGS.addTrigger()');
+    }
+
+    if (typeof triggerType === "string") 
+      triggerType = triggerType.toUpperCase()[0];
+    
+    switch (triggerType) {
+      case ScriptApp.EventType.ON_OPEN || "O":
+        if (functionName === undefined) functionName = "onOpen";
+        ScriptApp.newTrigger(functionName)
+          .forForm(this._form)
+          .onOpen()
+          .create();
+        break;
+      default:
+        if (functionName === undefined) functionName = "onSubmit";
+        ScriptApp.newTrigger(functionName)
+          .forForm(this._form)
+          .onFormSubmit()
+          .create();
+        break;
+    }
+    return this;
+  }
+
+   /**
+   * Update triggers for a particular form
+   *
+   * @param {GoogleAppsScript.Script.EventType} triggerType the type of
+   *  trigger to add, from Script.EventType
+   * @param {string} functionName the function to call when triggered on form
+   *  submit
+   * @return {FormsGS} the object for chaining
+   */
+  replaceTrigger(triggerType: GoogleAppsScript.Script.EventType, 
+    functionName?: string): FormsGS {
+    this.deleteTriggers(functionName);
+    this.addTrigger(triggerType, functionName);
+    return this;
+  }
+
+  /**
+   * Delete triggers for a particular function
+   *
+   * @param {string} functionName the function to delete triggers for
+   * @return {FormsGS} the object for chaining
+   */
+  deleteTriggers(functionName?: string): FormsGS {
+    for (const t of ScriptApp.getProjectTriggers()) {
+      if (t.getTriggerSourceId() == this._form.getId()) {
+        if ((functionName === undefined) || 
+        (t.getHandlerFunction() == functionName)) ScriptApp.deleteTrigger(t);
+      }
+    }
     return this;
   }
 }

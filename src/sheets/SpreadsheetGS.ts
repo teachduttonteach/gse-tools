@@ -107,19 +107,54 @@ export function getSheet(obj: SpreadsheetGS, sheetName: string): SheetGS {
  * Adds a trigger for this Spreadsheet
  *
  * @param {SpreadsheetGS} obj the Spreadsheet object
- * @param {GoogleAppsScript.Script.EventType} triggerType the type of
- *  trigger to add, from Script.EventType
- * @param {string} sheetName the name of the sheet
- * @param {string} functionName the name of the function to call
+  * @param {string} sheetName the name of the sheet
+  * @param {GoogleAppsScript.Script.EventType | string} triggerType the type 
+  *  of trigger to add, from Script.EventType; or, 'Edit', 'Change'
+  *  or 'Submit'
+  * @param {string} functionName the name of the function to call on trigger
  *
  * @return {SpreadsheetGS} the Spreadsheet object for chaining
  */
-export function addSpreadsheetTrigger(obj: SpreadsheetGS, 
-  triggerType: GoogleAppsScript.Script.EventType, sheetName: string, 
-  functionName: string): SpreadsheetGS {
+export function addSpreadsheetTrigger(obj: SpreadsheetGS, sheetName: string,
+  triggerType?: GoogleAppsScript.Script.EventType | string,  
+  functionName?: string): SpreadsheetGS {
 
-    return obj.addTrigger(triggerType, sheetName, functionName);
+    return obj.addTrigger(sheetName, triggerType, functionName);
 }
+
+/**
+ * Update triggers for a particular form
+ *
+ * @param {SpreadsheetGS} obj the Forms object
+ * @param {string} sheetName the name of the sheet
+  * @param {GoogleAppsScript.Script.EventType | string} triggerType the type 
+  *  of trigger to add, from Script.EventType; or, 'Edit', 'Change'
+  *  or 'Submit'
+  * @param {string} functionName the name of the function to call on trigger
+ * @return {SpreadsheetGS} the object for chaining
+ */
+export function replaceSpreadsheetTrigger(
+  obj: SpreadsheetGS, sheetName: string, 
+  triggerType?: GoogleAppsScript.Script.EventType | string, 
+  functionName?: string): SpreadsheetGS {
+
+  return obj.replaceTrigger(sheetName, triggerType, functionName);
+}
+
+/**
+ * Delete triggers for a particular function
+ *
+ * @param {SpreadsheetGS} obj the Forms object
+ * @param {string} functionName the name of the function to call on trigger
+ * @return {SpreadsheetGS} the object for chaining
+ */
+export function deleteSpreadsheetTriggers(obj: SpreadsheetGS,  
+  functionName?: string): 
+  SpreadsheetGS {
+
+  return obj.deleteTriggers(functionName);
+}
+
 
 
 /**
@@ -261,40 +296,92 @@ export class SpreadsheetGS extends UiGS {
   }
 
   /**
-   * Adds a trigger for this Spreadsheet
+   * Adds a trigger for this Spreadsheet. Default functions depending on the 
+   *  event type are 'onEdit', 'onChange', and 'onSubmit'. The default event
+   *  type is ON_EDIT. 
    *
-   * @param {GoogleAppsScript.Script.EventType} triggerType the type of
-   *  trigger to add, from Script.EventType
    * @param {string} sheetName the name of the sheet
-   * @param {string} functionName the name of the function to call
+   * @param {GoogleAppsScript.Script.EventType | string} triggerType the type 
+   *  of trigger to add, from Script.EventType; or, 'Edit', 'Change'
+   *  or 'Submit'
+   * @param {string} functionName the name of the function to call on trigger
    *
    * @return {SpreadsheetGS} the Spreadsheet object for chaining
    */
-  addTrigger(triggerType: GoogleAppsScript.Script.EventType, sheetName: string, functionName: string): SpreadsheetGS {
-    if (triggerType == null || sheetName == null || functionName == null) {
-      throw new Error('One of triggerType, sheetName or functionName is not ' + 'defined in Spreadsheet.addTrigger');
+  addTrigger(sheetName: string, 
+    triggerType?: GoogleAppsScript.Script.EventType | string,  
+    functionName?: string): SpreadsheetGS {
+    if (sheetName == null) {
+      throw new Error('sheetName is not defined in SpreadsheetGS.addTrigger()');
     }
-    const sheet: GoogleAppsScript.Spreadsheet.Spreadsheet = (this._sheets as { [key: string]: any })[sheetName];
-    if (sheet == null) {
-      throw new Error('Sheet name is incorrect or not ' + 'found in Spreadsheet.addTrigger');
-    }
+    const sheet: GoogleAppsScript.Spreadsheet.Spreadsheet = 
+      (this._sheets as { [key: string]: any })[sheetName];
+
+    if (sheet == null) throw new Error('Sheet name is incorrect or not ' +
+      'found in SpreadsheetGS.addTrigger()');
+
+    if (typeof triggerType === "string") 
+      triggerType = triggerType.toUpperCase()[0];
+
     switch (triggerType) {
-      case ScriptApp.EventType.ON_CHANGE:
+      case ScriptApp.EventType.ON_CHANGE || "C":
+        if (functionName === undefined) functionName = "onChange";
         ScriptApp.newTrigger(functionName)
           .forSpreadsheet(sheet)
           .onChange()
           .create();
-      case ScriptApp.EventType.ON_EDIT:
-        ScriptApp.newTrigger(functionName)
-          .forSpreadsheet(sheet)
-          .onEdit()
-          .create();
-      case ScriptApp.EventType.ON_FORM_SUBMIT:
+          break;
+      case ScriptApp.EventType.ON_FORM_SUBMIT || "S":
+        if (functionName === undefined) functionName = "onSubmit";
         ScriptApp.newTrigger(functionName)
           .forSpreadsheet(sheet)
           .onFormSubmit()
           .create();
+          break;
+      default:
+        if (functionName === undefined) functionName = "onEdit";
+        ScriptApp.newTrigger(functionName)
+          .forSpreadsheet(sheet)
+          .onEdit()
+          .create();
+          break;
+      }
+    return this;
+  }
+
+   /**
+   * Update triggers for a particular sheet
+   *
+   * @param {string} sheetName the name of the sheet
+   * @param {GoogleAppsScript.Script.EventType | string} triggerType the type 
+   *  of trigger to add, from Script.EventType; or, 'Edit', 'Change'
+   *  or 'Submit'
+   * @param {string} functionName the name of the function to call on trigger
+   * @return {SpreadsheetGS} the object for chaining
+   */
+  replaceTrigger(sheetName: string, 
+    triggerType?: GoogleAppsScript.Script.EventType | string, 
+    functionName?: string): SpreadsheetGS {
+    this.deleteTriggers(functionName);
+    this.addTrigger(sheetName, triggerType, functionName);
+    return this;
+  }
+
+  /**
+   * Delete triggers for a particular function on the entire spreadsheet
+   *
+   * @param {string} functionName the function to delete triggers for
+   * @return {SpreadsheetGS} the object for chaining
+   */
+  deleteTriggers(functionName?: string): SpreadsheetGS {
+    for (const t of ScriptApp.getProjectTriggers()) {
+      if (t.getTriggerSourceId() == this._spreadsheet.getId()) {
+        if ((functionName === undefined) || 
+        (t.getHandlerFunction() == functionName)) ScriptApp.deleteTrigger(t);
+      }
     }
     return this;
   }
+
+  
 }
