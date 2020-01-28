@@ -124,9 +124,6 @@ export class FormEventGS {
     const {
       dateOrder = 'MD',
       dateDelimiter = '/',
-      suffixDelimiter = '\n',
-      suffixResponseNumber = 0,
-      suffixType = 'T',
     } = options;
 
     let [firstDate, secondDate] = [this._date.getMonth() + 1, this._date.getDate()];
@@ -134,13 +131,6 @@ export class FormEventGS {
       [firstDate, secondDate] = [this._date.getDate(), this._date.getMonth() + 1];
     }
 
-    const suffixBuilder = this._response.getItemResponses()[suffixResponseNumber];
-    let suffix: string = '';
-
-    // Can account for other types here
-    if (suffixType.toUpperCase().startsWith('T')) {
-      suffix = suffixBuilder.getItem().getTitle();
-    }
-    return firstDate + dateDelimiter + secondDate + suffixDelimiter + suffix;
+    return firstDate + dateDelimiter + secondDate;
   }
 }
