@@ -628,7 +628,7 @@ export class FormsGS extends UiGS {
    *  submit
    * @return {FormsGS} the object for chaining
    */
-  replaceTrigger(triggerType: GoogleAppsScript.Script.EventType, 
+  replaceTrigger(triggerType: GoogleAppsScript.Script.EventType | string, 
     functionName?: string): FormsGS {
     this.deleteTriggers(functionName);
     this.addTrigger(triggerType, functionName);
