@@ -18,7 +18,7 @@ done
 mv .local.claspignore .claspignore
 mv .local.clasp.json .clasp.json
 cp ../map/MapGS.ts .
-cp ../drive-sheets/DataSheet.ts .
+cp ../DataSheet.ts .
 cp ../Cache.ts .
 cp ../SidebarButton.ts .
 cp ../utils/Utilities.ts .
