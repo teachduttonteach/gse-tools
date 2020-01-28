@@ -220,14 +220,18 @@ function test() {
     testSheetThird.setValue("New Val 55", 5, 5);
     testSheetThird.setValues("BLAH", 10, 8, 2, 2);
 
+    // TODO: Fix this
     testSheetThird.setValuesAsMap("Test Val 3DE", "D", "Three", [{name: "One", value: "E"}]);
 
-    /*
-    let testGroupCreator = new GroupCreator();
-    testGroupCreator.addStudent
-    testGroupCreator.calculateGroups
-    testGroupCreator.calculateScore
-    testGroupCreator.displayGroupSet
-    testGroupCreator.getStudents
-    */
+    
+    let testGroupCreator = new GroupCreator({className: "Physics", 
+        numGroups: 5, 
+        spreadsheetId: "1NpeyOdQV69nvY2WmZIFio3glHCeqTfxxtarLIFaVRyk", 
+        sheetName: "Student Groups"});
+    testGroupCreator.calculateGroups();
+    // TODO: attach test script to test this
+    //testGroupCreator.displayGroupSet();
+    // TODO: Fix this
+    Logger.log(testGroupCreator.getStudents());
+    
 }
