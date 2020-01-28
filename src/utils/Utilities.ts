@@ -33,16 +33,25 @@ export const ONE_DAY = 24 * 60 * 60 * 1000;
  *  checks to see if the day is equal
  * @return {boolean} true if the dates are equal
  */
-export function areDatesEqual(date1: Date | string, date2: Date | string, level: string = 'YEAR'): boolean {
+export function areDatesEqual(date1: Date | string | null, 
+  date2: Date | string | null, level: string = 'YEAR'): boolean {
+  
+
+    Logger.log("Comparing " + date1 + " with " + date2);
+
+  if ((typeof date1 === null) || (typeof date2 === null)) return false;
   if (!(date1 instanceof Date) || !(date2 instanceof Date) || typeof date1 !== typeof date2) return false;
   if (level.toUpperCase() == 'YEAR') {
     if (date1.getUTCFullYear() != date2.getUTCFullYear()) return false;
+    Logger.log("Matched year");
   }
   if (level.toUpperCase() != 'DAY') {
     if (date1.getUTCMonth() != date2.getUTCMonth()) return false;
+    Logger.log("Matched month");
   }
 
-  return date1.getUTCDate() == date2.getUTCDate();
+  Logger.log("Sending back " + (date1.getDate() == date2.getDate()));
+  return date1.getDate() == date2.getDate();
 }
 
 /**
