@@ -66,10 +66,18 @@ function changeAttendance(_e: GoogleAppsScript.Events.SheetsOnEdit, args?: Atten
   const e: SheetEventGS = new SheetEventGS(_e);
   if (e.getSheetName() == attendanceSheetName) {
     const attendanceSheet = e.getSheet();
-    attendanceSheet.changeWorkingStatus(true, workingStatusCell, workingStatusColor);
-    const studentInfoSheet = e.getActiveSheet().getSheet(studentInfoSheetName);
-    const topRow = attendanceSheet.getRow(e.getRow() - 1);
+    const thisActiveSheet = e.getActiveSheet();
+    const thisRow = e.getRow();
+    const thisColumn = e.getColumn();
+    const thisEditedValue = e.getEditedValue();
 
+    if ((attendanceSheet === undefined) || (thisActiveSheet === undefined) ||
+      (thisRow === undefined) || (thisColumn == undefined) ||
+      (thisEditedValue === undefined)) return;
+
+    attendanceSheet.changeWorkingStatus(true, workingStatusCell, workingStatusColor);
+    const studentInfoSheet = thisActiveSheet.getSheet(studentInfoSheetName);
+    const topRow = attendanceSheet.getRow(thisRow - 1);
     const name = topRow[0];
     const attendance = topRow[topRow.length - 1];
     const currentDate = attendanceSheet.getValue(1, topRow.length);
@@ -103,11 +111,11 @@ function changeAttendance(_e: GoogleAppsScript.Events.SheetsOnEdit, args?: Atten
           attendanceSheet.setValues(records, 2, 1, records.length - 1, topRow.length);
         }
       }
-    } else if (e.getColumn() > 1 && e.getColumn() < topRow.length) {
-      studentInfoSheet.setMapValues(e.getEditedValue(), name, topRow[e.getColumn() - 1], secondaryColumns);
+    } else if (thisColumn > 1 && thisColumn < topRow.length) {
+      studentInfoSheet.setValuesAsMap(thisEditedValue, name, topRow[thisColumn - 1], secondaryColumns);
     } else if (e.getColumn() === topRow.length) {
       // edit the attendance record
-      studentInfoSheet.setMapValues(attendance, name, currentDate, secondaryColumns);
+      studentInfoSheet.setValuesAsMap(attendance, name, currentDate, secondaryColumns);
     }
     attendanceSheet.changeWorkingStatus(false, workingStatusCell, normalStatusColor);
   }
