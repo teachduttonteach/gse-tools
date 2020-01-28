@@ -21,12 +21,12 @@ export declare class ClassroomDocsGS extends DocsGS {
      * Writes a document from the Classroom info
      *
      * @param {ClassGS} classData the object that holds class data
-     * @param {string} topicName the topic object that contains class info
+     * @param {string} topicId the topic id for the class info to print
      * @param {WriteDocsParams} options the options for displaying the info
      *
      * @return {DocsGS} the object for chaining
      */
-    writeClassroomDocuments(classData: ClassGS, topicName: string, options?: WriteDocsParams): DocsGS;
+    writeClassroomDocuments(classData: ClassGS, topicId: string, options?: WriteDocsParams): DocsGS;
     /**
      * Displays the coursework with the specified options
      *

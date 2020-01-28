@@ -1,4 +1,4 @@
-import { getDataSheet } from '../drive-sheets/DataSheet';
+import { getDataSheet } from '../DataSheet';
 import { ONE_DAY } from '../utils/Utilities';
 /**
  * Send birthday email to the requested recipient
@@ -10,7 +10,7 @@ function sendBirthdayEmail(lookAheadDays, emailToSend) {
     const spreadsheet = getDataSheet();
     const studentInfo = spreadsheet
         .getSheet('Student Info')
-        .getMapData();
+        .getDataAsMap();
     const today = new Date();
     let birthdays = '';
     for (const row of studentInfo.keys()) {

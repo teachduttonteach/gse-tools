@@ -8,4 +8,4 @@
  * @param {string | number} key the document level to display (readable)
  * @return {GoogleAppsScript.Document.ParagraphHeading} the document level
  */
-export declare function docLevels(key: string | number): GoogleAppsScript.Document.ParagraphHeading;
+export declare function getDocLevels(key: string | number): GoogleAppsScript.Document.ParagraphHeading;

@@ -11,14 +11,14 @@ export declare function newForms(id: string): FormsGS;
  * @param {FormsGS} obj the Forms object
  * @return {FormsGS} the object for chaining
  */
-export declare function activateFormsUi(obj: FormsGS): FormsGS;
+export declare function activateFormUi(obj: FormsGS): FormsGS;
 /**
  * Gets the underlying Google Apps Script object for direct access
  *
  * @param {FormsGS} obj the Forms object
  * @return {GoogleAppsScript.Forms.Form} the Google Form object
  */
-export declare function getFormsObject(obj: FormsGS): GoogleAppsScript.Forms.Form;
+export declare function getFormObject(obj: FormsGS): GoogleAppsScript.Forms.Form;
 /**
  * Convert a string to a list
  *
@@ -27,7 +27,7 @@ export declare function getFormsObject(obj: FormsGS): GoogleAppsScript.Forms.For
  *
  * @return {Array<string>} the list
  */
-export declare function convertFormsLinebreaksToList(obj: FormsGS, text: string): Array<string>;
+export declare function convertFormLinebreaksToList(obj: FormsGS, text: string): Array<string>;
 /**
  * Add an item to the form
  *
@@ -40,7 +40,7 @@ export declare function convertFormsLinebreaksToList(obj: FormsGS, text: string)
  *
  * @return {FormsGS} the object for chaining
  */
-export declare function addFormsItem(obj: FormsGS, title: string, questionType: string, optionsList?: string | Array<string>, mcGridRowsList?: string | Array<string>): FormsGS;
+export declare function addFormItem(obj: FormsGS, title: string, questionType: string, optionsList?: string | Array<string>, mcGridRowsList?: string | Array<string>): FormsGS;
 /**
  * Adds a paragraph item to the form
  *
@@ -49,7 +49,7 @@ export declare function addFormsItem(obj: FormsGS, title: string, questionType: 
  *
  * @return {FormsGS} the object for chaining
  */
-export declare function addFormsParagraph(obj: FormsGS, title: string): FormsGS;
+export declare function addFormParagraph(obj: FormsGS, title: string): FormsGS;
 /**
  * Adds a true/false item to the form
  *
@@ -58,7 +58,7 @@ export declare function addFormsParagraph(obj: FormsGS, title: string): FormsGS;
  *
  * @return {FormsGS} the object for chaining
  */
-export declare function addFormsTrueFalse(obj: FormsGS, title: string): FormsGS;
+export declare function addFormTrueFalse(obj: FormsGS, title: string): FormsGS;
 /**
  * Returns an array of values from either an array or a string
  *
@@ -67,7 +67,7 @@ export declare function addFormsTrueFalse(obj: FormsGS, title: string): FormsGS;
  *
  * @return {Array<string>} the array of values
  */
-export declare function setFormsValuesFromList(obj: FormsGS, values: Array<string> | string): Array<string>;
+export declare function setFormValuesFromList(obj: FormsGS, values: Array<string> | string): Array<string>;
 /**
  * Adds a multiple choice item to the form
  *
@@ -78,7 +78,7 @@ export declare function setFormsValuesFromList(obj: FormsGS, values: Array<strin
  *
  * @return {FormsGS} the object for chaining
  */
-export declare function addFormsMultipleChoice(obj: FormsGS, title: string, items: Array<string> | string): FormsGS;
+export declare function addFormMultipleChoice(obj: FormsGS, title: string, items: Array<string> | string): FormsGS;
 /**
  * Adds a multiple checkbox item to the form
  *
@@ -89,7 +89,7 @@ export declare function addFormsMultipleChoice(obj: FormsGS, title: string, item
  *
  * @return {FormsGS} the object for chaining
  */
-export declare function addFormsMultipleCheck(obj: FormsGS, title: string, items: Array<string> | string): FormsGS;
+export declare function addFormMultipleCheck(obj: FormsGS, title: string, items: Array<string> | string): FormsGS;
 /**
  * Adds a multiple choice grid item to the form
  *
@@ -102,7 +102,7 @@ export declare function addFormsMultipleCheck(obj: FormsGS, title: string, items
  *
  * @return {FormsGS} the object for chaining
  */
-export declare function addFormsMultipleGridChoice(obj: FormsGS, title: string, columns: Array<string> | string, rows: Array<string> | string): FormsGS;
+export declare function addFormMultipleGridChoice(obj: FormsGS, title: string, columns: Array<string> | string, rows: Array<string> | string): FormsGS;
 /**
  * Adds a multiple checkbox grid item to the form
  *
@@ -115,7 +115,7 @@ export declare function addFormsMultipleGridChoice(obj: FormsGS, title: string, 
  *
  * @return {FormsGS} the object for chaining
  */
-export declare function addFormsMultipleGridCheck(obj: FormsGS, title: string, columns: Array<string> | string, rows: Array<string> | string): FormsGS;
+export declare function addFormMultipleGridCheck(obj: FormsGS, title: string, columns: Array<string> | string, rows: Array<string> | string): FormsGS;
 /**
  * Add an image to the form
  *
@@ -124,14 +124,14 @@ export declare function addFormsMultipleGridCheck(obj: FormsGS, title: string, c
  *
  * @return {FormsGS} the object for chaining
  */
-export declare function addFormsImage(obj: FormsGS, file: GoogleAppsScript.Base.BlobSource): FormsGS;
+export declare function addFormImage(obj: FormsGS, file: GoogleAppsScript.Base.BlobSource): FormsGS;
 /**
  * Delete the items on this form
  *
  * @param {FormsGS} obj the Forms object
  * @return {FormsGS} the object for chaining
  */
-export declare function deleteFormsItems(obj: FormsGS): FormsGS;
+export declare function deleteFormItems(obj: FormsGS): FormsGS;
 /**
  * Set the title of the form
  *
@@ -140,7 +140,37 @@ export declare function deleteFormsItems(obj: FormsGS): FormsGS;
  *
  * @return {FormsGS} the object for chaining
  */
-export declare function setFormsTitle(obj: FormsGS, title: string): FormsGS;
+export declare function setFormTitle(obj: FormsGS, title: string): FormsGS;
+/**
+ * Adds a trigger for this Form
+ *
+ * @param {FormsGS} obj the Forms object
+ * @param {GoogleAppsScript.Script.EventType} triggerType the type of
+ *  trigger to add, from Script.EventType
+ * @param {string} functionName the name of the function to call
+ *
+ * @return {FormsGS} the Form object for chaining
+ */
+export declare function addFormTrigger(obj: FormsGS, triggerType: GoogleAppsScript.Script.EventType, functionName: string): FormsGS;
+/**
+ * Update triggers for a particular form
+ *
+ * @param {FormsGS} obj the Forms object
+ * @param {GoogleAppsScript.Script.EventType} triggerType the type of
+ *  trigger to add, from Script.EventType
+ * @param {string} functionName the function to call when triggered on form
+ *  submit
+ * @return {FormsGS} the object for chaining
+ */
+export declare function replaceFormTrigger(obj: FormsGS, triggerType: GoogleAppsScript.Script.EventType, functionName?: string): FormsGS;
+/**
+ * Delete triggers for a particular function
+ *
+ * @param {FormsGS} obj the Forms object
+ * @param {string} functionName the function to delete triggers for
+ * @return {FormsGS} the object for chaining
+ */
+export declare function deleteFormTriggers(obj: FormsGS, functionName?: string): FormsGS;
 /**
  * Class to manipulate Google Forms
  */
@@ -261,6 +291,14 @@ export declare class FormsGS extends UiGS {
      */
     addImage(file: GoogleAppsScript.Base.BlobSource): FormsGS;
     /**
+     * Add an image to the form
+     *
+     * @param {string} id the id of the image to add
+     *
+     * @return {FormsGS} the object for chaining
+     */
+    addImageFromId(id: string): FormsGS;
+    /**
      * Delete the items on this form
      *
      * @return {FormsGS} the object for chaining
@@ -274,4 +312,31 @@ export declare class FormsGS extends UiGS {
      * @return {FormsGS} the object for chaining
      */
     setTitle(title: string): FormsGS;
+    /**
+     * Adds a trigger for this Form
+     *
+     * @param {GoogleAppsScript.Script.EventType | string} triggerType the type
+     *  of trigger to add, from Script.EventType; or, 'Open' or 'Submit'
+     * @param {string} functionName the name of the function to call
+     *
+     * @return {FormsGS} the Form object for chaining
+     */
+    addTrigger(triggerType: GoogleAppsScript.Script.EventType | string, functionName?: string): FormsGS;
+    /**
+    * Update triggers for a particular form
+    *
+    * @param {GoogleAppsScript.Script.EventType} triggerType the type of
+    *  trigger to add, from Script.EventType
+    * @param {string} functionName the function to call when triggered on form
+    *  submit
+    * @return {FormsGS} the object for chaining
+    */
+    replaceTrigger(triggerType: GoogleAppsScript.Script.EventType | string, functionName?: string): FormsGS;
+    /**
+     * Delete triggers for a particular function
+     *
+     * @param {string} functionName the function to delete triggers for
+     * @return {FormsGS} the object for chaining
+     */
+    deleteTriggers(functionName?: string): FormsGS;
 }

@@ -4,6 +4,129 @@ import { SheetGS } from './SheetGS';
  * Gets the data from a Google Sheet and provides an interface to it in an
  *  efficient way.
  *
+ * @return {SpreadsheetGS} the Spreadsheet object
+ */
+export function newSpreadsheet(id) {
+    return new SpreadsheetGS(id);
+}
+/**
+ * Activate the UI for the spreadsheet
+ *
+ * @param {SpreadsheetGS} obj the Spreadsheet object
+ * @return {SpreadsheetGS} the object for chaining
+ */
+export function activateSpreadsheetUi(obj) {
+    return obj.activateUi();
+}
+/**
+ * Gets the underlying Google Apps Script object for direct access
+ *
+ * @param {SpreadsheetGS} obj the Spreadsheet object
+ * @return {GoogleAppsScript.Spreadsheet.Spreadsheet} the Spreadsheet object
+ */
+export function getSpreadsheetObject(obj) {
+    return obj.getObject();
+}
+/**
+ * Get the data from the Spreadsheet as an object with rows (or columns) as
+ *  the keys and columns (or rows) as the values
+ *
+ * @param {SpreadsheetGS} obj the Spreadsheet object
+ * @param {string} sheetName the sheet name
+ * @param {boolean} rowFirst if true, rows will be the keys and columns
+ *  will be in the values along with the value found at that cell
+ *
+ * @return {MapGS<string | Date, MapGS<string | Date, string | Date>>} the
+ *  data object
+ */
+export function getSpreadsheetDataAsMap(obj, sheetName, rowFirst = true) {
+    return obj.getDataAsMap(sheetName, rowFirst);
+}
+/**
+ * Gets the named sheet or creates it if it doesn't exist
+ *
+ * @param {SpreadsheetGS} obj the Spreadsheet object
+ * @param {string} sheetName the name of the sheet
+ * @return {SheetGS} the specified sheet
+ */
+export function getOrCreateSheet(obj, sheetName) {
+    return obj.getOrCreateSheet(sheetName);
+}
+/**
+ * Create a new sheet in the Spreadsheet
+ *
+ * @param {SpreadsheetGS} obj the Spreadsheet object
+ * @param {string} sheetName the name of the sheet to create
+ *
+ * @return {SheetGS} the new sheet
+ */
+export function createSheet(obj, sheetName) {
+    return obj.createSheet(sheetName);
+}
+/**
+ * Checks to see if the Spreadsheet has a named sheet
+ *
+ * @param {SpreadsheetGS} obj the Spreadsheet object
+ * @param {string} sheetName the sheet name requested
+ * @return {boolean} true if it has the named sheet
+ */
+export function hasSheet(obj, sheetName) {
+    return obj.hasSheet(sheetName);
+}
+/**
+ * Gets the named sheet
+ *
+ * @param {SpreadsheetGS} obj the Spreadsheet object
+ * @param {string} sheetName the name of the sheet to get
+ *
+ * @return {SheetGS} the requested sheet
+ */
+export function getSheet(obj, sheetName) {
+    return obj.getSheet(sheetName);
+}
+/**
+ * Adds a trigger for this Spreadsheet
+ *
+ * @param {SpreadsheetGS} obj the Spreadsheet object
+  * @param {string} sheetName the name of the sheet
+  * @param {GoogleAppsScript.Script.EventType | string} triggerType the type
+  *  of trigger to add, from Script.EventType; or, 'Edit', 'Change'
+  *  or 'Submit'
+  * @param {string} functionName the name of the function to call on trigger
+ *
+ * @return {SpreadsheetGS} the Spreadsheet object for chaining
+ */
+export function addSpreadsheetTrigger(obj, sheetName, triggerType, functionName) {
+    return obj.addTrigger(triggerType, functionName);
+}
+/**
+ * Update triggers for a particular form
+ *
+ * @param {SpreadsheetGS} obj the Forms object
+ * @param {string} sheetName the name of the sheet
+  * @param {GoogleAppsScript.Script.EventType | string} triggerType the type
+  *  of trigger to add, from Script.EventType; or, 'Edit', 'Change'
+  *  or 'Submit'
+  * @param {string} functionName the name of the function to call on trigger
+ * @return {SpreadsheetGS} the object for chaining
+ */
+export function replaceSpreadsheetTrigger(obj, sheetName, triggerType, functionName) {
+    return obj.replaceTrigger(sheetName, triggerType, functionName);
+}
+/**
+ * Delete triggers for a particular function
+ *
+ * @param {SpreadsheetGS} obj the Forms object
+ * @param {string} functionName the name of the function to call on trigger
+ * @return {SpreadsheetGS} the object for chaining
+ */
+export function deleteSpreadsheetTriggers(obj, functionName) {
+    return obj.deleteTriggers(functionName);
+}
+/**
+ * Gets the data from a Google Sheet and provides an interface to it in an
+ *  efficient way.
+ *
  */
 export class SpreadsheetGS extends UiGS {
     /**
@@ -63,8 +186,8 @@ export class SpreadsheetGS extends UiGS {
      * @return {MapGS<string | Date, MapGS<string | Date, string | Date>>} the
      *  data object
      */
-    getMapData(sheetName, rowFirst = true) {
-        return this.getOrCreateSheet(sheetName).getMapData(rowFirst);
+    getDataAsMap(sheetName, rowFirst = true) {
+        return this.getOrCreateSheet(sheetName).getDataAsMap(rowFirst);
     }
     /**
      * Gets the named sheet or creates it if it doesn't exist
@@ -75,7 +198,8 @@ export class SpreadsheetGS extends UiGS {
      */
     getOrCreateSheet(sheetName) {
         if (sheetName == null) {
-            throw new Error('Sheet name not defined in ' + 'Spreadsheet.getOrCreateSheet');
+            throw new Error('Sheet name not defined in ' +
+                'Spreadsheet.getOrCreateSheet');
         }
         if (!this.hasSheet(sheetName))
             this.createSheet(sheetName);
@@ -92,7 +216,8 @@ export class SpreadsheetGS extends UiGS {
         if (sheetName == null) {
             throw new Error('Sheet name not defined in ' + 'Spreadsheet.createSheet');
         }
-        this._sheets[sheetName] = new SheetGS(this._spreadsheet.insertSheet(sheetName));
+        this._sheets[sheetName] =
+            new SheetGS(this._spreadsheet.insertSheet(sheetName));
         return this._sheets[sheetName];
     }
     /**
@@ -119,49 +244,95 @@ export class SpreadsheetGS extends UiGS {
      * @return {SheetGS} the requested sheet
      */
     getSheet(sheetName) {
-        if (sheetName == null || !(sheetName in this._sheets)) {
-            throw new Error('Sheet name not defined in Spreadsheet.getSheet');
+        if (sheetName == null) {
+            throw new Error('Sheet name not defined in SpreadsheetGS.getSheet()');
         }
         const sheet = this._sheets[sheetName];
         if (sheet == null) {
-            throw new Error('Could not find sheet named ' + sheetName + ' in Spreadsheet.getSheet');
+            throw new Error('Could not find sheet named ' + sheetName + ' in SpreadsheetGS.getSheet()');
         }
         return sheet;
     }
     /**
-     * Adds a trigger for this Spreadsheet
+     * Adds a trigger for this Spreadsheet. Default functions depending on the
+     *  event type are 'onEdit', 'onChange', and 'onSubmit'. The default event
+     *  type is ON_EDIT.
      *
-     * @param {GoogleAppsScript.Script.EventType} triggerType the type of
-     *  trigger to add, from Script.EventType
      * @param {string} sheetName the name of the sheet
-     * @param {string} functionName the name of the function to call
+     * @param {GoogleAppsScript.Script.EventType | string} triggerType the type
+     *  of trigger to add, from Script.EventType; or, 'Edit', 'Change'
+     *  or 'Submit'
+     * @param {string} functionName the name of the function to call on trigger
      *
      * @return {SpreadsheetGS} the Spreadsheet object for chaining
      */
-    addTrigger(triggerType, sheetName, functionName) {
-        if (triggerType == null || sheetName == null || functionName == null) {
-            throw new Error('One of triggerType, sheetName or functionName is not ' + 'defined in Spreadsheet.addTrigger');
-        }
-        const sheet = this._sheets[sheetName];
-        if (sheet == null) {
-            throw new Error('Sheet name is incorrect or not ' + 'found in Spreadsheet.addTrigger');
-        }
+    addTrigger(triggerType, functionName) {
+        if (typeof triggerType === "string")
+            triggerType = triggerType.toUpperCase()[0];
         switch (triggerType) {
-            case ScriptApp.EventType.ON_CHANGE:
+            case ScriptApp.EventType.ON_CHANGE || "C":
+                if (functionName === undefined)
+                    functionName = "onChange";
                 ScriptApp.newTrigger(functionName)
-                    .forSpreadsheet(sheet)
+                    .forSpreadsheet(this._spreadsheet)
                     .onChange()
                     .create();
-            case ScriptApp.EventType.ON_EDIT:
+                break;
+            case ScriptApp.EventType.ON_OPEN || "O":
+                if (functionName === undefined)
+                    functionName = "onOpen";
                 ScriptApp.newTrigger(functionName)
-                    .forSpreadsheet(sheet)
-                    .onEdit()
+                    .forSpreadsheet(this._spreadsheet)
+                    .onOpen()
                     .create();
-            case ScriptApp.EventType.ON_FORM_SUBMIT:
+                break;
+            case ScriptApp.EventType.ON_FORM_SUBMIT || "S":
+                if (functionName === undefined)
+                    functionName = "onSubmit";
                 ScriptApp.newTrigger(functionName)
-                    .forSpreadsheet(sheet)
+                    .forSpreadsheet(this._spreadsheet)
                     .onFormSubmit()
                     .create();
+                break;
+            default:
+                if (functionName === undefined)
+                    functionName = "onEdit";
+                ScriptApp.newTrigger(functionName)
+                    .forSpreadsheet(this._spreadsheet)
+                    .onEdit()
+                    .create();
+                break;
+        }
+        return this;
+    }
+    /**
+    * Update triggers for a particular sheet
+    *
+    * @param {string} sheetName the name of the sheet
+    * @param {GoogleAppsScript.Script.EventType | string} triggerType the type
+    *  of trigger to add, from Script.EventType; or, 'Edit', 'Change'
+    *  or 'Submit'
+    * @param {string} functionName the name of the function to call on trigger
+    * @return {SpreadsheetGS} the object for chaining
+    */
+    replaceTrigger(sheetName, triggerType, functionName) {
+        this.deleteTriggers(functionName);
+        this.addTrigger(triggerType, functionName);
+        return this;
+    }
+    /**
+     * Delete triggers for a particular function on the entire spreadsheet
+     *
+     * @param {string} functionName the function to delete triggers for
+     * @return {SpreadsheetGS} the object for chaining
+     */
+    deleteTriggers(functionName) {
+        for (const t of ScriptApp.getProjectTriggers()) {
+            if (t.getTriggerSourceId() == this._spreadsheet.getId()) {
+                if ((functionName === undefined) ||
+                    (t.getHandlerFunction() == functionName))
+                    ScriptApp.deleteTrigger(t);
+            }
         }
         return this;
     }

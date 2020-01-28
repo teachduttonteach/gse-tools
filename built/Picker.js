@@ -1,6 +1,6 @@
 import { Settings } from './Settings';
-import { MimeTypes } from './MimeTypes';
-import { Features } from './Features';
+import { MimeTypes } from './enums/MimeTypes';
+import { Features } from './enums/Features';
 /**
  * Raises a number to the given power, and returns the result.
  *

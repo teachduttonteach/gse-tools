@@ -133,7 +133,14 @@ export class Test {
             for (const name of combo.keys()) {
                 const val = combo.get(name);
                 objectToTest[name] = val;
-                nameValPairs += name + "='" + val?.toString() + "', ";
+                if (val != undefined) {
+                    if (typeof val === "object") {
+                        nameValPairs += name + "='" + JSON.stringify(val) + "', ";
+                    }
+                    else {
+                        nameValPairs += name + "='" + val.toString() + "', ";
+                    }
+                }
             }
             let results = '';
             try {
@@ -143,6 +150,7 @@ export class Test {
             }
             catch (e) {
                 this._print(methodName, nameValPairs, 'Failed with ' + e);
+                return;
             }
             this._print(methodName, nameValPairs, results);
         }

@@ -43,3 +43,6 @@ export declare type AttendanceParams = {
      */
     maximumLength?: number;
 };
+/**
+ * Updates the date codes for the selected periods
+ */

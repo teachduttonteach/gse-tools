@@ -1,6 +1,6 @@
 import { ClassroomGS } from '../classroom/ClassroomGS';
 import { DriveGS } from '../drive/DriveGS';
-import { getDataSheet } from '../drive-sheets/DataSheet';
+import { getDataSheet } from '../DataSheet';
 import { ClassroomDocsGS } from '../classroom-docs/ClassroomDocsGS';
 /**
  * Update Google Docs from Classroom information
@@ -11,7 +11,7 @@ function updateClassroomFiles(args) {
         args = {};
     const { settingsName = 'Classroom', classroomCodeColumnName = 'Classroom Code' } = args;
     const settings = getDataSheet();
-    const classworkSettings = settings.getMapData(settingsName);
+    const classworkSettings = settings.getDataAsMap(settingsName);
     const allClasses = new ClassroomGS();
     classworkSettings.reset();
     while (classworkSettings.hasNext()) {

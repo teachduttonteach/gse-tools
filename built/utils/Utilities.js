@@ -31,16 +31,23 @@ export const ONE_DAY = 24 * 60 * 60 * 1000;
  * @return {boolean} true if the dates are equal
  */
 export function areDatesEqual(date1, date2, level = 'YEAR') {
-    if (!(date1 instanceof Date) || !(date2 instanceof Date) || typeof date1 !== typeof date2)
+    Logger.log("areDatesEqual: Comparing " + date1 + " with " + date2);
+    if ((typeof date1 == "string") || (typeof date2 == "string"))
         return false;
     if (level.toUpperCase() == 'YEAR') {
+        Logger.log("areDatesEqual: Comparing years " + date1.getUTCFullYear() +
+            " with " + date2.getUTCFullYear());
         if (date1.getUTCFullYear() != date2.getUTCFullYear())
             return false;
     }
     if (level.toUpperCase() != 'DAY') {
+        Logger.log("areDatesEqual: Comparing months " + date1.getUTCMonth() +
+            " with " + date2.getUTCMonth());
         if (date1.getUTCMonth() != date2.getUTCMonth())
             return false;
     }
+    Logger.log("areDatesEqual: Comparing dates " + date1.getUTCDate() +
+        " with " + date2.getUTCDate());
     return date1.getUTCDate() == date2.getUTCDate();
 }
 /**

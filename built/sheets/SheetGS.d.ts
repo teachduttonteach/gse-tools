@@ -66,7 +66,7 @@ export declare function getSheetValues(obj: SheetGS, row: number, col: number, n
  * @return {MapGS<string | Date, MapGS<string | Date, string | Date>>}
  *  a map object of rows with maps of columns
  */
-export declare function getSheetMapValues(obj: SheetGS, row: number, col: number, numRows: number, numCols: number): MapGS<string | Date, MapGS<string | Date, string | Date>>;
+export declare function getSheetValuesAsMap(obj: SheetGS, row: number, col: number, numRows: number, numCols: number): MapGS<string | Date, MapGS<string | Date, string | Date>>;
 /**
  * Gets an entire column from the sheet as an array
  *
@@ -83,7 +83,7 @@ export declare function getSheetColumn(obj: SheetGS, numColumn: number): Array<s
  * @return {MapGS<string | Date, string | Date>}
  *   the row names with column values
  */
-export declare function getSheetMapColumn(obj: SheetGS, numColumn: number): MapGS<string | Date, string | Date>;
+export declare function getSheetColumnAsMap(obj: SheetGS, numColumn: number): MapGS<string | Date, string | Date>;
 /**
  * Converts linebreaks in the string to an array
  * @param {SheetGS} obj the Sheet object
@@ -120,7 +120,7 @@ export declare function setSheetValue(obj: SheetGS, value: string | Date, row: n
  *
  * @return {SheetGS} the sheet for chaining
  */
-export declare function setSheetMapValue(obj: SheetGS, value: string | Date, row: string | Date, column: string | Date, reset?: boolean): SheetGS;
+export declare function setSheetValueAsMap(obj: SheetGS, value: string | Date, row: string | Date, column: string | Date, reset?: boolean): SheetGS;
 /**
  * Set the values of cells for a range
  *
@@ -163,7 +163,7 @@ export declare function areSheetValuesEqual(obj: SheetGS, value: Date | string, 
  *
  * @return {boolean} whether or not they are equal
  */
-export declare function areSheetMapValuesEqual(obj: SheetGS, value1: Date | string | null, value2: Date | string, level?: string): boolean;
+export declare function areSheetValuesEqualAsMap(obj: SheetGS, value1: Date | string | null, value2: Date | string, level?: string): boolean;
 /**
  * Set the value of cells according to a named row, a named column and
  *  other columns in that row to match values
@@ -175,7 +175,7 @@ export declare function areSheetMapValuesEqual(obj: SheetGS, value1: Date | stri
  * @param {Array<{name: string | Date, value: string | Date}>} columnsToMatch the secondary column names and values to match before replacing the value of the cell;
  *  this is an array of objects that have name / value pairs
  */
-export declare function setSheetMapValues(obj: SheetGS, value: string | Date, rowValue: string | Date, columnName: string | Date, columnsToMatch: Array<{
+export declare function setSheetValuesAsMap(obj: SheetGS, value: string | Date, rowValue: string | Date, columnName: string | Date, columnsToMatch: Array<{
     name: string | Date;
     value: string | Date;
 }>): SheetGS;
@@ -190,7 +190,7 @@ export declare function setSheetMapValues(obj: SheetGS, value: string | Date, ro
  * @return {MapGS<string | Date, MapGS<string | Date, string | Date>>}
  *  the data object
  */
-export declare function getSheetMapData(obj: SheetGS, rowFirst?: boolean): MapGS<string | Date, MapGS<string | Date, string | Date>>;
+export declare function getSheetDataAsMap(obj: SheetGS, rowFirst?: boolean): MapGS<string | Date, MapGS<string | Date, string | Date>>;
 /**
  * Clears data from the underlying Sheet object
  *
@@ -235,7 +235,7 @@ export declare function getSheetRecordsMatchingColumnValue(obj: SheetGS, matchCo
  *  a map of the row names to the column names to the cell values for the
  *  requested columns
  */
-export declare function getSheetMapRecordsMatchingColumnValue(obj: SheetGS, matchColumnName: string | Date, matchColumnValue: string | Date, returnColumnNames: Array<string | Date>): MapGS<string | Date, MapGS<string | Date, string | Date>>;
+export declare function getSheetRecordsMatchingColumnValueAsMap(obj: SheetGS, matchColumnName: string | Date, matchColumnValue: string | Date, returnColumnNames: Array<string | Date>): MapGS<string | Date, MapGS<string | Date, string | Date>>;
 /**
  * Skips blank rows at the beginning (or a specified location) in a sheet
  *
@@ -310,7 +310,7 @@ export declare function getSheetRow(obj: SheetGS, rowNumber: number): Array<stri
  * @return {MapGS<string | Date, string | Date>} the map of values for the
  *  row
  */
-export declare function getSheetMapRow(obj: SheetGS, rowNumber: number): MapGS<string | Date, string | Date>;
+export declare function getSheetRowAsMap(obj: SheetGS, rowNumber: number): MapGS<string | Date, string | Date>;
 /**
  * Finds text in the sheet and returns the column found for the nth
  *  (default first) instance
@@ -441,14 +441,14 @@ export declare class SheetGS {
      * @return {MapGS<string | Date, MapGS<string | Date, string | Date>>}
      *  a map object of rows with maps of columns
      */
-    getMapValues(row: number, col: number, numRows: number, numCols: number): MapGS<string | Date, MapGS<string | Date, string | Date>>;
+    getValuesAsMap(row: number, col: number, numRows: number, numCols: number): MapGS<string | Date, MapGS<string | Date, string | Date>>;
     /**
      * Gets an entire column from the sheet as an array
      *
-     * @param {number} numColumn number of the column
+     * @param {number} colNumber number of the column
      * @return {Array<string | Date>} the column as an array
      */
-    getColumn(numColumn: number): Array<string | Date>;
+    getColumn(colNumber: number): Array<string | Date>;
     /**
      * Gets an entire column from the sheet as a Map of column names to values
      *
@@ -456,7 +456,7 @@ export declare class SheetGS {
      * @return {MapGS<string | Date, string | Date>}
      *   the row names with column values
      */
-    getMapColumn(numColumn: number): MapGS<string | Date, string | Date>;
+    getColumnAsMap(numColumn: number): MapGS<string | Date, string | Date>;
     /**
      * Converts linebreaks in the string to an array
      * @param {number} row the row of the cell to convert
@@ -490,7 +490,7 @@ export declare class SheetGS {
      *
      * @return {SheetGS} the sheet for chaining
      */
-    setMapValue(value: string | Date, row: string | Date, column: string | Date, reset?: boolean): SheetGS;
+    setValueAsMap(value: string | Date, row: string | Date, column: string | Date, reset?: boolean): SheetGS;
     /**
      * Set the values of cells for a range
      *
@@ -524,13 +524,13 @@ export declare class SheetGS {
      * Checks to see if the values are Dates and if they are equal; if not,
      *  checks to see if their string values are equal
      *
-     * @param {Date | string} value1 the first value to check against
+     * @param {Date | string | null} value1 the first value to check against
      * @param {Date | string} value2 the second value to check against
      * @param {string} level the date level to check against
      *
      * @return {boolean} whether or not they are equal
      */
-    areMapValuesEqual(value1: Date | string | null, value2: Date | string, level?: string): boolean;
+    areValuesEqualAsMap(value1: Date | string | null, value2: Date | string, level?: string): boolean;
     /**
      * Set the value of cells according to a named row, a named column and
      *  other columns in that row to match values
@@ -541,7 +541,7 @@ export declare class SheetGS {
      * @param {Array<{name: string | Date, value: string | Date}>} columnsToMatch the secondary column names and values to match before replacing the value of the cell;
      *  this is an array of objects that have name / value pairs
      */
-    setMapValues(value: string | Date, rowValue: string | Date, columnName: string | Date, columnsToMatch: Array<{
+    setValuesAsMap(value: string | Date, rowValue: string | Date, columnName: string | Date, columnsToMatch: Array<{
         name: string | Date;
         value: string | Date;
     }>): SheetGS;
@@ -555,7 +555,7 @@ export declare class SheetGS {
      * @return {MapGS<string | Date, MapGS<string | Date, string | Date>>}
      *  the data object
      */
-    getMapData(rowFirst?: boolean): MapGS<string | Date, MapGS<string | Date, string | Date>>;
+    getDataAsMap(rowFirst?: boolean): MapGS<string | Date, MapGS<string | Date, string | Date>>;
     /**
      * Clears data from the underlying Sheet object
      *
@@ -597,7 +597,7 @@ export declare class SheetGS {
      *  a map of the row names to the column names to the cell values for the
      *  requested columns
      */
-    getMapRecordsMatchingColumnValue(matchColumnName: string | Date, matchColumnValue: string | Date, returnColumnNames: Array<string | Date>): MapGS<string | Date, MapGS<string | Date, string | Date>>;
+    getRecordsMatchingColumnValueAsMap(matchColumnName: string | Date, matchColumnValue: string | Date, returnColumnNames: Array<string | Date>): MapGS<string | Date, MapGS<string | Date, string | Date>>;
     /**
      * Skips blank rows at the beginning (or a specified location) in a sheet
      *
@@ -664,7 +664,7 @@ export declare class SheetGS {
      * @return {MapGS<string | Date, string | Date>} the map of values for the
      *  row
      */
-    getMapRow(rowNumber: number): MapGS<string | Date, string | Date>;
+    getRowAsMap(rowNumber: number): MapGS<string | Date, string | Date>;
     /**
      * Finds text in the sheet and returns the column found for the nth
      *  (default first) instance

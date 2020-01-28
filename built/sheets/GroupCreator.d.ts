@@ -171,8 +171,8 @@ export declare type GroupParams = {
      */
     calculateGroupsFunction?: string;
     /**
-     * The column name in the settings sheet that contains the column name for
-     * the sheet name that has the students and scores on it; default is
+     * The column in the settings (data) sheet that contains the name of the
+     * column in the sheet that has the students and scores on it; default is
      * "Sheet Name"
      */
     sheetNameColumnName?: string;

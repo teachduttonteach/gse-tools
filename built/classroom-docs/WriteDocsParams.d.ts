@@ -3,45 +3,47 @@
  */
 export declare type WriteDocsParams = {
     /**
-     * How many announcements to display in the document
+     * How many announcements to display in the document (default: 1)
      */
-    displayAnnouncements: number;
+    displayAnnouncements?: number;
     /**
-     * Whether or not to display course work
+     * Whether or not to display course work (default: true)
      */
-    displayCoursework: true;
+    displayCoursework?: boolean;
     /**
-     * Whether or not to display the course work titles
+     * Whether or not to display the course work titles (default: true)
      */
-    displayCourseworkTitle: true;
+    displayCourseworkTitle?: boolean;
     /**
-     * Whether or not to display the due dates
+     * Whether or not to display the due dates (default: true)
      */
-    displayDueDate: true;
+    displayDueDate?: boolean;
     /**
      * Whether or not to display the description of the course work
+     * (default: true)
      */
-    displayDescription: true;
+    displayDescription?: boolean;
     /**
-     * Whether or not to display the materials
+     * Whether or not to display the materials (default: true)
      */
-    displayMaterials: true;
+    displayMaterials?: boolean;
     /**
-     * Whether or not to display file links in the materials
+     * Whether or not to display file links in the materials (default: true)
      */
-    displayFiles: true;
+    displayFiles?: boolean;
     /**
-     * Whether or not to display video links in the materials
+     * Whether or not to display video links in the materials (default: true)
      */
-    displayVideos: true;
+    displayVideos?: boolean;
     /**
      * Whether or not to display urls for the links in the materials
+     *  (default: true)
      */
-    displayLinks: true;
+    displayLinks?: boolean;
     /**
-     * Whether or not to display form links in the materials
+     * Whether or not to display form links in the materials (default: true)
      */
-    displayForms: true;
+    displayForms?: boolean;
     /**
      * The document title
      */

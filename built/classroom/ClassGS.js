@@ -251,6 +251,14 @@ export class ClassGS {
         return this._topics.keys();
     }
     /**
+     * Get the topic names
+     *
+     * @return {Array<string>} the topic names
+     */
+    getTopicNames() {
+        return this._topics.values().map(a => a.name);
+    }
+    /**
      * Gets the name of a topic
      *
      * @param {string} topicId the topic id
@@ -261,7 +269,7 @@ export class ClassGS {
         const thisTopic = this._topics.get(topicId);
         if (thisTopic == undefined) {
             throw new Error('Topic ' + topicId +
-                ' not defined in ClassInfo.getName()');
+                ' not defined in ClassGS.getTopicName()');
         }
         return thisTopic.name;
     }
@@ -288,7 +296,7 @@ export class ClassGS {
         const thisTopicInfo = this._topics.get(topicId);
         if (thisTopicInfo == undefined) {
             throw new Error('Could not find course work in ' + topicId +
-                ' in Topic.getTopicInfo()');
+                ' in ClassGS.getTopicInfo()');
         }
         return thisTopicInfo;
     }
@@ -394,7 +402,13 @@ export class ClassGS {
      * @return {ClassGS} the object for chaining
      */
     addCourseWork(work) {
-        Classroom.Courses?.CourseWork?.create(work.getResource(), this._id);
+        if (Classroom.Courses == undefined)
+            throw new Error("Could not find " +
+                "Courses in Classroom");
+        if (Classroom.Courses.CourseWork == undefined)
+            throw new Error("Could " +
+                "not find Classwork in Classroom.Courses");
+        Classroom.Courses.CourseWork.create(work.getResource(), this._id);
         return this;
     }
     // TODO: Check to see if topic already exists
@@ -407,6 +421,10 @@ export class ClassGS {
      * @return {ClassGS} the object for chaining
      */
     addTopic(topic) {
+        if (this.getTopicNames().indexOf(topic) > -1) {
+            Logger.log("WARNING: Topic '" + topic + "' already exists.");
+            return this;
+        }
         const newTopic = {};
         newTopic.name = topic;
         // @ts-ignore

@@ -7,7 +7,7 @@
  * @param {string | number} key the document level to display (readable)
  * @return {GoogleAppsScript.Document.ParagraphHeading} the document level
  */
-export function docLevels(key) {
+export function getDocLevels(key) {
     if (typeof key === 'string') {
         switch (key.toUpperCase().slice(0, 1)) {
             case 'S':

@@ -13,7 +13,7 @@ export declare function newSlideshow(id: string): SlideshowGS;
  * @param {SlideshowGS} obj the Slideshow object
  * @return {SlideshowGS} the object for chaining
  */
-export declare function clear(obj: SlideshowGS): SlideshowGS;
+export declare function clearSlideshow(obj: SlideshowGS): SlideshowGS;
 /**
  * Gets the number of the slide in the slideshow template
  *  that was most recently used

@@ -133,6 +133,12 @@ export declare class ClassGS {
      */
     getTopics(): Array<string>;
     /**
+     * Get the topic names
+     *
+     * @return {Array<string>} the topic names
+     */
+    getTopicNames(): Array<string>;
+    /**
      * Gets the name of a topic
      *
      * @param {string} topicId the topic id
