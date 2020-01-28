@@ -2,7 +2,6 @@ import { SpreadsheetGS } from '../sheets/SpreadsheetGS';
 import { ClassroomGS } from '../classroom/ClassroomGS';
 import { DriveGS } from '../drive/DriveGS';
 import { getDataSheet } from '../DataSheet';
-import { updateTriggers } from '../Triggers';
 import { areDatesEqual } from '../utils/Utilities';
 import { SheetGS } from '../sheets/SheetGS';
 import { SlideshowGS } from '../slides/SlideshowGS';
@@ -172,7 +171,7 @@ function updateBellwork(args: BellworkArgs): void {
   } = args;
 
   const settings: SpreadsheetGS = getDataSheet();
-  const bellworkSettings: MapGS<string | Date, MapGS<string | Date, string | Date>> = settings.getMapData(settingsName);
+  const bellworkSettings: MapGS<string | Date, MapGS<string | Date, string | Date>> = settings.getDataAsMap(settingsName);
 
   bellworkSettings.reset();
   while (bellworkSettings.hasNext()) {
@@ -192,7 +191,8 @@ function updateBellwork(args: BellworkArgs): void {
       throw new Error('Classroom code not found');
     }
 
-    updateTriggers(thisBellworkForm, onSubmitBellworkFunctionName);
+    const thisForm = new FormsGS(thisBellworkForm);
+    thisForm.replaceTrigger('S', onSubmitBellworkFunctionName);
     updateTodaysQuestion(args, thisRow);
   }
 }

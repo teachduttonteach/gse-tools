@@ -1,4 +1,4 @@
-import { MimeTypes } from '../MimeTypes';
+import { MimeTypes } from '../enums/MimeTypes';
 
 const ValidImageTypes: Array<string> = ['image/png', 'image/gif', 'image/jpeg'];
 
