@@ -48,11 +48,11 @@ export function getSpreadsheetObject(obj: SpreadsheetGS):
  * @return {MapGS<string | Date, MapGS<string | Date, string | Date>>} the
  *  data object
  */
-export function getSpreadsheetMapData(obj: SpreadsheetGS, sheetName: string, 
+export function getSpreadsheetDataAsMap(obj: SpreadsheetGS, sheetName: string, 
   rowFirst: boolean = true): 
   MapGS<string | Date, MapGS<string | Date, string | Date>> {
 
-    return obj.getMapData(sheetName, rowFirst);
+    return obj.getDataAsMap(sheetName, rowFirst);
 }
 
 /**
@@ -119,7 +119,7 @@ export function addSpreadsheetTrigger(obj: SpreadsheetGS, sheetName: string,
   triggerType?: GoogleAppsScript.Script.EventType | string,  
   functionName?: string): SpreadsheetGS {
 
-    return obj.addTrigger(sheetName, triggerType, functionName);
+    return obj.addTrigger(triggerType, functionName);
 }
 
 /**
@@ -223,9 +223,9 @@ export class SpreadsheetGS extends UiGS {
    * @return {MapGS<string | Date, MapGS<string | Date, string | Date>>} the
    *  data object
    */
-  getMapData(sheetName: string, rowFirst: boolean = true): MapGS<string | Date,
+  getDataAsMap(sheetName: string, rowFirst: boolean = true): MapGS<string | Date,
     MapGS<string | Date, string | Date>> {
-    return this.getOrCreateSheet(sheetName).getMapData(rowFirst);
+    return this.getOrCreateSheet(sheetName).getDataAsMap(rowFirst);
   }
 
   /**
@@ -285,12 +285,12 @@ export class SpreadsheetGS extends UiGS {
    * @return {SheetGS} the requested sheet
    */
   getSheet(sheetName: string): SheetGS {
-    if (sheetName == null || !(sheetName in this._sheets)) {
-      throw new Error('Sheet name not defined in Spreadsheet.getSheet');
+    if (sheetName == null) {
+      throw new Error('Sheet name not defined in SpreadsheetGS.getSheet()');
     }
     const sheet: SheetGS = (this._sheets as { [key: string]: any })[sheetName];
     if (sheet == null) {
-      throw new Error('Could not find sheet named ' + sheetName + ' in Spreadsheet.getSheet');
+      throw new Error('Could not find sheet named ' + sheetName + ' in SpreadsheetGS.getSheet()');
     }
     return sheet;
   }
@@ -308,17 +308,8 @@ export class SpreadsheetGS extends UiGS {
    *
    * @return {SpreadsheetGS} the Spreadsheet object for chaining
    */
-  addTrigger(sheetName: string, 
-    triggerType?: GoogleAppsScript.Script.EventType | string,  
+  addTrigger(triggerType?: GoogleAppsScript.Script.EventType | string,  
     functionName?: string): SpreadsheetGS {
-    if (sheetName == null) {
-      throw new Error('sheetName is not defined in SpreadsheetGS.addTrigger()');
-    }
-    const sheet: GoogleAppsScript.Spreadsheet.Spreadsheet = 
-      (this._sheets as { [key: string]: any })[sheetName];
-
-    if (sheet == null) throw new Error('Sheet name is incorrect or not ' +
-      'found in SpreadsheetGS.addTrigger()');
 
     if (typeof triggerType === "string") 
       triggerType = triggerType.toUpperCase()[0];
@@ -327,21 +318,28 @@ export class SpreadsheetGS extends UiGS {
       case ScriptApp.EventType.ON_CHANGE || "C":
         if (functionName === undefined) functionName = "onChange";
         ScriptApp.newTrigger(functionName)
-          .forSpreadsheet(sheet)
+          .forSpreadsheet(this._spreadsheet)
           .onChange()
+          .create();
+          break;
+      case ScriptApp.EventType.ON_OPEN || "O":
+        if (functionName === undefined) functionName = "onOpen";
+        ScriptApp.newTrigger(functionName)
+          .forSpreadsheet(this._spreadsheet)
+          .onOpen()
           .create();
           break;
       case ScriptApp.EventType.ON_FORM_SUBMIT || "S":
         if (functionName === undefined) functionName = "onSubmit";
         ScriptApp.newTrigger(functionName)
-          .forSpreadsheet(sheet)
+          .forSpreadsheet(this._spreadsheet)
           .onFormSubmit()
           .create();
           break;
       default:
         if (functionName === undefined) functionName = "onEdit";
         ScriptApp.newTrigger(functionName)
-          .forSpreadsheet(sheet)
+          .forSpreadsheet(this._spreadsheet)
           .onEdit()
           .create();
           break;
@@ -363,7 +361,7 @@ export class SpreadsheetGS extends UiGS {
     triggerType?: GoogleAppsScript.Script.EventType | string, 
     functionName?: string): SpreadsheetGS {
     this.deleteTriggers(functionName);
-    this.addTrigger(sheetName, triggerType, functionName);
+    this.addTrigger(triggerType, functionName);
     return this;
   }
 

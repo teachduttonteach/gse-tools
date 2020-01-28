@@ -338,7 +338,7 @@ export class GroupCreator {
       attemptedDepth = 1000,
     } = this._args;
     const settingsSheet = getDataSheet()
-      .getMapData(sheetName)
+      .getDataAsMap(sheetName)
       .get(className);
     if (settingsSheet == null) {
       throw new Error(
@@ -370,7 +370,7 @@ export class GroupCreator {
     setCache('spreadsheetId', thisSpreadsheetId);
     setCache('sheetName', thisSheetNameColumn);
 
-    const groupData = groupSpreadsheet.getMapData(thisSheetNameColumn);
+    const groupData = groupSpreadsheet.getDataAsMap(thisSheetNameColumn);
     if (groupData == null) {
       throw new Error("Could not find sheet name '" + sheetName + "' on spreadsheet in GroupCreator.calculateGroups()");
     }

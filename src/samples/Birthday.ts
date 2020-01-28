@@ -13,7 +13,7 @@ function sendBirthdayEmail(lookAheadDays: number, emailToSend: string) {
   const spreadsheet: SpreadsheetGS = getDataSheet();
   const studentInfo: MapGS<string | Date, MapGS<string | Date, string | Date>> = spreadsheet
     .getSheet('Student Info')
-    .getMapData();
+    .getDataAsMap();
 
   const today: Date = new Date();
   let birthdays: string = '';

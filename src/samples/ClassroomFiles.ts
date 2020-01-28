@@ -45,7 +45,7 @@ function updateClassroomFiles(args: ClassroomArgs): void {
   const { settingsName = 'Classroom', classroomCodeColumnName = 'Classroom Code' } = args;
 
   const settings: SpreadsheetGS = getDataSheet();
-  const classworkSettings: MapGS<string | Date, MapGS<string | Date, string | Date>> = settings.getMapData(
+  const classworkSettings: MapGS<string | Date, MapGS<string | Date, string | Date>> = settings.getDataAsMap(
     settingsName,
   );
   const allClasses: ClassroomGS = new ClassroomGS();
