@@ -3,6 +3,31 @@ import { getDataSheet } from '../DataSheet';
 import { setCache, getCache } from '../Cache';
 import { SidebarButton } from '../SidebarButton';
 
+export function newGroupCreator(args: GroupParams): GroupCreator {
+  return new GroupCreator(args);
+}
+
+/**
+ * Calculate the groups for this set
+ *
+ * @param {GroupCreator} obj the GroupCreator object
+ * @return {GroupCreator} the object for chaining
+ */
+export function calculateGroups(obj: GroupCreator): GroupCreator {
+  return obj.calculateGroups();
+}
+
+/**
+ * Display the group set found
+ *
+ * @param {GroupCreator} obj the GroupCreator object
+ * @return {GroupCreator} the object for chaining
+ */
+export function displayGroupSet(obj: GroupCreator): GroupCreator {
+  return obj.displayGroupSet();
+}
+
+
 /**
  * Starts by reading in all students from sheet
  *  Each student becomes a StudentForGrouping object
@@ -523,7 +548,7 @@ export class GroupCreator {
    *
    * @return {Array<StudentForGroups>} the list of students
    */
-  getStudents(): Array<StudentForGroups> {
+  private _getStudents(): Array<StudentForGroups> {
     return this._students;
   }
 }

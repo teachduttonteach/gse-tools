@@ -222,17 +222,20 @@ function test() {
 
     testSheetThird.setValueWithMatchingColumns("Test Val 3DE", "Three", [{name: "Title", value: "D"}, {name: "One", value: "E"}], true);
 
+    testSheetThird.setValueWithMatchingColumns("Test Val 1/22 A", thisDate, [{name: "Title", value: "A"}], true);
+
+    testSheetThird.setValueWithMatchingColumns("Test Val 1/22 Five", "Five", [{name: "One", value: thisDate}], true);
+
     testSheetThird.setValueWithMatchingRows("Test Val IOneOneA", "I", [{name: "Title", value: "One"}, {name: "A", value: "OneA"}], true);
 
-    
+    /*
     let testGroupCreator = new GroupCreator({className: "Physics", 
         numGroups: 5, 
         spreadsheetId: "1NpeyOdQV69nvY2WmZIFio3glHCeqTfxxtarLIFaVRyk", 
         sheetName: "Student Groups"});
     testGroupCreator.calculateGroups();
+    testGroupCreator.displayGroupSet();
     // TODO: attach test script to test this
     //testGroupCreator.displayGroupSet();
-    // TODO: Fix this
-    //Logger.log(testGroupCreator.getStudents());
-    
+    */
 }
