@@ -39,6 +39,16 @@ export function replaceSlideImage(
 }
 
 /**
+ * Get the title of the current slide
+ * 
+ * @param {SlideGS} obj the Slide object
+ * @return {string} the title 
+ */
+export function getSlideTitle(obj: SlideGS): string {
+  return obj.getTitle();
+}
+
+/**
  * Get the speaker notes from the slide
  *
  * @param {SlideGS} obj the Slide object
@@ -261,6 +271,20 @@ export class SlideGS {
       }
     }
     throw new Error('Could not find picture number ' + imageNumber + ' on slide in Slide.replaceImage');
+  }
+
+  /**
+   * Get the title of the current slide
+   * 
+   * @param {SlideGS} obj the Slide object
+   * @return {string} the title 
+   */
+  getTitle(): string {
+    return this._slide
+      .getPlaceholder(SlidesApp.PlaceholderType.TITLE)
+      .asShape()
+      .getText()
+      .asString();
   }
 
   /**

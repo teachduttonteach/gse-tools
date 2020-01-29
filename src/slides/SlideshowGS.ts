@@ -106,12 +106,12 @@ export function addSlide(obj: SlideshowGS, title: string, body: string, type: st
  * Gets the slide in the presentation from the id of the slide
  *
  * @param {SlideshowGS} obj the Slideshow object
- * @param {string} id the id of the slide
+ * @param {string} notes the notes on the slide
  *
  * @return {SlideGS} the slide object
  */
-export function getSlideById(obj: SlideshowGS, id: string): SlideGS {
-  return obj.getSlideById(id);
+export function getSlideByNotes(obj: SlideshowGS, notes: string): SlideGS {
+  return obj.getSlideByNotes(notes);
 }
 
 /**
@@ -130,38 +130,39 @@ export function removeSlide(obj: SlideshowGS, id: string): SlideshowGS {
  * Gets the slide type from the slide notes and adds the slide if not present
  *
  * @param {SlideshowGS} obj the Slideshow object
- * @param {string} typeTitle the type of the slide (from slide notes)
+ * @param {string} slideNotes the type of the slide (from slide notes)
  *
  * @return {SlideGS} the requested slide
- */
+ 
 export function getSlideByType(obj: SlideshowGS, typeTitle: string): SlideGS {
   return obj.getSlideByType(typeTitle);
 }
+*/
 
 /**
  * Sets the body for the given slide type
  *
  * @param {SlideshowGS} obj the Slideshow object
- * @param {string} typeTitle the type of the slide
+ * @param {string} slideNotes the notes on the slide
  * @param {string} slideText the body text to put in the slide
  *
  * @return {SlideshowGS} the object for chaining
  */
-export function setSlideBodyByType(obj: SlideshowGS, typeTitle: string, slideText: string): SlideshowGS {
-  return obj.setSlideBodyByType(typeTitle, slideText);
+export function setSlideBodyByType(obj: SlideshowGS, slideNotes: string, slideText: string): SlideshowGS {
+  return obj.setSlideBodyByType(slideNotes, slideText);
 }
 
 /**
  * Sets the title for the given slide type
  *
  * @param {SlideshowGS} obj the Slideshow object
- * @param {string} typeTitle the type of the slide
+ * @param {string} slideNotes the notes on the slide
  * @param {string} title the body text to put in the slide
  *
  * @return {SlideshowGS} the object for chaining
  */
-export function setSlideTitleByType(obj: SlideshowGS, typeTitle: string, title: string): SlideshowGS {
-  return obj.setSlideTitleByType(typeTitle, title);
+export function setSlideTitleByType(obj: SlideshowGS, slideNotes: string, title: string): SlideshowGS {
+  return obj.setSlideTitleByType(slideNotes, title);
 }
 
 /**
@@ -320,20 +321,22 @@ export class SlideshowGS extends UiGS {
   /**
    * Gets the slide in the presentation from the id of the slide
    *
-   * @param {string} id the id of the slide
+   * @param {string} notes the id of the slide
    *
    * @return {SlideGS} the slide object
    */
-  getSlideById(id: string): SlideGS {
-    if (id == null) {
-      throw new Error('Id is not defined to remove in ' + 'SlideshowGS.getSlideById');
+  getSlideByNotes(notes: string): SlideGS {
+    if (notes == null) {
+      throw new Error('Notes are not defined to remove in ' +
+      'SlideshowGS.getSlideByNotes()');
     }
     for (let j = 0; j < this._allSlides.length; j++) {
-      if (this._allSlides[j].getNotes().indexOf(id) == 0) {
+      if (this._allSlides[j].getNotes().indexOf(notes) == 0) {
         return this._allSlides[j];
       }
     }
-    throw new Error('Slide id ' + id + ' not found in SlideshowGS.getSlideById');
+    throw new Error('Slide id ' + notes + ' not found in ' +
+      'SlideshowGS.getSlideByNotes()');
   }
 
   /**
@@ -347,7 +350,7 @@ export class SlideshowGS extends UiGS {
     if (id == null) {
       throw new Error('ID is not defined to remove in Slides.removeSlide');
     }
-    this.getSlideById(id).remove();
+    this.getSlideByNotes(id).remove();
     this._getAllSlides();
     return this;
   }
@@ -355,10 +358,10 @@ export class SlideshowGS extends UiGS {
   /**
    * Gets the slide type from the slide notes and adds the slide if not present
    *
-   * @param {string} typeTitle the type of the slide (from slide notes)
+   * @param {string} slideNotes the type of the slide (from slide notes)
    *
    * @return {SlideGS} the requested slide
-   */
+   
   getSlideByType(typeTitle: string): SlideGS {
     for (const s of this._allSlides) {
       const thisNotes = s.getNotes();
@@ -366,30 +369,31 @@ export class SlideshowGS extends UiGS {
     }
     return this.addSlide(typeTitle, '', typeTitle);
   }
+  */
 
   /**
    * Sets the body for the given slide type
    *
-   * @param {string} typeTitle the type of the slide
+   * @param {string} slideNotes the notes on the slide
    * @param {string} slideText the body text to put in the slide
    *
    * @return {SlideshowGS} the object for chaining
    */
-  setSlideBodyByType(typeTitle: string, slideText: string): SlideshowGS {
-    this.getSlideByType(typeTitle).setBody(slideText);
+  setSlideBodyByType(slideNotes: string, slideText: string): SlideshowGS {
+    this.getSlideByNotes(slideNotes).setBody(slideText);
     return this;
   }
 
   /**
    * Sets the title for the given slide type
    *
-   * @param {string} typeTitle the type of the slide
+   * @param {string} slideNotes the notes on the slide
    * @param {string} title the body text to put in the slide
    *
    * @return {SlideshowGS} the object for chaining
    */
-  setSlideTitleByType(typeTitle: string, title: string): SlideshowGS {
-    this.getSlideByType(typeTitle).setTitle(title);
+  setSlideTitleByType(slideNotes: string, title: string): SlideshowGS {
+    this.getSlideByNotes(slideNotes).setTitle(title);
     return this;
   }
 }
