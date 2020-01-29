@@ -207,10 +207,10 @@ function test() {
     const testSheetThird = testSpreadsheet.getSheet("Third");
     Logger.log("START\n\n")
     //testSheetThird.setValueAsMap("One OneA and H", "H", ["One", "OneA"]);
-    testSheetThird.setValueAsMap("One 1/22 and C", "C", ["One", thisDate]);
+    testSheetThird.setValueWithLists("One 1/22 and C", "C", ["One", thisDate]);
     //testSheetThird.setValueAsMap("Two and A", "A", "Two");
-    testSheetThird.setValueAsMap("1/22 and I", "I", thisDate);
-    testSheetThird.setValueAsMap("Four and 1/22", thisDate, "Four");
+    testSheetThird.setValueWithLists("1/22 and I", "I", thisDate);
+    testSheetThird.setValueWithLists("Four and 1/22", thisDate, "Four");
     //testSheetSecond.setValue()
 
     
@@ -220,8 +220,9 @@ function test() {
     testSheetThird.setValue("New Val 55", 5, 5);
     testSheetThird.setValues("BLAH", 10, 8, 2, 2);
 
-    // TODO: Fix this
-    testSheetThird.setValuesAsMap("Test Val 3DE", "D", "Three", [{name: "One", value: "E"}]);
+    testSheetThird.setValueWithMatchingColumns("Test Val 3DE", "Three", [{name: "Title", value: "D"}, {name: "One", value: "E"}], true);
+
+    testSheetThird.setValueWithMatchingRows("Test Val IOneOneA", "I", [{name: "Title", value: "One"}, {name: "A", value: "OneA"}], true);
 
     
     let testGroupCreator = new GroupCreator({className: "Physics", 
@@ -232,6 +233,6 @@ function test() {
     // TODO: attach test script to test this
     //testGroupCreator.displayGroupSet();
     // TODO: Fix this
-    Logger.log(testGroupCreator.getStudents());
+    //Logger.log(testGroupCreator.getStudents());
     
 }
