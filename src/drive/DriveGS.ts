@@ -159,7 +159,7 @@ export class DriveGS {
    *  if it could not be created
    */
   getImageBlob(id: string, isUrl: boolean = false): 
-    GoogleAppsScript.Base.Blob | boolean {
+    GoogleAppsScript.Base.Blob | false {
     if (id == undefined) {
       throw new Error('Id needs to defined for DriveGS.getImageBlob()');
     }

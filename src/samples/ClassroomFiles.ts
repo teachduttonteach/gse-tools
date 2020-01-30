@@ -40,7 +40,7 @@ type ClassroomArgs = {
  * Update Google Docs from Classroom information
  * @param {ClassroomArgs} args the parameters to use
  */
-function updateClassroomFiles(args: ClassroomArgs): void {
+export function updateClassroomFiles(args: ClassroomArgs): void {
   if (args == null) args = {} as ClassroomArgs;
   const { settingsName = 'Classroom', classroomCodeColumnName = 'Classroom Code' } = args;
 
@@ -74,7 +74,7 @@ function updateClassroomFiles(args: ClassroomArgs): void {
  * @param {ClassroomArgs} args the classroom parameters
  * @param {ClassGS} currentClass the current Google class
  */
-function updateGoogleClassroom(args: ClassroomArgs, currentClass: ClassGS) {
+export function updateGoogleClassroom(args: ClassroomArgs, currentClass: ClassGS) {
   const { newFileName = 'Google Classroom Summary', templateName = 'Google Classroom Summary Template' } = args;
 
   const gDrive = new DriveGS();

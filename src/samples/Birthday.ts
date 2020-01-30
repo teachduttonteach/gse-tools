@@ -9,7 +9,7 @@ import { MapGS } from '../map/MapGS';
  * @param {number} lookAheadDays how many days to look ahead
  * @param {string} emailToSend the email address to send it to
  */
-function sendBirthdayEmail(lookAheadDays: number, emailToSend: string) {
+export function sendBirthdayEmail(lookAheadDays: number, emailToSend: string) {
   const spreadsheet: SpreadsheetGS = getDataSheet();
   const studentInfo: MapGS<string | Date, MapGS<string | Date, string | Date>> = spreadsheet
     .getSheet('Student Info')

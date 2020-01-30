@@ -51,7 +51,7 @@ export type AttendanceParams = {
  * @param {SheetEventGS} _e the Google event
  * @param {AttendanceParams} args the parameters for attendance
  */
-function changeAttendance(_e: GoogleAppsScript.Events.SheetsOnEdit, args?: AttendanceParams) {
+export function changeAttendance(_e: GoogleAppsScript.Events.SheetsOnEdit, args?: AttendanceParams) {
   if (args == null) args = {} as AttendanceParams;
   const {
     workingStatusCell = [1, 1] as [number, number],
@@ -112,10 +112,12 @@ function changeAttendance(_e: GoogleAppsScript.Events.SheetsOnEdit, args?: Atten
         }
       }
     } else if (thisColumn > 1 && thisColumn < topRow.length) {
-      studentInfoSheet.setValuesAsMap(thisEditedValue, name, topRow[thisColumn - 1], secondaryColumns);
+      secondaryColumns.push({name: fullnameColumnName, value: name});
+      studentInfoSheet.setValueWithMatchingColumns(thisEditedValue, topRow[thisColumn - 1], secondaryColumns);
     } else if (e.getColumn() === topRow.length) {
       // edit the attendance record
-      studentInfoSheet.setValuesAsMap(attendance, name, currentDate, secondaryColumns);
+      secondaryColumns.push({name: fullnameColumnName, value: name});
+      studentInfoSheet.setValueWithMatchingColumns(attendance, currentDate, secondaryColumns);
     }
     attendanceSheet.changeWorkingStatus(false, workingStatusCell, normalStatusColor);
   }

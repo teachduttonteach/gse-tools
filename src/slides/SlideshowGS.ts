@@ -270,12 +270,12 @@ export class SlideshowGS extends UiGS {
   /**
    * Gets the slide by number
    *
-   * @param {number} num the number of the slide
+   * @param {number} num the number of the slide, indexed at 1
    *
-   * @return {SlideGS} the slide object
+   * @return {SlideGS} the Slide object for the requested slide
    */
   getSlide(num: number): SlideGS {
-    if (typeof num === 'number') return this._allSlides[num];
+    if (typeof num === 'number') return this._allSlides[num - 1];
     throw new Error('Could not get slide #' + num + ' from slideshow in Slides.getSlide');
   }
 
@@ -294,11 +294,11 @@ export class SlideshowGS extends UiGS {
    *
    * @param {string} title the title of the new slide
    * @param {string} body the body of the new slide
-   * @param {string} type the type of the new slide
+   * @param {string} notes the notes on the new slide
    *
    * @return {SlideGS} the new slide object
    */
-  addSlide(title: string, body: string, type: string): SlideGS {
+  addSlide(title: string, body: string, notes: string = ""): SlideGS {
     let slideAdded: GoogleAppsScript.Slides.Slide;
     if (this._template != null) {
       if (this._template.getSlides().length > 0) {
@@ -315,7 +315,7 @@ export class SlideshowGS extends UiGS {
     return new SlideGS(slideAdded)
       .setTitle(title)
       .setBody(body)
-      .setNotes(type);
+      .setNotes(notes);
   }
 
   /**
