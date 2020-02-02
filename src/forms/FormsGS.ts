@@ -332,16 +332,16 @@ export class FormsGS extends UiGS {
     }
 
     switch (questionType) {
-      case QuestionType.PARAGRAPH:
+      case 'Paragraph':
         this._form.addParagraphTextItem().setTitle(title);
         break;
-      case QuestionType.TRUE_FALSE:
+      case 'True / False':
         this._form
           .addMultipleChoiceItem()
           .setTitle(title)
           .setChoiceValues(['True', 'False']);
         break;
-      case QuestionType.MULTIPLE_CHOICE:
+      case 'Multiple Choice':
         this._form.addMultipleChoiceItem().setTitle(title);
 
         if (optionsList == undefined) {
@@ -351,7 +351,7 @@ export class FormsGS extends UiGS {
         } else this.addMultipleChoice(title, optionsList);
 
         break;
-      case QuestionType.MULTIPLE_SELECT:
+      case 'Multiple Select':
         this._form.addCheckboxItem().setTitle(title);
 
         if (optionsList == undefined) {
@@ -361,7 +361,7 @@ export class FormsGS extends UiGS {
         } else this.addMultipleCheck(title, optionsList);
 
         break;
-      case QuestionType.MC_GRID:
+      case 'MC Grid':
         const item = this._form.addGridItem().setTitle(title);
 
         if (optionsList == undefined) {
@@ -377,7 +377,7 @@ export class FormsGS extends UiGS {
         } else item.setRows(mcGridRowsList);
 
         break;
-      case QuestionType.MS_GRID:
+      case 'MS Grid':
         const gridItem = this._form.addCheckboxGridItem().setTitle(title);
 
         if (optionsList == undefined) {

@@ -97,6 +97,7 @@
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="sheeteventgs.html#_activesheet" class="tsd-kind-icon">_active<wbr>Sheet</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="sheeteventgs.html#_column" class="tsd-kind-icon">_column</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="sheeteventgs.html#_event" class="tsd-kind-icon">_event</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="sheeteventgs.html#_namedvalues" class="tsd-kind-icon">_named<wbr>Values</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="sheeteventgs.html#_row" class="tsd-kind-icon">_row</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="sheeteventgs.html#_sheet" class="tsd-kind-icon">_sheet</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="sheeteventgs.html#_sheetname" class="tsd-kind-icon">_sheet<wbr>Name</a></li>
@@ -122,6 +123,7 @@
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="sheeteventgs.html#getsheet" class="tsd-kind-icon">get<wbr>Sheet</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="sheeteventgs.html#getsheetname" class="tsd-kind-icon">get<wbr>Sheet<wbr>Name</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="sheeteventgs.html#getvalue" class="tsd-kind-icon">get<wbr>Value</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="sheeteventgs.html#getvaluesasmap" class="tsd-kind-icon">get<wbr>Values<wbr>AsMap</a></li>
 							</ul>
 						</section>
 					</div>
@@ -133,13 +135,13 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Sheet<wbr>EventGS<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">SheetsOnEdit</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="sheeteventgs.html" class="tsd-signature-type">SheetEventGS</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Sheet<wbr>EventGS<span class="tsd-signature-symbol">(</span>event<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">SheetsOnEdit</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">SheetsOnChange</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">SheetsOnFormSubmit</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">SheetsOnOpen</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="sheeteventgs.html" class="tsd-signature-type">SheetEventGS</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/54572cf/src/sheets/SheetEventGS.ts#L177">sheets/SheetEventGS.ts:177</a></li>
+									<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/39ab3d2/src/sheets/SheetEventGS.ts#L210">sheets/SheetEventGS.ts:210</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -147,13 +149,7 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>event: <span class="tsd-signature-type">SheetsOnEdit</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<div class="lead">
-											<p>the underlying
-											event object</p>
-										</div>
-									</div>
+									<h5>event: <span class="tsd-signature-type">SheetsOnEdit</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">SheetsOnChange</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">SheetsOnFormSubmit</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">SheetsOnOpen</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="sheeteventgs.html" class="tsd-signature-type">SheetEventGS</a></h4>
@@ -169,7 +165,7 @@
 					<div class="tsd-signature tsd-kind-icon">_active<wbr>Sheet<span class="tsd-signature-symbol">:</span> <a href="spreadsheetgs.html" class="tsd-signature-type">SpreadsheetGS</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/54572cf/src/sheets/SheetEventGS.ts#L177">sheets/SheetEventGS.ts:177</a></li>
+							<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/39ab3d2/src/sheets/SheetEventGS.ts#L210">sheets/SheetEventGS.ts:210</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -179,19 +175,37 @@
 					<div class="tsd-signature tsd-kind-icon">_column<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/54572cf/src/sheets/SheetEventGS.ts#L172">sheets/SheetEventGS.ts:172</a></li>
+							<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/39ab3d2/src/sheets/SheetEventGS.ts#L201">sheets/SheetEventGS.ts:201</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
 					<a name="_event" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagPrivate">Private</span> _event</h3>
-					<div class="tsd-signature tsd-kind-icon">_event<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">SheetsOnEdit</span></div>
+					<div class="tsd-signature tsd-kind-icon">_event<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">SheetsOnEdit</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">SheetsOnChange</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">SheetsOnFormSubmit</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">SheetsOnOpen</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/54572cf/src/sheets/SheetEventGS.ts#L176">sheets/SheetEventGS.ts:176</a></li>
+							<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/39ab3d2/src/sheets/SheetEventGS.ts#L206">sheets/SheetEventGS.ts:206</a></li>
 						</ul>
 					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
+					<a name="_namedvalues" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> _named<wbr>Values</h3>
+					<div class="tsd-signature tsd-kind-icon">_named<wbr>Values<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/39ab3d2/src/sheets/SheetEventGS.ts#L205">sheets/SheetEventGS.ts:205</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-type-declaration">
+						<h4>Type declaration</h4>
+						<ul class="tsd-parameters">
+							<li class="tsd-parameter-index-signature">
+								<h5><span class="tsd-signature-symbol">[</span>key: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">]: </span><span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></h5>
+							</li>
+						</ul>
+					</div>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
 					<a name="_row" class="tsd-anchor"></a>
@@ -199,7 +213,7 @@
 					<div class="tsd-signature tsd-kind-icon">_row<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/54572cf/src/sheets/SheetEventGS.ts#L171">sheets/SheetEventGS.ts:171</a></li>
+							<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/39ab3d2/src/sheets/SheetEventGS.ts#L200">sheets/SheetEventGS.ts:200</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -209,7 +223,7 @@
 					<div class="tsd-signature tsd-kind-icon">_sheet<span class="tsd-signature-symbol">:</span> <a href="sheetgs.html" class="tsd-signature-type">SheetGS</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/54572cf/src/sheets/SheetEventGS.ts#L169">sheets/SheetEventGS.ts:169</a></li>
+							<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/39ab3d2/src/sheets/SheetEventGS.ts#L198">sheets/SheetEventGS.ts:198</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -219,7 +233,7 @@
 					<div class="tsd-signature tsd-kind-icon">_sheet<wbr>Name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/54572cf/src/sheets/SheetEventGS.ts#L170">sheets/SheetEventGS.ts:170</a></li>
+							<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/39ab3d2/src/sheets/SheetEventGS.ts#L199">sheets/SheetEventGS.ts:199</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -229,7 +243,7 @@
 					<div class="tsd-signature tsd-kind-icon">_trigger<wbr>Ranges<span class="tsd-signature-symbol">:</span> <a href="../globals.html#triggerranges" class="tsd-signature-type">TriggerRanges</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/54572cf/src/sheets/SheetEventGS.ts#L174">sheets/SheetEventGS.ts:174</a></li>
+							<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/39ab3d2/src/sheets/SheetEventGS.ts#L203">sheets/SheetEventGS.ts:203</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -239,7 +253,7 @@
 					<div class="tsd-signature tsd-kind-icon">_trigger<wbr>Sheet<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/54572cf/src/sheets/SheetEventGS.ts#L175">sheets/SheetEventGS.ts:175</a></li>
+							<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/39ab3d2/src/sheets/SheetEventGS.ts#L204">sheets/SheetEventGS.ts:204</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -249,25 +263,19 @@
 					<div class="tsd-signature tsd-kind-icon">_value<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Date</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/54572cf/src/sheets/SheetEventGS.ts#L173">sheets/SheetEventGS.ts:173</a></li>
+							<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/39ab3d2/src/sheets/SheetEventGS.ts#L202">sheets/SheetEventGS.ts:202</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
 					<a name="event" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagPrivate">Private</span> event</h3>
-					<div class="tsd-signature tsd-kind-icon">event<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">SheetsOnEdit</span></div>
+					<div class="tsd-signature tsd-kind-icon">event<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">SheetsOnEdit</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">SheetsOnChange</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">SheetsOnFormSubmit</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">SheetsOnOpen</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/54572cf/src/sheets/SheetEventGS.ts#L184">sheets/SheetEventGS.ts:184</a></li>
+							<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/39ab3d2/src/sheets/SheetEventGS.ts#L220">sheets/SheetEventGS.ts:220</a></li>
 						</ul>
 					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>the underlying
-							event object</p>
-						</div>
-					</div>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
@@ -276,13 +284,13 @@
 					<a name="addtriggercolumnrange" class="tsd-anchor"></a>
 					<h3>add<wbr>Trigger<wbr>Column<wbr>Range</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">add<wbr>Trigger<wbr>Column<wbr>Range<span class="tsd-signature-symbol">(</span>min<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span>, max<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="sheeteventgs.html" class="tsd-signature-type">SheetEventGS</a></li>
+						<li class="tsd-signature tsd-kind-icon">add<wbr>Trigger<wbr>Column<wbr>Range<span class="tsd-signature-symbol">(</span>min<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span>, max<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="sheeteventgs.html" class="tsd-signature-type">SheetEventGS</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/54572cf/src/sheets/SheetEventGS.ts#L320">sheets/SheetEventGS.ts:320</a></li>
+									<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/39ab3d2/src/sheets/SheetEventGS.ts#L420">sheets/SheetEventGS.ts:420</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -305,8 +313,12 @@
 									</div>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="sheeteventgs.html" class="tsd-signature-type">SheetEventGS</a></h4>
-							<p>the object for chaining</p>
+							<h4 class="tsd-returns-title">Returns <a href="sheeteventgs.html" class="tsd-signature-type">SheetEventGS</a>
+								<span class="tsd-signature-symbol"> | </span>
+								<span class="tsd-signature-type">undefined</span>
+							</h4>
+							<p>the object for chaining, or undefined
+							if there is no associated range</p>
 						</li>
 					</ul>
 				</section>
@@ -314,13 +326,13 @@
 					<a name="addtriggerrange" class="tsd-anchor"></a>
 					<h3>add<wbr>Trigger<wbr>Range</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">add<wbr>Trigger<wbr>Range<span class="tsd-signature-symbol">(</span>forRow<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span>, min<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">&gt;</span>, max<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="sheeteventgs.html" class="tsd-signature-type">SheetEventGS</a></li>
+						<li class="tsd-signature tsd-kind-icon">add<wbr>Trigger<wbr>Range<span class="tsd-signature-symbol">(</span>forRow<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span>, min<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">&gt;</span>, max<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="sheeteventgs.html" class="tsd-signature-type">SheetEventGS</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/54572cf/src/sheets/SheetEventGS.ts#L347">sheets/SheetEventGS.ts:347</a></li>
+									<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/39ab3d2/src/sheets/SheetEventGS.ts#L449">sheets/SheetEventGS.ts:449</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -351,8 +363,12 @@
 									</div>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="sheeteventgs.html" class="tsd-signature-type">SheetEventGS</a></h4>
-							<p>the object for chaining</p>
+							<h4 class="tsd-returns-title">Returns <a href="sheeteventgs.html" class="tsd-signature-type">SheetEventGS</a>
+								<span class="tsd-signature-symbol"> | </span>
+								<span class="tsd-signature-type">undefined</span>
+							</h4>
+							<p>the object for chaining, or undefined
+							if there is no associated range</p>
 						</li>
 					</ul>
 				</section>
@@ -360,13 +376,13 @@
 					<a name="addtriggerrowrange" class="tsd-anchor"></a>
 					<h3>add<wbr>Trigger<wbr>Row<wbr>Range</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">add<wbr>Trigger<wbr>Row<wbr>Range<span class="tsd-signature-symbol">(</span>min<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span>, max<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="sheeteventgs.html" class="tsd-signature-type">SheetEventGS</a></li>
+						<li class="tsd-signature tsd-kind-icon">add<wbr>Trigger<wbr>Row<wbr>Range<span class="tsd-signature-symbol">(</span>min<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span>, max<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="sheeteventgs.html" class="tsd-signature-type">SheetEventGS</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/54572cf/src/sheets/SheetEventGS.ts#L332">sheets/SheetEventGS.ts:332</a></li>
+									<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/39ab3d2/src/sheets/SheetEventGS.ts#L433">sheets/SheetEventGS.ts:433</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -389,8 +405,12 @@
 									</div>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="sheeteventgs.html" class="tsd-signature-type">SheetEventGS</a></h4>
-							<p>the object for chaining</p>
+							<h4 class="tsd-returns-title">Returns <a href="sheeteventgs.html" class="tsd-signature-type">SheetEventGS</a>
+								<span class="tsd-signature-symbol"> | </span>
+								<span class="tsd-signature-type">undefined</span>
+							</h4>
+							<p>the object for chaining, or undefined
+							if there is no associated range</p>
 						</li>
 					</ul>
 				</section>
@@ -398,13 +418,13 @@
 					<a name="addtriggersheetname" class="tsd-anchor"></a>
 					<h3>add<wbr>Trigger<wbr>Sheet<wbr>Name</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">add<wbr>Trigger<wbr>Sheet<wbr>Name<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="sheeteventgs.html" class="tsd-signature-type">SheetEventGS</a></li>
+						<li class="tsd-signature tsd-kind-icon">add<wbr>Trigger<wbr>Sheet<wbr>Name<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="sheeteventgs.html" class="tsd-signature-type">SheetEventGS</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/54572cf/src/sheets/SheetEventGS.ts#L304">sheets/SheetEventGS.ts:304</a></li>
+									<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/39ab3d2/src/sheets/SheetEventGS.ts#L398">sheets/SheetEventGS.ts:398</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -421,8 +441,12 @@
 									</div>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="sheeteventgs.html" class="tsd-signature-type">SheetEventGS</a></h4>
-							<p>the object for chaining</p>
+							<h4 class="tsd-returns-title">Returns <a href="sheeteventgs.html" class="tsd-signature-type">SheetEventGS</a>
+								<span class="tsd-signature-symbol"> | </span>
+								<span class="tsd-signature-type">undefined</span>
+							</h4>
+							<p>the object for chaining, or undefined
+							if the event does not have an associated sheet</p>
 						</li>
 					</ul>
 				</section>
@@ -430,13 +454,13 @@
 					<a name="checkcell" class="tsd-anchor"></a>
 					<h3>check<wbr>Cell</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">check<wbr>Cell<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+						<li class="tsd-signature tsd-kind-icon">check<wbr>Cell<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/54572cf/src/sheets/SheetEventGS.ts#L263">sheets/SheetEventGS.ts:263</a></li>
+									<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/39ab3d2/src/sheets/SheetEventGS.ts#L346">sheets/SheetEventGS.ts:346</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -444,8 +468,12 @@
 									<p>Check to see if the cell is in the specified trigger range</p>
 								</div>
 							</div>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
-							<p>true if the cell is in the trigger range</p>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span>
+								<span class="tsd-signature-symbol"> | </span>
+								<span class="tsd-signature-type">undefined</span>
+							</h4>
+							<p>true if the cell is in the trigger range,
+							undefined if the event has no associated sheet</p>
 						</li>
 					</ul>
 				</section>
@@ -453,13 +481,13 @@
 					<a name="getactivesheet" class="tsd-anchor"></a>
 					<h3>get<wbr>Active<wbr>Sheet</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Active<wbr>Sheet<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="spreadsheetgs.html" class="tsd-signature-type">SpreadsheetGS</a></li>
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Active<wbr>Sheet<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="spreadsheetgs.html" class="tsd-signature-type">SpreadsheetGS</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/54572cf/src/sheets/SheetEventGS.ts#L209">sheets/SheetEventGS.ts:209</a></li>
+									<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/39ab3d2/src/sheets/SheetEventGS.ts#L266">sheets/SheetEventGS.ts:266</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -467,8 +495,12 @@
 									<p>Gets the active spreadsheet</p>
 								</div>
 							</div>
-							<h4 class="tsd-returns-title">Returns <a href="spreadsheetgs.html" class="tsd-signature-type">SpreadsheetGS</a></h4>
-							<p>the spreadsheet</p>
+							<h4 class="tsd-returns-title">Returns <a href="spreadsheetgs.html" class="tsd-signature-type">SpreadsheetGS</a>
+								<span class="tsd-signature-symbol"> | </span>
+								<span class="tsd-signature-type">undefined</span>
+							</h4>
+							<p>the spreadsheet, or undefined if the
+							event is not associated with a spreadsheet</p>
 						</li>
 					</ul>
 				</section>
@@ -476,13 +508,13 @@
 					<a name="getcolumn" class="tsd-anchor"></a>
 					<h3>get<wbr>Column</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Column<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Column<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/54572cf/src/sheets/SheetEventGS.ts#L245">sheets/SheetEventGS.ts:245</a></li>
+									<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/39ab3d2/src/sheets/SheetEventGS.ts#L314">sheets/SheetEventGS.ts:314</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -490,8 +522,12 @@
 									<p>Get the current column</p>
 								</div>
 							</div>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
-							<p>the current column</p>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span>
+								<span class="tsd-signature-symbol"> | </span>
+								<span class="tsd-signature-type">undefined</span>
+							</h4>
+							<p>the current column, or undefined if the
+							event has no column</p>
 						</li>
 					</ul>
 				</section>
@@ -499,13 +535,13 @@
 					<a name="geteditedvalue" class="tsd-anchor"></a>
 					<h3>get<wbr>Edited<wbr>Value</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Edited<wbr>Value<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Date</span></li>
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Edited<wbr>Value<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Date</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/54572cf/src/sheets/SheetEventGS.ts#L254">sheets/SheetEventGS.ts:254</a></li>
+									<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/39ab3d2/src/sheets/SheetEventGS.ts#L334">sheets/SheetEventGS.ts:334</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -516,8 +552,11 @@
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span>
 								<span class="tsd-signature-symbol"> | </span>
 								<span class="tsd-signature-type">Date</span>
+								<span class="tsd-signature-symbol"> | </span>
+								<span class="tsd-signature-type">undefined</span>
 							</h4>
-							<p>the value</p>
+							<p>the value, or undefined if the
+							event has no value</p>
 						</li>
 					</ul>
 				</section>
@@ -525,13 +564,13 @@
 					<a name="getobject" class="tsd-anchor"></a>
 					<h3>get<wbr>Object</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Object<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">SheetsOnEdit</span></li>
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Object<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">SheetsOnEdit</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">SheetsOnChange</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">SheetsOnFormSubmit</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">SheetsOnOpen</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/54572cf/src/sheets/SheetEventGS.ts#L200">sheets/SheetEventGS.ts:200</a></li>
+									<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/39ab3d2/src/sheets/SheetEventGS.ts#L253">sheets/SheetEventGS.ts:253</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -539,8 +578,18 @@
 									<p>Gets the underlying Google Apps Script object for direct access</p>
 								</div>
 							</div>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">SheetsOnEdit</span></h4>
-							<p>the Event object</p>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">SheetsOnEdit</span>
+								<span class="tsd-signature-symbol"> | </span>
+								<span class="tsd-signature-type">SheetsOnChange</span>
+								<span class="tsd-signature-symbol"> | </span>
+								<span class="tsd-signature-type">SheetsOnFormSubmit</span>
+								<span class="tsd-signature-symbol"> | </span>
+								<span class="tsd-signature-type">SheetsOnOpen</span>
+							</h4>
+							<p>{GoogleAppsScript.Events.SheetsOnEdit |
+								GoogleAppsScript.Events.SheetsOnChange |
+								GoogleAppsScript.Events.SheetsOnFormSubmit |
+							GoogleAppsScript.Events.SheetsOnOpen} the Event object</p>
 						</li>
 					</ul>
 				</section>
@@ -548,13 +597,13 @@
 					<a name="getrow" class="tsd-anchor"></a>
 					<h3>get<wbr>Row</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Row<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Row<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/54572cf/src/sheets/SheetEventGS.ts#L236">sheets/SheetEventGS.ts:236</a></li>
+									<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/39ab3d2/src/sheets/SheetEventGS.ts#L302">sheets/SheetEventGS.ts:302</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -562,8 +611,12 @@
 									<p>Get the current row</p>
 								</div>
 							</div>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
-							<p>the current row</p>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span>
+								<span class="tsd-signature-symbol"> | </span>
+								<span class="tsd-signature-type">undefined</span>
+							</h4>
+							<p>the current row, or undefined if the event
+							has no row</p>
 						</li>
 					</ul>
 				</section>
@@ -571,13 +624,13 @@
 					<a name="getsheet" class="tsd-anchor"></a>
 					<h3>get<wbr>Sheet</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Sheet<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="sheetgs.html" class="tsd-signature-type">SheetGS</a></li>
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Sheet<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="sheetgs.html" class="tsd-signature-type">SheetGS</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/54572cf/src/sheets/SheetEventGS.ts#L227">sheets/SheetEventGS.ts:227</a></li>
+									<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/39ab3d2/src/sheets/SheetEventGS.ts#L290">sheets/SheetEventGS.ts:290</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -585,8 +638,12 @@
 									<p>Get the current sheet</p>
 								</div>
 							</div>
-							<h4 class="tsd-returns-title">Returns <a href="sheetgs.html" class="tsd-signature-type">SheetGS</a></h4>
-							<p>the current sheet</p>
+							<h4 class="tsd-returns-title">Returns <a href="sheetgs.html" class="tsd-signature-type">SheetGS</a>
+								<span class="tsd-signature-symbol"> | </span>
+								<span class="tsd-signature-type">undefined</span>
+							</h4>
+							<p>the current sheet, or undefined if the
+							event is not associated with a sheet</p>
 						</li>
 					</ul>
 				</section>
@@ -594,13 +651,13 @@
 					<a name="getsheetname" class="tsd-anchor"></a>
 					<h3>get<wbr>Sheet<wbr>Name</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Sheet<wbr>Name<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Sheet<wbr>Name<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/54572cf/src/sheets/SheetEventGS.ts#L218">sheets/SheetEventGS.ts:218</a></li>
+									<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/39ab3d2/src/sheets/SheetEventGS.ts#L278">sheets/SheetEventGS.ts:278</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -608,8 +665,12 @@
 									<p>Gets the current sheet name</p>
 								</div>
 							</div>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
-							<p>the sheet name</p>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span>
+								<span class="tsd-signature-symbol"> | </span>
+								<span class="tsd-signature-type">undefined</span>
+							</h4>
+							<p>the sheet name, or undefined if the event
+							is not associated with a sheet</p>
 						</li>
 					</ul>
 				</section>
@@ -617,13 +678,13 @@
 					<a name="getvalue" class="tsd-anchor"></a>
 					<h3>get<wbr>Value</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Value<span class="tsd-signature-symbol">(</span>row<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, col<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Value<span class="tsd-signature-symbol">(</span>row<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, col<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Date</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/54572cf/src/sheets/SheetEventGS.ts#L294">sheets/SheetEventGS.ts:294</a></li>
+									<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/39ab3d2/src/sheets/SheetEventGS.ts#L385">sheets/SheetEventGS.ts:385</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -646,8 +707,31 @@
 									</div>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
-							<p>the value of the cell</p>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span>
+								<span class="tsd-signature-symbol"> | </span>
+								<span class="tsd-signature-type">Date</span>
+								<span class="tsd-signature-symbol"> | </span>
+								<span class="tsd-signature-type">undefined</span>
+							</h4>
+							<p>the value of the cell, or undefined if the
+							event does not refer to a cell</p>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="getvaluesasmap" class="tsd-anchor"></a>
+					<h3>get<wbr>Values<wbr>AsMap</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Values<wbr>AsMap<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="mapgs.html" class="tsd-signature-type">MapGS</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/39ab3d2/src/sheets/SheetEventGS.ts#L320">sheets/SheetEventGS.ts:320</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-returns-title">Returns <a href="mapgs.html" class="tsd-signature-type">MapGS</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -679,6 +763,9 @@
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
 								<a href="sheeteventgs.html#_event" class="tsd-kind-icon">_event</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
+								<a href="sheeteventgs.html#_namedvalues" class="tsd-kind-icon">_named<wbr>Values</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
 								<a href="sheeteventgs.html#_row" class="tsd-kind-icon">_row</a>
@@ -739,6 +826,9 @@
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="sheeteventgs.html#getvalue" class="tsd-kind-icon">get<wbr>Value</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="sheeteventgs.html#getvaluesasmap" class="tsd-kind-icon">get<wbr>Values<wbr>AsMap</a>
 							</li>
 						</ul>
 					</li>
