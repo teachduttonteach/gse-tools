@@ -21,7 +21,7 @@ cp ../classroom/ClassGS.ts .
 cp ../docs/DocsGS.ts .
 cp ../docs/DocLevels.ts .
 cp ../drive/DriveGS.ts .
-cp ../MimeTypes.ts .
+cp ../enums/MimeTypes.ts .
 clasp push
 if [ "$TESTING" = true ] 
 then

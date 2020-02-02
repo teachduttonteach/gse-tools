@@ -8,8 +8,6 @@ cd ../docs
 ./update.sh
 cd ../drive
 ./update.sh
-cd ../drive-sheets
-./update.sh
 cd ../forms
 ./update.sh
 cd ../sheets
@@ -18,4 +16,5 @@ cd ../slides
 ./update.sh
 cd ../test
 ./update.sh
+cd ../..
 clasp push

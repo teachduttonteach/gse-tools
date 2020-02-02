@@ -8,8 +8,8 @@ import { getDataSheet } from '../DataSheet';
  */
 export type AttendanceParams = {
   /**
-   * The cell location to display if the script is in working mode; default is
-   *  [1, 1]
+   * The cell location on the attendance sheet to display if the script is in 
+   * working mode (busy); default is [1, 1]
    */
   workingStatusCell?: [number, number];
   /**
@@ -36,9 +36,11 @@ export type AttendanceParams = {
   fullnameColumnName?: string;
   /**
    * Secondary columns to check to make sure that we are pulling the correct
-   *  set of data; default is [{name: 'Period', value: [1, 1]}]
+   *  set of data from the attendance sheet; default is 
+   *  [{name: 'Period', value: [1, 1]}]
    */
-  secondaryColumnsToCheck?: Array<{ name: string | Date; value: number[] }>;
+  secondaryColumnsToCheck?: 
+    Array<{ name: string | Date; value: [number, number] }>;
   /**
    * The maximum number of students to accomodate on the attendance form;
    *  default is 40
@@ -48,7 +50,7 @@ export type AttendanceParams = {
 
 /**
  * Change the attendance value for the student and date
- * @param {SheetEventGS} _e the Google event
+ * @param {SheetEventGS} _e the Google event from onEdit
  * @param {AttendanceParams} args the parameters for attendance
  */
 export function changeAttendance(_e: GoogleAppsScript.Events.SheetsOnEdit, args?: AttendanceParams) {
@@ -77,7 +79,7 @@ export function changeAttendance(_e: GoogleAppsScript.Events.SheetsOnEdit, args?
 
     attendanceSheet.changeWorkingStatus(true, workingStatusCell, workingStatusColor);
     const studentInfoSheet = thisActiveSheet.getSheet(studentInfoSheetName);
-    const topRow = attendanceSheet.getRow(thisRow - 1);
+    const topRow = attendanceSheet.getRow(thisRow);
     const name = topRow[0];
     const attendance = topRow[topRow.length - 1];
     const currentDate = attendanceSheet.getValue(1, topRow.length);
@@ -97,7 +99,7 @@ export function changeAttendance(_e: GoogleAppsScript.Events.SheetsOnEdit, args?
           attendanceSheet.clear(2, 1, maximumLength, topRow.length);
 
           const returnColumnNames: Array<string | Date> = [fullnameColumnName];
-          for (const colName of topRow) {
+          for (const colName of topRow.slice(1)) {
             returnColumnNames.push(colName);
           }
 
@@ -108,12 +110,14 @@ export function changeAttendance(_e: GoogleAppsScript.Events.SheetsOnEdit, args?
             returnColumnNames,
             true,
           );
-          attendanceSheet.setValues(records, 2, 1, records.length - 1, topRow.length);
+          attendanceSheet.setValues(records, 2, 1, records.length, topRow.length);
         }
       }
     } else if (thisColumn > 1 && thisColumn < topRow.length) {
+      // edits a column in the middle between the name and attendance record
       secondaryColumns.push({name: fullnameColumnName, value: name});
-      studentInfoSheet.setValueWithMatchingColumns(thisEditedValue, topRow[thisColumn - 1], secondaryColumns);
+      studentInfoSheet.setValueWithMatchingColumns(thisEditedValue, 
+        attendanceSheet.getValue(1, thisColumn), secondaryColumns);
     } else if (e.getColumn() === topRow.length) {
       // edit the attendance record
       secondaryColumns.push({name: fullnameColumnName, value: name});

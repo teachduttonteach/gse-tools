@@ -12,9 +12,9 @@ export type DateParams = {
    */
   dateDelim?: string;
   /**
-   * the order to display the date in
+   * the order to display the date in, "DM" or "MD"
    */
-  dateOrder?: string;
+  dateOrder?: 'DM' | 'MD';
   /**
    * what to print if there is no event for this day
    */

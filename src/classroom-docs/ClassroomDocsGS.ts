@@ -13,14 +13,14 @@ import { WriteDocsParams } from 'WriteDocsParams';
  * @param {string} topicName the topic object that contains class info
  * @param {WriteDocsParams} options the options for displaying the info
  *
- * @return {DocsGS} the object for chaining
+ * @return {ClassroomDocsGS} the object for chaining
  */
 export function writeClassroomDocuments(
   obj: ClassroomDocsGS,
   classData: ClassGS,
   topicName: string,
   options?: WriteDocsParams,
-): DocsGS {
+): ClassroomDocsGS {
   return obj.writeClassroomDocuments(classData, topicName, options);
 }
 
@@ -28,7 +28,15 @@ export function writeClassroomDocuments(
  * Class to write a Google Document
  *
  */
-export class ClassroomDocsGS extends DocsGS {
+export class ClassroomDocsGS {
+
+  _doc: DocsGS;
+
+  constructor(thisDoc: DocsGS | string) {
+    if (typeof thisDoc === "string") this._doc = new DocsGS(thisDoc);
+    else this._doc = thisDoc;
+  }
+
   /**
    * Writes a document from the Classroom info
    *
@@ -36,17 +44,17 @@ export class ClassroomDocsGS extends DocsGS {
    * @param {string} topicId the topic id for the class info to print
    * @param {WriteDocsParams} options the options for displaying the info
    *
-   * @return {DocsGS} the object for chaining
+   * @return {ClassroomDocsGS} the object for chaining
    */
   writeClassroomDocuments(classData: ClassGS, topicId: string, 
-    options?: WriteDocsParams): DocsGS {
+    options?: WriteDocsParams): ClassroomDocsGS {
     // Expand options
     if (options == undefined) options = {} as WriteDocsParams;
     let { displayAnnouncements = 1, displayCoursework = true, 
       docTitle = undefined } = options;
 
     // Clear the body and get the doc title
-    this.clearBody();
+    this._doc.clearBody();
     if (docTitle == undefined) docTitle = classData.getTopicName(topicId);
     const thisLevel = getDocLevels('T');
     if (docTitle == undefined || thisLevel == undefined) {
@@ -56,7 +64,7 @@ export class ClassroomDocsGS extends DocsGS {
     }
 
     // Display the title by removing the first child if necessary
-    const thisBody = this._docObject.getBody();
+    const thisBody = this._doc.getBody();
     const thisChild = thisBody.getChild(0);
     if (thisChild.getType() == DocumentApp.ElementType.LIST_ITEM) {
       thisBody.appendParagraph(docTitle).setHeading(thisLevel);
@@ -75,7 +83,7 @@ export class ClassroomDocsGS extends DocsGS {
         'DocsGS.writeClassroomDocuments()');
       }
       for (let a = 0; a < displayAnnouncements; a++) {
-        this.addText(thisAnnouncements[a], 'Normal');
+        this._doc.addText(thisAnnouncements[a], 'Normal');
       }
     }
 
@@ -114,12 +122,12 @@ export class ClassroomDocsGS extends DocsGS {
     } = options;
 
     // Display the title, due date and description
-    if (displayCourseworkTitle) this.addText(courseWork.title, 2);
+    if (displayCourseworkTitle) this._doc.addText(courseWork.title, 2);
     if (displayDueDate && courseWork.dueDate) {
-      this.addText(courseWork.dueDate, 3);
+      this._doc.addText(courseWork.dueDate, 3);
     }
     if (displayDescription && courseWork.description) {
-      this.addText(courseWork.description, 'Normal');
+      this._doc.addText(courseWork.description, 'Normal');
     }
 
     // Display the materials if they exist
@@ -140,16 +148,16 @@ export class ClassroomDocsGS extends DocsGS {
     const { displayFiles = true, displayForms = true, displayLinks = true, 
       displayVideos = true } = options;
 
-    this.addText('Materials:', 'Normal');
+    this._doc.addText('Materials:', 'Normal');
     for (const material of materials) {
       if (displayFiles && material.file) {
-        this.appendItem('File', material.title, material.file);
+        this._doc.appendItem('File', material.title, material.file);
       } else if (displayVideos && material.video) {
-        this.appendItem('Video', material.title, material.video);
+        this._doc.appendItem('Video', material.title, material.video);
       } else if (displayLinks && material.link) {
-        this.appendItem('Link', material.title, material.link);
+        this._doc.appendItem('Link', material.title, material.link);
       } else if (displayForms && material.form) {
-        this.appendItem('Form', material.title, material.form);
+        this._doc.appendItem('Form', material.title, material.form);
       }
     }
   }
