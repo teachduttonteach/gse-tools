@@ -192,17 +192,17 @@ export function updateBellwork(args: BellworkArgs): void {
   while (bellworkSettings.hasNext()) {
     const row = bellworkSettings.next();
     const thisRow = bellworkSettings.get(row);
-    if (thisRow == undefined || bellworkFormIDColumnName == undefined || bellworkSpreadsheetIDColumnName == undefined) {
+    if (thisRow === null || bellworkFormIDColumnName === null || bellworkSpreadsheetIDColumnName === null) {
       throw new Error('Could not find row in bellworkSettings');
     }
 
     const thisBellworkForm = thisRow.get(bellworkFormIDColumnName);
-    if (thisBellworkForm == undefined || typeof thisBellworkForm !== 'string') {
+    if (thisBellworkForm === undefined || typeof thisBellworkForm !== 'string') {
       throw new Error('Bellwork form column not found');
     }
 
     const thisSpreadsheet = thisRow.get(bellworkSpreadsheetIDColumnName);
-    if (thisSpreadsheet == undefined) {
+    if (thisSpreadsheet === undefined) {
       throw new Error('Bellwork spreadsheet ID column not found');
     }
 
@@ -259,7 +259,7 @@ export function updateTodaysQuestion(args: BellworkArgs,
       'Bellwork.updateTodaysQuestion()');
   }
   let questionRow: number = questionSheet.skipBlankRows(1, +thisBellworkDateColumnName);
-  while ((questionRow <= questionSheet.getLastRow()) && ((questionSheet.getValue(questionRow, +thisBellworkDateColumnName) != bellworkSheetDateColumnEnd)))
+  while ((questionRow <= questionSheet.getLastRow()) && ((questionSheet.getValue(questionRow, +thisBellworkDateColumnName) !== bellworkSheetDateColumnEnd)))
   {
 
     const dateInCell: Date = new Date(questionSheet.getValue(questionRow, +thisBellworkDateColumnName));
@@ -283,7 +283,9 @@ export function updateTodaysQuestion(args: BellworkArgs,
         questionSheet.
           getValue(questionRow, +thisQuestionTypeColumnName).toString();
 
-      if (!(questionTypeString in QuestionType)) questionTypeString = "Paragraph";
+      if (!(questionTypeString in QuestionType)) {
+        questionTypeString = "Paragraph";
+      }
 
       if (displayBellworkOnForm) {
         showBellworkOnForm(args, row, form, questionRow, questionSheet, questionTitle, questionTypeString);
@@ -344,7 +346,7 @@ export function showBellworkOnSlide(
   const slideShow = new SlideshowGS(thisSlideshowColumnName);
 
   const thisBellworkImageFolder = settingsRow.get(dailyPicturesColumnName);
-  if ((thisBellworkImageFolder != null) && (thisBellworkImageFolder != "")) {
+  if ((thisBellworkImageFolder !== null) && (thisBellworkImageFolder != "")) {
     slideShow.changeSlidePictureFromFolder(
       thisBellworkImageFolder.toString(), 
       slideShow.getSlideByNotes(dailyPicturesNotes));
@@ -358,7 +360,7 @@ export function showBellworkOnSlide(
       const theseOptionsColumnName = settingsRow.get(optionsColumnName);
       if (theseOptionsColumnName != null) {
         const theseOptions = questionSheet.getValue(questionRow, +theseOptionsColumnName).toString();
-        if (theseOptions != null && theseOptions != '') {
+        if (theseOptions !== null && theseOptions != '') {
           bellworkSlide.addItem(questionType, theseOptions);
         }
       }
@@ -375,7 +377,7 @@ export function showBellworkOnSlide(
     if (displayUpcomingDueDates) {
       const allClasses: ClassroomGS = new ClassroomGS();
       const thisClassroomCode = settingsRow.get(classroomCodeColumnName);
-      if (thisClassroomCode == undefined || typeof thisClassroomCode !== 'string') {
+      if (thisClassroomCode === undefined || typeof thisClassroomCode !== 'string') {
         throw new Error('Classroom code not found');
       }
       const currentClass = allClasses.getClass(thisClassroomCode);
@@ -466,7 +468,7 @@ export function showBellworkOnForm(
   }
   if (theseOptionsValue != '') {
     let theseRowsValue: string = '';
-    if (theseGridRowsColumnName != null) {
+    if (theseGridRowsColumnName !== null) {
       theseRowsValue = questionSheet.getValue(questionRow, +theseGridRowsColumnName).toString();
     }
     if (theseRowsValue != '') {
@@ -485,10 +487,10 @@ export function showBellworkOnForm(
   }
 
   const thisImageColumnName = row.get(imageColumnName);
-  if (thisImageColumnName != null) {
+  if (thisImageColumnName !== null) {
     const imageFileID: string = questionSheet.getValue(questionRow, +thisImageColumnName).toString();
     const thisImageBlob: GoogleAppsScript.Base.Blob | boolean = new DriveGS().getImageBlob(imageFileID);
-    if (thisImageBlob != false) {
+    if (thisImageBlob !== false) {
       bellworkForm.addImage(thisImageBlob);
     }
   }  

@@ -1,14 +1,49 @@
-import { DateParams } from './DateParams';
+import {DateParams} from './DateParams';
 
-export function getCalendarEventObject(obj: CalendarEventGS): GoogleAppsScript.Calendar.CalendarEvent {
+/**
+ * Get the underlying object
+ *
+ * @param {CalendarEventGS} obj the CalendarEvent object
+ * @return {GoogleAppsScript.Calendar.CalendarEvent} the object
+ */
+export function getCalendarEventObject(obj: CalendarEventGS):
+  GoogleAppsScript.Calendar.CalendarEvent {
   return obj.getObject();
 }
 
+/**
+ * Displays the date of a calendar event
+ *
+ * ```javascript
+ * var eventDateInMDOrder = gseCalendarEvent.getDate("MD", "Title: ", "/");
+ *
+ * var eventDateInDMOrder = gseCalendarEvent.getDate("DM", "START ", "-");
+ *
+ * var eventObject = {
+ *  order: "MD",
+ *  titlePrefix: "Title: ",
+ *  dateDelim: "/"
+ * }
+ * var eventDate = gseCalendarEvent.getDate(eventObject);
+ *
+ * var eventDateWithDefaults = gseCalendarEvent.getDate();
+ * ```
+ *
+ * @param {CalendarEventGS} obj the CalendarEvent object
+ * @param {string | DateParams} firstParam the order to display the month
+ *  and day; can be "MD" or "DM" *OR* this first parameter can be a
+ *  DateParams object with dateOrder as one of the parameters
+ * @param {string} titlePrefix the text to display before the title of the
+ *  event; defaults to "Title: " (can also be in DateParams)
+ * @param {string} dateDelim the delimiter for the date, defaults to "/"
+ *
+ * @return {string} the string containing the date
+ */
 export function getCalendarEventDate(
-  obj: CalendarEventGS,
-  firstParam?: string | DateParams,
-  titlePrefix?: string,
-  dateDelim?: string,
+    obj: CalendarEventGS,
+    firstParam?: string | DateParams,
+    titlePrefix?: string,
+    dateDelim?: string,
 ): string {
   return obj.getDate(firstParam, titlePrefix, dateDelim);
 }
@@ -31,7 +66,8 @@ export class CalendarEventGS {
 
   /**
    *
-   * @param {GoogleAppsScript.Calendar.CalendarEvent} event the calendar event from Google Calendar
+   * @param {GoogleAppsScript.Calendar.CalendarEvent} event the calendar
+   *  event from Google Calendar
    */
   constructor(event: GoogleAppsScript.Calendar.CalendarEvent) {
     const startTime = event.getStartTime();
@@ -77,7 +113,8 @@ export class CalendarEventGS {
    *
    * @return {string} the string containing the date
    */
-  public getDate(firstParam?: string | DateParams, titlePrefix?: string, dateDelim?: string): string {
+  public getDate(firstParam?: string | DateParams, titlePrefix?: string,
+      dateDelim?: string): string {
     // Get values out of array
     let dateOrder: string = 'DM';
     if (typeof firstParam === 'object') {
