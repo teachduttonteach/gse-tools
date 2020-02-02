@@ -19,7 +19,7 @@ export type WriteDocsParams = {
    */
   displayDueDate?: boolean;
   /**
-   * Whether or not to display the description of the course work 
+   * Whether or not to display the description of the course work
    * (default: true)
    */
   displayDescription?: boolean;
@@ -36,7 +36,7 @@ export type WriteDocsParams = {
    */
   displayVideos?: boolean;
   /**
-   * Whether or not to display urls for the links in the materials 
+   * Whether or not to display urls for the links in the materials
    *  (default: true)
    */
   displayLinks?: boolean;

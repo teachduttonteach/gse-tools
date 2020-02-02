@@ -1,4 +1,4 @@
-import { areDatesEqual } from '../utils/Utilities';
+import {areDatesEqual} from '../utils/Utilities';
 
 /**
  * A reworking of the Map data type for ES3. Since there is no Iterator type

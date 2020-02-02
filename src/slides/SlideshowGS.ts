@@ -1,13 +1,14 @@
-import { UiGS } from '../UiGS';
-import { DriveGS } from '../drive/DriveGS';
-import { SlideGS } from './SlideGS';
+import {UiGS} from '../UiGS';
+import {DriveGS} from '../drive/DriveGS';
+import {SlideGS} from './SlideGS';
 
 /**
  * Class to access methods and properties of Google Presentations
  *
  * @param {string} id the id of the presentation
+ * @return {SlideshowGS} the Slideshow object
  */
-export function newSlideshow(id: string) {
+export function newSlideshow(id: string): SlideshowGS {
   return new SlideshowGS(id);
 }
 
@@ -47,7 +48,8 @@ export function activateSlideshowUi(obj: SlideshowGS): SlideshowGS {
  * @param {SlideshowGS} obj the Slideshow object
  * @return {GoogleAppsScript.Slides.Presentation} the Presentation object
  */
-export function getSlideshowObject(obj: SlideshowGS): GoogleAppsScript.Slides.Presentation {
+export function getSlideshowObject(obj: SlideshowGS):
+  GoogleAppsScript.Slides.Presentation {
   return obj.getObject();
 }
 
@@ -59,7 +61,8 @@ export function getSlideshowObject(obj: SlideshowGS): GoogleAppsScript.Slides.Pr
  *
  * @return {SlideshowGS} the object for chaining
  */
-export function setSlideshowTemplate(obj: SlideshowGS, id: string): SlideshowGS {
+export function setSlideshowTemplate(obj: SlideshowGS, id: string):
+  SlideshowGS {
   return obj.setTemplate(id);
 }
 
@@ -72,7 +75,8 @@ export function setSlideshowTemplate(obj: SlideshowGS, id: string): SlideshowGS 
  *
  * @return {SlideshowGS} the object for chaining
  */
-export function changeSlideshowPictureFromFolder(obj: SlideshowGS, folder: string, slide: SlideGS): SlideshowGS {
+export function changeSlideshowPictureFromFolder(obj: SlideshowGS,
+    folder: string, slide: SlideGS): SlideshowGS {
   return obj.changeSlidePictureFromFolder(folder, slide);
 }
 
@@ -85,7 +89,8 @@ export function changeSlideshowPictureFromFolder(obj: SlideshowGS, folder: strin
  *
  * @return {SlideshowGS} the object for chaining
  */
-export function changeSlideshowPicture(obj: SlideshowGS, imageId: string, slide: SlideGS): SlideshowGS {
+export function changeSlideshowPicture(obj: SlideshowGS, imageId: string,
+    slide: SlideGS): SlideshowGS {
   return obj.changeSlidePicture(imageId, slide);
 }
 
@@ -111,7 +116,8 @@ export function getSlide(obj: SlideshowGS, num: number): SlideGS {
  *
  * @return {SlideGS} the new slide object
  */
-export function addSlide(obj: SlideshowGS, title: string, body: string, type: string): SlideGS {
+export function addSlide(obj: SlideshowGS, title: string, body: string,
+    type: string): SlideGS {
   return obj.addSlide(title, body, type);
 }
 
@@ -146,7 +152,7 @@ export function removeSlide(obj: SlideshowGS, id: string): SlideshowGS {
  * @param {string} slideNotes the type of the slide (from slide notes)
  *
  * @return {SlideGS} the requested slide
- 
+
 export function getSlideByType(obj: SlideshowGS, typeTitle: string): SlideGS {
   return obj.getSlideByType(typeTitle);
 }
@@ -161,7 +167,8 @@ export function getSlideByType(obj: SlideshowGS, typeTitle: string): SlideGS {
  *
  * @return {SlideshowGS} the object for chaining
  */
-export function setSlideBodyByType(obj: SlideshowGS, slideNotes: string, slideText: string): SlideshowGS {
+export function setSlideBodyByType(obj: SlideshowGS, slideNotes: string,
+    slideText: string): SlideshowGS {
   return obj.setSlideBodyByType(slideNotes, slideText);
 }
 
@@ -174,7 +181,8 @@ export function setSlideBodyByType(obj: SlideshowGS, slideNotes: string, slideTe
  *
  * @return {SlideshowGS} the object for chaining
  */
-export function setSlideTitleByType(obj: SlideshowGS, slideNotes: string, title: string): SlideshowGS {
+export function setSlideTitleByType(obj: SlideshowGS, slideNotes: string,
+    title: string): SlideshowGS {
   return obj.setSlideTitleByType(slideNotes, title);
 }
 
@@ -196,7 +204,8 @@ export class SlideshowGS extends UiGS {
     super();
     this._presentation = SlidesApp.openById(id);
     if (this._presentation == null) {
-      throw new Error('Slideshow not found with id ' + id + ' in SlideshowGS()');
+      throw new Error('Slideshow not found with id ' + id +
+        ' in SlideshowGS()');
     }
     this._getAllSlides();
     this._templateSlideUsed = -1;
@@ -208,7 +217,7 @@ export class SlideshowGS extends UiGS {
    * @return {SlideshowGS} the object for chaining
    */
   clear(): SlideshowGS {
-    for (let s of this._allSlides) {
+    for (const s of this._allSlides) {
       s.remove();
     }
     this._getAllSlides();
@@ -259,7 +268,8 @@ export class SlideshowGS extends UiGS {
     }
     this._template = SlidesApp.openById(id);
     if (this._template == null) {
-      throw new Error('Could not find requested Google Slides template in ' + 'Slides.setTemplate');
+      throw new Error('Could not find requested Google Slides template in ' +
+        'Slides.setTemplate');
     }
     return this;
   }
@@ -275,7 +285,10 @@ export class SlideshowGS extends UiGS {
   changeSlidePicture(imageId: string, slide: SlideGS): SlideshowGS {
     if (imageId != null) {
       const chosenPicture = new DriveGS().getImageBlob(imageId);
-      if (chosenPicture) slide.positionPicture(slide.changePicture(chosenPicture));
+      if (chosenPicture) {
+        slide
+            .positionPicture(slide.changePicture(chosenPicture));
+      }
     }
     return this;
   }
@@ -305,7 +318,8 @@ export class SlideshowGS extends UiGS {
    */
   getSlide(num: number): SlideGS {
     if (typeof num === 'number') return this._allSlides[num - 1];
-    throw new Error('Could not get slide #' + num + ' from slideshow in Slides.getSlide');
+    throw new Error('Could not get slide #' + num +
+      ' from slideshow in Slides.getSlide');
   }
 
   /**
@@ -327,24 +341,28 @@ export class SlideshowGS extends UiGS {
    *
    * @return {SlideGS} the new slide object
    */
-  addSlide(title: string, body: string, notes: string = ""): SlideGS {
+  addSlide(title: string, body: string, notes: string = ''): SlideGS {
     let slideAdded: GoogleAppsScript.Slides.Slide;
     if (this._template != null) {
       if (this._template.getSlides().length > 0) {
-        const slideToGet = this._allSlides.length % this._template.getSlides().length;
-        slideAdded = this._presentation.appendSlide(this._template.getSlides()[slideToGet]);
+        const slideToGet = this._allSlides.length %
+          this._template.getSlides().length;
+        slideAdded = this._presentation
+            .appendSlide(this._template.getSlides()[slideToGet]);
         this._templateSlideUsed = slideToGet;
       } else {
-        slideAdded = this._presentation.appendSlide(this._template.getSlides()[0]);
+        slideAdded = this._presentation
+            .appendSlide(this._template.getSlides()[0]);
       }
     } else {
-      slideAdded = this._presentation.appendSlide(SlidesApp.PredefinedLayout.TITLE_AND_BODY);
+      slideAdded = this._presentation
+          .appendSlide(SlidesApp.PredefinedLayout.TITLE_AND_BODY);
     }
     this._getAllSlides();
     return new SlideGS(slideAdded)
-      .setTitle(title)
-      .setBody(body)
-      .setNotes(notes);
+        .setTitle(title)
+        .setBody(body)
+        .setNotes(notes);
   }
 
   /**
@@ -390,11 +408,12 @@ export class SlideshowGS extends UiGS {
    * @param {string} slideNotes the type of the slide (from slide notes)
    *
    * @return {SlideGS} the requested slide
-   
+
   getSlideByType(typeTitle: string): SlideGS {
     for (const s of this._allSlides) {
       const thisNotes = s.getNotes();
-      if (thisNotes != null && thisNotes != '' && thisNotes.substr(0, typeTitle.length) == typeTitle) return s;
+      if (thisNotes != null && thisNotes != '' &&
+        thisNotes.substr(0, typeTitle.length) == typeTitle) return s;
     }
     return this.addSlide(typeTitle, '', typeTitle);
   }

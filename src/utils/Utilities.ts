@@ -19,10 +19,20 @@ export function getOAuthToken(): string {
 }
 
 /**
- * ONE_DAY equals the number of milliseconds in one day
+ * Gets the number of milliseconds in one day
+ * @return {number} the number of milliseconds in one day
  */
-export function getOneDay(): number { return 24 * 60 * 60 * 1000; }
+export function getOneDay(): number {
+  return 24 * 60 * 60 * 1000;
+}
 
+/**
+ * Get today's date with the timezone offset
+ *
+ * @param {number} timezoneOffset how many hours from GMT the desired user is,
+ *  negative for west of GMT, positive for east; default is -5 (EST)
+ * @return {Date} the altered date
+ */
 export function getTodaysDate(timezoneOffset: number): Date {
   const date = new Date();
   date.setUTCHours(date.getUTCHours() + timezoneOffset);
@@ -39,13 +49,13 @@ export function getTodaysDate(timezoneOffset: number): Date {
  *  checks to see if the day is equal
  * @return {boolean} true if the dates are equal
  */
-export function areDatesEqual(date1: Date | string | null, 
-  date2: Date | string | null, level: string = 'YEAR'): boolean {
-
+export function areDatesEqual(date1: Date | string | null,
+    date2: Date | string | null, level: string = 'YEAR'): boolean {
   if ((typeof date1 === null) || (typeof date2 === null)) {
     return false;
   }
-  if (!(date1 instanceof Date) || !(date2 instanceof Date) || typeof date1 !== typeof date2) {
+  if (!(date1 instanceof Date) || !(date2 instanceof Date) ||
+    typeof date1 !== typeof date2) {
     return false;
   }
   if (level.toUpperCase() === 'YEAR') {
@@ -77,16 +87,17 @@ export function areDatesEqual(date1: Date | string | null,
  * @return {boolean} true if the dates are equal
  */
 export function compareDates(
-  date1: Date | string,
-  date2: Date | string,
-  greaterThan: boolean = true,
-  equal: boolean = true,
-  level: string = 'YEAR',
+    date1: Date | string,
+    date2: Date | string,
+    greaterThan: boolean = true,
+    equal: boolean = true,
+    level: string = 'YEAR',
 ): boolean {
   if (equal && areDatesEqual(date1, date2, level)) {
     return true;
   }
-  if (!(date1 instanceof Date) || !(date2 instanceof Date) || typeof date1 !== typeof date2) {
+  if (!(date1 instanceof Date) || !(date2 instanceof Date) ||
+    typeof date1 !== typeof date2) {
     return false;
   }
   if (level.toUpperCase() === 'YEAR') {

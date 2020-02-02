@@ -115,7 +115,7 @@ export class CourseAnnouncementGS {
   assign(studentIds: Array<string>): CourseAnnouncementGS {
     this._announcementResource.assigneeMode =
       AssigneeMode.INDIVIDUAL_STUDENTS;
-    this._announcementResource.individualStudentsOptions = 
+    this._announcementResource.individualStudentsOptions =
       {} as GoogleAppsScript.Classroom.Schema.IndividualStudentsOptions;
     this._announcementResource.individualStudentsOptions.studentIds =
       studentIds;

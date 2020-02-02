@@ -1,4 +1,4 @@
-import { FormEventOptions } from './FormEventOptions';
+import {FormEventOptions} from './FormEventOptions';
 
 /**
  * Class to provide functions to Google Form events
@@ -9,8 +9,13 @@ import { FormEventOptions } from './FormEventOptions';
  *   alert(formEvent.fullDate("MD", "/", "\n", 0, "T"));
  * }
  * ```
+ *
+ * @param {GoogleAppsScript.Events.FormsOnFormSubmit} e the Google form
+ *  submission event
+ * @return {FormEventGS} the FormEventGS object
  */
-export function newFormEvent(e: GoogleAppsScript.Events.FormsOnFormSubmit): FormEventGS {
+export function newFormEvent(e: GoogleAppsScript.Events.FormsOnFormSubmit):
+  FormEventGS {
   return new FormEventGS(e);
 }
 
@@ -20,7 +25,8 @@ export function newFormEvent(e: GoogleAppsScript.Events.FormsOnFormSubmit): Form
  * @param {FormEventGS} obj the FormEvent object
  * @return {GoogleAppsScript.Events.FormsOnFormSubmit} the Event object
  */
-export function getFormEventObject(obj: FormEventGS): GoogleAppsScript.Events.FormsOnFormSubmit {
+export function getFormEventObject(obj: FormEventGS):
+  GoogleAppsScript.Events.FormsOnFormSubmit {
   return obj.getObject();
 }
 
@@ -51,7 +57,8 @@ export function getFormEventEmail(obj: FormEventGS): string {
  * @param {FormEventOptions} options the options for the form event
  * @return {string} the full date
  */
-export function fullFormEventDate(obj: FormEventGS, options?: FormEventOptions): string {
+export function fullFormEventDate(obj: FormEventGS,
+    options?: FormEventOptions): string {
   return obj.fullDate(options);
 }
 
@@ -126,9 +133,11 @@ export class FormEventGS {
       dateDelimiter = '/',
     } = options;
 
-    let [firstDate, secondDate] = [this._date.getMonth() + 1, this._date.getDate()];
+    let [firstDate, secondDate] =
+      [this._date.getMonth() + 1, this._date.getDate()];
     if (dateOrder == 'DM') {
-      [firstDate, secondDate] = [this._date.getDate(), this._date.getMonth() + 1];
+      [firstDate, secondDate] =
+        [this._date.getDate(), this._date.getMonth() + 1];
     }
 
     return firstDate + dateDelimiter + secondDate;

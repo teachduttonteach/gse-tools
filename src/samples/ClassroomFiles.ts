@@ -1,11 +1,11 @@
-import { SpreadsheetGS } from '../sheets/SpreadsheetGS';
-import { ClassroomGS } from '../classroom/ClassroomGS';
-import { DriveGS } from '../drive/DriveGS';
-import { getDataSheet } from '../DataSheet';
-import { ClassGS } from '../classroom/ClassGS';
-import { ClassroomDocsGS } from '../classroom-docs/ClassroomDocsGS';
-import { DateParams } from '../calendar/DateParams';
-import { MapGS } from '../map/MapGS';
+import {SpreadsheetGS} from '../sheets/SpreadsheetGS';
+import {ClassroomGS} from '../classroom/ClassroomGS';
+import {DriveGS} from '../drive/DriveGS';
+import {getDataSheet} from '../DataSheet';
+import {ClassGS} from '../classroom/ClassGS';
+import {ClassroomDocsGS} from '../classroom-docs/ClassroomDocsGS';
+import {DateParams} from '../calendar/DateParams';
+import {MapGS} from '../map/MapGS';
 
 /**
  * All of the arguments and other variables used by the Bellwork script
@@ -17,7 +17,7 @@ type ClassroomArgs = {
    */
   settingsName?: string;
   /**
-   * Column name for the gse-tools Settings sheet column that contains the 
+   * Column name for the gse-tools Settings sheet column that contains the
    *  classroom enrollment code; default is 'Classroom Code'
    */
   classroomCodeColumnName?: string;
@@ -43,15 +43,16 @@ type ClassroomArgs = {
  */
 export function updateClassroomFiles(args: ClassroomArgs): void {
   if (args == null) args = {} as ClassroomArgs;
-  const { 
-    settingsName = 'Classroom', 
-    classroomCodeColumnName = 'Classroom Code' 
+  const {
+    settingsName = 'Classroom',
+    classroomCodeColumnName = 'Classroom Code',
   } = args;
 
   const settings: SpreadsheetGS = getDataSheet();
-  const classworkSettings: MapGS<string | Date, MapGS<string | Date, string | Date>> = settings.getDataAsMap(
-    settingsName,
-  );
+  const classworkSettings: MapGS<string | Date, MapGS<string | Date,
+    string | Date>> = settings.getDataAsMap(
+        settingsName,
+    );
   const allClasses: ClassroomGS = new ClassroomGS();
 
   classworkSettings.reset();
@@ -59,15 +60,17 @@ export function updateClassroomFiles(args: ClassroomArgs): void {
     const row = classworkSettings.next();
     const thisRow = classworkSettings.get(row);
     if (thisRow == undefined || classroomCodeColumnName == undefined) {
-      throw new Error('Could not find row in classworkSettings in updateClassroomFiles()');
+      throw new Error('Could not find row in classworkSettings in ' +
+        'updateClassroomFiles()');
     }
 
     const thisClassroomCode = thisRow.get(classroomCodeColumnName);
-    if (thisClassroomCode == undefined || typeof thisClassroomCode !== 'string') {
+    if (thisClassroomCode == undefined ||
+      typeof thisClassroomCode !== 'string') {
       throw new Error('Classroom code not found in updateClassroomFiles');
     }
 
-    if (thisClassroomCode != "") {
+    if (thisClassroomCode != '') {
       const currentClass = allClasses.getClass(thisClassroomCode);
       updateGoogleClassroom(args, currentClass);
     }
@@ -80,18 +83,20 @@ export function updateClassroomFiles(args: ClassroomArgs): void {
  * @param {ClassroomArgs} args the classroom parameters
  * @param {ClassGS} currentClass the current Google class
  */
-export function updateGoogleClassroom(args: ClassroomArgs, currentClass: ClassGS) {
-  const { 
-    newFileName = 'Google Classroom Summary', 
-    templateName = 'Google Classroom Summary Template' 
+export function updateGoogleClassroom(args: ClassroomArgs,
+    currentClass: ClassGS) {
+  const {
+    newFileName = 'Google Classroom Summary',
+    templateName = 'Google Classroom Summary Template',
   } = args;
 
   const gDrive = new DriveGS();
   const theseTopics: Array<string> = currentClass.getTopics();
   for (let topic = 0; topic < theseTopics.length; topic++) {
     const fileObject = gDrive.getOrCreateFileFromTemplateByName(
-      'Topic "' + currentClass.getTopicName(theseTopics[topic]) + '" for ' + 
+        'Topic "' + currentClass.getTopicName(theseTopics[topic]) + '" for ' +
       currentClass.getName() + ': ' + newFileName, templateName);
-    new ClassroomDocsGS(fileObject.getId()).writeClassroomDocuments(currentClass, theseTopics[topic]);
+    new ClassroomDocsGS(fileObject.getId())
+        .writeClassroomDocuments(currentClass, theseTopics[topic]);
   }
 }

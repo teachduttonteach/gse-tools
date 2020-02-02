@@ -1,8 +1,14 @@
-import { SpreadsheetGS } from './SpreadsheetGS';
-import { getDataSheet } from '../DataSheet';
-import { setCache, getCache } from '../Cache';
-import { SidebarButton } from '../SidebarButton';
+import {SpreadsheetGS} from './SpreadsheetGS';
+import {getDataSheet} from '../DataSheet';
+import {setCache, getCache} from '../Cache';
+import {SidebarButton} from '../SidebarButton';
 
+/**
+ * Create a new GroupCreator object
+ *
+ * @param {GroupParams} args the parameters for the group creation
+ * @return {GroupCreator} the GroupCreator object
+ */
 export function newGroupCreator(args: GroupParams): GroupCreator {
   return new GroupCreator(args);
 }
@@ -191,7 +197,7 @@ class GroupSet {
   convertToStringArrays(): Array<Array<string>> {
     const thisReturn = [];
     for (const g of this._groups) {
-      thisReturn.push(g.getStudents().map(x => x.getName()));
+      thisReturn.push(g.getStudents().map((x) => x.getName()));
     }
     return thisReturn;
   }
@@ -204,7 +210,7 @@ class GroupSet {
   convertToNumberArrays(): Array<Array<number>> {
     const thisReturn = [];
     for (const g of this._groups) {
-      thisReturn.push(g.getStudents().map(x => x.getNumber()));
+      thisReturn.push(g.getStudents().map((x) => x.getNumber()));
     }
     return thisReturn;
   }
@@ -301,7 +307,7 @@ export type GroupParams = {
    */
   calculateGroupsFunction?: string;
   /**
-   * The column in the settings (data) sheet that contains the name of the 
+   * The column in the settings (data) sheet that contains the name of the
    * column in the sheet that has the students and scores on it; default is
    * "Sheet Name"
    */
@@ -327,7 +333,7 @@ export class GroupCreator {
     if (args == null) this._args = {} as GroupParams;
     else this._args = args;
 
-    const { numGroups = 5 } = this._args;
+    const {numGroups = 5} = this._args;
 
     this._limitGroups = numGroups;
     this._students = [];
@@ -345,7 +351,8 @@ export class GroupCreator {
     for (const group of set.getGroups()) {
       const allStudents = group.getStudents();
       for (let student1 = 0; student1 < allStudents.length; student1++) {
-        for (let student2 = student1 + 1; student2 < allStudents.length; student2++) {
+        for (let student2 = student1 + 1; student2 < allStudents.length;
+          student2++) {
           totalScore += this._relationships[student1][student2 - student1 - 1];
         }
       }
@@ -353,36 +360,43 @@ export class GroupCreator {
     return totalScore;
   }
 
+  /**
+   * Get the spreadsheet ID and sheet name for groups
+   * @return {[string, string]} the spreadsheet ID and sheet name
+   */
   private _getSpreadsheetForGroups(): [string, string] {
     const {
       className,
       sheetName = 'Student Groups',
       settingsSheetColumnName = 'Sheet Name',
-      spreadsheetColumn = 'Spreadsheet'
+      spreadsheetColumn = 'Spreadsheet',
     } = this._args;
     const settingsSheet = getDataSheet()
-      .getDataAsMap(sheetName)
-      .get(className);
+        .getDataAsMap(sheetName)
+        .get(className);
     if (settingsSheet == null) {
       throw new Error(
-        "Could not find class '" +
+          'Could not find class \'' +
           className +
-          "' in " +
-          "settings sheet '" +
+          '\' in ' +
+          'settings sheet \'' +
           sheetName +
-          "' in " +
+          '\' in ' +
           'GroupCreator.calculateGroups()',
       );
     }
 
     const thisSpreadsheetId = settingsSheet.get(spreadsheetColumn);
     if (thisSpreadsheetId == null || typeof thisSpreadsheetId !== 'string') {
-      throw new Error("Could not find spreadsheet for class '" + className + "' in GroupCreator.calculateGroups()");
+      throw new Error('Could not find spreadsheet for class \'' +
+        className + '\' in GroupCreator.calculateGroups()');
     }
 
     const sheetNameFromSettings = settingsSheet.get(settingsSheetColumnName);
-    if (sheetNameFromSettings == null || typeof sheetNameFromSettings !== 'string') {
-      throw new Error('Could not find column that contains sheet' + ' name in GroupCreator.calculateGroups()');
+    if (sheetNameFromSettings == null ||
+      typeof sheetNameFromSettings !== 'string') {
+      throw new Error('Could not find column that contains sheet' +
+        ' name in GroupCreator.calculateGroups()');
     }
 
     return [thisSpreadsheetId, sheetNameFromSettings];
@@ -397,16 +411,19 @@ export class GroupCreator {
     let {
       sheetName = 'Student Groups',
       attemptedDepth = 1000,
-      spreadsheetId
+      spreadsheetId,
     } = this._args;
 
     let sheetColumn: string;
-    if (typeof spreadsheetId === null) [spreadsheetId, sheetColumn] = this._getSpreadsheetForGroups();
-    else sheetColumn = sheetName;
+    if (typeof spreadsheetId === null) {
+      [spreadsheetId, sheetColumn] =
+      this._getSpreadsheetForGroups();
+    } else sheetColumn = sheetName;
 
     const groupSpreadsheet = new SpreadsheetGS(spreadsheetId);
     if (groupSpreadsheet == null) {
-      throw new Error('Could not create spreadsheet object in ' + 'GroupCreator.calculateGroups()');
+      throw new Error('Could not create spreadsheet object in ' +
+        'GroupCreator.calculateGroups()');
     }
 
     setCache('spreadsheetId', spreadsheetId);
@@ -414,21 +431,25 @@ export class GroupCreator {
 
     const groupData = groupSpreadsheet.getDataAsMap(sheetColumn);
     if (groupData == null) {
-      throw new Error("Could not find sheet name '" + sheetName + "' on spreadsheet in GroupCreator.calculateGroups()");
+      throw new Error('Could not find sheet name \'' + sheetName +
+        '\' on spreadsheet in GroupCreator.calculateGroups()');
     }
     if (groupData.keys().length == 0) {
-      console.log('WARNING: No students found for GroupCreator.calculateGroups()');
+      console.log('WARNING: No students found for ' +
+        'GroupCreator.calculateGroups()');
     }
     // Read in all students and establish relationships
     const rows = groupData.keys();
     for (let student1 = 0; student1 < rows.length; student1++) {
       const thisStudent = groupData.get(rows[student1]);
       if (thisStudent == null) {
-        throw new Error('Could not find student in ' + 'GroupCreator.calculateGroups()');
+        throw new Error('Could not find student in ' +
+        'GroupCreator.calculateGroups()');
       }
       const student1Name = rows[student1];
       if (typeof student1Name !== 'string') {
-        throw new Error('Student name must be a string in ' + 'GroupCreator.calculateGroups()');
+        throw new Error('Student name must be a string in ' +
+        'GroupCreator.calculateGroups()');
       }
 
       let student1Object = new StudentForGroups(student1Name, student1 + 2);
@@ -436,15 +457,18 @@ export class GroupCreator {
       this._relationships.push([]);
 
       const columns = thisStudent.keys();
-      for (let student2 = student1 + 1; student2 < columns.length; student2++) {
+      for (let student2 = student1 + 1; student2 < columns.length;
+        student2++) {
         const thisScore = thisStudent.get(columns[student2]);
         if (thisScore == null) {
-          throw new Error('Could not find student 2 in ' + 'GroupCreator.calculateGroups()');
+          throw new Error('Could not find student 2 in ' +
+            'GroupCreator.calculateGroups()');
         }
 
         const student2Name = columns[student2];
         if (typeof student2Name !== 'string') {
-          throw new Error('Student name must be a string in ' + 'GroupCreator.calculateGroups()');
+          throw new Error('Student name must be a string in ' +
+            'GroupCreator.calculateGroups()');
         }
 
         let student2Object = new StudentForGroups(student2Name, student2 + 2);
@@ -479,22 +503,25 @@ export class GroupCreator {
    * @return {GroupCreator} the object for chaining
    */
   displayGroupSet(): GroupCreator {
-    const { 
-      acceptGroupsFunction = 'acceptGroups', 
+    const {
+      acceptGroupsFunction = 'acceptGroups',
       calculateGroupsFunction = 'calculateGroups',
-      spreadsheetId 
+      spreadsheetId,
     } = this._args;
 
-    if (spreadsheetId != null) throw new Error("Cannot display group set " +
-      "when script is not attached to spreadsheet. If you have enabled the " +
-      "spreadsheetId, remove this parameter and try again in GroupCreator." +
-      "displayGroupSet()");
+    if (spreadsheetId != null) {
+      throw new Error('Cannot display group set ' +
+      'when script is not attached to spreadsheet. If you have enabled the ' +
+      'spreadsheetId, remove this parameter and try again in GroupCreator.' +
+      'displayGroupSet()');
+    }
 
     const currentSheet = new SpreadsheetGS();
     currentSheet.activateUi();
 
     if (this._minimumGroupSet == undefined) {
-      throw new Error('Could not get minimum group set in ' + 'GroupCreator.displayGroupSet()');
+      throw new Error('Could not get minimum group set in ' +
+        'GroupCreator.displayGroupSet()');
     }
     const studentGroups = this._minimumGroupSet.getGroups();
 
@@ -523,8 +550,10 @@ export class GroupCreator {
     sidebarDeclineButton.wait = true;
 
     setCache('minimumGroupSet', this._minimumGroupSet.convertToStringArrays());
-    setCache('minimumGroupSetValues', this._minimumGroupSet.convertToNumberArrays());
-    currentSheet.showSidebar(display, 'Groups', [sidebarAcceptButton, sidebarDeclineButton]);
+    setCache('minimumGroupSetValues',
+        this._minimumGroupSet.convertToNumberArrays());
+    currentSheet.showSidebar(display, 'Groups',
+        [sidebarAcceptButton, sidebarDeclineButton]);
 
     return this;
   }
@@ -563,7 +592,8 @@ function acceptGroups(emailAddress: string, className: string) {
   const spreadsheet = new SpreadsheetGS(getCache<string>('spreadsheetId'));
   const sheet = spreadsheet.getSheet(getCache<string>('sheetName'));
   const groupSet = getCache<Array<Array<string>>>('minimumGroupSet');
-  const groupSetValues = getCache<Array<Array<number>>>('minimumGroupSetValues');
+  const groupSetValues =
+    getCache<Array<Array<number>>>('minimumGroupSetValues');
 
   let body = 'Next ' + className + ' groups:\n';
 
@@ -581,7 +611,8 @@ function acceptGroups(emailAddress: string, className: string) {
     for (let student1 = 0; student1 < group.length; student1++) {
       for (let student2 = student1 + 1; student2 < group.length; student2++) {
         const score = +sheet.getValue(group[student2], group[student1]);
-        sheet.setValue((score + 1).toString(), group[student2], group[student1]);
+        sheet.setValue((score + 1).toString(), group[student2],
+            group[student1]);
       }
     }
   }

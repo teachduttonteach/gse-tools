@@ -1,4 +1,4 @@
-import { MapGS } from './map/MapGS';
+import {MapGS} from './map/MapGS';
 
 /**
  * Class to hold settings in the PropertiesService
@@ -20,13 +20,15 @@ export class Settings {
     this._settings = new MapGS();
     if (docProperties) {
       this._scriptProperties = false;
-      const thisProp = PropertiesService.getDocumentProperties().getProperty(this._name);
+      const thisProp = PropertiesService.getDocumentProperties()
+          .getProperty(this._name);
       if (thisProp == null) {
         throw new Error('Could not find property in Settings()');
       }
       this._settings = JSON.parse(thisProp);
     } else {
-      const thisProp = PropertiesService.getScriptProperties().getProperty(this._name);
+      const thisProp = PropertiesService.getScriptProperties()
+          .getProperty(this._name);
       if (thisProp == null) {
         throw new Error('Could not find property in Settings()');
       }
@@ -84,9 +86,11 @@ export class Settings {
   updateProperties() {
     const stringifiedValues = JSON.stringify(this._settings);
     if (this._scriptProperties) {
-      PropertiesService.getScriptProperties().setProperty(this._name, stringifiedValues);
+      PropertiesService.getScriptProperties()
+          .setProperty(this._name, stringifiedValues);
     } else {
-      PropertiesService.getDocumentProperties().setProperty(this._name, stringifiedValues);
+      PropertiesService.getDocumentProperties()
+          .setProperty(this._name, stringifiedValues);
     }
   }
 }

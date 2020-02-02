@@ -1,14 +1,14 @@
-import { getDataSheet } from '../DataSheet';
-import { getOneDay, compareDates, getTodaysDate } from '../utils/Utilities';
-import { SpreadsheetGS } from '../sheets/SpreadsheetGS';
-import { MapGS } from '../map/MapGS';
+import {getDataSheet} from '../DataSheet';
+import {getOneDay, compareDates, getTodaysDate} from '../utils/Utilities';
+import {SpreadsheetGS} from '../sheets/SpreadsheetGS';
+import {MapGS} from '../map/MapGS';
 
 /**
  * Parameters to run birthday e-mails
  */
 export type BirthdayParams = {
   /**
-   * The sheet that contains student information, including their name and 
+   * The sheet that contains student information, including their name and
    *  birthday; default is 'Student Info'
    */
   studentInfoSheet?: string;
@@ -18,7 +18,7 @@ export type BirthdayParams = {
    */
   birthdayColumnName?: string;
   /**
-   * The preferred date order to display in the e-mail: 'DM' or 'MD'; default 
+   * The preferred date order to display in the e-mail: 'DM' or 'MD'; default
    *  is 'MD'
    */
   dateOrder?: 'DM' | 'MD';
@@ -40,9 +40,10 @@ export type BirthdayParams = {
  *
  * @param {number} lookAheadDays how many days to look ahead
  * @param {string} emailToSend the email address to send it to
+ * @param {birthdayParams} birthdayParams the parameters for the birthday
  */
 export function sendBirthdayEmail(lookAheadDays: number, emailToSend: string,
-  birthdayParams?: BirthdayParams) {
+    birthdayParams?: BirthdayParams) {
   if (birthdayParams == null) birthdayParams = {} as BirthdayParams;
 
   const {
@@ -50,20 +51,22 @@ export function sendBirthdayEmail(lookAheadDays: number, emailToSend: string,
     birthdayColumnName = 'Birthday',
     studentNameColumn = 'Full Name',
     dateOrder = 'MD',
-    timezoneOffset = -5
+    timezoneOffset = -5,
   } = birthdayParams;
 
   const spreadsheet: SpreadsheetGS = new SpreadsheetGS();
-  const studentInfo: MapGS<string | Date, MapGS<string | Date, string | Date>>
-     = spreadsheet.getSheet(studentInfoSheet).getDataAsMap();
+  const studentInfo: MapGS<string | Date, MapGS<string | Date, string | Date>> =
+     spreadsheet.getSheet(studentInfoSheet).getDataAsMap();
 
   const today: Date = getTodaysDate(timezoneOffset);
-  let studentBirthdays: MapGS<string, string> = new MapGS<string, string>();
+  const studentBirthdays: MapGS<string, string> = new MapGS<string, string>();
 
   for (const row of studentInfo.entries()) {
     const studentName = row[1].get(studentNameColumn);
-    if ((studentName == null) || studentName instanceof Date) throw new 
-      Error("Student name cannot be a date or empty.");
+    if ((studentName == null) || studentName instanceof Date) {
+      throw new
+      Error('Student name cannot be a date or empty.');
+    }
 
     const thisRow = row[1];
     if (thisRow == null) {
@@ -80,21 +83,24 @@ export function sendBirthdayEmail(lookAheadDays: number, emailToSend: string,
 
     if (compareDates(studentDate, today, true, true, 'MONTH') &&
       compareDates(studentDate, lookAheadDate, false, true, 'MONTH')) {
-
-      let displayDate = (studentDate.getMonth() + 1) + '/' + 
+      let displayDate = (studentDate.getMonth() + 1) + '/' +
         studentDate.getDate();
-      if (dateOrder == 'DM') displayDate = studentDate.getDate() + '/' +
+      if (dateOrder == 'DM') {
+        displayDate = studentDate.getDate() + '/' +
         (studentDate.getMonth() + 1);
-      if (!studentBirthdays.has(studentName)) studentBirthdays.set(
-        studentName, studentName + ' has birthday #' + 
+      }
+      if (!studentBirthdays.has(studentName)) {
+        studentBirthdays.set(
+            studentName, studentName + ' has birthday #' +
         (today.getFullYear() - studentDate.getFullYear()) +
         ' on ' + displayDate);
+      }
     }
   }
   MailApp.sendEmail(
-    emailToSend,
-    emailToSend,
-    "Today's Birthdays (plus the next " + lookAheadDays + ' days)!',
-    studentBirthdays.values().join("\n"),
+      emailToSend,
+      emailToSend,
+      'Today\'s Birthdays (plus the next ' + lookAheadDays + ' days)!',
+      studentBirthdays.values().join('\n'),
   );
 }

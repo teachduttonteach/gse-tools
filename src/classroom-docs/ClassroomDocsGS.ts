@@ -1,9 +1,9 @@
-import { ClassGS } from '../classroom/ClassGS';
-import { Work } from '../classroom/Work';
-import { CourseMaterial } from '../classroom/CourseMaterial';
-import { DocsGS } from '../docs/DocsGS';
-import { getDocLevels } from '../docs/DocLevels';
-import { WriteDocsParams } from 'WriteDocsParams';
+import {ClassGS} from '../classroom/ClassGS';
+import {Work} from '../classroom/Work';
+import {CourseMaterial} from '../classroom/CourseMaterial';
+import {DocsGS} from '../docs/DocsGS';
+import {getDocLevels} from '../docs/DocLevels';
+import {WriteDocsParams} from 'WriteDocsParams';
 
 /**
  * Writes a document from the Classroom info
@@ -16,10 +16,10 @@ import { WriteDocsParams } from 'WriteDocsParams';
  * @return {ClassroomDocsGS} the object for chaining
  */
 export function writeClassroomDocuments(
-  obj: ClassroomDocsGS,
-  classData: ClassGS,
-  topicName: string,
-  options?: WriteDocsParams,
+    obj: ClassroomDocsGS,
+    classData: ClassGS,
+    topicName: string,
+    options?: WriteDocsParams,
 ): ClassroomDocsGS {
   return obj.writeClassroomDocuments(classData, topicName, options);
 }
@@ -29,11 +29,14 @@ export function writeClassroomDocuments(
  *
  */
 export class ClassroomDocsGS {
-
   _doc: DocsGS;
 
+  /**
+   * @param {DocsGS | string} thisDoc the ID of the document or the DocsGS
+   *  object itself
+   */
   constructor(thisDoc: DocsGS | string) {
-    if (typeof thisDoc === "string") this._doc = new DocsGS(thisDoc);
+    if (typeof thisDoc === 'string') this._doc = new DocsGS(thisDoc);
     else this._doc = thisDoc;
   }
 
@@ -46,12 +49,12 @@ export class ClassroomDocsGS {
    *
    * @return {ClassroomDocsGS} the object for chaining
    */
-  writeClassroomDocuments(classData: ClassGS, topicId: string, 
-    options?: WriteDocsParams): ClassroomDocsGS {
+  writeClassroomDocuments(classData: ClassGS, topicId: string,
+      options?: WriteDocsParams): ClassroomDocsGS {
     // Expand options
     if (options == undefined) options = {} as WriteDocsParams;
-    let { displayAnnouncements = 1, displayCoursework = true, 
-      docTitle = undefined } = options;
+    let {displayAnnouncements = 1, displayCoursework = true,
+      docTitle = undefined} = options;
 
     // Clear the body and get the doc title
     this._doc.clearBody();
@@ -59,7 +62,8 @@ export class ClassroomDocsGS {
     const thisLevel = getDocLevels('T');
     if (docTitle == undefined || thisLevel == undefined) {
       throw new Error(
-        'Title (' + docTitle + ') or level (' + thisLevel + ') not defined in DocsGS.writeClassroomDocuments()',
+          'Title (' + docTitle + ') or level (' + thisLevel + ') not defined' +
+          ' in DocsGS.writeClassroomDocuments()',
       );
     }
 
@@ -69,17 +73,18 @@ export class ClassroomDocsGS {
     if (thisChild.getType() == DocumentApp.ElementType.LIST_ITEM) {
       thisBody.appendParagraph(docTitle).setHeading(thisLevel);
       thisChild.removeFromParent();
-    } else
+    } else {
       thisChild
-        .asParagraph()
-        .setHeading(thisLevel)
-        .setText(docTitle);
+          .asParagraph()
+          .setHeading(thisLevel)
+          .setText(docTitle);
+    }
 
     // Display the given number of announcements
     if (displayAnnouncements) {
       const thisAnnouncements = classData.getAnnouncements();
       if (thisAnnouncements == undefined) {
-        throw new Error('Announcement titles undefined in ' + 
+        throw new Error('Announcement titles undefined in ' +
         'DocsGS.writeClassroomDocuments()');
       }
       for (let a = 0; a < displayAnnouncements; a++) {
@@ -94,7 +99,7 @@ export class ClassroomDocsGS {
       const thisTitles = thisCoursework.work;
       const thisLevel = thisCoursework.level;
       if (thisLevel == undefined || thisTitles == undefined) {
-        throw new Error('Coursework titles undefined in ' + 
+        throw new Error('Coursework titles undefined in ' +
         'DocsGS.writeClassroomDocuments()');
       }
 
@@ -112,7 +117,7 @@ export class ClassroomDocsGS {
    * @param {Work} courseWork the coursework
    * @param {WriteDocsParams} options the options for display
    */
-  private _displayCourseWork(courseWork: Work, options: WriteDocsParams): 
+  private _displayCourseWork(courseWork: Work, options: WriteDocsParams):
   void {
     const {
       displayCourseworkTitle = true,
@@ -131,7 +136,7 @@ export class ClassroomDocsGS {
     }
 
     // Display the materials if they exist
-    if (displayMaterials && courseWork.materials != null && 
+    if (displayMaterials && courseWork.materials != null &&
       courseWork.materials.length > 0) {
       this._displayMaterial(courseWork.materials, options);
     }
@@ -143,10 +148,10 @@ export class ClassroomDocsGS {
    * @param {Array<CourseMaterial>} materials the associated materials
    * @param {WriteDocsParams} options the options
    */
-  private _displayMaterial(materials: Array<CourseMaterial>, 
-    options: WriteDocsParams): void {
-    const { displayFiles = true, displayForms = true, displayLinks = true, 
-      displayVideos = true } = options;
+  private _displayMaterial(materials: Array<CourseMaterial>,
+      options: WriteDocsParams): void {
+    const {displayFiles = true, displayForms = true, displayLinks = true,
+      displayVideos = true} = options;
 
     this._doc.addText('Materials:', 'Normal');
     for (const material of materials) {
