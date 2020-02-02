@@ -72,8 +72,21 @@ export function setSlideshowTemplate(obj: SlideshowGS, id: string): SlideshowGS 
  *
  * @return {SlideshowGS} the object for chaining
  */
-export function changeSlideshowPicture(obj: SlideshowGS, folder: string, slide: SlideGS): SlideshowGS {
-  return obj.changeSlidePicture(folder, slide);
+export function changeSlideshowPictureFromFolder(obj: SlideshowGS, folder: string, slide: SlideGS): SlideshowGS {
+  return obj.changeSlidePictureFromFolder(folder, slide);
+}
+
+/**
+ * Changes the picture on the selected slide if specified
+ *
+ * @param {SlideshowGS} obj the Slideshow object
+ * @param {string} imageId the folder containing the pictures
+ * @param {SlideGS} slide the number of the slide to change the picture of
+ *
+ * @return {SlideshowGS} the object for chaining
+ */
+export function changeSlideshowPicture(obj: SlideshowGS, imageId: string, slide: SlideGS): SlideshowGS {
+  return obj.changeSlidePicture(imageId, slide);
 }
 
 /**
@@ -252,6 +265,22 @@ export class SlideshowGS extends UiGS {
   }
 
   /**
+   * Changes the picture on the selected slide if specified
+   *
+   * @param {string} imageId the imageId of the picture
+   * @param {SlideGS} slide the number of the slide to change the picture of
+   *
+   * @return {SlideshowGS} the object for chaining
+   */
+  changeSlidePicture(imageId: string, slide: SlideGS): SlideshowGS {
+    if (imageId != null) {
+      const chosenPicture = new DriveGS().getImageBlob(imageId);
+      if (chosenPicture) slide.positionPicture(slide.changePicture(chosenPicture));
+    }
+    return this;
+  }
+
+  /**
    * Changes the picture on the selected slide if a folder is specified
    *
    * @param {string} folder the folder containing the pictures
@@ -259,7 +288,7 @@ export class SlideshowGS extends UiGS {
    *
    * @return {SlideshowGS} the object for chaining
    */
-  changeSlidePicture(folder: string, slide: SlideGS): SlideshowGS {
+  changeSlidePictureFromFolder(folder: string, slide: SlideGS): SlideshowGS {
     if (folder != null) {
       const chosenPicture = new DriveGS().getRandomPicture(folder);
       slide.positionPicture(slide.changePicture(chosenPicture));

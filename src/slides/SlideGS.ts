@@ -251,6 +251,10 @@ export class SlideGS {
           return pictureId;
         }
         countPictures++;
+      } else if (pictureId == this._pageElements.length - 1) {
+        this._slide.insertImage(chosenPictureBlob);
+        this._pageElements = this._slide.getPageElements();
+        return pictureId + 1;
       }
     }
     return -1;
