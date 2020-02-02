@@ -3,5 +3,5 @@ import {showBellworkOnForm, showBellworkOnSlide, updateBellwork, updateTodaysQue
 import {sendBirthdayEmail} from './Birthday'
 import {updateClassroomFiles, updateGoogleClassroom} from './ClassroomFiles'
 
-//changeAttendance();
+//changeAttendance()
 

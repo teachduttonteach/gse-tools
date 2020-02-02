@@ -1,6 +1,7 @@
 import { SpreadsheetGS } from './SpreadsheetGS';
 import { SheetGS } from './SheetGS';
 import { TriggerRanges } from './TriggerRanges';
+import { MapGS } from '../map/MapGS';
 
 /**
  * Class to process Spreadsheet events (like onEdit, onChange)
@@ -201,6 +202,7 @@ export class SheetEventGS {
   private _value: string | Date;
   private _triggerRanges: TriggerRanges;
   private _triggerSheet: string;
+  private _namedValues: {[key: string]: Array<string>};
   private _event: GoogleAppsScript.Events.SheetsOnEdit | 
     GoogleAppsScript.Events.SheetsOnChange | 
     GoogleAppsScript.Events.SheetsOnFormSubmit |
@@ -231,6 +233,10 @@ export class SheetEventGS {
       this._row = event.range.getRow();
       this._column = event.range.getColumn();
       this._value = event.range.getValue();
+    }
+
+    if ("namedValues" in event) {
+      this._namedValues = event.namedValues;
     }
 
     this._event = event;    
@@ -309,6 +315,14 @@ export class SheetEventGS {
     if (this._column !== undefined) return this._column;
     Logger.log("No sheet name for this event in SheetEventGS.getColumn()");
     return undefined;
+  }
+
+  getValuesAsMap(): MapGS<string, Array<string>> {
+    let thisValues = new MapGS<string, Array<string>>();
+    for (let key in this._namedValues) {
+      thisValues.set(key, this._namedValues[key]);
+    }
+    return thisValues;
   }
 
   /**

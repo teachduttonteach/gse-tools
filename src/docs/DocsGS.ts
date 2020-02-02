@@ -135,6 +135,10 @@ export class DocsGS extends UiGS {
     return this._docObject;
   }
 
+  getBody(): GoogleAppsScript.Document.Body {
+    return this._docObject.getBody();
+  }
+
   /**
    * Change the delimiter to go between the text before the title and the
    *  title itself

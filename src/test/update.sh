@@ -3,7 +3,7 @@ cp ../map/MapGS.ts .
 cp ../docs/DocsGS.ts .
 cp ../docs/DocLevels.ts .
 cp ../drive/DriveGS.ts .
-cp ../MimeTypes.ts .
+cp ../enums/MimeTypes.ts .
 cp ../SidebarButton.ts .
 cp ../UiGS.ts .
 clasp push

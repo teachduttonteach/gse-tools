@@ -22,9 +22,7 @@ cp ../UiGS.ts .
 cp ../map/MapGS.ts .
 cp ../SidebarButton.ts .
 cp ../drive/DriveGS.ts .
-cp ../Triggers.ts .
 clasp push
-rm ./Triggers.ts
 rm ./DriveGS.ts
 rm ./MapGS.ts
 rm ./SidebarButton.ts

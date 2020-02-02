@@ -926,14 +926,15 @@ export class SheetGS {
       );
     }
 
-    for (let i = startRow; i < startRow + numRows; i++) {
-      for (let j = startCol; j < startCol + numCols; j++) {
+    Logger.log("CURRENT VALUE: " + JSON.stringify(value));
+    for (let i = 0; i < numRows; i++) {
+      for (let j = 0; j < numCols; j++) {
         if (value instanceof Array) {
-          const currentValue = value[i - 1];
+          const currentValue = value[i];
           if (currentValue instanceof Array) {
-            this.setValue(currentValue[j - 1], i, j, false);
-          } else this.setValue(currentValue, i, j, false);
-        } else this.setValue(value, i, j, false);
+            this.setValue(currentValue[j], startRow + i, startCol + j, false);
+          } else this.setValue(currentValue, startRow + i, startCol + j, false);
+        } else this.setValue(value, startRow + i, startCol + j, false);
       }
     }
     return this.resetData();
@@ -1147,6 +1148,8 @@ export class SheetGS {
     returnColumnNames: Array<string | Date>,
     sorted: boolean = false,
   ): Array<Array<string | Date>> {
+
+    Logger.log("getRecords: " + [matchColumnName, matchColumnValue].join(",") + " - " + returnColumnNames.join(","));
     const data = this.getDataAsMap();
     const records: Array<Array<string | Date>> = [];
 
@@ -1374,7 +1377,7 @@ export class SheetGS {
   /**
    * Gets the specified row as an array of strings or Dates
    *
-   * @param {number} rowNumber the row number to get
+   * @param {number} rowNumber the row number to get, indexed at 1
    * @return {Array<string | Date>} the list of values in the row
    */
   getRow(rowNumber: number): Array<string | Date> {
@@ -1384,7 +1387,7 @@ export class SheetGS {
     if (rowNumber < 1) throw new Error("Row '" + rowNumber + "' must be " + 
       "greater than 0 in SheetGS.getRow()");
 
-    let thisRow = this._data[rowNumber];
+    let thisRow = this._data[rowNumber - 1];
     if (thisRow === undefined) throw new Error("Row '" + rowNumber + 
       "' undefined in SheetGS.getRow()");
 
