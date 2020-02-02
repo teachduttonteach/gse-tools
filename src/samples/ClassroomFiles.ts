@@ -12,26 +12,27 @@ import { MapGS } from '../map/MapGS';
  */
 type ClassroomArgs = {
   /**
-   * Sheet name for the settings for the classroom files (default: "Classroom")
+   * Sheet name for the gse-tools Settings for the classroom files; default
+   *  is 'Classroom'
    */
   settingsName?: string;
   /**
-   * Column name for the sheet column that contains the classroom enrollment
-   *  code (default: "Classroom Code")
+   * Column name for the gse-tools Settings sheet column that contains the 
+   *  classroom enrollment code; default is 'Classroom Code'
    */
   classroomCodeColumnName?: string;
   /**
-   * Name to use for new files that are created holding class info (default:
-   *  "Google Classroom Summary")
+   * Name to use for new files that are created holding class info; default is
+   *  'Google Classroom Summary'
    */
   newFileName?: string;
   /**
-   * Name of the template to use for the new files to be created (default:
-   *  "Google Classroom Summary Template")
+   * Name of the template to use for the new files to be created; default is
+   *  'Google Classroom Summary Template'
    */
   templateName?: string;
   /**
-   * Parameters for displaying due dates (default: empty)
+   * Parameters for displaying due dates; default is empty
    */
   dueDateParams?: DateParams;
 };
@@ -42,7 +43,10 @@ type ClassroomArgs = {
  */
 export function updateClassroomFiles(args: ClassroomArgs): void {
   if (args == null) args = {} as ClassroomArgs;
-  const { settingsName = 'Classroom', classroomCodeColumnName = 'Classroom Code' } = args;
+  const { 
+    settingsName = 'Classroom', 
+    classroomCodeColumnName = 'Classroom Code' 
+  } = args;
 
   const settings: SpreadsheetGS = getDataSheet();
   const classworkSettings: MapGS<string | Date, MapGS<string | Date, string | Date>> = settings.getDataAsMap(
@@ -55,16 +59,18 @@ export function updateClassroomFiles(args: ClassroomArgs): void {
     const row = classworkSettings.next();
     const thisRow = classworkSettings.get(row);
     if (thisRow == undefined || classroomCodeColumnName == undefined) {
-      throw new Error('Could not find row in classworkSettings');
+      throw new Error('Could not find row in classworkSettings in updateClassroomFiles()');
     }
 
     const thisClassroomCode = thisRow.get(classroomCodeColumnName);
     if (thisClassroomCode == undefined || typeof thisClassroomCode !== 'string') {
-      throw new Error('Classroom code not found');
+      throw new Error('Classroom code not found in updateClassroomFiles');
     }
 
-    const currentClass = allClasses.getClass(thisClassroomCode);
-    updateGoogleClassroom(args, currentClass);
+    if (thisClassroomCode != "") {
+      const currentClass = allClasses.getClass(thisClassroomCode);
+      updateGoogleClassroom(args, currentClass);
+    }
   }
 }
 
@@ -75,15 +81,17 @@ export function updateClassroomFiles(args: ClassroomArgs): void {
  * @param {ClassGS} currentClass the current Google class
  */
 export function updateGoogleClassroom(args: ClassroomArgs, currentClass: ClassGS) {
-  const { newFileName = 'Google Classroom Summary', templateName = 'Google Classroom Summary Template' } = args;
+  const { 
+    newFileName = 'Google Classroom Summary', 
+    templateName = 'Google Classroom Summary Template' 
+  } = args;
 
   const gDrive = new DriveGS();
   const theseTopics: Array<string> = currentClass.getTopics();
   for (let topic = 0; topic < theseTopics.length; topic++) {
     const fileObject = gDrive.getOrCreateFileFromTemplateByName(
-      'Topic ' + topic + ' for ' + currentClass.getName() + ': ' + newFileName,
-      templateName,
-    );
+      'Topic "' + currentClass.getTopicName(theseTopics[topic]) + '" for ' + 
+      currentClass.getName() + ': ' + newFileName, templateName);
     new ClassroomDocsGS(fileObject.getId()).writeClassroomDocuments(currentClass, theseTopics[topic]);
   }
 }
