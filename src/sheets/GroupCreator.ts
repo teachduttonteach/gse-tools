@@ -417,7 +417,7 @@ export class GroupCreator {
       throw new Error("Could not find sheet name '" + sheetName + "' on spreadsheet in GroupCreator.calculateGroups()");
     }
     if (groupData.keys().length == 0) {
-      Logger.log('WARNING: No students found for calculateGroups()');
+      console.log('WARNING: No students found for GroupCreator.calculateGroups()');
     }
     // Read in all students and establish relationships
     const rows = groupData.keys();

@@ -10,13 +10,11 @@ export class Test {
   _clearDoc: boolean;
 
   constructor(mode: string = 'log', recipient: string | boolean = 'john.dutton@campusinternationalschool.org') {
-    Logger.log("MODE = " + mode)
     if (mode.toLowerCase() == 'email') {
       this._mode = 'email';
       if (typeof recipient === "string") this._recipient = recipient;
     }
     else if (mode.toLowerCase() == 'doc') {
-      Logger.log("Doc format")
       this._mode = 'doc';
       if (typeof recipient === "boolean") this._clearDoc = recipient;
       else this._clearDoc = false;
@@ -186,7 +184,7 @@ export class Test {
   }
 
   finish() {
-    if (this._mode == 'log') Logger.log(this._toPrint);
+    if (this._mode == 'log') console.log(this._toPrint);
     else if (this._mode == 'email') MailApp.sendEmail(this._recipient, 'Testing gse-tools', this._toPrint);
     else {
       const testDocId = new DriveGS().getOrCreateFileByName('Testing gse-tools ' + new Date().toLocaleDateString()).getId();

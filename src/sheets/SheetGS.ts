@@ -634,7 +634,7 @@ export class SheetGS {
    * @return {Date} the date value requested
    */
   getDateValue(row: number, col: number): Date | null {
-    Logger.log("Getting date value from " + row + " and " + col + " = " + this._data[row - 1][col - 1]);
+    console.log("WARNING: Getting date value from " + row + " and " + col + " = " + this._data[row - 1][col - 1]);
     const dateValue = this._data[row - 1][col - 1];
     if (dateValue instanceof Date) return dateValue;
     return null;
@@ -822,23 +822,16 @@ export class SheetGS {
       "name must all be defined in SheetGS.setValueAsMap()");
     for (let r: number = 2; r <= this._lastRow; r++) {
 
-      if (row instanceof Date) {
-        Logger.log("found date for " + row);
-        Logger.log("checking dates for " + this.getDateValue(r, 1));
-      } 
       if (((row instanceof Array) && (this._checkRow(row, r))) ||
         ((row instanceof Date) && areDatesEqual(this.getDateValue(r, 1), row)) || 
         (this.getValue(r, 1) == row)) {
 
         for (let c: number = 2; c <= this._lastCol; c++) {
 
-          Logger.log("Checking " + column + " against " + this.getValue(1, c));
-
           if (((column instanceof Array) && (this._checkCol(column, c))) ||
             ((column instanceof Date) && areDatesEqual(this.getDateValue(1, c), column)) ||
             (this.getValue(1, c) == column)) {
 
-              Logger.log("Found column");
             this.setValue(value, r, c, reset);
           }
         }
@@ -926,7 +919,6 @@ export class SheetGS {
       );
     }
 
-    Logger.log("CURRENT VALUE: " + JSON.stringify(value));
     for (let i = 0; i < numRows; i++) {
       for (let j = 0; j < numCols; j++) {
         if (value instanceof Array) {
@@ -1051,7 +1043,6 @@ export class SheetGS {
       if (thisColumn != null) {
         let matchedAllRows = true;
         for (let r of rowsToMatch) {
-          Logger.log(r.name);
           if (!this.areValuesEqualAsMap(thisColumn.get(r.name), r.value)) {
             matchedAllRows = false;
             break;
@@ -1149,7 +1140,6 @@ export class SheetGS {
     sorted: boolean = false,
   ): Array<Array<string | Date>> {
 
-    Logger.log("getRecords: " + [matchColumnName, matchColumnValue].join(",") + " - " + returnColumnNames.join(","));
     const data = this.getDataAsMap();
     const records: Array<Array<string | Date>> = [];
 
@@ -1349,7 +1339,7 @@ export class SheetGS {
     // Find the instance we want to return
     const currentRange = currentTextFinder.findNext();
     if (currentRange == null) {
-      Logger.log('WARNING: Could not find instance of ' + findText + 
+      console.log('WARNING: Could not find instance of ' + findText + 
         ' in SheetGS.getCellFromFind()');
       return false;
     }

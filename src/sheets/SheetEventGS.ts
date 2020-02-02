@@ -265,7 +265,7 @@ export class SheetEventGS {
    */
   getActiveSheet(): SpreadsheetGS | undefined {
     if (this._activeSheet !== undefined) return this._activeSheet;
-    Logger.log("No active sheet for this event in SheetEventGS.getActiveSheet()");
+    console.log("WARNING: No active sheet for this event in SheetEventGS.getActiveSheet()");
     return undefined;
   }
 
@@ -277,7 +277,7 @@ export class SheetEventGS {
    */
   getSheetName(): string | undefined {
     if (this._sheetName !== undefined) return this._sheetName;
-    Logger.log("No sheet name for this event in SheetEventGS.getSheetName()");
+    console.log("WARNING: No sheet name for this event in SheetEventGS.getSheetName()");
     return undefined;
   }
 
@@ -289,7 +289,7 @@ export class SheetEventGS {
    */
   getSheet(): SheetGS | undefined {
     if (this._sheet !== undefined) return this._sheet;
-    Logger.log("No sheet for this event in SheetEventGS.getSheet()");
+    console.log("WARNING: No sheet for this event in SheetEventGS.getSheet()");
     return undefined;
   }
 
@@ -301,7 +301,7 @@ export class SheetEventGS {
    */
   getRow(): number | undefined {
     if (this._row !== undefined) return this._row;
-    Logger.log("No row for this event in SheetEventGS.getRow()");
+    console.log("WARNING: No row for this event in SheetEventGS.getRow()");
     return undefined;
   }
 
@@ -313,7 +313,7 @@ export class SheetEventGS {
    */
   getColumn(): number | undefined {
     if (this._column !== undefined) return this._column;
-    Logger.log("No sheet name for this event in SheetEventGS.getColumn()");
+    console.log("WARNING: No sheet name for this event in SheetEventGS.getColumn()");
     return undefined;
   }
 
@@ -333,7 +333,7 @@ export class SheetEventGS {
    */
   getEditedValue(): string | Date | undefined {
     if (this._value !== undefined) return this._value;
-    Logger.log("No value for this event in SheetEventGS.getEditedValue()");
+    console.log("WARNING: No value for this event in SheetEventGS.getEditedValue()");
     return undefined;
   }
 
@@ -346,7 +346,7 @@ export class SheetEventGS {
   checkCell(): boolean | undefined {
     if ((this._triggerSheet === undefined) || 
       (this._sheetName === undefined)) {
-      Logger.log("No associated sheet for this event in " +
+      console.log("WARNING: No associated sheet for this event in " +
         "SheetEventGS.checkCell()");
       return undefined;
     }
@@ -384,7 +384,7 @@ export class SheetEventGS {
    */
   getValue(row: number, col: number): string | Date | undefined {
     if (this._sheet !== undefined) return this._sheet.getValue(row, col);
-    Logger.log("No sheet associated with this event in SheetEventGS.getValue()");
+    console.log("WARNING: No sheet associated with this event in SheetEventGS.getValue()");
     return undefined;
   }
 
@@ -397,7 +397,7 @@ export class SheetEventGS {
    */
   addTriggerSheetName(name: string): SheetEventGS | undefined {
     if (this._activeSheet === undefined) {
-      Logger.log("No sheet associated with this event in SheetEventGS.addTriggerSheetName()");
+      console.log("WARNING: No sheet associated with this event in SheetEventGS.addTriggerSheetName()");
       return undefined;
     }
 
@@ -450,7 +450,7 @@ export class SheetEventGS {
       max: number | Array<number>): SheetEventGS | undefined {
 
     if (this._triggerRanges === undefined) {
-      Logger.log("No trigger ranges associated with this event in " +
+      console.log("WARNING: No trigger ranges associated with this event in " +
       "SheetEventGS.addTriggerRange()");
       return undefined;
     }

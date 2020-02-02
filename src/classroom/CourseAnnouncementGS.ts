@@ -101,7 +101,6 @@ export class CourseAnnouncementGS {
   schedule(time: Date): CourseAnnouncementGS {
     this._announcementResource.state = AnnouncementState.DRAFT;
     this._announcementResource.scheduledTime = time.toISOString();
-    Logger.log("Scheduled time: " + this._announcementResource.scheduledTime.toString());
     return this;
   }
 

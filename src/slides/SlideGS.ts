@@ -244,14 +244,12 @@ export class SlideGS {
       throw new Error('Slide and blob of chosen picture need to be ' + 'defined in Slides.changePicture');
     }
 
-    Logger.log("CHANGE PICTURE");
     let pictureId = this._findPicture(pictureNumber);
     if (pictureId == -1) {
       this._slide.insertImage(chosenPictureBlob);
       this._pageElements = this._slide.getPageElements();
       return this._findPicture(pictureNumber);
     } 
-    Logger.log("CHANGE PICTURE");
     this._pageElements[pictureId].asImage().replace(chosenPictureBlob);
     return pictureId;
   }

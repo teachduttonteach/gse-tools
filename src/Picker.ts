@@ -34,7 +34,6 @@ export class Picker {
       .evaluate()
       .setWidth(+settings.get('DIALOG_WIDTH'))
       .setHeight(+settings.get('DIALOG_HEIGHT'));
-    // Logger.log(html.getContent());
     return SpreadsheetApp.getUi().showModalDialog(html, dialogText);
   }
 }

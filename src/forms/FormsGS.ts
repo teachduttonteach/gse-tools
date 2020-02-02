@@ -322,7 +322,6 @@ export class FormsGS extends UiGS {
     optionsList?: string | Array<string>,
     mcGridRowsList?: string | Array<string>,
   ): FormsGS {
-    Logger.log([title, questionType, optionsList].join(","));
 
     if (title == null) {
       throw new Error("Title of form question cannot be blank in " +
@@ -528,7 +527,7 @@ export class FormsGS extends UiGS {
     try {
       this._form.addImageItem().setImage(file);
     } catch(e) {
-      Logger.log("Could not add image to form in FormsGS.addImage(): " + e);
+      console.log("WARNING: Could not add image to form in FormsGS.addImage(): " + e);
     }
     return this;
   }
@@ -548,9 +547,9 @@ export class FormsGS extends UiGS {
       const imageBlob = new DriveGS().getImageBlob(id);
       if (typeof imageBlob !== "boolean") 
         this.addImage(imageBlob);
-      else Logger.log("Could not find image in FormsGS.addImageFromId()");
+      else console.log("WARNING: Could not find image in FormsGS.addImageFromId()");
     } catch(e) {
-      Logger.log("Could not add image to form in FormsGS.addImageFromId(): " +
+      console.log("WARNING: Could not add image to form in FormsGS.addImageFromId(): " +
        e);
     }
     return this;

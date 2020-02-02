@@ -485,7 +485,7 @@ export class ClassGS {
    */
   addTopic(topic: string): ClassGS {
     if (this.getTopicNames().indexOf(topic) > -1) {
-      Logger.log("WARNING: Topic '" + topic + "' already exists.");
+      console.log("WARNING: Topic '" + topic + "' already exists.");
       return this;
     }
 

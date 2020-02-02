@@ -290,9 +290,7 @@ export class SlideshowGS extends UiGS {
    */
   changeSlidePictureFromFolder(folder: string, slide: SlideGS): SlideshowGS {
     if (folder != null) {
-      Logger.log("CHANGE SLIDE PICTURE FROM FOLDER");
       const chosenPicture = new DriveGS().getRandomPicture(folder);
-      Logger.log("POSITION PICTURE");
       slide.positionPicture(slide.changePicture(chosenPicture));
     }
     return this;
