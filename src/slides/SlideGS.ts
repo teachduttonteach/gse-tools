@@ -243,18 +243,27 @@ export class SlideGS {
     if (chosenPictureBlob == null) {
       throw new Error('Slide and blob of chosen picture need to be ' + 'defined in Slides.changePicture');
     }
+
+    Logger.log("CHANGE PICTURE");
+    let pictureId = this._findPicture(pictureNumber);
+    if (pictureId == -1) {
+      this._slide.insertImage(chosenPictureBlob);
+      this._pageElements = this._slide.getPageElements();
+      return this._findPicture(pictureNumber);
+    } 
+    Logger.log("CHANGE PICTURE");
+    this._pageElements[pictureId].asImage().replace(chosenPictureBlob);
+    return pictureId;
+  }
+
+  private _findPicture(pictureNumber: number) {
     let countPictures: number = 0;
     for (let pictureId = 0; pictureId < this._pageElements.length; pictureId++) {
       if (this._pageElements[pictureId].getPageElementType() == SlidesApp.PageElementType.IMAGE) {
         if (countPictures == pictureNumber) {
-          this._pageElements[pictureId].asImage().replace(chosenPictureBlob);
           return pictureId;
         }
         countPictures++;
-      } else if (pictureId == this._pageElements.length - 1) {
-        this._slide.insertImage(chosenPictureBlob);
-        this._pageElements = this._slide.getPageElements();
-        return pictureId + 1;
       }
     }
     return -1;

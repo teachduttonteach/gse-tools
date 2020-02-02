@@ -5,7 +5,7 @@
  * @param {string} method the method
  */
 export function benchmark(obj: object, method: string) {
-  Logger.log(obj.constructor.name + ': ' + method);
+  console.log(obj.constructor.name + ': ' + method);
 }
 
 /**
@@ -49,11 +49,8 @@ export function areDatesEqual(date1: Date | string | null,
   }
   if (level.toUpperCase() != 'DAY') {
     if (date1.getUTCMonth() != date2.getUTCMonth()) return false;
-    Logger.log("Month is the same");
   }
 
-  if (date1.getUTCDate() == date2.getUTCDate()) Logger.log("Day is the same");
-  else Logger.log("Day 1: " + date1.getUTCDate() + ", Day 2: " + date2.getUTCDate());
   return date1.getUTCDate() == date2.getUTCDate();
 }
 

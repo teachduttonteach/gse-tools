@@ -322,6 +322,8 @@ export class FormsGS extends UiGS {
     optionsList?: string | Array<string>,
     mcGridRowsList?: string | Array<string>,
   ): FormsGS {
+    Logger.log([title, questionType, optionsList].join(","));
+
     if (title == null) {
       throw new Error("Title of form question cannot be blank in " +
         "FormsGS.addItem()");
@@ -342,8 +344,6 @@ export class FormsGS extends UiGS {
           .setChoiceValues(['True', 'False']);
         break;
       case 'Multiple Choice':
-        this._form.addMultipleChoiceItem().setTitle(title);
-
         if (optionsList == undefined) {
           throw new Error('Options list must be defined in FormsGS.addItem()');
         } else if (typeof optionsList === 'string') {

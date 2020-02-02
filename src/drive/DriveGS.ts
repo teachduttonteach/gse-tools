@@ -133,15 +133,18 @@ export class DriveGS {
     }
 
     const dailyPictures: GoogleAppsScript.Drive.FileIterator = dailyPicturesFolder.getFiles();
-    const allPictures: Array<GoogleAppsScript.Base.Blob> = [];
+    const tempPictures: Array<GoogleAppsScript.Drive.File> = [];
     while (dailyPictures.hasNext()) {
       const pic: GoogleAppsScript.Drive.File = dailyPictures.next();
-      
-      if (ValidImageTypes.indexOf(pic.getMimeType()) !== -1) {
-        allPictures.push(pic.getAs('image/png'));
-      }
+      tempPictures.push(pic);
     }
 
+    const allPictures: Array<GoogleAppsScript.Base.Blob> = [];
+    for (let i = 0; i < tempPictures.length; i++) {
+      if (ValidImageTypes.indexOf(tempPictures[i].getMimeType()) !== -1) {
+        allPictures.push(tempPictures[i].getAs('image/png'));
+      }
+    }
     if (allPictures.length == 0) {
       throw new Error('No pictures found in Drive.getRandomPicture');
     }
@@ -164,11 +167,12 @@ export class DriveGS {
       throw new Error('Id needs to defined for DriveGS.getImageBlob()');
     }
     if (isUrl) id = id.split('=')[1];
-    if (DriveApp.getFileById(id) == null) {
+    const thisFile: GoogleAppsScript.Drive.File = DriveApp.getFileById(id);
+    if (thisFile == null) {
       throw new Error('Could not file of id ' + id + ' in DriveGS.getImageBlob()');
     }
-    if (ValidImageTypes.indexOf(DriveApp.getFileById(id).getMimeType()) != -1)
-      return DriveApp.getFileById(id).getBlob();
+    if (ValidImageTypes.indexOf(thisFile.getMimeType()) != -1)
+      return thisFile.getBlob();
     return false;
   }
 

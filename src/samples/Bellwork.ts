@@ -208,7 +208,6 @@ export function updateBellwork(args: BellworkArgs): void {
 
     const thisForm = new FormsGS(thisBellworkForm);
     thisForm.replaceTrigger('S', onSubmitBellworkFunctionName);
-    Logger.log("Going to updateTodaysQuestion");
     updateTodaysQuestion(args, thisRow, thisForm);
   }
 }
@@ -260,11 +259,8 @@ export function updateTodaysQuestion(args: BellworkArgs,
       'Bellwork.updateTodaysQuestion()');
   }
   let questionRow: number = questionSheet.skipBlankRows(1, +thisBellworkDateColumnName);
-  Logger.log(questionSheet.getValue(questionRow, +thisBellworkDateColumnName) 
-  + "," + bellworkSheetDateColumnEnd);
-  while ((questionRow <= questionSheet.getLastRow()) && 
-    (questionSheet.getValue(questionRow, +thisBellworkDateColumnName) 
-    != bellworkSheetDateColumnEnd)) {
+  while ((questionRow <= questionSheet.getLastRow()) && ((questionSheet.getValue(questionRow, +thisBellworkDateColumnName) != bellworkSheetDateColumnEnd)))
+  {
 
     const dateInCell: Date = new Date(questionSheet.getValue(questionRow, +thisBellworkDateColumnName));
 
@@ -274,7 +270,6 @@ export function updateTodaysQuestion(args: BellworkArgs,
         throw new Error('Could not find bellwork column name in ' + 
         'Samples.doForBellwork()');
       }
-      Logger.log("1: " + questionSheet.getValue(questionRow, +thisBellworkColumnName));
       const questionTitle: string = 
         questionSheet.
           getValue(questionRow, +thisBellworkColumnName).toString();
@@ -284,7 +279,6 @@ export function updateTodaysQuestion(args: BellworkArgs,
         throw new Error('Could not find question type column name in ' + 
         'Samples.doForBellwork()');
       }
-      Logger.log("2: " + questionSheet.getValue(questionRow, +thisQuestionTypeColumnName));
       let questionTypeString: string = 
         questionSheet.
           getValue(questionRow, +thisQuestionTypeColumnName).toString();
@@ -350,10 +344,11 @@ export function showBellworkOnSlide(
   const slideShow = new SlideshowGS(thisSlideshowColumnName);
 
   const thisBellworkImageFolder = settingsRow.get(dailyPicturesColumnName);
-  if (thisBellworkImageFolder != null) {
+  if ((thisBellworkImageFolder != null) && (thisBellworkImageFolder != "")) {
     slideShow.changeSlidePictureFromFolder(
       thisBellworkImageFolder.toString(), 
       slideShow.getSlideByNotes(dailyPicturesNotes));
+      
   }
 
   if (displayBellworkOnSlide || displayExitQuestionOnSlide || displayUpcomingDueDates) {
@@ -368,7 +363,6 @@ export function showBellworkOnSlide(
         }
       }
       bellworkSlide.setTitle(questionTitle);
-
       
       const thisBellworkImage = settingsRow.get(imageColumnName);
       if (thisBellworkImage != null) {
@@ -386,7 +380,6 @@ export function showBellworkOnSlide(
       }
       const currentClass = allClasses.getClass(thisClassroomCode);
 
-      Logger.log("D: " + daysToLookAheadColumnName + ", " + settingsRow.get(daysToLookAheadColumnName));
       const thisDaysToLookAhead = settingsRow.get(daysToLookAheadColumnName);
       if (thisDaysToLookAhead == null) {
         throw new Error('Could not find days to look ahead in ' + 'Samples.doForBellwork()');
@@ -463,7 +456,6 @@ export function showBellworkOnForm(
       thisBellworkTitleColumnName += ' ' + thisMonth + dateDelimiter + thisDay;
     }
   }
-  Logger.log("Setting title " + thisBellworkTitleColumnName);
   bellworkForm.deleteItems().setTitle(thisBellworkTitleColumnName);
 
   const theseOptionsColumnName = row.get(optionsColumnName);
@@ -471,16 +463,13 @@ export function showBellworkOnForm(
   let theseOptionsValue: string = '';
   if (theseOptionsColumnName != null) {
     theseOptionsValue = questionSheet.getValue(questionRow, +theseOptionsColumnName).toString();
-    Logger.log("These options: " + theseOptionsValue);
   }
   if (theseOptionsValue != '') {
     let theseRowsValue: string = '';
     if (theseGridRowsColumnName != null) {
       theseRowsValue = questionSheet.getValue(questionRow, +theseGridRowsColumnName).toString();
-      Logger.log("These rows value: " + theseRowsValue);
     }
     if (theseRowsValue != '') {
-      Logger.log("Adding to bellwork form 1");
       bellworkForm.addItem(
         questionTitle,
         questionType,
@@ -488,11 +477,10 @@ export function showBellworkOnForm(
         bellworkForm.convertLinebreaksToList(theseRowsValue),
       );
     } else {
-      Logger.log("Adding to bellwork form 2");
-      bellworkForm.addItem(questionTitle, questionType, bellworkForm.convertLinebreaksToList(theseOptionsValue));
+      bellworkForm.addItem(questionTitle, questionType, 
+        bellworkForm.convertLinebreaksToList(theseOptionsValue));
     }
   } else {
-    Logger.log("Adding to bellwork form 3");
     bellworkForm.addItem(questionTitle, questionType);
   }
 
@@ -503,5 +491,5 @@ export function showBellworkOnForm(
     if (thisImageBlob != false) {
       bellworkForm.addImage(thisImageBlob);
     }
-  }
+  }  
 }
