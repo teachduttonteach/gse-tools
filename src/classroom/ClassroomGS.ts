@@ -3,7 +3,7 @@ import {ClassGS} from 'ClassGS';
 /**
  * Class to store the Google Classroom object
  * Get the courses and coursework
- * ```
+ * ```javascript
  * var enrollmentCode = '1234qz';
  * 
  * var gseClassroom = gsetools.newClassroom();

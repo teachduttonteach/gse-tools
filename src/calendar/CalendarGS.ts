@@ -41,7 +41,7 @@ export function newCalendar(id: string, timezoneOffset: number = -5):
 
 /**
  * Gets the underlying Google Apps Script object for direct access
- * ```
+ * ```javascript
  * var gseCalendar = gsetools.newCalendar(calendarId);
  * var googleCalendar = gsetools.getCalendarObject(gseCalendar);
  * ```
@@ -166,10 +166,13 @@ export function getUpcomingEvents(obj: CalendarGS, daysToLookAhead: number):
  * Class to hold properties and methods to manipulate the Google Calendar
  *
  * ```javascript
+ * // Need to active Classroom in Advanced Services
+ * var gseClassroom = new gsetools.ClassroomGS();
+ * 
  * var gseClass = gseClassroom.getClass(enrollmentCode);
  * var calendarId = gseClass.getCalendarId();
  *
- * var gseCalendar = new gseTools.CalendarGS(calendarId);
+ * var gseCalendar = new gsetools.CalendarGS(calendarId);
  * var upcomingEvents = gseCalendar.getUpcomingEvents(10);
  * 
  * var eventOptions = {
@@ -219,9 +222,10 @@ export class CalendarGS {
 
   /**
    * Gets the underlying Google Apps Script object for direct access
-   * ```
+   * ```javascript
    * var googleCalendar = gseCalendar.getObject();
-   *
+   * ```
+   * 
    * @return {GoogleAppsScript.Calendar.Calendar} the Google Calendar object
    */
   getObject(): GoogleAppsScript.Calendar.Calendar {
@@ -255,11 +259,11 @@ export class CalendarGS {
    * Gets the upcoming due dates for events on the calendar as a string
    * ```javascript
    * var eventOptions = {
-   *  "noEventString": "None",
-   *  "order": "MD",
-   *  "titlePrefix": "Title: ",
-   *  "dateDelim": "/"
-   * }
+   *  dateDelim: '/',
+   *  dateOrder: 'MD',
+   *  noEventString: 'NONE',
+   *  titlePrefix: ' : '
+   * };
    * var dueDates = gseCalendar.getUpcomingDueDates(10, eventOptions);
    * ```
    *
@@ -285,11 +289,11 @@ export class CalendarGS {
    * Gets the upcoming due dates for events on the calendar as an array
    * ```javascript
    * var eventOptions = {
-   *  "noEventString": "None",
-   *  "order": "MD",
-   *  "titlePrefix": "Title: ",
-   *  "dateDelim": "/"
-   * }
+   *  dateDelim: '/',
+   *  dateOrder: 'MD',
+   *  noEventString: 'NONE',
+   *  titlePrefix: ' : '
+   * };
    * var dueDatesList = gseCalendar.getUpcomingDueDates(10, eventOptions);
    * ```
    *
