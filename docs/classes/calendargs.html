@@ -76,6 +76,18 @@
 
 <span class="hljs-keyword">var</span> gseCalendar = <span class="hljs-keyword">new</span> gseTools.CalendarGS(calendarId);
 <span class="hljs-keyword">var</span> upcomingEvents = gseCalendar.getUpcomingEvents(<span class="hljs-number">10</span>);
+
+<span class="hljs-keyword">var</span> eventOptions = {
+ <span class="hljs-attr">dateDelim</span>: <span class="hljs-string">'/'</span>,
+ <span class="hljs-attr">dateOrder</span>: <span class="hljs-string">'MD'</span>,
+ <span class="hljs-attr">noEventString</span>: <span class="hljs-string">'NONE'</span>,
+ <span class="hljs-attr">titlePrefix</span>: <span class="hljs-string">' : '</span>
+};
+<span class="hljs-keyword">var</span> upcomingDueDatesArray =
+ gseCalendar.getUpcomingDueDatesList(<span class="hljs-number">14</span>, eventOptions);
+<span class="hljs-keyword">var</span> upcomingDueDatesString =
+ gseCalendar.getUpcomingDueDates(<span class="hljs-number">14</span>, eventOptions);
+
 <span class="hljs-keyword">var</span> calendarId = gseCalendar.getId();</code></pre>
 				</div>
 			</section>
@@ -127,13 +139,13 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>CalendarGS<span class="tsd-signature-symbol">(</span>id<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, hoursFromUTC<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="calendargs.html" class="tsd-signature-type">CalendarGS</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>CalendarGS<span class="tsd-signature-symbol">(</span>id<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, timezoneOffset<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="calendargs.html" class="tsd-signature-type">CalendarGS</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/39ab3d2/src/calendar/CalendarGS.ts#L125">calendar/CalendarGS.ts:125</a></li>
+									<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/f91065d/src/calendar/CalendarGS.ts#L196">calendar/CalendarGS.ts:196</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -152,7 +164,7 @@
 									</div>
 								</li>
 								<li>
-									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> hoursFromUTC: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;0</span></h5>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> timezoneOffset: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;-5</span></h5>
 									<div class="tsd-comment tsd-typography">
 										<div class="lead">
 											<p>specify how many hours off of UTC you
@@ -174,7 +186,7 @@
 					<div class="tsd-signature tsd-kind-icon">_calendar<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Calendar</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/39ab3d2/src/calendar/CalendarGS.ts#L125">calendar/CalendarGS.ts:125</a></li>
+							<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/f91065d/src/calendar/CalendarGS.ts#L196">calendar/CalendarGS.ts:196</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -184,7 +196,7 @@
 					<div class="tsd-signature tsd-kind-icon">_date<wbr>Today<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Date</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/39ab3d2/src/calendar/CalendarGS.ts#L121">calendar/CalendarGS.ts:121</a></li>
+							<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/f91065d/src/calendar/CalendarGS.ts#L192">calendar/CalendarGS.ts:192</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -194,7 +206,7 @@
 					<div class="tsd-signature tsd-kind-icon">_end<wbr>Date<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Date</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/39ab3d2/src/calendar/CalendarGS.ts#L122">calendar/CalendarGS.ts:122</a></li>
+							<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/f91065d/src/calendar/CalendarGS.ts#L193">calendar/CalendarGS.ts:193</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -204,7 +216,7 @@
 					<div class="tsd-signature tsd-kind-icon">_id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/39ab3d2/src/calendar/CalendarGS.ts#L124">calendar/CalendarGS.ts:124</a></li>
+							<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/f91065d/src/calendar/CalendarGS.ts#L195">calendar/CalendarGS.ts:195</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -214,7 +226,7 @@
 					<div class="tsd-signature tsd-kind-icon">_one<wbr>Day<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;24 * 60 * 60 * 1000</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/39ab3d2/src/calendar/CalendarGS.ts#L120">calendar/CalendarGS.ts:120</a></li>
+							<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/f91065d/src/calendar/CalendarGS.ts#L191">calendar/CalendarGS.ts:191</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -224,7 +236,7 @@
 					<div class="tsd-signature tsd-kind-icon">_upcoming<wbr>Event<wbr>Objects<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><a href="calendareventgs.html" class="tsd-signature-type">CalendarEventGS</a><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/39ab3d2/src/calendar/CalendarGS.ts#L123">calendar/CalendarGS.ts:123</a></li>
+							<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/f91065d/src/calendar/CalendarGS.ts#L194">calendar/CalendarGS.ts:194</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -241,7 +253,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/39ab3d2/src/calendar/CalendarGS.ts#L252">calendar/CalendarGS.ts:252</a></li>
+									<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/f91065d/src/calendar/CalendarGS.ts#L322">calendar/CalendarGS.ts:322</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -265,16 +277,18 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/39ab3d2/src/calendar/CalendarGS.ts#L158">calendar/CalendarGS.ts:158</a></li>
+									<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/f91065d/src/calendar/CalendarGS.ts#L227">calendar/CalendarGS.ts:227</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>Gets the underlying Google Apps Script object for direct access</p>
+									<p>```
+									var googleCalendar = gseCalendar.getObject();</p>
 								</div>
+								<p>@return {GoogleAppsScript.Calendar.Calendar} the Google Calendar object</p>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Calendar</span></h4>
-							<p>the Google Calendar object</p>
 						</li>
 					</ul>
 				</section>
@@ -288,12 +302,12 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/39ab3d2/src/calendar/CalendarGS.ts#L202">calendar/CalendarGS.ts:202</a></li>
+									<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/f91065d/src/calendar/CalendarGS.ts#L273">calendar/CalendarGS.ts:273</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Gets the upcoming due dates for events on the calendar</p>
+									<p>Gets the upcoming due dates for events on the calendar as a string</p>
 									<pre><code class="language-javascript"><span class="hljs-keyword">var</span> eventOptions = {
  <span class="hljs-string">"noEventString"</span>: <span class="hljs-string">"None"</span>,
  <span class="hljs-string">"order"</span>: <span class="hljs-string">"MD"</span>,
@@ -329,18 +343,18 @@
 					<a name="getupcomingduedateslist" class="tsd-anchor"></a>
 					<h3>get<wbr>Upcoming<wbr>Due<wbr>Dates<wbr>List</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Upcoming<wbr>Due<wbr>Dates<wbr>List<span class="tsd-signature-symbol">(</span>daysToLookAhead<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, eventOptions<span class="tsd-signature-symbol">: </span><a href="../globals.html#dateparams" class="tsd-signature-type">DateParams</a>, noEventString<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Upcoming<wbr>Due<wbr>Dates<wbr>List<span class="tsd-signature-symbol">(</span>daysToLookAhead<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, eventOptions<span class="tsd-signature-symbol">: </span><a href="../globals.html#dateparams" class="tsd-signature-type">DateParams</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/39ab3d2/src/calendar/CalendarGS.ts#L231">calendar/CalendarGS.ts:231</a></li>
+									<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/f91065d/src/calendar/CalendarGS.ts#L302">calendar/CalendarGS.ts:302</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Gets the upcoming due dates for events on the calendar</p>
+									<p>Gets the upcoming due dates for events on the calendar as an array</p>
 									<pre><code class="language-javascript"><span class="hljs-keyword">var</span> eventOptions = {
  <span class="hljs-string">"noEventString"</span>: <span class="hljs-string">"None"</span>,
  <span class="hljs-string">"order"</span>: <span class="hljs-string">"MD"</span>,
@@ -366,12 +380,6 @@
 										no events and how to display the date; see above for defaults</p>
 									</div>
 								</li>
-								<li>
-									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> noEventString: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;&quot;None&quot;</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>the string to display if there is no event</p>
-									</div>
-								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></h4>
 							<p>the list of due dates as an array</p>
@@ -388,7 +396,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/39ab3d2/src/calendar/CalendarGS.ts#L173">calendar/CalendarGS.ts:173</a></li>
+									<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/f91065d/src/calendar/CalendarGS.ts#L242">calendar/CalendarGS.ts:242</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">

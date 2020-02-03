@@ -103,6 +103,7 @@
 						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="slidegs.html#_findpicture" class="tsd-kind-icon">_find<wbr>Picture</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="slidegs.html#additem" class="tsd-kind-icon">add<wbr>Item</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="slidegs.html#additems" class="tsd-kind-icon">add<wbr>Items</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="slidegs.html#changepicture" class="tsd-kind-icon">change<wbr>Picture</a></li>
@@ -134,7 +135,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/39ab3d2/src/slides/SlideGS.ts#L211">slides/SlideGS.ts:211</a></li>
+									<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/f91065d/src/slides/SlideGS.ts#L221">slides/SlideGS.ts:221</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -164,7 +165,7 @@
 					<div class="tsd-signature tsd-kind-icon">_dimensions<span class="tsd-signature-symbol">:</span> <a href="../globals.html#dimensions" class="tsd-signature-type">Dimensions</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/39ab3d2/src/slides/SlideGS.ts#L211">slides/SlideGS.ts:211</a></li>
+							<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/f91065d/src/slides/SlideGS.ts#L221">slides/SlideGS.ts:221</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -174,7 +175,7 @@
 					<div class="tsd-signature tsd-kind-icon">_page<wbr>Elements<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">PageElement</span><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/39ab3d2/src/slides/SlideGS.ts#L210">slides/SlideGS.ts:210</a></li>
+							<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/f91065d/src/slides/SlideGS.ts#L220">slides/SlideGS.ts:220</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -184,13 +185,45 @@
 					<div class="tsd-signature tsd-kind-icon">_slide<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Slide</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/39ab3d2/src/slides/SlideGS.ts#L209">slides/SlideGS.ts:209</a></li>
+							<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/f91065d/src/slides/SlideGS.ts#L219">slides/SlideGS.ts:219</a></li>
 						</ul>
 					</aside>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Methods</h2>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-private">
+					<a name="_findpicture" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> _find<wbr>Picture</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-private">
+						<li class="tsd-signature tsd-kind-icon">_find<wbr>Picture<span class="tsd-signature-symbol">(</span>pictureNumber<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/f91065d/src/slides/SlideGS.ts#L275">slides/SlideGS.ts:275</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Find the picture on the slide according to the number</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>pictureNumber: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>the sequential number of the picture</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
+							<p>the ID of the picture or -1 if not found</p>
+						</li>
+					</ul>
+				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
 					<a name="additem" class="tsd-anchor"></a>
 					<h3>add<wbr>Item</h3>
@@ -201,7 +234,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/39ab3d2/src/slides/SlideGS.ts#L414">slides/SlideGS.ts:414</a></li>
+									<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/f91065d/src/slides/SlideGS.ts#L441">slides/SlideGS.ts:441</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -249,7 +282,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/39ab3d2/src/slides/SlideGS.ts#L386">slides/SlideGS.ts:386</a></li>
+									<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/f91065d/src/slides/SlideGS.ts#L412">slides/SlideGS.ts:412</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -289,7 +322,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/39ab3d2/src/slides/SlideGS.ts#L242">slides/SlideGS.ts:242</a></li>
+									<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/f91065d/src/slides/SlideGS.ts#L252">slides/SlideGS.ts:252</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -328,7 +361,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/39ab3d2/src/slides/SlideGS.ts#L284">slides/SlideGS.ts:284</a></li>
+									<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/f91065d/src/slides/SlideGS.ts#L309">slides/SlideGS.ts:309</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -351,7 +384,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/39ab3d2/src/slides/SlideGS.ts#L229">slides/SlideGS.ts:229</a></li>
+									<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/f91065d/src/slides/SlideGS.ts#L239">slides/SlideGS.ts:239</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -374,7 +407,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/39ab3d2/src/slides/SlideGS.ts#L505">slides/SlideGS.ts:505</a></li>
+									<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/f91065d/src/slides/SlideGS.ts#L545">slides/SlideGS.ts:545</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -397,7 +430,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/39ab3d2/src/slides/SlideGS.ts#L271">slides/SlideGS.ts:271</a></li>
+									<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/f91065d/src/slides/SlideGS.ts#L296">slides/SlideGS.ts:296</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -420,7 +453,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/39ab3d2/src/slides/SlideGS.ts#L458">slides/SlideGS.ts:458</a></li>
+									<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/f91065d/src/slides/SlideGS.ts#L487">slides/SlideGS.ts:487</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -466,7 +499,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/39ab3d2/src/slides/SlideGS.ts#L512">slides/SlideGS.ts:512</a></li>
+									<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/f91065d/src/slides/SlideGS.ts#L552">slides/SlideGS.ts:552</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -488,7 +521,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/39ab3d2/src/slides/SlideGS.ts#L337">slides/SlideGS.ts:337</a></li>
+									<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/f91065d/src/slides/SlideGS.ts#L362">slides/SlideGS.ts:362</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -520,7 +553,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/39ab3d2/src/slides/SlideGS.ts#L440">slides/SlideGS.ts:440</a></li>
+									<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/f91065d/src/slides/SlideGS.ts#L468">slides/SlideGS.ts:468</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -554,7 +587,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/39ab3d2/src/slides/SlideGS.ts#L359">slides/SlideGS.ts:359</a></li>
+									<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/f91065d/src/slides/SlideGS.ts#L384">slides/SlideGS.ts:384</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -594,7 +627,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/39ab3d2/src/slides/SlideGS.ts#L299">slides/SlideGS.ts:299</a></li>
+									<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/f91065d/src/slides/SlideGS.ts#L324">slides/SlideGS.ts:324</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -626,7 +659,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/39ab3d2/src/slides/SlideGS.ts#L318">slides/SlideGS.ts:318</a></li>
+									<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/f91065d/src/slides/SlideGS.ts#L343">slides/SlideGS.ts:343</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -676,6 +709,9 @@
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
 								<a href="slidegs.html#_slide" class="tsd-kind-icon">_slide</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-private">
+								<a href="slidegs.html#_findpicture" class="tsd-kind-icon">_find<wbr>Picture</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="slidegs.html#additem" class="tsd-kind-icon">add<wbr>Item</a>
