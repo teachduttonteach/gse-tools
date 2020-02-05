@@ -151,7 +151,7 @@ type BellworkArgs = {
    * Notes on the slide that holds the upcoming due dates; default is
    *  "Upcoming Due Dates"
    */
-  upcomingDueDatesSlideName?: string;
+  upcomingDueDatesSlideNotes?: string;
   /**
    * Delimiter for the display of the due dates; default is "/"
    */
@@ -169,6 +169,11 @@ type BellworkArgs = {
    *  default
    */
   timezoneOffset?: number;
+  /**
+   * The name of the data settings sheet to use; defaults to 'gse-tools 
+   *  Settings'
+   */
+  dataSheet?: string;
 };
 
 /**
@@ -183,9 +188,10 @@ export function updateBellwork(args: BellworkArgs): void {
     bellworkFormIDColumnName = 'Bellwork Form ID',
     onSubmitBellworkFunctionName = 'onSubmitBellwork',
     bellworkSpreadsheetIDColumnName = 'Bellwork Spreadsheet ID',
+    dataSheet
   } = args;
 
-  const settings: SpreadsheetGS = getDataSheet();
+  const settings: SpreadsheetGS = getDataSheet(dataSheet);
   const bellworkSettings: MapGS<string | Date, MapGS<string | Date,
     string | Date>> = settings.getDataAsMap(bellworkSettingsSheetName);
 
@@ -284,14 +290,14 @@ export function updateTodaysQuestion(args: BellworkArgs,
         questionSheet.
             getValue(questionRow, +thisBellworkColumnName).toString();
 
-      const thisQuestionTypeColumnName = row.get(questionTypeColumnName);
-      if (thisQuestionTypeColumnName == null) {
+      const thisQuestionType = row.get(questionTypeColumnName);
+      if (thisQuestionType == null) {
         throw new Error('Could not find question type column name in ' +
         'Samples.doForBellwork()');
       }
       let questionTypeString: string =
         questionSheet.
-            getValue(questionRow, +thisQuestionTypeColumnName).toString();
+            getValue(questionRow, +thisQuestionType).toString();
 
       if (!(questionTypeString in QuestionType)) {
         questionTypeString = 'Paragraph';
@@ -339,7 +345,7 @@ export function showBellworkOnSlide(
     dailyPicturesColumnName = 'Daily Pictures Folder ID',
     dailyPicturesNotes = 'Daily Pictures',
     daysToLookAheadColumnName = 'Days to Look Ahead',
-    upcomingDueDatesSlideName = 'Upcoming Due Dates',
+    upcomingDueDatesSlideNotes = 'Upcoming Due Dates',
     exitQuestionColumnName = 'Exit Question Column Number',
     exitQuestionSlideNotes = 'Exit Question',
     optionsColumnName = 'Question Options Column Number',
@@ -350,45 +356,47 @@ export function showBellworkOnSlide(
     displayBellworkOnSlide = true,
     displayExitQuestionOnSlide = true,
     displayUpcomingDueDates = true,
+    timezoneOffset = -5
   } = args;
 
-  const thisSlideshowColumnName =
+  const thisSlideshowID =
     settingsRow.get(bellworkSlideshowIDColumnName);
-  if (thisSlideshowColumnName == null ||
-    typeof thisSlideshowColumnName !== 'string') {
-    throw new Error('Could not find slide show column name in ' +
+  if (thisSlideshowID == null ||
+    typeof thisSlideshowID !== 'string') {
+    throw new Error('Could not find slide show ID in ' +
       'Samples.updateTodaysQuestion()');
   }
-  const slideShow = new SlideshowGS(thisSlideshowColumnName);
+  const slideShow = new SlideshowGS(thisSlideshowID);
 
   const thisBellworkImageFolder = settingsRow.get(dailyPicturesColumnName);
   if ((thisBellworkImageFolder !== null) && (thisBellworkImageFolder != '')) {
-    slideShow.changeSlidePictureFromFolder(
-        thisBellworkImageFolder.toString(),
-        slideShow.getSlideByNotes(dailyPicturesNotes));
+    let thisSlide = slideShow.getSlideByNotes(dailyPicturesNotes);
+    if (thisSlide != null) slideShow.changeSlidePictureFromFolder(
+      thisBellworkImageFolder.toString(), thisSlide);
   }
 
   if (displayBellworkOnSlide || displayExitQuestionOnSlide ||
       displayUpcomingDueDates) {
     if (displayBellworkOnSlide) {
-      const bellworkSlide: SlideGS =
+      const bellworkSlide =
         slideShow.getSlideByNotes(bellworkSlideNotes);
-
-      const theseOptionsColumnName = settingsRow.get(optionsColumnName);
-      if (theseOptionsColumnName != null) {
-        const theseOptions = questionSheet.getValue(questionRow,
-            +theseOptionsColumnName).toString();
-        if (theseOptions !== null && theseOptions != '') {
-          bellworkSlide.addItem(questionType, theseOptions);
+      if (bellworkSlide != null) {
+        const theseOptionsColumnName = settingsRow.get(optionsColumnName);
+        if (theseOptionsColumnName != null) {
+          const theseOptions = questionSheet.getValue(questionRow,
+              +theseOptionsColumnName).toString();
+          if (theseOptions !== null && theseOptions != '') {
+            bellworkSlide.addItem(questionType, theseOptions);
+          }
         }
-      }
-      bellworkSlide.setTitle(questionTitle);
-
-      const thisBellworkImage = settingsRow.get(imageColumnName);
-      if (thisBellworkImage != null) {
-        slideShow.changeSlidePicture(
-            questionSheet.getValue(questionRow, +thisBellworkImage,
-            ).toString(), bellworkSlide);
+        bellworkSlide.setTitle(questionTitle);
+  
+        const thisBellworkImage = settingsRow.get(imageColumnName);
+        if (thisBellworkImage != null) {
+          slideShow.changeSlidePicture(
+              questionSheet.getValue(questionRow, +thisBellworkImage,
+              ).toString(), bellworkSlide);
+        }
       }
     }
 
@@ -410,9 +418,10 @@ export function showBellworkOnSlide(
         new CalendarGS(currentClass.getCalendarId()).getUpcomingDueDates(
             +thisDaysToLookAhead,
             dueDateParams,
+            timezoneOffset
         );
-      slideShow.getSlideByNotes(upcomingDueDatesSlideName)
-          .setList(upcomingEvents);
+      let thisSlide = slideShow.getSlideByNotes(upcomingDueDatesSlideNotes);
+      if (thisSlide != null) thisSlide.setList(upcomingEvents);
     }
 
     if (displayExitQuestionOnSlide) {

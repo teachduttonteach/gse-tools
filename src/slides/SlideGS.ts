@@ -81,7 +81,7 @@ export function setSlideBody(obj: SlideGS, body: string): SlideGS {
  * Sets the body of the slide to a list
  *
  * @param {SlideGS} obj the Slide object
- * @param {string} text the list, as a string with "\t" for each new
+ * @param {string} text the list, as a string with "\n" for each new
  *  member of the list
  * @param {GoogleAppsScript.Slides.ListPreset} bulletType the optional
  *  type of bullet for the list
@@ -374,7 +374,7 @@ export class SlideGS {
   /**
    * Sets the body of the slide to a list
    *
-   * @param {string} text the list, as a string with "\t" for each new
+   * @param {string} text the list, as a string with "\n" for each new
    *  member of the list
    * @param {GoogleAppsScript.Slides.ListPreset} bulletType the optional
    *  type of bullet for the list

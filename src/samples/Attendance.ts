@@ -107,7 +107,6 @@ export function changeAttendance(_e: GoogleAppsScript.Events.SheetsOnEdit,
             returnColumnNames.push(colName);
           }
 
-          returnColumnNames.push(currentDate);
           const records = studentInfoSheet.getRecordsMatchingColumnValue(
               secondaryColumns[0].name,
               secondaryColumns[0].value,

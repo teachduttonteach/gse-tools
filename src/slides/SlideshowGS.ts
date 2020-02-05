@@ -129,7 +129,8 @@ export function addSlide(obj: SlideshowGS, title: string, body: string,
  *
  * @return {SlideGS} the slide object
  */
-export function getSlideByNotes(obj: SlideshowGS, notes: string): SlideGS {
+export function getSlideByNotes(obj: SlideshowGS, notes: string): 
+  SlideGS | null {
   return obj.getSlideByNotes(notes);
 }
 
@@ -372,7 +373,7 @@ export class SlideshowGS extends UiGS {
    *
    * @return {SlideGS} the slide object
    */
-  getSlideByNotes(notes: string): SlideGS {
+  getSlideByNotes(notes: string): SlideGS | null {
     if (notes == null) {
       throw new Error('Notes are not defined to remove in ' +
       'SlideshowGS.getSlideByNotes()');
@@ -382,8 +383,9 @@ export class SlideshowGS extends UiGS {
         return this._allSlides[j];
       }
     }
-    throw new Error('Slide id ' + notes + ' not found in ' +
+    console.log('WARNING: Slide id ' + notes + ' not found in ' +
       'SlideshowGS.getSlideByNotes()');
+    return null;
   }
 
   /**
@@ -397,7 +399,8 @@ export class SlideshowGS extends UiGS {
     if (id == null) {
       throw new Error('ID is not defined to remove in Slides.removeSlide');
     }
-    this.getSlideByNotes(id).remove();
+    const thisSlide = this.getSlideByNotes(id);
+    if (thisSlide != null) thisSlide.remove();
     this._getAllSlides();
     return this;
   }
@@ -428,7 +431,8 @@ export class SlideshowGS extends UiGS {
    * @return {SlideshowGS} the object for chaining
    */
   setSlideBodyByType(slideNotes: string, slideText: string): SlideshowGS {
-    this.getSlideByNotes(slideNotes).setBody(slideText);
+    let thisSlide = this.getSlideByNotes(slideNotes);
+    if (thisSlide != null) thisSlide.setBody(slideText);
     return this;
   }
 
@@ -441,7 +445,8 @@ export class SlideshowGS extends UiGS {
    * @return {SlideshowGS} the object for chaining
    */
   setSlideTitleByType(slideNotes: string, title: string): SlideshowGS {
-    this.getSlideByNotes(slideNotes).setTitle(title);
+    let thisSlide = this.getSlideByNotes(slideNotes);
+    if (thisSlide != null) thisSlide.setTitle(title);
     return this;
   }
 }

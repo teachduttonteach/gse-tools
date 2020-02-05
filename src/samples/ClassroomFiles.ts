@@ -35,6 +35,11 @@ type ClassroomArgs = {
    * Parameters for displaying due dates; default is empty
    */
   dueDateParams?: DateParams;
+  /**
+   * The name of the data settings sheet to use; defaults to 'gse-tools 
+   *  Settings'
+   */
+  dataSheet?: string;
 };
 
 /**
@@ -46,9 +51,10 @@ export function updateClassroomFiles(args: ClassroomArgs): void {
   const {
     settingsName = 'Classroom',
     classroomCodeColumnName = 'Classroom Code',
+    dataSheet
   } = args;
 
-  const settings: SpreadsheetGS = getDataSheet();
+  const settings: SpreadsheetGS = getDataSheet(dataSheet);
   const classworkSettings: MapGS<string | Date, MapGS<string | Date,
     string | Date>> = settings.getDataAsMap(
         settingsName,

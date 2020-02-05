@@ -975,6 +975,14 @@ export class SheetGS {
       );
     }
 
+    // TODO: Set values with this._sheet.getRange().setValues()
+
+    if (value instanceof Array && value.every(function(e: any | any[]) { return e instanceof Array })) {
+      //@ts-ignore
+      this._sheet.getRange(startRow, startCol, numRows, numCols).setValues(value);
+      return this.resetData();
+    }
+
     for (let i = 0; i < numRows; i++) {
       for (let j = 0; j < numCols; j++) {
         if (value instanceof Array) {
