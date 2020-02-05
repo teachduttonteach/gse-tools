@@ -1,9 +1,46 @@
 import { CalendarEventGS } from './CalendarEventGS';
-export function newCalendar(id, hoursFromUTC) {
-    return new CalendarGS(id, hoursFromUTC);
+import { getTodaysDate } from '../utils/Utilities';
+/**
+ * Class to hold properties and methods to manipulate the Google Calendar
+ *
+ * ```javascript
+ * var enrollmentCode = '1234qz';
+ *
+ * var gseClassroom = gsetools.newClassroom();
+ * var gseClass = gsetools.getGoogleClass(gseClassroom, enrollmentCode);
+ * var calendarId = gsetools.getCalendarId(gseClass);
+ *
+ * var gseCalendar = gsetools.newCalendar(calendarId);
+ * var upcomingEvents = gsetools.getUpcomingEvents(gseCalendar, 10);
+ *
+ * var eventOptions = {
+ *  dateDelim: '/',
+ *  dateOrder: 'MD',
+ *  noEventString: 'NONE',
+ *  titlePrefix: ' : '
+ * };
+ * var upcomingDueDatesArray =
+ *  gsetools.getUpcomingDueDatesList(gseCalendar, 14, eventOptions);
+ * var upcomingDueDatesString =
+ *  gsetools.getUpcomingDueDates(gseCalendar, 14, eventOptions);
+ *
+ * var calendarId = gsetools.getId(gseCalendar);
+ * ```
+ *
+ * @param {string} id the ID of the calendar
+ * @param {number} timezoneOffset the timezone offset for the user,
+ *  default is -5
+ * @return {CalendarGS} the Calendar object
+ */
+export function newCalendar(id, timezoneOffset = -5) {
+    return new CalendarGS(id, timezoneOffset);
 }
 /**
  * Gets the underlying Google Apps Script object for direct access
+ * ```javascript
+ * var gseCalendar = gsetools.newCalendar(calendarId);
+ * var googleCalendar = gsetools.getCalendarObject(gseCalendar);
+ * ```
  *
  * @param {CalendarGS} obj the calendar object
  * @return {GoogleAppsScript.Calendar.Calendar} the Google Calendar object
@@ -15,7 +52,13 @@ export function getCalendarObject(obj) {
  * Get the id of the Google Calendar
  *
  * ```javascript
- * var calendarId = gseCalendar.getId();
+ * var enrollmentCode = '1234qz';
+ *
+ * var gseClassroom = gsetools.newClassroom();
+ * var gseClass = gsetools.getGoogleClass(gseClassroom, enrollmentCode);
+ * var calendarId = gsetools.getCalendarId(gseClass);
+ *
+ * var gseCalendar = gsetools.newCalendar(calendarId);
  * ```
  *
  * @param {CalendarGS} obj the calendar object
@@ -27,13 +70,17 @@ export function getCalendarId(obj) {
 /**
  * Gets the upcoming due dates for events on the calendar
  * ```javascript
+ * var gseCalendar = gsetools.newCalendar(calendarId);
+ * var upcomingEvents = gsetools.getUpcomingEvents(gseCalendar, 10);
+ *
  * var eventOptions = {
- *  "noEventString": "None",
- *  "order": "MD",
- *  "titlePrefix": "Title: ",
- *  "dateDelim": "/"
- * }
- * var dueDates = getCalendarUpcomingDueDates(calendar, 10, eventOptions);
+ *  dateDelim: '/',
+ *  dateOrder: 'MD',
+ *  noEventString: 'NONE',
+ *  titlePrefix: ' : '
+ * };
+ * var upcomingDueDatesArray =
+ *  gsetools.getUpcomingDueDates(gseCalendar, 14, eventOptions);
  * ```
  *
  * @param {CalendarGS} obj the calendar object
@@ -41,22 +88,26 @@ export function getCalendarId(obj) {
  * events on the calendar
  * @param {DateParams} eventOptions options for displaying that there are
  *  no events and how to display the date; see above for defaults
- *
+ * @param {number} timezoneOffset the timezone
  * @return {string} the list of due dates as a string for use in Slides
  */
-export function getUpcomingDueDates(obj, daysToLookAhead, eventOptions) {
-    return obj.getUpcomingDueDates(daysToLookAhead, eventOptions);
+export function getUpcomingDueDates(obj, daysToLookAhead, eventOptions, timezoneOffset = -5) {
+    return obj.getUpcomingDueDates(daysToLookAhead, eventOptions, timezoneOffset);
 }
 /**
- * Gets the upcoming due dates for events on the calendar
+ * Gets the upcoming due dates for events on the calendar as an array
  * ```javascript
+ * var gseCalendar = gsetools.newCalendar(calendarId);
+ * var upcomingEvents = gsetools.getUpcomingEvents(gseCalendar, 10);
+ *
  * var eventOptions = {
- *  "noEventString": "None",
- *  "order": "MD",
- *  "titlePrefix": "Title: ",
- *  "dateDelim": "/"
- * }
- * var dueDatesList = getCalendarUpcomingDueDates(calendar, 10, eventOptions);
+ *  dateDelim: '/',
+ *  dateOrder: 'MD',
+ *  noEventString: 'NONE',
+ *  titlePrefix: ' : '
+ * };
+ * var upcomingDueDatesArray =
+ *  gsetools.getUpcomingDueDatesList(gseCalendar, 14, eventOptions);
  * ```
  *
  * @param {CalendarGS} obj the calendar object
@@ -65,35 +116,59 @@ export function getUpcomingDueDates(obj, daysToLookAhead, eventOptions) {
  * @param {DateParams} eventOptions options for displaying that there are
  *  no events and how to display the date; see above for defaults
  * @param {string} noEventString the string to display if there is no event
+ * @param {number} timezoneOffset the timezone
  * @return {Array<string>} the list of due dates as an array
  */
-export function getUpcomingDueDatesList(obj, daysToLookAhead, eventOptions, noEventString) {
-    return obj.getUpcomingDueDatesList(daysToLookAhead, eventOptions, noEventString);
+export function getUpcomingDueDatesList(obj, daysToLookAhead, eventOptions, timezoneOffset = -5) {
+    return obj.getUpcomingDueDatesList(daysToLookAhead, eventOptions, timezoneOffset);
 }
 /**
  * Gets the upcoming events on the calendar
  * ```javascript
- * var upcomingEvents = getCalendarUpcomingEvents(calendar, 10);
+ * var enrollmentCode = '1234qz';
+ *
+ * var gseClassroom = gsetools.newClassroom();
+ * var gseClass = gsetools.getGoogleClass(gseClassroom, enrollmentCode);
+ * var calendarId = gsetools.getCalendarId(gseClass);
+ *
+ * var gseCalendar = gsetools.newCalendar(calendarId);
+ * var upcomingEvents = gsetools.getUpcomingEvents(gseCalendar, 10);
  * ```
  *
  * @param {CalendarGS} obj the calendar object
  * @param {number} daysToLookAhead the number of days ahead to find
  *  events on the calendar
+ * @param {number} timezoneOffset the timezone
  *
  * @return {Array<CalendarEventGS>} the list of calendar events
  */
-export function getUpcomingEvents(obj, daysToLookAhead) {
-    return obj.getUpcomingEvents(daysToLookAhead);
+export function getUpcomingEvents(obj, daysToLookAhead, timezoneOffset) {
+    return obj.getUpcomingEvents(daysToLookAhead, timezoneOffset);
 }
 /**
  * Class to hold properties and methods to manipulate the Google Calendar
  *
  * ```javascript
+ * // Need to active Classroom in Advanced Services
+ * var gseClassroom = new gsetools.ClassroomGS();
+ *
  * var gseClass = gseClassroom.getClass(enrollmentCode);
  * var calendarId = gseClass.getCalendarId();
  *
- * var gseCalendar = new gseTools.CalendarGS(calendarId);
+ * var gseCalendar = new gsetools.CalendarGS(calendarId);
  * var upcomingEvents = gseCalendar.getUpcomingEvents(10);
+ *
+ * var eventOptions = {
+ *  dateDelim: '/',
+ *  dateOrder: 'MD',
+ *  noEventString: 'NONE',
+ *  titlePrefix: ' : '
+ * };
+ * var upcomingDueDatesArray =
+ *  gseCalendar.getUpcomingDueDatesList(14, eventOptions);
+ * var upcomingDueDatesString =
+ *  gseCalendar.getUpcomingDueDates(14, eventOptions);
+ *
  * var calendarId = gseCalendar.getId();
  * ```
  *
@@ -104,27 +179,26 @@ export class CalendarGS {
      * var gseCalendar = new gseTools.CalendarGS(calendarId);
      * ```
      * @param {string} id the id for this Google Calendar
-     * @param {number} hoursFromUTC specify how many hours off of UTC you
+     * @param {number} timezoneOffset specify how many hours off of UTC you
      *  want to display
      */
-    constructor(id, hoursFromUTC = 0) {
+    constructor(id, timezoneOffset = -5) {
         this._oneDay = 24 * 60 * 60 * 1000;
-        const dateInComputersTimeZone = new Date();
         this._endDate = new Date();
         this._upcomingEventObjects = [];
         this._id = id;
-        const minutesOffset = dateInComputersTimeZone.getTimezoneOffset();
-        const minutesFromUTC = hoursFromUTC * 60;
-        const millisecondAdjustment = (minutesFromUTC - minutesOffset) * 60 * 1000;
-        this._dateToday = new Date();
-        this._dateToday.setTime(dateInComputersTimeZone.getTime() - millisecondAdjustment);
+        this._dateToday = getTodaysDate(timezoneOffset);
         this._calendar = CalendarApp.getCalendarById(id);
         if (this._calendar == null) {
-            throw new Error('Could not find Calendar ' + 'with id ' + id + ' in CalendarGS()');
+            throw new Error('Could not find Calendar ' + 'with id ' + id +
+                ' in CalendarGS()');
         }
     }
     /**
      * Gets the underlying Google Apps Script object for direct access
+     * ```javascript
+     * var googleCalendar = gseCalendar.getObject();
+     * ```
      *
      * @return {GoogleAppsScript.Calendar.Calendar} the Google Calendar object
      */
@@ -139,12 +213,14 @@ export class CalendarGS {
      *
      * @param {number} daysToLookAhead the number of days ahead to find
      *  events on the calendar
+     * @param {number} timezoneOffset the timezone shift
      *
      * @return {Array<CalendarEventGS>} the list of calendar events
      */
-    getUpcomingEvents(daysToLookAhead) {
-        this._endDate = new Date();
-        this._endDate.setMilliseconds(this._dateToday.getMilliseconds() + daysToLookAhead * this._oneDay);
+    getUpcomingEvents(daysToLookAhead, timezoneOffset) {
+        this._endDate = getTodaysDate(timezoneOffset);
+        this._endDate.setMilliseconds(this._dateToday.getMilliseconds() +
+            daysToLookAhead * this._oneDay);
         this._upcomingEventObjects = [];
         for (const event of this._calendar.getEvents(this._dateToday, this._endDate)) {
             this._upcomingEventObjects.push(new CalendarEventGS(event));
@@ -152,14 +228,14 @@ export class CalendarGS {
         return this._upcomingEventObjects;
     }
     /**
-     * Gets the upcoming due dates for events on the calendar
+     * Gets the upcoming due dates for events on the calendar as a string
      * ```javascript
      * var eventOptions = {
-     *  "noEventString": "None",
-     *  "order": "MD",
-     *  "titlePrefix": "Title: ",
-     *  "dateDelim": "/"
-     * }
+     *  dateDelim: '/',
+     *  dateOrder: 'MD',
+     *  noEventString: 'NONE',
+     *  titlePrefix: ' : '
+     * };
      * var dueDates = gseCalendar.getUpcomingDueDates(10, eventOptions);
      * ```
      *
@@ -167,12 +243,13 @@ export class CalendarGS {
      * events on the calendar
      * @param {DateParams} eventOptions options for displaying that there are
      *  no events and how to display the date; see above for defaults
+     * @param {number} timezoneOffset the timezone
      *
      * @return {string} the list of due dates as a string for use in Slides
      */
-    getUpcomingDueDates(daysToLookAhead, eventOptions) {
+    getUpcomingDueDates(daysToLookAhead, eventOptions, timezoneOffset) {
         let dueDates = '';
-        for (const event of this.getUpcomingEvents(daysToLookAhead)) {
+        for (const event of this.getUpcomingEvents(daysToLookAhead, timezoneOffset)) {
             if (dueDates != '')
                 dueDates += '\n';
             dueDates += '\t' + event.getDate(eventOptions);
@@ -182,14 +259,14 @@ export class CalendarGS {
         return dueDates;
     }
     /**
-     * Gets the upcoming due dates for events on the calendar
+     * Gets the upcoming due dates for events on the calendar as an array
      * ```javascript
      * var eventOptions = {
-     *  "noEventString": "None",
-     *  "order": "MD",
-     *  "titlePrefix": "Title: ",
-     *  "dateDelim": "/"
-     * }
+     *  dateDelim: '/',
+     *  dateOrder: 'MD',
+     *  noEventString: 'NONE',
+     *  titlePrefix: ' : '
+     * };
      * var dueDatesList = gseCalendar.getUpcomingDueDates(10, eventOptions);
      * ```
      *
@@ -197,12 +274,12 @@ export class CalendarGS {
      *  on the calendar
      * @param {DateParams} eventOptions options for displaying that there are
      *  no events and how to display the date; see above for defaults
-     * @param {string} noEventString the string to display if there is no event
+     * @param {number} timezoneOffset the timezone
      * @return {Array<string>} the list of due dates as an array
      */
-    getUpcomingDueDatesList(daysToLookAhead, eventOptions, noEventString = 'None') {
+    getUpcomingDueDatesList(daysToLookAhead, eventOptions, timezoneOffset) {
         const dueDates = [];
-        for (const event of this.getUpcomingEvents(daysToLookAhead)) {
+        for (const event of this.getUpcomingEvents(daysToLookAhead, timezoneOffset)) {
             dueDates.push(event.getDate(eventOptions));
         }
         return dueDates;

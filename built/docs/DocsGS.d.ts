@@ -5,6 +5,7 @@ import { UiGS } from '../UiGS';
  *
  * @param {DocsGS} obj the Docs object
  * @param {string} id the id of the underlying Google Doc
+ * @return {DocsGS} the Docs object
  */
 export declare function newDocs(obj: DocsGS, id: string): DocsGS;
 /**
@@ -93,6 +94,12 @@ export declare class DocsGS extends UiGS {
      * @return {GoogleAppsScript.Document.Document} the Google Document object
      */
     getObject(): GoogleAppsScript.Document.Document;
+    /**
+     * Return the body of the document
+     *
+     * @return {GoogleAppsScript.Document.Body} the document body
+     */
+    getBody(): GoogleAppsScript.Document.Body;
     /**
      * Change the delimiter to go between the text before the title and the
      *  title itself

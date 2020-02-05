@@ -74,6 +74,13 @@ export declare class MapGS<A, B> {
      */
     get(key: A): B | null;
     /**
+     * Gets the item number for the specified key
+     *
+     * @param {A} key the key to retrieve
+     * @return {number | null} the value, or null if the key was not found
+     */
+    getNum(key: A): number | null;
+    /**
      * Gets all of the values for the specified key
      *
      * @param {A} key the key to find

@@ -128,6 +128,37 @@ type AgendaArgs = {
 /**
  * Update the daily agenda from Google Sheets, writing to (optionally) a 
  * Google Doc and a slide on a Google Slides
+ * 
+ * ```
+ *   var dateParams = {
+    titlePrefix: ' - ',
+    dateDelim: '/',
+    dateOrder: 'MD',
+    noEventString: 'NONE',
+  };
+  var agendaArgs = {
+    settingsName: 'Agenda',
+    lessonColumnName: 'Lesson Column Number',
+    agendaSlideshowIDColumnName: 'Agenda Slides ID',
+    agendaSpreadsheetIDColumnName: 'Agenda Spreadsheet ID',
+    lessonDateColumnName: 'Lesson Date Column Number',
+    classroomCodeColumnName: 'Classroom Code',
+    agendaFileName: 'Daily Class Agenda',
+    templateName: 'Daily Class Agenda Template',
+    timezoneOffset: -5,
+    agendaSheetNameColumnName: 'Sheet Name',
+    agendaDateColumnName: 'Date Column',
+    agendaSheetDateColumnEnd: 'END',
+    writeAgenda: true,
+    displayAgenda: true,
+    daysToLookAhead: 7,
+    agendaSlideNotes: 'Agenda',
+    agendaDateParams: dateParams,
+    dataSheet: 'GSE Settings'
+  }
+  gsetools.updateDailyAgenda(agendaArgs);
+ * ```
+ * 
  * @param {AgendaArgs} args the parameters to use
  * @return {true} returns true if successful
  */

@@ -5,6 +5,7 @@ import { getDocLevels } from './DocLevels';
  *
  * @param {DocsGS} obj the Docs object
  * @param {string} id the id of the underlying Google Doc
+ * @return {DocsGS} the Docs object
  */
 export function newDocs(obj, id) {
     return new DocsGS(id);
@@ -120,6 +121,14 @@ export class DocsGS extends UiGS {
         return this._docObject;
     }
     /**
+     * Return the body of the document
+     *
+     * @return {GoogleAppsScript.Document.Body} the document body
+     */
+    getBody() {
+        return this._docObject.getBody();
+    }
+    /**
      * Change the delimiter to go between the text before the title and the
      *  title itself
      *
@@ -159,7 +168,8 @@ export class DocsGS extends UiGS {
      */
     appendItem(text, title, link) {
         if (text == null || title == null || link == null) {
-            throw new Error('Text, title and link need to be defined for ' + 'DocsGS.appendItem()');
+            throw new Error('Text, title and link need to be defined for ' +
+                'DocsGS.appendItem()');
         }
         this._docObject
             .getBody()
@@ -178,16 +188,19 @@ export class DocsGS extends UiGS {
      */
     addText(text, level = 'N') {
         if (text == undefined) {
-            throw new Error('Text needs to be defined for the' + ' heading in DocsGS.addText()');
+            throw new Error('Text needs to be defined for the' +
+                ' heading in DocsGS.addText()');
         }
         if (level == undefined) {
-            throw new Error('Level (' + level + ') needs to ' + 'be a ParagraphHeading type in DocsGS.addText()');
+            throw new Error('Level (' + level + ') needs to ' +
+                'be a ParagraphHeading type in DocsGS.addText()');
         }
         if (typeof level === 'string')
             level = level.substr(0, 1).toUpperCase();
         const thisLevel = getDocLevels(level);
         if (thisLevel == null) {
-            throw new Error('Level (' + level + ') needs to ' + 'be a ParagraphHeading type in DocsGS.addText()');
+            throw new Error('Level (' + level + ') needs to ' +
+                'be a ParagraphHeading type in DocsGS.addText()');
         }
         this._docObject
             .getBody()

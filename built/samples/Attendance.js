@@ -1,10 +1,10 @@
 import { SheetEventGS } from '../sheets/SheetEventGS';
 /**
  * Change the attendance value for the student and date
- * @param {SheetEventGS} _e the Google event
+ * @param {SheetEventGS} _e the Google event from onEdit
  * @param {AttendanceParams} args the parameters for attendance
  */
-function changeAttendance(_e, args) {
+export function changeAttendance(_e, args) {
     if (args == null)
         args = {};
     const { workingStatusCell = [1, 1], workingStatusColor = '#DD0000', normalStatusColor = '#FFFFFF', studentInfoSheetName = 'Student Info', attendanceSheetName = 'Attendance', fullnameColumnName = 'Full Name', secondaryColumnsToCheck = [{ name: 'Period', value: [1, 1] }], maximumLength = 40, } = args;
@@ -21,7 +21,7 @@ function changeAttendance(_e, args) {
             return;
         attendanceSheet.changeWorkingStatus(true, workingStatusCell, workingStatusColor);
         const studentInfoSheet = thisActiveSheet.getSheet(studentInfoSheetName);
-        const topRow = attendanceSheet.getRow(thisRow - 1);
+        const topRow = attendanceSheet.getRow(thisRow);
         const name = topRow[0];
         const attendance = topRow[topRow.length - 1];
         const currentDate = attendanceSheet.getValue(1, topRow.length);
@@ -38,21 +38,23 @@ function changeAttendance(_e, args) {
                 if (name != null && attendance != null) {
                     attendanceSheet.clear(2, 1, maximumLength, topRow.length);
                     const returnColumnNames = [fullnameColumnName];
-                    for (const colName of topRow) {
+                    for (const colName of topRow.slice(1)) {
                         returnColumnNames.push(colName);
                     }
-                    returnColumnNames.push(currentDate);
                     const records = studentInfoSheet.getRecordsMatchingColumnValue(secondaryColumns[0].name, secondaryColumns[0].value, returnColumnNames, true);
-                    attendanceSheet.setValues(records, 2, 1, records.length - 1, topRow.length);
+                    attendanceSheet.setValues(records, 2, 1, records.length, topRow.length);
                 }
             }
         }
         else if (thisColumn > 1 && thisColumn < topRow.length) {
-            studentInfoSheet.setValuesAsMap(thisEditedValue, name, topRow[thisColumn - 1], secondaryColumns);
+            // edits a column in the middle between the name and attendance record
+            secondaryColumns.push({ name: fullnameColumnName, value: name });
+            studentInfoSheet.setValueWithMatchingColumns(thisEditedValue, attendanceSheet.getValue(1, thisColumn), secondaryColumns);
         }
         else if (e.getColumn() === topRow.length) {
             // edit the attendance record
-            studentInfoSheet.setValuesAsMap(attendance, name, currentDate, secondaryColumns);
+            secondaryColumns.push({ name: fullnameColumnName, value: name });
+            studentInfoSheet.setValueWithMatchingColumns(attendance, currentDate, secondaryColumns);
         }
         attendanceSheet.changeWorkingStatus(false, workingStatusCell, normalStatusColor);
     }
@@ -64,8 +66,10 @@ function changeAttendance(_e, args) {
 function updateDateCodes() {
   const spreadsheet = getDataSheet();
   let sheet = spreadsheet.getSheet('Daily Schedule');
-  const dailySchedule: Array<Array<Date | string>> = sheet.getValues(1, 1, sheet.getLastRow(), sheet.getLastColumn());
-  const daysOfWeek: MapGS<string | Date, MapGS<string | Date, string | Date>> = new MapGS();
+  const dailySchedule: Array<Array<Date | string>> =
+    sheet.getValues(1, 1, sheet.getLastRow(), sheet.getLastColumn());
+  const daysOfWeek: MapGS<string | Date, MapGS<string | Date, string | Date>>
+    = new MapGS();
   for (let j: number = 1; j < dailySchedule.length; j++) {
     const weeklySchedule: boolean[] = [];
     for (let i = 1; i < 6; i++) {
@@ -76,7 +80,8 @@ function updateDateCodes() {
   }
 
   sheet = new SpreadsheetGS().getSheet('Student Info');
-  const studentInfo = sheet.getValues(1, 1, sheet.getLastRow(), sheet.getLastColumn());
+  const studentInfo = sheet.getValues(1, 1, sheet.getLastRow(),
+    sheet.getLastColumn());
   for (let i = 1; i < studentInfo.length; i++) {
     for (let j = 15; j < studentInfo[0].length; j++) {
       const period = studentInfo[i][1];

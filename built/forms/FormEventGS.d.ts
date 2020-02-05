@@ -9,6 +9,10 @@ import { FormEventOptions } from './FormEventOptions';
  *   alert(formEvent.fullDate("MD", "/", "\n", 0, "T"));
  * }
  * ```
+ *
+ * @param {GoogleAppsScript.Events.FormsOnFormSubmit} e the Google form
+ *  submission event
+ * @return {FormEventGS} the FormEventGS object
  */
 export declare function newFormEvent(e: GoogleAppsScript.Events.FormsOnFormSubmit): FormEventGS;
 /**

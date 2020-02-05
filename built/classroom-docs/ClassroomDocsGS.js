@@ -8,7 +8,7 @@ import { getDocLevels } from '../docs/DocLevels';
  * @param {string} topicName the topic object that contains class info
  * @param {WriteDocsParams} options the options for displaying the info
  *
- * @return {DocsGS} the object for chaining
+ * @return {ClassroomDocsGS} the object for chaining
  */
 export function writeClassroomDocuments(obj, classData, topicName, options) {
     return obj.writeClassroomDocuments(classData, topicName, options);
@@ -17,7 +17,17 @@ export function writeClassroomDocuments(obj, classData, topicName, options) {
  * Class to write a Google Document
  *
  */
-export class ClassroomDocsGS extends DocsGS {
+export class ClassroomDocsGS {
+    /**
+     * @param {DocsGS | string} thisDoc the ID of the document or the DocsGS
+     *  object itself
+     */
+    constructor(thisDoc) {
+        if (typeof thisDoc === 'string')
+            this._doc = new DocsGS(thisDoc);
+        else
+            this._doc = thisDoc;
+    }
     /**
      * Writes a document from the Classroom info
      *
@@ -25,7 +35,7 @@ export class ClassroomDocsGS extends DocsGS {
      * @param {string} topicId the topic id for the class info to print
      * @param {WriteDocsParams} options the options for displaying the info
      *
-     * @return {DocsGS} the object for chaining
+     * @return {ClassroomDocsGS} the object for chaining
      */
     writeClassroomDocuments(classData, topicId, options) {
         // Expand options
@@ -33,25 +43,27 @@ export class ClassroomDocsGS extends DocsGS {
             options = {};
         let { displayAnnouncements = 1, displayCoursework = true, docTitle = undefined } = options;
         // Clear the body and get the doc title
-        this.clearBody();
+        this._doc.clearBody();
         if (docTitle == undefined)
             docTitle = classData.getTopicName(topicId);
         const thisLevel = getDocLevels('T');
         if (docTitle == undefined || thisLevel == undefined) {
-            throw new Error('Title (' + docTitle + ') or level (' + thisLevel + ') not defined in DocsGS.writeClassroomDocuments()');
+            throw new Error('Title (' + docTitle + ') or level (' + thisLevel + ') not defined' +
+                ' in DocsGS.writeClassroomDocuments()');
         }
         // Display the title by removing the first child if necessary
-        const thisBody = this._docObject.getBody();
+        const thisBody = this._doc.getBody();
         const thisChild = thisBody.getChild(0);
         if (thisChild.getType() == DocumentApp.ElementType.LIST_ITEM) {
             thisBody.appendParagraph(docTitle).setHeading(thisLevel);
             thisChild.removeFromParent();
         }
-        else
+        else {
             thisChild
                 .asParagraph()
                 .setHeading(thisLevel)
                 .setText(docTitle);
+        }
         // Display the given number of announcements
         if (displayAnnouncements) {
             const thisAnnouncements = classData.getAnnouncements();
@@ -60,7 +72,7 @@ export class ClassroomDocsGS extends DocsGS {
                     'DocsGS.writeClassroomDocuments()');
             }
             for (let a = 0; a < displayAnnouncements; a++) {
-                this.addText(thisAnnouncements[a], 'Normal');
+                this._doc.addText(thisAnnouncements[a], 'Normal');
             }
         }
         // Display the coursework
@@ -90,12 +102,12 @@ export class ClassroomDocsGS extends DocsGS {
         const { displayCourseworkTitle = true, displayDueDate = true, displayDescription = true, displayMaterials = true, } = options;
         // Display the title, due date and description
         if (displayCourseworkTitle)
-            this.addText(courseWork.title, 2);
+            this._doc.addText(courseWork.title, 2);
         if (displayDueDate && courseWork.dueDate) {
-            this.addText(courseWork.dueDate, 3);
+            this._doc.addText(courseWork.dueDate, 3);
         }
         if (displayDescription && courseWork.description) {
-            this.addText(courseWork.description, 'Normal');
+            this._doc.addText(courseWork.description, 'Normal');
         }
         // Display the materials if they exist
         if (displayMaterials && courseWork.materials != null &&
@@ -111,19 +123,19 @@ export class ClassroomDocsGS extends DocsGS {
      */
     _displayMaterial(materials, options) {
         const { displayFiles = true, displayForms = true, displayLinks = true, displayVideos = true } = options;
-        this.addText('Materials:', 'Normal');
+        this._doc.addText('Materials:', 'Normal');
         for (const material of materials) {
             if (displayFiles && material.file) {
-                this.appendItem('File', material.title, material.file);
+                this._doc.appendItem('File', material.title, material.file);
             }
             else if (displayVideos && material.video) {
-                this.appendItem('Video', material.title, material.video);
+                this._doc.appendItem('Video', material.title, material.video);
             }
             else if (displayLinks && material.link) {
-                this.appendItem('Link', material.title, material.link);
+                this._doc.appendItem('Link', material.title, material.link);
             }
             else if (displayForms && material.form) {
-                this.appendItem('Form', material.title, material.form);
+                this._doc.appendItem('Form', material.title, material.form);
             }
         }
     }

@@ -6,6 +6,8 @@ import { MapGS } from '../map/MapGS';
  * Gets the data from a Google Sheet and provides an interface to it in an
  *  efficient way.
  *
+ * @param {GoogleAppsScript.Spreadsheet.Spreadsheet | string | any} id the ID
+ *  of the spreadsheet or the Sheet object itself
  * @return {SpreadsheetGS} the Spreadsheet object
  */
 export declare function newSpreadsheet(id?: GoogleAppsScript.Spreadsheet.Spreadsheet | string | any): SpreadsheetGS;
@@ -178,7 +180,6 @@ export declare class SpreadsheetGS extends UiGS {
      *  event type are 'onEdit', 'onChange', and 'onSubmit'. The default event
      *  type is ON_EDIT.
      *
-     * @param {string} sheetName the name of the sheet
      * @param {GoogleAppsScript.Script.EventType | string} triggerType the type
      *  of trigger to add, from Script.EventType; or, 'Edit', 'Change'
      *  or 'Submit'
@@ -188,15 +189,15 @@ export declare class SpreadsheetGS extends UiGS {
      */
     addTrigger(triggerType?: GoogleAppsScript.Script.EventType | string, functionName?: string): SpreadsheetGS;
     /**
-    * Update triggers for a particular sheet
-    *
-    * @param {string} sheetName the name of the sheet
-    * @param {GoogleAppsScript.Script.EventType | string} triggerType the type
-    *  of trigger to add, from Script.EventType; or, 'Edit', 'Change'
-    *  or 'Submit'
-    * @param {string} functionName the name of the function to call on trigger
-    * @return {SpreadsheetGS} the object for chaining
-    */
+     * Update triggers for a particular sheet
+     *
+     * @param {string} sheetName the name of the sheet
+     * @param {GoogleAppsScript.Script.EventType | string} triggerType the type
+     *  of trigger to add, from Script.EventType; or, 'Edit', 'Change'
+     *  or 'Submit'
+     * @param {string} functionName the name of the function to call on trigger
+     * @return {SpreadsheetGS} the object for chaining
+     */
     replaceTrigger(sheetName: string, triggerType?: GoogleAppsScript.Script.EventType | string, functionName?: string): SpreadsheetGS;
     /**
      * Delete triggers for a particular function on the entire spreadsheet

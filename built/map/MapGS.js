@@ -138,6 +138,15 @@ export class MapGS {
         return this._values[keyNum];
     }
     /**
+     * Gets the item number for the specified key
+     *
+     * @param {A} key the key to retrieve
+     * @return {number | null} the value, or null if the key was not found
+     */
+    getNum(key) {
+        return this._getMember(key);
+    }
+    /**
      * Gets all of the values for the specified key
      *
      * @param {A} key the key to find

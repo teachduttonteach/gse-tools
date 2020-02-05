@@ -5,7 +5,6 @@
  * @param {number} exp the exponent we're raising the base to
  * @return {number} the result of the exponential calculation
  */
-export declare class Picker {
-    setDoc(dialogName: string, id: string): void;
-    show(dialogText: string, dialogName: string): void;
-}
+/**
+ * Displays a sidebar.
+ */

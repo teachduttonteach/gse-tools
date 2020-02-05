@@ -86,6 +86,13 @@ export declare function getClassTopicInfo(obj: ClassGS, topicId: string): TopicI
 export declare function getClassName(obj: ClassGS): string;
 /**
  * Gets the id of the calendar associated with the course
+ * ```
+ * var enrollmentCode = '1234qz';
+ *
+ * var gseClassroom = gsetools.newClassroom();
+ * var gseClass = gsetools.getGoogleClass(gseClassroom, enrollmentCode);
+ * var calendarId = gsetools.getClassCalendarId(gseClass);
+ * ```
  *
  * @param {ClassGS} obj the Class object
  * @return {string} the calendar id
@@ -124,6 +131,7 @@ export declare class ClassGS {
      * @param {Array<GoogleAppsScript.Classroom.Schema.Material>} materials list
      *  of materials for the course
      * @param {Work} objWork the work object to put the materials into
+     * @return {Work} the object for chaining
      */
     private _addCourseMaterials;
     /**

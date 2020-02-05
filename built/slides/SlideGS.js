@@ -1,7 +1,8 @@
-import { QuestionType } from '../enums/QuestionType';
 /**
  * Class to access methods and properties of individual Slides of Google
  *  Presentations
+ * @param {GoogleAppsScript.Slides.Slide} slideObject the Google Slides object
+ * @return {SlideGS} the underlying object
  */
 export function newSlide(slideObject) {
     return new SlideGS(slideObject);
@@ -16,18 +17,13 @@ export function getSlideObject(obj) {
     return obj.getObject();
 }
 /**
- * Replaces the picture at the specified number (default 0) with the
- *  specified picture
+ * Get the title of the current slide
  *
  * @param {SlideGS} obj the Slide object
- * @param {GoogleAppsScript.Base.BlobSource} picture the blob (data)
- *  holding the picture
- * @param {number} imageNumber the number of the image on the slide
- *
- * @return {number} the number of the page element of the replaced picture
+ * @return {string} the title
  */
-export function replaceSlideImage(obj, picture, imageNumber = 0) {
-    return obj.replaceImage(picture, imageNumber);
+export function getSlideTitle(obj) {
+    return obj.getTitle();
 }
 /**
  * Get the speaker notes from the slide
@@ -75,7 +71,7 @@ export function setSlideBody(obj, body) {
  * Sets the body of the slide to a list
  *
  * @param {SlideGS} obj the Slide object
- * @param {string} text the list, as a string with "\t" for each new
+ * @param {string} text the list, as a string with "\n" for each new
  *  member of the list
  * @param {GoogleAppsScript.Slides.ListPreset} bulletType the optional
  *  type of bullet for the list
@@ -103,7 +99,9 @@ export function addSlideItems(obj, questionOptions, bulletType = SlidesApp.ListP
  * Adds the item to the slide of a particular type
  *
  * @param {SlideGS} obj the Slide object
- * @param {string} type the type of item to add to the slide
+   * @param {QuestionType} type the type of item to add to the slide:
+   *  QuestionType.TRUE_FALSE, QuestionType.MULTIPLE_CHOICE,
+   *  QuestionType.MULTIPLE_SELECT
  * @param {string | Array<string>} itemsToAdd the string or array of
  *  strings that holds the item data
  * @param {GoogleAppsScript.Slides.ListPreset} bulletType the optional
@@ -166,9 +164,11 @@ export function getSlidePageElements(obj) {
 /**
  * Removes the current slide
  * @param {SlideGS} obj the Slide object
+ * @return {SlideGS} the object for chaining
  */
 export function removeSlide(obj) {
-    return obj.remove();
+    obj.remove();
+    return obj;
 }
 /**
  * Class to access methods and properties of individual Slides of Google
@@ -194,31 +194,58 @@ export class SlideGS {
         return this._slide;
     }
     /**
-     * Replaces the picture at the specified number (default 0) with the
-     *  specified picture
+     * Change the picture displayed in the slide
      *
-     * @param {GoogleAppsScript.Base.BlobSource} picture the blob (data)
-     *  holding the picture
-     * @param {number} imageNumber the number of the image on the slide
+     * @param {GoogleAppsScript.Base.BlobSource} chosenPictureBlob the blob
+     *  (data) of the picture to add
+     * @param {number} pictureNumber the number of the picture on the slide
      *
-     * @return {number} the number of the page element of the replaced picture
+     * @return {number} the number of the replaced page element
      */
-    replaceImage(picture, imageNumber = 0) {
-        if (picture == null) {
-            throw new Error('Picture not defined in Slide.replaceImage');
+    changePicture(chosenPictureBlob, pictureNumber = 0) {
+        if (chosenPictureBlob == null) {
+            throw new Error('Slide and blob of chosen picture need to be ' +
+                'defined in Slides.changePicture');
         }
-        let foundImages = 0;
-        for (let j = 0; j < this._pageElements.length; j++) {
-            if (this._pageElements[j].getPageElementType() == SlidesApp.PageElementType.IMAGE) {
-                if (foundImages == imageNumber) {
-                    this._pageElements[j].asImage().replace(picture);
-                    return j;
+        const pictureId = this._findPicture(pictureNumber);
+        if (pictureId == -1) {
+            this._slide.insertImage(chosenPictureBlob);
+            this._pageElements = this._slide.getPageElements();
+            return this._findPicture(pictureNumber);
+        }
+        this._pageElements[pictureId].asImage().replace(chosenPictureBlob);
+        return pictureId;
+    }
+    /**
+     * Find the picture on the slide according to the number
+     *
+     * @param {number} pictureNumber the sequential number of the picture
+     * @return {number} the ID of the picture or -1 if not found
+     */
+    _findPicture(pictureNumber) {
+        let countPictures = 0;
+        for (let pictureId = 0; pictureId < this._pageElements.length; pictureId++) {
+            if (this._pageElements[pictureId].getPageElementType() ==
+                SlidesApp.PageElementType.IMAGE) {
+                if (countPictures == pictureNumber) {
+                    return pictureId;
                 }
-                else
-                    foundImages++;
+                countPictures++;
             }
         }
-        throw new Error('Could not find picture number ' + imageNumber + ' on slide in Slide.replaceImage');
+        return -1;
+    }
+    /**
+     * Get the title of the current slide
+     *
+     * @return {string} the title
+     */
+    getTitle() {
+        return this._slide
+            .getPlaceholder(SlidesApp.PlaceholderType.TITLE)
+            .asShape()
+            .getText()
+            .asString();
     }
     /**
      * Get the speaker notes from the slide
@@ -289,7 +316,7 @@ export class SlideGS {
     /**
      * Sets the body of the slide to a list
      *
-     * @param {string} text the list, as a string with "\t" for each new
+     * @param {string} text the list, as a string with "\n" for each new
      *  member of the list
      * @param {GoogleAppsScript.Slides.ListPreset} bulletType the optional
      *  type of bullet for the list
@@ -335,7 +362,9 @@ export class SlideGS {
     /**
      * Adds the item to the slide of a particular type
      *
-     * @param {string} type the type of item to add to the slide
+     * @param {QuestionType} type the type of item to add to the slide:
+     *  QuestionType.TRUE_FALSE, QuestionType.MULTIPLE_CHOICE,
+     *  QuestionType.MULTIPLE_SELECT
      * @param {string | Array<string>} itemsToAdd the string or array of
      *  strings that holds the item data
      * @param {GoogleAppsScript.Slides.ListPreset} bulletType the optional
@@ -345,40 +374,15 @@ export class SlideGS {
      */
     addItem(type, itemsToAdd, bulletType = SlidesApp.ListPreset.DISC_CIRCLE_SQUARE) {
         switch (type) {
-            case QuestionType.TRUE_FALSE:
+            case 'True / False':
                 this.setBody('True or False?');
                 break;
-            case QuestionType.MULTIPLE_CHOICE:
-            case QuestionType.MULTIPLE_SELECT:
+            case 'Multiple Choice':
+            case 'Multiple Select':
                 this.addItems(itemsToAdd, bulletType);
                 break;
         }
         return this;
-    }
-    /**
-     * Change the picture displayed in the slide
-     *
-     * @param {GoogleAppsScript.Base.BlobSource} chosenPictureBlob the blob
-     *  (data) of the picture to add
-     * @param {number} pictureNumber the number of the picture on the slide
-     *
-     * @return {number} the number of the replaced page element
-     */
-    changePicture(chosenPictureBlob, pictureNumber = 0) {
-        if (chosenPictureBlob == null) {
-            throw new Error('Slide and blob of chosen picture need to be ' + 'defined in Slides.changePicture');
-        }
-        let countPictures = 0;
-        for (let pictureId = 0; pictureId < this._pageElements.length; pictureId++) {
-            if (this._pageElements[pictureId].getPageElementType() == SlidesApp.PageElementType.IMAGE) {
-                if (countPictures == pictureNumber) {
-                    this._pageElements[pictureId].asImage().replace(chosenPictureBlob);
-                    return pictureId;
-                }
-                countPictures++;
-            }
-        }
-        return -1;
     }
     /**
      * Sets the dimensions of the slide for picture orientation
@@ -391,7 +395,8 @@ export class SlideGS {
      */
     setDimensions(dimensions) {
         if (dimensions == undefined) {
-            throw new Error('Height and width of dimensions need to all be ' + 'integers in Slides.setDimensions');
+            throw new Error('Height and width of dimensions need to all be ' +
+                'integers in Slides.setDimensions');
         }
         this._dimensions = dimensions;
         return this;
@@ -408,13 +413,21 @@ export class SlideGS {
      */
     positionPicture(id, bottom = true, right = true) {
         if (id == null) {
-            throw new Error('ID and Slide need to be defined in ' + 'SlidesGS.positionPicture()');
+            throw new Error('ID and Slide need to be defined in ' +
+                'SlidesGS.positionPicture()');
+        }
+        if (id == -1) {
+            throw new Error('Could not find picture on current slide' +
+                ' in SlidesGS.positionPicture()');
         }
         if (this._pageElements == null) {
-            throw new Error('Could not get slide specified by Slide object in ' + 'Slides.positionPicture');
+            throw new Error('Could not get slide ' +
+                'specified by Slide object in SlidesGS.positionPicture()');
         }
         if (this._pageElements[id] == null) {
-            throw new Error('Could not get element id (' + id + ') off of Slide object in Slides.positionPicture');
+            throw new Error('Could not get ' +
+                'element id (' + id +
+                ') off of Slide object in SlidesGS.positionPicture');
         }
         const height = this._pageElements[id].getHeight();
         const width = this._pageElements[id].getWidth();

@@ -1,10 +1,10 @@
 export var QuestionType;
 (function (QuestionType) {
-    QuestionType["PARAGRAPH"] = "Paragraph";
-    QuestionType["MULTIPLE_CHOICE"] = "Multiple Choice";
-    QuestionType["MULTIPLE_SELECT"] = "Multiple Select";
-    QuestionType["MC_GRID"] = "MC Grid";
-    QuestionType["MS_GRID"] = "MS Grid";
-    QuestionType["SHORT_ANSWER"] = "Short Answer";
-    QuestionType["TRUE_FALSE"] = "True / False";
+    QuestionType[QuestionType["Paragraph"] = 0] = "Paragraph";
+    QuestionType[QuestionType["Multiple Choice"] = 1] = "Multiple Choice";
+    QuestionType[QuestionType["Multiple Select"] = 2] = "Multiple Select";
+    QuestionType[QuestionType["MC Grid"] = 3] = "MC Grid";
+    QuestionType[QuestionType["MS Grid"] = 4] = "MS Grid";
+    QuestionType[QuestionType["Short Answer"] = 5] = "Short Answer";
+    QuestionType[QuestionType["True / False"] = 6] = "True / False";
 })(QuestionType || (QuestionType = {}));

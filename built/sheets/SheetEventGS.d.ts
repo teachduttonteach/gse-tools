@@ -1,11 +1,16 @@
 /// <reference types="google-apps-script" />
 import { SpreadsheetGS } from './SpreadsheetGS';
 import { SheetGS } from './SheetGS';
+import { MapGS } from '../map/MapGS';
 /**
  * Class to process Spreadsheet events (like onEdit, onChange)
  *
- * @param {GoogleAppsScript.Events.SheetsOnEdit} event the underlying
+ * @param {GoogleAppsScript.Events.SheetsOnEdit |
+ * GoogleAppsScript.Events.SheetsOnChange |
+ * GoogleAppsScript.Events.SheetsOnFormSubmit |
+ * GoogleAppsScript.Events.SheetsOnOpen} event the underlying
  *  event object
+ * @return {SheetEventGS} the SheetEventGS object
  */
 export declare function newSheetEvent(event: GoogleAppsScript.Events.SheetsOnEdit | GoogleAppsScript.Events.SheetsOnChange | GoogleAppsScript.Events.SheetsOnFormSubmit | GoogleAppsScript.Events.SheetsOnOpen): SheetEventGS;
 /**
@@ -85,7 +90,7 @@ export declare function checkSheetEventCell(obj: SheetEventGS): boolean | undefi
  * @return {string | undefined} the value of the cell, or undefined if the
  *  event has no sheet
  */
-export declare function getSheetEventValue(obj: SheetEventGS, row: number, col: number): string | undefined;
+export declare function getSheetEventValue(obj: SheetEventGS, row: number, col: number): string | Date | undefined;
 /**
  * Adds sheet to the trigger
  *
@@ -141,6 +146,7 @@ export declare class SheetEventGS {
     private _value;
     private _triggerRanges;
     private _triggerSheet;
+    private _namedValues;
     private _event;
     private _activeSheet;
     /**
@@ -197,6 +203,12 @@ export declare class SheetEventGS {
      */
     getColumn(): number | undefined;
     /**
+     * Get the SheetEvent values as a Map object
+     *
+     * @return {MapGS<string, Array<string>>} the Map object of values
+     */
+    getValuesAsMap(): MapGS<string, Array<string>>;
+    /**
      * Get the value that has been edited
      *
      * @return {string | Date | undefined} the value, or undefined if the
@@ -219,7 +231,7 @@ export declare class SheetEventGS {
      * @return {string | undefined} the value of the cell, or undefined if the
      *  event does not refer to a cell
      */
-    getValue(row: number, col: number): string | undefined;
+    getValue(row: number, col: number): string | Date | undefined;
     /**
      * Adds sheet to the trigger
      *

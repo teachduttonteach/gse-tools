@@ -12,9 +12,18 @@ export declare function benchmark(obj: object, method: string): void;
  */
 export declare function getOAuthToken(): string;
 /**
- * ONE_DAY equals the number of milliseconds in one day
+ * Gets the number of milliseconds in one day
+ * @return {number} the number of milliseconds in one day
  */
-export declare const ONE_DAY: number;
+export declare function getOneDay(): number;
+/**
+ * Get today's date with the timezone offset
+ *
+ * @param {number} timezoneOffset how many hours from GMT the desired user is,
+ *  negative for west of GMT, positive for east; default is -5 (EST)
+ * @return {Date} the altered date
+ */
+export declare function getTodaysDate(timezoneOffset: number): Date;
 /**
  * Checks to see if two dates are equal
  *
@@ -25,7 +34,7 @@ export declare const ONE_DAY: number;
  *  checks to see if the day is equal
  * @return {boolean} true if the dates are equal
  */
-export declare function areDatesEqual(date1: Date | string, date2: Date | string, level?: string): boolean;
+export declare function areDatesEqual(date1: Date | string | null, date2: Date | string | null, level?: string): boolean;
 /**
  * Checks to see if two dates are equal
  *

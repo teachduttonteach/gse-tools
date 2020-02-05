@@ -7,6 +7,10 @@
  *   alert(formEvent.fullDate("MD", "/", "\n", 0, "T"));
  * }
  * ```
+ *
+ * @param {GoogleAppsScript.Events.FormsOnFormSubmit} e the Google form
+ *  submission event
+ * @return {FormEventGS} the FormEventGS object
  */
 export function newFormEvent(e) {
     return new FormEventGS(e);
@@ -108,7 +112,8 @@ export class FormEventGS {
         const { dateOrder = 'MD', dateDelimiter = '/', } = options;
         let [firstDate, secondDate] = [this._date.getMonth() + 1, this._date.getDate()];
         if (dateOrder == 'DM') {
-            [firstDate, secondDate] = [this._date.getDate(), this._date.getMonth() + 1];
+            [firstDate, secondDate] =
+                [this._date.getDate(), this._date.getMonth() + 1];
         }
         return firstDate + dateDelimiter + secondDate;
     }

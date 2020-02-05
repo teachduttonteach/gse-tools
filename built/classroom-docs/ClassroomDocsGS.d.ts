@@ -9,14 +9,20 @@ import { WriteDocsParams } from 'WriteDocsParams';
  * @param {string} topicName the topic object that contains class info
  * @param {WriteDocsParams} options the options for displaying the info
  *
- * @return {DocsGS} the object for chaining
+ * @return {ClassroomDocsGS} the object for chaining
  */
-export declare function writeClassroomDocuments(obj: ClassroomDocsGS, classData: ClassGS, topicName: string, options?: WriteDocsParams): DocsGS;
+export declare function writeClassroomDocuments(obj: ClassroomDocsGS, classData: ClassGS, topicName: string, options?: WriteDocsParams): ClassroomDocsGS;
 /**
  * Class to write a Google Document
  *
  */
-export declare class ClassroomDocsGS extends DocsGS {
+export declare class ClassroomDocsGS {
+    _doc: DocsGS;
+    /**
+     * @param {DocsGS | string} thisDoc the ID of the document or the DocsGS
+     *  object itself
+     */
+    constructor(thisDoc: DocsGS | string);
     /**
      * Writes a document from the Classroom info
      *
@@ -24,9 +30,9 @@ export declare class ClassroomDocsGS extends DocsGS {
      * @param {string} topicId the topic id for the class info to print
      * @param {WriteDocsParams} options the options for displaying the info
      *
-     * @return {DocsGS} the object for chaining
+     * @return {ClassroomDocsGS} the object for chaining
      */
-    writeClassroomDocuments(classData: ClassGS, topicId: string, options?: WriteDocsParams): DocsGS;
+    writeClassroomDocuments(classData: ClassGS, topicId: string, options?: WriteDocsParams): ClassroomDocsGS;
     /**
      * Displays the coursework with the specified options
      *

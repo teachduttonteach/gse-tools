@@ -1,9 +1,9 @@
 import { UiGS } from '../UiGS';
-import { QuestionType } from '../enums/QuestionType';
 import { DriveGS } from '../drive/DriveGS';
 /**
  * Class to manipulate Google Forms
  * @param {string} id the id of the form
+ * @return {FormsGS} the FormsGS object
  */
 export function newForms(id) {
     return new FormsGS(id);
@@ -270,25 +270,24 @@ export class FormsGS extends UiGS {
      */
     addItem(title, questionType, optionsList, mcGridRowsList) {
         if (title == null) {
-            throw new Error("Title of form question cannot be blank in " +
-                "FormsGS.addItem()");
+            throw new Error('Title of form question cannot be blank in ' +
+                'FormsGS.addItem()');
         }
         if (questionType == null) {
-            throw new Error("Question type cannot be blank in " +
-                "FormsGS.addItem()");
+            throw new Error('Question type cannot be blank in ' +
+                'FormsGS.addItem()');
         }
         switch (questionType) {
-            case QuestionType.PARAGRAPH:
+            case 'Paragraph':
                 this._form.addParagraphTextItem().setTitle(title);
                 break;
-            case QuestionType.TRUE_FALSE:
+            case 'True / False':
                 this._form
                     .addMultipleChoiceItem()
                     .setTitle(title)
                     .setChoiceValues(['True', 'False']);
                 break;
-            case QuestionType.MULTIPLE_CHOICE:
-                this._form.addMultipleChoiceItem().setTitle(title);
+            case 'Multiple Choice':
                 if (optionsList == undefined) {
                     throw new Error('Options list must be defined in FormsGS.addItem()');
                 }
@@ -298,7 +297,7 @@ export class FormsGS extends UiGS {
                 else
                     this.addMultipleChoice(title, optionsList);
                 break;
-            case QuestionType.MULTIPLE_SELECT:
+            case 'Multiple Select':
                 this._form.addCheckboxItem().setTitle(title);
                 if (optionsList == undefined) {
                     throw new Error('Options list must be defined in FormsGS.addItem()');
@@ -309,10 +308,11 @@ export class FormsGS extends UiGS {
                 else
                     this.addMultipleCheck(title, optionsList);
                 break;
-            case QuestionType.MC_GRID:
+            case 'MC Grid':
                 const item = this._form.addGridItem().setTitle(title);
                 if (optionsList == undefined) {
-                    throw new Error('Options list must be ' + 'defined in FormsGS.addItem()');
+                    throw new Error('Options list must be ' +
+                        'defined in FormsGS.addItem()');
                 }
                 else if (typeof optionsList === 'string') {
                     item.setColumns(this.convertLinebreaksToList(optionsList));
@@ -320,7 +320,8 @@ export class FormsGS extends UiGS {
                 else
                     item.setColumns(optionsList);
                 if (mcGridRowsList == undefined) {
-                    throw new Error('Grid rows list must be defined in ' + 'FormsGS.addItem()');
+                    throw new Error('Grid rows list must be defined in ' +
+                        'FormsGS.addItem()');
                 }
                 else if (typeof mcGridRowsList === 'string') {
                     item.setRows(this.convertLinebreaksToList(mcGridRowsList));
@@ -328,10 +329,11 @@ export class FormsGS extends UiGS {
                 else
                     item.setRows(mcGridRowsList);
                 break;
-            case QuestionType.MS_GRID:
+            case 'MS Grid':
                 const gridItem = this._form.addCheckboxGridItem().setTitle(title);
                 if (optionsList == undefined) {
-                    throw new Error('Options list must be ' + 'defined in FormsGS.addItem()');
+                    throw new Error('Options list must be ' +
+                        'defined in FormsGS.addItem()');
                 }
                 else if (typeof optionsList === 'string') {
                     gridItem.setColumns(this.convertLinebreaksToList(optionsList));
@@ -339,7 +341,8 @@ export class FormsGS extends UiGS {
                 else
                     gridItem.setColumns(optionsList);
                 if (mcGridRowsList == undefined) {
-                    throw new Error('Grid rows list ' + 'must be defined in FormsGS.addItem()');
+                    throw new Error('Grid rows list ' +
+                        'must be defined in FormsGS.addItem()');
                 }
                 else if (typeof mcGridRowsList === 'string') {
                     gridItem.setRows(this.convertLinebreaksToList(mcGridRowsList));
@@ -471,7 +474,8 @@ export class FormsGS extends UiGS {
             this._form.addImageItem().setImage(file);
         }
         catch (e) {
-            Logger.log("Could not add image to form in FormsGS.addImage(): " + e);
+            console.log('WARNING: Could not add image to form in ' +
+                'FormsGS.addImage(): ' + e);
         }
         return this;
     }
@@ -488,14 +492,17 @@ export class FormsGS extends UiGS {
         }
         try {
             const imageBlob = new DriveGS().getImageBlob(id);
-            if (typeof imageBlob !== "boolean")
+            if (typeof imageBlob !== 'boolean') {
                 this.addImage(imageBlob);
-            else
-                Logger.log("Could not find image in FormsGS.addImageFromId()");
+            }
+            else {
+                console.log('WARNING: Could not find image in ' +
+                    'FormsGS.addImageFromId()');
+            }
         }
         catch (e) {
-            Logger.log("Could not add image to form in FormsGS.addImageFromId(): " +
-                e);
+            console.log('WARNING: Could not add image to form in ' +
+                'FormsGS.addImageFromId(): ' + e);
         }
         return this;
     }
@@ -535,12 +542,13 @@ export class FormsGS extends UiGS {
         if (triggerType == null) {
             throw new Error('Trigger type must be defined in FormsGS.addTrigger()');
         }
-        if (typeof triggerType === "string")
+        if (typeof triggerType === 'string') {
             triggerType = triggerType.toUpperCase()[0];
+        }
         switch (triggerType) {
-            case ScriptApp.EventType.ON_OPEN || "O":
+            case ScriptApp.EventType.ON_OPEN || 'O':
                 if (functionName === undefined)
-                    functionName = "onOpen";
+                    functionName = 'onOpen';
                 ScriptApp.newTrigger(functionName)
                     .forForm(this._form)
                     .onOpen()
@@ -548,7 +556,7 @@ export class FormsGS extends UiGS {
                 break;
             default:
                 if (functionName === undefined)
-                    functionName = "onSubmit";
+                    functionName = 'onSubmit';
                 ScriptApp.newTrigger(functionName)
                     .forForm(this._form)
                     .onFormSubmit()
@@ -558,14 +566,14 @@ export class FormsGS extends UiGS {
         return this;
     }
     /**
-    * Update triggers for a particular form
-    *
-    * @param {GoogleAppsScript.Script.EventType} triggerType the type of
-    *  trigger to add, from Script.EventType
-    * @param {string} functionName the function to call when triggered on form
-    *  submit
-    * @return {FormsGS} the object for chaining
-    */
+     * Update triggers for a particular form
+     *
+     * @param {GoogleAppsScript.Script.EventType} triggerType the type of
+     *  trigger to add, from Script.EventType
+     * @param {string} functionName the function to call when triggered on form
+     *  submit
+     * @return {FormsGS} the object for chaining
+     */
     replaceTrigger(triggerType, functionName) {
         this.deleteTriggers(functionName);
         this.addTrigger(triggerType, functionName);

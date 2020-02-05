@@ -101,6 +101,13 @@ export function getClassName(obj) {
 }
 /**
  * Gets the id of the calendar associated with the course
+ * ```
+ * var enrollmentCode = '1234qz';
+ *
+ * var gseClassroom = gsetools.newClassroom();
+ * var gseClass = gsetools.getGoogleClass(gseClassroom, enrollmentCode);
+ * var calendarId = gsetools.getClassCalendarId(gseClass);
+ * ```
  *
  * @param {ClassGS} obj the Class object
  * @return {string} the calendar id
@@ -228,6 +235,7 @@ export class ClassGS {
      * @param {Array<GoogleAppsScript.Classroom.Schema.Material>} materials list
      *  of materials for the course
      * @param {Work} objWork the work object to put the materials into
+     * @return {Work} the object for chaining
      */
     _addCourseMaterials(materials, objWork) {
         objWork.materials = [];
@@ -256,7 +264,7 @@ export class ClassGS {
      * @return {Array<string>} the topic names
      */
     getTopicNames() {
-        return this._topics.values().map(a => a.name);
+        return this._topics.values().map((a) => a.name);
     }
     /**
      * Gets the name of a topic
@@ -402,12 +410,14 @@ export class ClassGS {
      * @return {ClassGS} the object for chaining
      */
     addCourseWork(work) {
-        if (Classroom.Courses == undefined)
-            throw new Error("Could not find " +
-                "Courses in Classroom");
-        if (Classroom.Courses.CourseWork == undefined)
-            throw new Error("Could " +
-                "not find Classwork in Classroom.Courses");
+        if (Classroom.Courses == undefined) {
+            throw new Error('Could not find ' +
+                'Courses in Classroom');
+        }
+        if (Classroom.Courses.CourseWork == undefined) {
+            throw new Error('Could ' +
+                'not find Classwork in Classroom.Courses');
+        }
         Classroom.Courses.CourseWork.create(work.getResource(), this._id);
         return this;
     }
@@ -422,7 +432,7 @@ export class ClassGS {
      */
     addTopic(topic) {
         if (this.getTopicNames().indexOf(topic) > -1) {
-            Logger.log("WARNING: Topic '" + topic + "' already exists.");
+            console.log('WARNING: Topic \'' + topic + '\' already exists.');
             return this;
         }
         const newTopic = {};

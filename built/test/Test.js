@@ -3,14 +3,12 @@ import { DocsGS } from '../docs/DocsGS';
 import { DriveGS } from '../drive/DriveGS';
 export class Test {
     constructor(mode = 'log', recipient = 'john.dutton@campusinternationalschool.org') {
-        Logger.log("MODE = " + mode);
         if (mode.toLowerCase() == 'email') {
             this._mode = 'email';
             if (typeof recipient === "string")
                 this._recipient = recipient;
         }
         else if (mode.toLowerCase() == 'doc') {
-            Logger.log("Doc format");
             this._mode = 'doc';
             if (typeof recipient === "boolean")
                 this._clearDoc = recipient;
@@ -157,7 +155,7 @@ export class Test {
     }
     finish() {
         if (this._mode == 'log')
-            Logger.log(this._toPrint);
+            console.log(this._toPrint);
         else if (this._mode == 'email')
             MailApp.sendEmail(this._recipient, 'Testing gse-tools', this._toPrint);
         else {

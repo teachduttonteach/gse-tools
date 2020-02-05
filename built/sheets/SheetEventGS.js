@@ -1,9 +1,14 @@
 import { SpreadsheetGS } from './SpreadsheetGS';
+import { MapGS } from '../map/MapGS';
 /**
  * Class to process Spreadsheet events (like onEdit, onChange)
  *
- * @param {GoogleAppsScript.Events.SheetsOnEdit} event the underlying
+ * @param {GoogleAppsScript.Events.SheetsOnEdit |
+ * GoogleAppsScript.Events.SheetsOnChange |
+ * GoogleAppsScript.Events.SheetsOnFormSubmit |
+ * GoogleAppsScript.Events.SheetsOnOpen} event the underlying
  *  event object
+ * @return {SheetEventGS} the SheetEventGS object
  */
 export function newSheetEvent(event) {
     return new SheetEventGS(event);
@@ -169,16 +174,20 @@ export class SheetEventGS {
      */
     constructor(event) {
         this.event = event;
-        if ("source" in event) {
+        if ('source' in event) {
             const spreadsheet = new SpreadsheetGS(event.source.getActiveSheet().getParent());
-            this._sheet = spreadsheet.getSheet(event.source.getActiveSheet().getName());
+            this._sheet =
+                spreadsheet.getSheet(event.source.getActiveSheet().getName());
             this._sheetName = event.source.getActiveSheet().getName();
             this._activeSheet = spreadsheet;
         }
-        if ("range" in event) {
+        if ('range' in event) {
             this._row = event.range.getRow();
             this._column = event.range.getColumn();
             this._value = event.range.getValue();
+        }
+        if ('namedValues' in event) {
+            this._namedValues = event.namedValues;
         }
         this._event = event;
     }
@@ -202,7 +211,8 @@ export class SheetEventGS {
     getActiveSheet() {
         if (this._activeSheet !== undefined)
             return this._activeSheet;
-        Logger.log("No active sheet for this event in SheetEventGS.getActiveSheet()");
+        console.log('WARNING: No active sheet for this event in ' +
+            'SheetEventGS.getActiveSheet()');
         return undefined;
     }
     /**
@@ -214,7 +224,8 @@ export class SheetEventGS {
     getSheetName() {
         if (this._sheetName !== undefined)
             return this._sheetName;
-        Logger.log("No sheet name for this event in SheetEventGS.getSheetName()");
+        console.log('WARNING: No sheet name for this event in ' +
+            'SheetEventGS.getSheetName()');
         return undefined;
     }
     /**
@@ -226,7 +237,7 @@ export class SheetEventGS {
     getSheet() {
         if (this._sheet !== undefined)
             return this._sheet;
-        Logger.log("No sheet for this event in SheetEventGS.getSheet()");
+        console.log('WARNING: No sheet for this event in SheetEventGS.getSheet()');
         return undefined;
     }
     /**
@@ -238,7 +249,7 @@ export class SheetEventGS {
     getRow() {
         if (this._row !== undefined)
             return this._row;
-        Logger.log("No row for this event in SheetEventGS.getRow()");
+        console.log('WARNING: No row for this event in SheetEventGS.getRow()');
         return undefined;
     }
     /**
@@ -250,8 +261,23 @@ export class SheetEventGS {
     getColumn() {
         if (this._column !== undefined)
             return this._column;
-        Logger.log("No sheet name for this event in SheetEventGS.getColumn()");
+        console.log('WARNING: No sheet name for this event in ' +
+            'SheetEventGS.getColumn()');
         return undefined;
+    }
+    /**
+     * Get the SheetEvent values as a Map object
+     *
+     * @return {MapGS<string, Array<string>>} the Map object of values
+     */
+    getValuesAsMap() {
+        const thisValues = new MapGS();
+        for (const key in this._namedValues) {
+            if (typeof key === 'string') {
+                thisValues.set(key, this._namedValues[key]);
+            }
+        }
+        return thisValues;
     }
     /**
      * Get the value that has been edited
@@ -262,7 +288,8 @@ export class SheetEventGS {
     getEditedValue() {
         if (this._value !== undefined)
             return this._value;
-        Logger.log("No value for this event in SheetEventGS.getEditedValue()");
+        console.log('WARNING: No value for this event in ' +
+            'SheetEventGS.getEditedValue()');
         return undefined;
     }
     /**
@@ -274,14 +301,15 @@ export class SheetEventGS {
     checkCell() {
         if ((this._triggerSheet === undefined) ||
             (this._sheetName === undefined)) {
-            Logger.log("No associated sheet for this event in " +
-                "SheetEventGS.checkCell()");
+            console.log('WARNING: No associated sheet for this event in ' +
+                'SheetEventGS.checkCell()');
             return undefined;
         }
         let foundColumn = false;
         let foundRow = false;
         if (this._triggerSheet == this._sheetName) {
-            const [columns, rows] = [this._triggerRanges.columns, this._triggerRanges.rows];
+            const [columns, rows] = [this._triggerRanges.columns,
+                this._triggerRanges.rows];
             for (const c of columns) {
                 if (c[0] <= this._column && this._column <= c[1]) {
                     foundColumn = true;
@@ -309,7 +337,8 @@ export class SheetEventGS {
     getValue(row, col) {
         if (this._sheet !== undefined)
             return this._sheet.getValue(row, col);
-        Logger.log("No sheet associated with this event in SheetEventGS.getValue()");
+        console.log('WARNING: No sheet associated with this event in ' +
+            'SheetEventGS.getValue()');
         return undefined;
     }
     /**
@@ -321,7 +350,8 @@ export class SheetEventGS {
      */
     addTriggerSheetName(name) {
         if (this._activeSheet === undefined) {
-            Logger.log("No sheet associated with this event in SheetEventGS.addTriggerSheetName()");
+            console.log('WARNING: No sheet associated with this event in ' +
+                'SheetEventGS.addTriggerSheetName()');
             return undefined;
         }
         if (this._activeSheet.hasSheet(name)) {
@@ -367,8 +397,8 @@ export class SheetEventGS {
      */
     addTriggerRange(forRow, min, max) {
         if (this._triggerRanges === undefined) {
-            Logger.log("No trigger ranges associated with this event in " +
-                "SheetEventGS.addTriggerRange()");
+            console.log('WARNING: No trigger ranges associated with this event in ' +
+                'SheetEventGS.addTriggerRange()');
             return undefined;
         }
         if (min instanceof Array) {

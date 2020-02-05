@@ -3,6 +3,7 @@ import { UiGS } from '../UiGS';
 /**
  * Class to manipulate Google Forms
  * @param {string} id the id of the form
+ * @return {FormsGS} the FormsGS object
  */
 export declare function newForms(id: string): FormsGS;
 /**
@@ -323,14 +324,14 @@ export declare class FormsGS extends UiGS {
      */
     addTrigger(triggerType: GoogleAppsScript.Script.EventType | string, functionName?: string): FormsGS;
     /**
-    * Update triggers for a particular form
-    *
-    * @param {GoogleAppsScript.Script.EventType} triggerType the type of
-    *  trigger to add, from Script.EventType
-    * @param {string} functionName the function to call when triggered on form
-    *  submit
-    * @return {FormsGS} the object for chaining
-    */
+     * Update triggers for a particular form
+     *
+     * @param {GoogleAppsScript.Script.EventType} triggerType the type of
+     *  trigger to add, from Script.EventType
+     * @param {string} functionName the function to call when triggered on form
+     *  submit
+     * @return {FormsGS} the object for chaining
+     */
     replaceTrigger(triggerType: GoogleAppsScript.Script.EventType | string, functionName?: string): FormsGS;
     /**
      * Delete triggers for a particular function

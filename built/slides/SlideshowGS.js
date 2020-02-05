@@ -5,6 +5,7 @@ import { SlideGS } from './SlideGS';
  * Class to access methods and properties of Google Presentations
  *
  * @param {string} id the id of the presentation
+ * @return {SlideshowGS} the Slideshow object
  */
 export function newSlideshow(id) {
     return new SlideshowGS(id);
@@ -65,8 +66,20 @@ export function setSlideshowTemplate(obj, id) {
  *
  * @return {SlideshowGS} the object for chaining
  */
-export function changeSlideshowPicture(obj, folder, slide) {
-    return obj.changeSlidePicture(folder, slide);
+export function changeSlideshowPictureFromFolder(obj, folder, slide) {
+    return obj.changeSlidePictureFromFolder(folder, slide);
+}
+/**
+ * Changes the picture on the selected slide if specified
+ *
+ * @param {SlideshowGS} obj the Slideshow object
+ * @param {string} imageId the folder containing the pictures
+ * @param {SlideGS} slide the number of the slide to change the picture of
+ *
+ * @return {SlideshowGS} the object for chaining
+ */
+export function changeSlideshowPicture(obj, imageId, slide) {
+    return obj.changeSlidePicture(imageId, slide);
 }
 /**
  * Gets the slide by number
@@ -96,12 +109,12 @@ export function addSlide(obj, title, body, type) {
  * Gets the slide in the presentation from the id of the slide
  *
  * @param {SlideshowGS} obj the Slideshow object
- * @param {string} id the id of the slide
+ * @param {string} notes the notes on the slide
  *
  * @return {SlideGS} the slide object
  */
-export function getSlideById(obj, id) {
-    return obj.getSlideById(id);
+export function getSlideByNotes(obj, notes) {
+    return obj.getSlideByNotes(notes);
 }
 /**
  * Removes a slide from the presentation
@@ -118,36 +131,37 @@ export function removeSlide(obj, id) {
  * Gets the slide type from the slide notes and adds the slide if not present
  *
  * @param {SlideshowGS} obj the Slideshow object
- * @param {string} typeTitle the type of the slide (from slide notes)
+ * @param {string} slideNotes the type of the slide (from slide notes)
  *
  * @return {SlideGS} the requested slide
- */
-export function getSlideByType(obj, typeTitle) {
-    return obj.getSlideByType(typeTitle);
+
+export function getSlideByType(obj: SlideshowGS, typeTitle: string): SlideGS {
+  return obj.getSlideByType(typeTitle);
 }
+*/
 /**
  * Sets the body for the given slide type
  *
  * @param {SlideshowGS} obj the Slideshow object
- * @param {string} typeTitle the type of the slide
+ * @param {string} slideNotes the notes on the slide
  * @param {string} slideText the body text to put in the slide
  *
  * @return {SlideshowGS} the object for chaining
  */
-export function setSlideBodyByType(obj, typeTitle, slideText) {
-    return obj.setSlideBodyByType(typeTitle, slideText);
+export function setSlideBodyByType(obj, slideNotes, slideText) {
+    return obj.setSlideBodyByType(slideNotes, slideText);
 }
 /**
  * Sets the title for the given slide type
  *
  * @param {SlideshowGS} obj the Slideshow object
- * @param {string} typeTitle the type of the slide
+ * @param {string} slideNotes the notes on the slide
  * @param {string} title the body text to put in the slide
  *
  * @return {SlideshowGS} the object for chaining
  */
-export function setSlideTitleByType(obj, typeTitle, title) {
-    return obj.setSlideTitleByType(typeTitle, title);
+export function setSlideTitleByType(obj, slideNotes, title) {
+    return obj.setSlideTitleByType(slideNotes, title);
 }
 /**
  * Class to access methods and properties of Google Presentations
@@ -161,7 +175,8 @@ export class SlideshowGS extends UiGS {
         super();
         this._presentation = SlidesApp.openById(id);
         if (this._presentation == null) {
-            throw new Error('Slideshow not found with id ' + id + ' in SlideshowGS()');
+            throw new Error('Slideshow not found with id ' + id +
+                ' in SlideshowGS()');
         }
         this._getAllSlides();
         this._templateSlideUsed = -1;
@@ -172,7 +187,7 @@ export class SlideshowGS extends UiGS {
      * @return {SlideshowGS} the object for chaining
      */
     clear() {
-        for (let s of this._allSlides) {
+        for (const s of this._allSlides) {
             s.remove();
         }
         this._getAllSlides();
@@ -220,7 +235,26 @@ export class SlideshowGS extends UiGS {
         }
         this._template = SlidesApp.openById(id);
         if (this._template == null) {
-            throw new Error('Could not find requested Google Slides template in ' + 'Slides.setTemplate');
+            throw new Error('Could not find requested Google Slides template in ' +
+                'Slides.setTemplate');
+        }
+        return this;
+    }
+    /**
+     * Changes the picture on the selected slide if specified
+     *
+     * @param {string} imageId the imageId of the picture
+     * @param {SlideGS} slide the number of the slide to change the picture of
+     *
+     * @return {SlideshowGS} the object for chaining
+     */
+    changeSlidePicture(imageId, slide) {
+        if (imageId != null) {
+            const chosenPicture = new DriveGS().getImageBlob(imageId);
+            if (chosenPicture) {
+                slide
+                    .positionPicture(slide.changePicture(chosenPicture));
+            }
         }
         return this;
     }
@@ -232,7 +266,7 @@ export class SlideshowGS extends UiGS {
      *
      * @return {SlideshowGS} the object for chaining
      */
-    changeSlidePicture(folder, slide) {
+    changeSlidePictureFromFolder(folder, slide) {
         if (folder != null) {
             const chosenPicture = new DriveGS().getRandomPicture(folder);
             slide.positionPicture(slide.changePicture(chosenPicture));
@@ -242,14 +276,15 @@ export class SlideshowGS extends UiGS {
     /**
      * Gets the slide by number
      *
-     * @param {number} num the number of the slide
+     * @param {number} num the number of the slide, indexed at 1
      *
-     * @return {SlideGS} the slide object
+     * @return {SlideGS} the Slide object for the requested slide
      */
     getSlide(num) {
         if (typeof num === 'number')
-            return this._allSlides[num];
-        throw new Error('Could not get slide #' + num + ' from slideshow in Slides.getSlide');
+            return this._allSlides[num - 1];
+        throw new Error('Could not get slide #' + num +
+            ' from slideshow in Slides.getSlide');
     }
     /**
      * Gets the number of the slide in the slideshow template
@@ -265,48 +300,55 @@ export class SlideshowGS extends UiGS {
      *
      * @param {string} title the title of the new slide
      * @param {string} body the body of the new slide
-     * @param {string} type the type of the new slide
+     * @param {string} notes the notes on the new slide
      *
      * @return {SlideGS} the new slide object
      */
-    addSlide(title, body, type) {
+    addSlide(title, body, notes = '') {
         let slideAdded;
         if (this._template != null) {
             if (this._template.getSlides().length > 0) {
-                const slideToGet = this._allSlides.length % this._template.getSlides().length;
-                slideAdded = this._presentation.appendSlide(this._template.getSlides()[slideToGet]);
+                const slideToGet = this._allSlides.length %
+                    this._template.getSlides().length;
+                slideAdded = this._presentation
+                    .appendSlide(this._template.getSlides()[slideToGet]);
                 this._templateSlideUsed = slideToGet;
             }
             else {
-                slideAdded = this._presentation.appendSlide(this._template.getSlides()[0]);
+                slideAdded = this._presentation
+                    .appendSlide(this._template.getSlides()[0]);
             }
         }
         else {
-            slideAdded = this._presentation.appendSlide(SlidesApp.PredefinedLayout.TITLE_AND_BODY);
+            slideAdded = this._presentation
+                .appendSlide(SlidesApp.PredefinedLayout.TITLE_AND_BODY);
         }
         this._getAllSlides();
         return new SlideGS(slideAdded)
             .setTitle(title)
             .setBody(body)
-            .setNotes(type);
+            .setNotes(notes);
     }
     /**
      * Gets the slide in the presentation from the id of the slide
      *
-     * @param {string} id the id of the slide
+     * @param {string} notes the id of the slide
      *
      * @return {SlideGS} the slide object
      */
-    getSlideById(id) {
-        if (id == null) {
-            throw new Error('Id is not defined to remove in ' + 'SlideshowGS.getSlideById');
+    getSlideByNotes(notes) {
+        if (notes == null) {
+            throw new Error('Notes are not defined to remove in ' +
+                'SlideshowGS.getSlideByNotes()');
         }
         for (let j = 0; j < this._allSlides.length; j++) {
-            if (this._allSlides[j].getNotes().indexOf(id) == 0) {
+            if (this._allSlides[j].getNotes().indexOf(notes) == 0) {
                 return this._allSlides[j];
             }
         }
-        throw new Error('Slide id ' + id + ' not found in SlideshowGS.getSlideById');
+        console.log('WARNING: Slide id ' + notes + ' not found in ' +
+            'SlideshowGS.getSlideByNotes()');
+        return null;
     }
     /**
      * Removes a slide from the presentation
@@ -319,47 +361,54 @@ export class SlideshowGS extends UiGS {
         if (id == null) {
             throw new Error('ID is not defined to remove in Slides.removeSlide');
         }
-        this.getSlideById(id).remove();
+        const thisSlide = this.getSlideByNotes(id);
+        if (thisSlide != null)
+            thisSlide.remove();
         this._getAllSlides();
         return this;
     }
     /**
      * Gets the slide type from the slide notes and adds the slide if not present
      *
-     * @param {string} typeTitle the type of the slide (from slide notes)
+     * @param {string} slideNotes the type of the slide (from slide notes)
      *
      * @return {SlideGS} the requested slide
-     */
-    getSlideByType(typeTitle) {
-        for (const s of this._allSlides) {
-            const thisNotes = s.getNotes();
-            if (thisNotes != null && thisNotes != '' && thisNotes.substr(0, typeTitle.length) == typeTitle)
-                return s;
-        }
-        return this.addSlide(typeTitle, '', typeTitle);
+  
+    getSlideByType(typeTitle: string): SlideGS {
+      for (const s of this._allSlides) {
+        const thisNotes = s.getNotes();
+        if (thisNotes != null && thisNotes != '' &&
+          thisNotes.substr(0, typeTitle.length) == typeTitle) return s;
+      }
+      return this.addSlide(typeTitle, '', typeTitle);
     }
+    */
     /**
      * Sets the body for the given slide type
      *
-     * @param {string} typeTitle the type of the slide
+     * @param {string} slideNotes the notes on the slide
      * @param {string} slideText the body text to put in the slide
      *
      * @return {SlideshowGS} the object for chaining
      */
-    setSlideBodyByType(typeTitle, slideText) {
-        this.getSlideByType(typeTitle).setBody(slideText);
+    setSlideBodyByType(slideNotes, slideText) {
+        let thisSlide = this.getSlideByNotes(slideNotes);
+        if (thisSlide != null)
+            thisSlide.setBody(slideText);
         return this;
     }
     /**
      * Sets the title for the given slide type
      *
-     * @param {string} typeTitle the type of the slide
+     * @param {string} slideNotes the notes on the slide
      * @param {string} title the body text to put in the slide
      *
      * @return {SlideshowGS} the object for chaining
      */
-    setSlideTitleByType(typeTitle, title) {
-        this.getSlideByType(typeTitle).setTitle(title);
+    setSlideTitleByType(slideNotes, title) {
+        let thisSlide = this.getSlideByNotes(slideNotes);
+        if (thisSlide != null)
+            thisSlide.setTitle(title);
         return this;
     }
 }

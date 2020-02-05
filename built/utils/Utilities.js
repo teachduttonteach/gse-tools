@@ -5,7 +5,7 @@
  * @param {string} method the method
  */
 export function benchmark(obj, method) {
-    Logger.log(obj.constructor.name + ': ' + method);
+    console.log(obj.constructor.name + ': ' + method);
 }
 /**
  * The getOAuthToken() function necessary for Google Apps Script authentication
@@ -17,9 +17,24 @@ export function getOAuthToken() {
     return ScriptApp.getOAuthToken();
 }
 /**
- * ONE_DAY equals the number of milliseconds in one day
+ * Gets the number of milliseconds in one day
+ * @return {number} the number of milliseconds in one day
  */
-export const ONE_DAY = 24 * 60 * 60 * 1000;
+export function getOneDay() {
+    return 24 * 60 * 60 * 1000;
+}
+/**
+ * Get today's date with the timezone offset
+ *
+ * @param {number} timezoneOffset how many hours from GMT the desired user is,
+ *  negative for west of GMT, positive for east; default is -5 (EST)
+ * @return {Date} the altered date
+ */
+export function getTodaysDate(timezoneOffset) {
+    const date = new Date();
+    date.setUTCHours(date.getUTCHours() + timezoneOffset);
+    return date;
+}
 /**
  * Checks to see if two dates are equal
  *
@@ -31,24 +46,24 @@ export const ONE_DAY = 24 * 60 * 60 * 1000;
  * @return {boolean} true if the dates are equal
  */
 export function areDatesEqual(date1, date2, level = 'YEAR') {
-    Logger.log("areDatesEqual: Comparing " + date1 + " with " + date2);
-    if ((typeof date1 == "string") || (typeof date2 == "string"))
+    if ((typeof date1 === null) || (typeof date2 === null)) {
         return false;
-    if (level.toUpperCase() == 'YEAR') {
-        Logger.log("areDatesEqual: Comparing years " + date1.getUTCFullYear() +
-            " with " + date2.getUTCFullYear());
-        if (date1.getUTCFullYear() != date2.getUTCFullYear())
-            return false;
     }
-    if (level.toUpperCase() != 'DAY') {
-        Logger.log("areDatesEqual: Comparing months " + date1.getUTCMonth() +
-            " with " + date2.getUTCMonth());
-        if (date1.getUTCMonth() != date2.getUTCMonth())
-            return false;
+    if (!(date1 instanceof Date) || !(date2 instanceof Date) ||
+        typeof date1 !== typeof date2) {
+        return false;
     }
-    Logger.log("areDatesEqual: Comparing dates " + date1.getUTCDate() +
-        " with " + date2.getUTCDate());
-    return date1.getUTCDate() == date2.getUTCDate();
+    if (level.toUpperCase() === 'YEAR') {
+        if (date1.getUTCFullYear() !== date2.getUTCFullYear()) {
+            return false;
+        }
+    }
+    if (level.toUpperCase() !== 'DAY') {
+        if (date1.getUTCMonth() !== date2.getUTCMonth()) {
+            return false;
+        }
+    }
+    return date1.getUTCDate() === date2.getUTCDate();
 }
 /**
  * Checks to see if two dates are equal
@@ -65,21 +80,26 @@ export function areDatesEqual(date1, date2, level = 'YEAR') {
  * @return {boolean} true if the dates are equal
  */
 export function compareDates(date1, date2, greaterThan = true, equal = true, level = 'YEAR') {
-    if (equal && areDatesEqual(date1, date2, level))
+    if (equal && areDatesEqual(date1, date2, level)) {
         return true;
-    if (!(date1 instanceof Date) || !(date2 instanceof Date) || typeof date1 !== typeof date2)
+    }
+    if (!(date1 instanceof Date) || !(date2 instanceof Date) ||
+        typeof date1 !== typeof date2) {
         return false;
-    if (level.toUpperCase() == 'YEAR') {
-        if (date1.getUTCFullYear() != date2.getUTCFullYear()) {
-            if (greaterThan != date1.getUTCFullYear() > date2.getUTCFullYear())
+    }
+    if (level.toUpperCase() === 'YEAR') {
+        if (date1.getUTCFullYear() !== date2.getUTCFullYear()) {
+            if (greaterThan !== (date1.getUTCFullYear() > date2.getUTCFullYear())) {
                 return false;
+            }
         }
     }
-    if (level.toUpperCase() != 'DAY') {
-        if (date1.getUTCMonth() != date2.getUTCMonth()) {
-            if (greaterThan != date1.getUTCMonth() > date2.getUTCMonth())
+    if (level.toUpperCase() !== 'DAY') {
+        if (date1.getUTCMonth() !== date2.getUTCMonth()) {
+            if (greaterThan !== (date1.getUTCMonth() > date2.getUTCMonth())) {
                 return false;
+            }
         }
     }
-    return greaterThan == date1.getUTCDate() > date2.getUTCDate();
+    return greaterThan === (date1.getUTCDate() > date2.getUTCDate());
 }

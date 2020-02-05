@@ -69,6 +69,9 @@ export declare function getOrCreateFileById(obj: DriveGS, fileId: string, fileNa
  * Class to provide access and functions to Google Drive
  */
 export declare class DriveGS {
+    /**
+     * Empty constructor for code consistency
+     */
     constructor();
     /**
      * Gets a random picture from a specified folder
@@ -88,7 +91,7 @@ export declare class DriveGS {
      * @return {GoogleAppsScript.Base.Blob | boolean} the image blob or False
      *  if it could not be created
      */
-    getImageBlob(id: string, isUrl?: boolean): GoogleAppsScript.Base.Blob | boolean;
+    getImageBlob(id: string, isUrl?: boolean): GoogleAppsScript.Base.Blob | false;
     /**
      * Determines if a file (by name) exists; if it doesn't creates it from a
      *  template, then return the file in either case
@@ -123,9 +126,7 @@ export declare class DriveGS {
      * Creates a file with a particular MimeType
      *
      * @param {string} fileName name of the file
-     * @param {string} content any initial content of the file
      * @param {string} mimeType the MimeType of the file
-     *
      * @return {string} the ID of the created file
      */
     private _createFile;

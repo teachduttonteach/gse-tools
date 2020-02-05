@@ -3,6 +3,8 @@ import { Dimensions } from './Dimensions';
 /**
  * Class to access methods and properties of individual Slides of Google
  *  Presentations
+ * @param {GoogleAppsScript.Slides.Slide} slideObject the Google Slides object
+ * @return {SlideGS} the underlying object
  */
 export declare function newSlide(slideObject: GoogleAppsScript.Slides.Slide): SlideGS;
 /**
@@ -13,17 +15,12 @@ export declare function newSlide(slideObject: GoogleAppsScript.Slides.Slide): Sl
  */
 export declare function getSlideObject(obj: SlideGS): GoogleAppsScript.Slides.Slide;
 /**
- * Replaces the picture at the specified number (default 0) with the
- *  specified picture
+ * Get the title of the current slide
  *
  * @param {SlideGS} obj the Slide object
- * @param {GoogleAppsScript.Base.BlobSource} picture the blob (data)
- *  holding the picture
- * @param {number} imageNumber the number of the image on the slide
- *
- * @return {number} the number of the page element of the replaced picture
+ * @return {string} the title
  */
-export declare function replaceSlideImage(obj: SlideGS, picture: GoogleAppsScript.Base.BlobSource, imageNumber?: number): number;
+export declare function getSlideTitle(obj: SlideGS): string;
 /**
  * Get the speaker notes from the slide
  *
@@ -62,7 +59,7 @@ export declare function setSlideBody(obj: SlideGS, body: string): SlideGS;
  * Sets the body of the slide to a list
  *
  * @param {SlideGS} obj the Slide object
- * @param {string} text the list, as a string with "\t" for each new
+ * @param {string} text the list, as a string with "\n" for each new
  *  member of the list
  * @param {GoogleAppsScript.Slides.ListPreset} bulletType the optional
  *  type of bullet for the list
@@ -86,7 +83,9 @@ export declare function addSlideItems(obj: SlideGS, questionOptions: string | Ar
  * Adds the item to the slide of a particular type
  *
  * @param {SlideGS} obj the Slide object
- * @param {string} type the type of item to add to the slide
+   * @param {QuestionType} type the type of item to add to the slide:
+   *  QuestionType.TRUE_FALSE, QuestionType.MULTIPLE_CHOICE,
+   *  QuestionType.MULTIPLE_SELECT
  * @param {string | Array<string>} itemsToAdd the string or array of
  *  strings that holds the item data
  * @param {GoogleAppsScript.Slides.ListPreset} bulletType the optional
@@ -139,8 +138,9 @@ export declare function getSlidePageElements(obj: SlideGS): Array<GoogleAppsScri
 /**
  * Removes the current slide
  * @param {SlideGS} obj the Slide object
+ * @return {SlideGS} the object for chaining
  */
-export declare function removeSlide(obj: SlideGS): void;
+export declare function removeSlide(obj: SlideGS): SlideGS;
 /**
  * Class to access methods and properties of individual Slides of Google
  *  Presentations
@@ -162,16 +162,28 @@ export declare class SlideGS {
      */
     getObject(): GoogleAppsScript.Slides.Slide;
     /**
-     * Replaces the picture at the specified number (default 0) with the
-     *  specified picture
+     * Change the picture displayed in the slide
      *
-     * @param {GoogleAppsScript.Base.BlobSource} picture the blob (data)
-     *  holding the picture
-     * @param {number} imageNumber the number of the image on the slide
+     * @param {GoogleAppsScript.Base.BlobSource} chosenPictureBlob the blob
+     *  (data) of the picture to add
+     * @param {number} pictureNumber the number of the picture on the slide
      *
-     * @return {number} the number of the page element of the replaced picture
+     * @return {number} the number of the replaced page element
      */
-    replaceImage(picture: GoogleAppsScript.Base.BlobSource, imageNumber?: number): number;
+    changePicture(chosenPictureBlob: GoogleAppsScript.Base.BlobSource, pictureNumber?: number): number;
+    /**
+     * Find the picture on the slide according to the number
+     *
+     * @param {number} pictureNumber the sequential number of the picture
+     * @return {number} the ID of the picture or -1 if not found
+     */
+    private _findPicture;
+    /**
+     * Get the title of the current slide
+     *
+     * @return {string} the title
+     */
+    getTitle(): string;
     /**
      * Get the speaker notes from the slide
      *
@@ -205,7 +217,7 @@ export declare class SlideGS {
     /**
      * Sets the body of the slide to a list
      *
-     * @param {string} text the list, as a string with "\t" for each new
+     * @param {string} text the list, as a string with "\n" for each new
      *  member of the list
      * @param {GoogleAppsScript.Slides.ListPreset} bulletType the optional
      *  type of bullet for the list
@@ -227,7 +239,9 @@ export declare class SlideGS {
     /**
      * Adds the item to the slide of a particular type
      *
-     * @param {string} type the type of item to add to the slide
+     * @param {QuestionType} type the type of item to add to the slide:
+     *  QuestionType.TRUE_FALSE, QuestionType.MULTIPLE_CHOICE,
+     *  QuestionType.MULTIPLE_SELECT
      * @param {string | Array<string>} itemsToAdd the string or array of
      *  strings that holds the item data
      * @param {GoogleAppsScript.Slides.ListPreset} bulletType the optional
@@ -236,16 +250,6 @@ export declare class SlideGS {
      * @return {SlideGS} the object for chaining
      */
     addItem(type: string, itemsToAdd: string | Array<string>, bulletType?: GoogleAppsScript.Slides.ListPreset): SlideGS;
-    /**
-     * Change the picture displayed in the slide
-     *
-     * @param {GoogleAppsScript.Base.BlobSource} chosenPictureBlob the blob
-     *  (data) of the picture to add
-     * @param {number} pictureNumber the number of the picture on the slide
-     *
-     * @return {number} the number of the replaced page element
-     */
-    changePicture(chosenPictureBlob: GoogleAppsScript.Base.BlobSource, pictureNumber?: number): number;
     /**
      * Sets the dimensions of the slide for picture orientation
      *

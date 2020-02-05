@@ -1,10 +1,11 @@
+/// <reference types="google-apps-script" />
 /**
  * Parameters to run attendance
  */
 export declare type AttendanceParams = {
     /**
-     * The cell location to display if the script is in working mode; default is
-     *  [1, 1]
+     * The cell location on the attendance sheet to display if the script is in
+     * working mode (busy); default is [1, 1]
      */
     workingStatusCell?: [number, number];
     /**
@@ -31,11 +32,12 @@ export declare type AttendanceParams = {
     fullnameColumnName?: string;
     /**
      * Secondary columns to check to make sure that we are pulling the correct
-     *  set of data; default is [{name: 'Period', value: [1, 1]}]
+     *  set of data from the attendance sheet; default is
+     *  [{name: 'Period', value: [1, 1]}]
      */
     secondaryColumnsToCheck?: Array<{
         name: string | Date;
-        value: number[];
+        value: [number, number];
     }>;
     /**
      * The maximum number of students to accomodate on the attendance form;
@@ -43,6 +45,12 @@ export declare type AttendanceParams = {
      */
     maximumLength?: number;
 };
+/**
+ * Change the attendance value for the student and date
+ * @param {SheetEventGS} _e the Google event from onEdit
+ * @param {AttendanceParams} args the parameters for attendance
+ */
+export declare function changeAttendance(_e: GoogleAppsScript.Events.SheetsOnEdit, args?: AttendanceParams): void;
 /**
  * Updates the date codes for the selected periods
  */
