@@ -7,29 +7,29 @@ import {SidebarButton} from '../SidebarButton';
  * Create a new GroupCreator object
  *
  * @param {GroupParams} args the parameters for the group creation
- * @return {GroupCreator} the GroupCreator object
+ * @return {GroupCreatorGS} the GroupCreator object
  */
-export function newGroupCreator(args: GroupParams): GroupCreator {
-  return new GroupCreator(args);
+export function newGroupCreator(args: GroupParams): GroupCreatorGS {
+  return new GroupCreatorGS(args);
 }
 
 /**
  * Calculate the groups for this set
  *
- * @param {GroupCreator} obj the GroupCreator object
- * @return {GroupCreator} the object for chaining
+ * @param {GroupCreatorGS} obj the GroupCreator object
+ * @return {GroupCreatorGS} the object for chaining
  */
-export function calculateGroups(obj: GroupCreator): GroupCreator {
+export function calculateGroups(obj: GroupCreatorGS): GroupCreatorGS {
   return obj.calculateGroups();
 }
 
 /**
  * Display the group set found
  *
- * @param {GroupCreator} obj the GroupCreator object
- * @return {GroupCreator} the object for chaining
+ * @param {GroupCreatorGS} obj the GroupCreator object
+ * @return {GroupCreatorGS} the object for chaining
  */
-export function displayGroupSet(obj: GroupCreator): GroupCreator {
+export function displayGroupSet(obj: GroupCreatorGS): GroupCreatorGS {
   return obj.displayGroupSet();
 }
 
@@ -317,7 +317,7 @@ export type GroupParams = {
 /**
  * Class to create groups of students according to scores
  */
-export class GroupCreator {
+export class GroupCreatorGS {
   private _limitGroups: number;
   private _students: Array<StudentForGroups>;
   private _relationships: Array<Array<number>>;
@@ -405,9 +405,9 @@ export class GroupCreator {
   /**
    * Calculate the groups for this set
    *
-   * @return {GroupCreator} the object for chaining
+   * @return {GroupCreatorGS} the object for chaining
    */
-  calculateGroups(): GroupCreator {
+  calculateGroups(): GroupCreatorGS {
     let {
       sheetName = 'Student Groups',
       attemptedDepth = 1000,
@@ -500,9 +500,9 @@ export class GroupCreator {
   /**
    * Display the group set found
    *
-   * @return {GroupCreator} the object for chaining
+   * @return {GroupCreatorGS} the object for chaining
    */
-  displayGroupSet(): GroupCreator {
+  displayGroupSet(): GroupCreatorGS {
     const {
       acceptGroupsFunction = 'acceptGroups',
       calculateGroupsFunction = 'calculateGroups',

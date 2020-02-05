@@ -1,7 +1,7 @@
 import { Test } from '../test/Test';
 import { SpreadsheetGS } from './SpreadsheetGS';
 import { SheetEventGS } from './SheetEventGS';
-import { GroupCreator } from './GroupCreator';
+import { GroupCreatorGS } from './GroupCreator';
 
 function testEvent(event: SheetEventGS) {
     const thisActiveSheet = event.getActiveSheet();
