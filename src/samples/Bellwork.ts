@@ -178,6 +178,7 @@ type BellworkArgs = {
 
 /**
  * Update the bellwork with the associated parameters
+ * 
  * ```javascript
  * var dateParams = {
  *  titlePrefix: ' - ',

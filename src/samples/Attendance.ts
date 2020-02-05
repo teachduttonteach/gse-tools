@@ -50,6 +50,7 @@ export type AttendanceParams = {
 
 /**
  * Change the attendance value for the student and date
+ * 
  * ```javascript
  * var attendanceParams = {
  *  attendanceSheetName: 'Attendance',

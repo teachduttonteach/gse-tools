@@ -44,6 +44,7 @@ type ClassroomArgs = {
 
 /**
  * Update Google Docs from Classroom information
+ * 
  * ```javascript
  * var dateParams = {
  *  titlePrefix: ' - ',
