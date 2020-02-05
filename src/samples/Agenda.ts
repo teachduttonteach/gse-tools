@@ -36,7 +36,7 @@ type LessonInfo = {
 /**
  * All of the arguments and other variables used by the Agenda script
  */
-type AgendaArgs = {
+type AgendaParams = {
   /**
    * Sheet name for the gse-tools Settings Google Sheet for the agenda files; 
    * default is 'Agenda'
@@ -159,11 +159,11 @@ type AgendaArgs = {
  * gsetools.updateDailyAgenda(agendaArgs);
  * ```
  * 
- * @param {AgendaArgs} args the parameters to use
+ * @param {AgendaParams} args the parameters to use
  * @return {true} returns true if successful
  */
-export function updateDailyAgenda(args?: AgendaArgs): true {
-  if (args == null) args = {} as AgendaArgs;
+export function updateDailyAgenda(args?: AgendaParams): true {
+  if (args == null) args = {} as AgendaParams;
   const {
     settingsName = 'Agenda',
     classroomCodeColumnName = 'Classroom Code',
@@ -208,10 +208,10 @@ export function updateDailyAgenda(args?: AgendaArgs): true {
  *
  * @param {ClassroomArgs} args the classroom parameters
  * @param {ClassGS} currentClass the current Google class
- * @return {true} returns true if successful
+ * @return {boolean} returns true if successful
  */
-function updateClassAgenda(args: AgendaArgs,
-  row: MapGS<string | Date, string | Date>, currentClass: ClassGS) {
+function updateClassAgenda(args: AgendaParams,
+  row: MapGS<string | Date, string | Date>, currentClass: ClassGS): boolean {
   const {
     agendaSheetNameColumnName = 'Sheet Name',
     agendaDateColumnName = 'Date Column',
@@ -292,12 +292,12 @@ function updateClassAgenda(args: AgendaArgs,
 /**
  * Write the agenda taken from Sheets and Classroom to a Google Doc
  * 
- * @param {AgendaArgs} args the settings for the agenda 
+ * @param {AgendaParams} args the settings for the agenda 
  * @param {Array<LessonInfo>} lessonInfo the information for each lesson
  * @param {ClassGS} currentClass the object that contains the current class
  * @return {true} returns true if successful 
  */
-function writeAgendaToDoc(args: AgendaArgs, 
+function writeAgendaToDoc(args: AgendaParams, 
   lessonInfo: Array<LessonInfo>, 
   currentClass: ClassGS): true {
   
@@ -351,13 +351,13 @@ function writeAgendaToDoc(args: AgendaArgs,
 /**
  * Displays the agenda on a slide in Google Slides
  * 
- * @param {AgendaArgs} args the agenda parameters 
+ * @param {AgendaParams} args the agenda parameters 
  * @param {MapGS<string | Date, string | Date>} row the current row of info 
  *  from the Google Sheet 
  * @param {Array<LessonInfo>} lessonInfo the information for each lesson
  * @return {true} returns true if successful 
  */
-function displayAgendaOnSlide(args: AgendaArgs, 
+function displayAgendaOnSlide(args: AgendaParams, 
   row: MapGS<string | Date, string | Date>,
   lessonInfo: Array<LessonInfo>): true {
   
