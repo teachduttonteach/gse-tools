@@ -11,15 +11,30 @@ import {SlideshowGS} from '../slides/SlideshowGS';
 import {getTodaysDate, getOneDay, compareDates} from '../utils/Utilities'
 import { DocsGS } from '../docs/DocsGS';
 
-type LessonTitle = {
+/**
+ * The object to hold information about the current lesson
+ */
+type LessonInfo = {
+  /**
+   * The date of the lesson
+   */
   lessonDate: Date;
+  /**
+   * The title of the lesson
+   */
   title: string;
+  /**
+   * The due date of the lesson in string format
+   */
   dueDate: string;
+  /**
+   * The description of the lesson, optional
+   */
   description?: string;
 }
 
 /**
- * All of the arguments and other variables used by the Bellwork script
+ * All of the arguments and other variables used by the Agenda script
  */
 type AgendaArgs = {
   /**
@@ -82,36 +97,41 @@ type AgendaArgs = {
    */
   agendaSheetNameColumnName?: string;
   /**
-   * 'Date Column'
+   * The column in the gse-tools Settings that defines the column to look for
+   * the date of the lesson for the class; default is 'Date Column'
    */
   agendaDateColumnName?: string;
   /**
-   * 'END'
+   * The string to look for in the date column to stop looking for more rows
+   * that contain lessons; default is 'END'
    */
   agendaSheetDateColumnEnd?: string,
   /**
-   * true
+   * Whether or not to write the agenda to a Google Doc; default is true
    */
   writeAgenda?: boolean;
   /**
-   * true
+   * Whether or not to display the agenda on a Google Slides; default is true
    */
   displayAgenda?: boolean;
   /**
-   * 7
+   * How many days ahead to include in the agenda; default is 7
    */
   daysToLookAhead?: number;
   /**
-   * 'Agenda'
+   * What to look for in the slide notes if the current slide is the agenda; 
+   * default is 'Agenda'
    */
   agendaSlideNotes?: string;
 };
 
 /**
- * Update Google Docs from Classroom information
- * @param {ClassroomArgs} args the parameters to use
+ * Update the daily agenda from Google Sheets, writing to (optionally) a 
+ * Google Doc and a slide on a Google Slides
+ * @param {AgendaArgs} args the parameters to use
+ * @return {true} returns true if successful
  */
-export function updateDailyAgenda(args?: AgendaArgs): void {
+export function updateDailyAgenda(args?: AgendaArgs): true {
   if (args == null) args = {} as AgendaArgs;
   const {
     settingsName = 'Agenda',
@@ -146,13 +166,18 @@ export function updateDailyAgenda(args?: AgendaArgs): void {
       updateClassAgenda(args, thisRow, currentClass);
     }
   }
+
+  return true;
 }
 
 /**
- * Update the individual class
+ * Update the individual class agenda by writing the agenda to a Google Doc 
+ * and/or a Google Slide, using both sheet information and also Google
+ * Classroom
  *
  * @param {ClassroomArgs} args the classroom parameters
  * @param {ClassGS} currentClass the current Google class
+ * @return {true} returns true if successful
  */
 function updateClassAgenda(args: AgendaArgs,
   row: MapGS<string | Date, string | Date>, currentClass: ClassGS) {
@@ -198,7 +223,7 @@ function updateClassAgenda(args: AgendaArgs,
   }
   let lessonRow: number = agendaSheet.skipBlankRows(1,
       +thisAgendaDateColumnName);
-  let lessonTitles: Array<LessonTitle> = [];
+  let lessonTitles: Array<LessonInfo> = [];
   while ((lessonRow <= agendaSheet.getLastRow()) &&
     ((agendaSheet.getValue(lessonRow, +thisAgendaDateColumnName) !==
     agendaSheetDateColumnEnd))) {
@@ -212,8 +237,9 @@ function updateClassAgenda(args: AgendaArgs,
         throw new Error('Could not find bellwork column name in ' +
         'Samples.doForBellwork()');
       }
-      let lessonInfo = {} as LessonTitle;
-      lessonInfo.title = agendaSheet.getValue(lessonRow, +thisLessonColumnName).toString();
+      let lessonInfo = {} as LessonInfo;
+      lessonInfo.title = agendaSheet.getValue(lessonRow, +thisLessonColumnName)
+        .toString();
       lessonInfo.lessonDate = dateInCell;
       lessonTitles.push(lessonInfo);
     }
@@ -232,9 +258,17 @@ function updateClassAgenda(args: AgendaArgs,
   return true;
 }
 
+/**
+ * Write the agenda taken from Sheets and Classroom to a Google Doc
+ * 
+ * @param {AgendaArgs} args the settings for the agenda 
+ * @param {Array<LessonInfo>} lessonInfo the information for each lesson
+ * @param {ClassGS} currentClass the object that contains the current class
+ * @return {true} returns true if successful 
+ */
 function writeAgendaToDoc(args: AgendaArgs, 
-  lessonTitles: Array<LessonTitle>, 
-  currentClass: ClassGS) {
+  lessonInfo: Array<LessonInfo>, 
+  currentClass: ClassGS): true {
   
   const {
     templateName = 'Agenda Document Template',
@@ -246,7 +280,7 @@ function writeAgendaToDoc(args: AgendaArgs,
     const topicWork: Work[] =
       currentClass.getTopicInfo(topic).work;
     for (let work of topicWork) {
-      for (let lesson of lessonTitles) {
+      for (let lesson of lessonInfo) {
         if (lesson.title == work.title) {
           Logger.log("Found " + lesson.title);
           lesson.dueDate = work.dueDate;
@@ -257,31 +291,44 @@ function writeAgendaToDoc(args: AgendaArgs,
   }
 
   let agendaTitle: string = agendaFileName + ' ' + currentClass.getName();
-  let agendaDoc = new DocsGS(new DriveGS().getOrCreateFileFromTemplateByName(agendaTitle,
-    templateName).getId());
+  let agendaDoc = new DocsGS(new DriveGS()
+    .getOrCreateFileFromTemplateByName(agendaTitle, templateName).getId());
   agendaDoc.clearBody();
   agendaDoc.addText(agendaTitle, 'T');
   
-  for (let lessonTitle of lessonTitles) {
+  for (let individualLesson of lessonInfo) {
     let lessonDate: string = "";
     if (agendaDateParams.dateOrder == 'DM') 
-      lessonDate = [lessonTitle.lessonDate.getDate(), 
-        (lessonTitle.lessonDate.getMonth() + 1)].join(agendaDateParams.dateDelim);
+      lessonDate = [individualLesson.lessonDate.getDate(), 
+        (individualLesson.lessonDate.getMonth() + 1)]
+        .join(agendaDateParams.dateDelim);
     else 
-      lessonDate = [(lessonTitle.lessonDate.getMonth() + 1), 
-        lessonTitle.lessonDate.getDate()].join(agendaDateParams.dateDelim);
+      lessonDate = [(individualLesson.lessonDate.getMonth() + 1), 
+        individualLesson.lessonDate.getDate()].join(agendaDateParams.dateDelim);
     
-    agendaDoc.addText(lessonDate + ' ' + agendaDateParams.titlePrefix + ' ' + lessonTitle.title, 2);
-    if (lessonTitle.dueDate !== undefined) 
-      agendaDoc.addText(lessonTitle.dueDate, 3);
-    if (lessonTitle.description !== undefined) 
-      agendaDoc.addText(lessonTitle.description, 4); 
+    agendaDoc.addText(lessonDate + ' ' + agendaDateParams.titlePrefix + ' ' + 
+      individualLesson.title, 2);
+    if (individualLesson.dueDate !== undefined) 
+      agendaDoc.addText(individualLesson.dueDate, 3);
+    if (individualLesson.description !== undefined) 
+      agendaDoc.addText(individualLesson.description, 4); 
   }
+
+  return true;
 }
 
+/**
+ * Displays the agenda on a slide in Google Slides
+ * 
+ * @param {AgendaArgs} args the agenda parameters 
+ * @param {MapGS<string | Date, string | Date>} row the current row of info 
+ *  from the Google Sheet 
+ * @param {Array<LessonInfo>} lessonInfo the information for each lesson
+ * @return {true} returns true if successful 
+ */
 function displayAgendaOnSlide(args: AgendaArgs, 
   row: MapGS<string | Date, string | Date>,
-  lessonTitles: Array<LessonTitle>) {
+  lessonInfo: Array<LessonInfo>): true {
   
   const {
     agendaSlideshowIDColumnName = 'Agenda Slides ID',
@@ -296,7 +343,9 @@ function displayAgendaOnSlide(args: AgendaArgs,
     const slideShow = new SlideshowGS(thisSlideshowID);
     let agendaSlide = slideShow.getSlideByNotes(agendaSlideNotes);
     if (agendaSlide !== null) {
-      agendaSlide.setList(lessonTitles.map(a => a.title).join('\n'));
+      agendaSlide.setList(lessonInfo.map(a => a.title).join('\n'));
     }
   }
+
+  return true;
 }
