@@ -44,6 +44,23 @@ type ClassroomArgs = {
 
 /**
  * Update Google Docs from Classroom information
+ * ```javascript
+ * var dateParams = {
+ *  titlePrefix: ' - ',
+ *  dateDelim: '/',
+ *  dateOrder: 'MD',
+ *  noEventString: 'NONE',
+ * };
+ * 
+ * var classroomArgs = {
+ *  settingsName: 'Classroom',
+ *  classroomCodeColumnName: 'Class Code',
+ *  newFileName: 'Google Classroom Test Summary',
+ *  templateName: 'Google Classroom Summary Test Template',
+ *  dueDateParams: dateParams,
+ * };
+ * gsetools.updateClassroomFiles(classroomArgs);
+ * ```
  * @param {ClassroomArgs} args the parameters to use
  */
 export function updateClassroomFiles(args: ClassroomArgs): void {

@@ -178,6 +178,49 @@ type BellworkArgs = {
 
 /**
  * Update the bellwork with the associated parameters
+ * ```javascript
+ * var dateParams = {
+ *  titlePrefix: ' - ',
+ *  dateDelim: '/',
+ *  dateOrder: 'MD',
+ *  noEventString: 'NONE'
+ * };
+ * 
+ * var bellworkParams = {
+ *  bellworkSettingsSheetName: 'Bellwork',
+ *  classroomCodeColumnName: 'Class Code',
+ *  bellworkColumnName: 'Bellwork Column Number',
+ *  bellworkDateColumnName: 'Date Column',
+ *  bellworkFormIDColumnName: 'Form ID',
+ *  bellworkSlideshowIDColumnName: 'Slideshow ID',
+ *  bellworkSpreadsheetIDColumnName: 'Spreadsheet ID',
+ *  bellworkTitleColumnName: 'Bellwork Title',
+ *  bellworkSlideNotes: 'Bellwork',
+ *  dateInBellworkTitle: true,
+ *  onSubmitBellworkFunctionName: 'onSubmitBellwork',
+ *  bellworkSheetNameColumnName: 'Sheet Name',
+ *  bellworkSheetDateColumnEnd: 'END',
+ *  dailyPicturesColumnName: 'Daily Picture Folder',
+ *  dailyPicturesNotes: 'Agenda',
+ *  daysToLookAheadColumnName: '# of Days to Look', 
+ *  upcomingDueDatesSlideName: 'Upcoming Due Dates',
+ *  dateDelimiter: '/',
+ *  exitQuestionColumnName: 'Exit Question Column Number',
+ *  exitQuestionSlideNotes: 'Exit Question',
+ *  questionTypeColumnName: 'Question Type Column Number',
+ *  optionsColumnName: 'Question Options Column Number',
+ *  gridRowsColumnName: 'Grid Rows Column Number',
+ *  imageColumnName: 'Bellwork Form Image Column',
+ *  dueDateParams: dateParams,
+ *  displayBellworkOnForm: true,
+ *  displayBellworkOnSlide: true,
+ *  displayExitQuestionOnSlide: true,
+ *  displayUpcomingDueDates: true,
+ *  timezoneOffset: -5,
+ *  dataSheet: 'GSE Settings'
+ * };
+ * gsetools.updateBellwork(bellworkParams);
+ * ```
  *
  * @param {BellworkArgs} args the parameters
  */
@@ -231,7 +274,7 @@ export function updateBellwork(args: BellworkArgs): void {
  * @param {FormsGS} form the form to use for the question
  * @return {boolean} whether the question was found or not
  */
-export function updateTodaysQuestion(args: BellworkArgs,
+function updateTodaysQuestion(args: BellworkArgs,
     row: MapGS<string | Date, string | Date>, form: FormsGS): boolean {
   const {
     bellworkDateColumnName = 'Bellwork Date Column Number',
@@ -332,7 +375,7 @@ export function updateTodaysQuestion(args: BellworkArgs,
  * @param {string} questionType the type of the bellwork question
  *  class
  */
-export function showBellworkOnSlide(
+function showBellworkOnSlide(
     args: BellworkArgs,
     settingsRow: MapGS<string | Date, string | Date>,
     questionRow: number,
@@ -450,7 +493,7 @@ export function showBellworkOnSlide(
  * @param {string} questionTitle the title of the bellwork question
  * @param {string} questionType the type of the bellwork question
  */
-export function showBellworkOnForm(
+function showBellworkOnForm(
     args: BellworkArgs,
     row: MapGS<string | Date, string | Date>,
     bellworkForm: FormsGS,
