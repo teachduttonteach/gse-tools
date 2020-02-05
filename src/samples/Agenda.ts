@@ -8,7 +8,7 @@ import {Work} from '../classroom/Work'
 import {DateParams} from '../calendar/DateParams';
 import {MapGS} from '../map/MapGS';
 import {SlideshowGS} from '../slides/SlideshowGS';
-import {getTodaysDate, getOneDay, compareDates} from '../utils/Utilities'
+import {getTodaysDate, getOneDay, compareDates, checkNull} from '../utils/Utilities'
 import { DocsGS } from '../docs/DocsGS';
 
 /**
@@ -247,11 +247,8 @@ function updateClassAgenda(args: AgendaParams,
   const agendaSheet: SheetGS =
     agendaSpreadsheet.getSheet(thisSheetNameColumnName);
 
-  const thisAgendaDateColumnName = row.get(agendaDateColumnName);
-  if (thisAgendaDateColumnName == null) {
-    throw new Error('Could not find bellwork date column name in ' +
-      'Bellwork.updateTodaysQuestion()');
-  }
+  const thisAgendaDateColumnName: number = checkNull(row.get(agendaDateColumnName),
+    'Bellwork date column number', 'updateClassAgenda()', 'Error');
   let lessonRow: number = agendaSheet.skipBlankRows(1,
       +thisAgendaDateColumnName);
   let lessonTitles: Array<LessonInfo> = [];
@@ -263,13 +260,11 @@ function updateClassAgenda(args: AgendaParams,
 
     if (compareDates(dateInCell, dateToday, true, true) && 
       compareDates(futureDate, dateInCell, true, true)) {
-      const thisLessonColumnName = row.get(lessonColumnName);
-      if (thisLessonColumnName == null) {
-        throw new Error('Could not find bellwork column name in ' +
-        'Samples.doForBellwork()');
-      }
+      
+      const thisLessonColumnNumber: number = checkNull(row.get(lessonColumnName), 
+        'Lesson column number', 'updateClassAgenda()', 'Error');
       let lessonInfo = {} as LessonInfo;
-      lessonInfo.title = agendaSheet.getValue(lessonRow, +thisLessonColumnName)
+      lessonInfo.title = agendaSheet.getValue(lessonRow, +thisLessonColumnNumber)
         .toString();
       lessonInfo.lessonDate = dateInCell;
       lessonTitles.push(lessonInfo);

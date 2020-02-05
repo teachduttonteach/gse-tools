@@ -39,6 +39,19 @@ export function getTodaysDate(timezoneOffset: number): Date {
   return date;
 }
 
+export function checkNull(testValue: any, description: string, 
+  functionName: string, 
+  errorType: 'Error' | 'Warning' | 'Log' | 'None' = 'Error'): any | null {
+
+  if ((testValue === undefined) || (testValue === null)) {
+    const errorString = description + ' not defined in ' + functionName;
+    if (errorType == 'Error') throw new Error(errorString);
+    else if (errorType == 'Warning') console.log('WARNING: ' + errorString);
+    else if (errorType == 'Log') Logger.log(errorString);
+  }
+  return testValue;
+}
+
 /**
  * Checks to see if two dates are equal
  *
