@@ -235,7 +235,8 @@ export function updateBellwork(args: BellworkArgs): void {
     dataSheet
   } = args;
 
-  const settings: SpreadsheetGS = getDataSheet(dataSheet);
+  const settings: SpreadsheetGS = getDataSheet(dataSheet, 
+    bellworkSettingsSheetName);
   const bellworkSettings: MapGS<string | Date, MapGS<string | Date,
     string | Date>> = settings.getDataAsMap(bellworkSettingsSheetName);
 
@@ -293,23 +294,24 @@ function updateTodaysQuestion(args: BellworkArgs,
 
   const dateToday: Date = getTodaysDate(timezoneOffset);
 
-  const thisQuestionSpreadsheetName = row.get(bellworkSpreadsheetIDColumnName);
-  if (thisQuestionSpreadsheetName == null ||
-      typeof thisQuestionSpreadsheetName !== 'string') {
+  const thisSpreadsheetID = row.get(bellworkSpreadsheetIDColumnName);
+  if (thisSpreadsheetID == null ||
+      typeof thisSpreadsheetID !== 'string') {
     throw new Error('Could not find spreadsheet column name in ' +
       'Bellwork.updateTodaysQuestion()');
   }
-  const questionSpreadsheet: SpreadsheetGS =
-    new SpreadsheetGS(thisQuestionSpreadsheetName);
 
-  const thisSheetNameColumnName = row.get(bellworkSheetNameColumnName);
-  if (thisSheetNameColumnName == null ||
-    typeof thisSheetNameColumnName !== 'string') {
+  const thisSheetName = row.get(bellworkSheetNameColumnName);
+  if (thisSheetName == null ||
+    typeof thisSheetName !== 'string') {
     throw new Error('Could not find sheet name column name (' +
       bellworkSheetNameColumnName + ') in Bellwork.updateTodaysQuestion()');
   }
+  // TODO: Make Map of open spreadsheets
+  const questionSpreadsheet: SpreadsheetGS =
+    new SpreadsheetGS(thisSpreadsheetID, thisSheetName);
   const questionSheet: SheetGS =
-    questionSpreadsheet.getSheet(thisSheetNameColumnName);
+    questionSpreadsheet.getSheet(thisSheetName);
 
   const thisBellworkDateColumnName = row.get(bellworkDateColumnName);
   if (thisBellworkDateColumnName == null) {
@@ -567,14 +569,16 @@ function showBellworkOnForm(
     bellworkForm.addItem(questionTitle, questionType);
   }
 
-  const thisImageColumnName = row.get(imageColumnName);
-  if (thisImageColumnName !== null) {
+  const thisImageColumnNumber = row.get(imageColumnName);
+  if (thisImageColumnNumber !== null) {
     const imageFileID: string = questionSheet.getValue(questionRow,
-        +thisImageColumnName).toString();
-    const thisImageBlob: GoogleAppsScript.Base.Blob | boolean =
+        +thisImageColumnNumber).toString();
+    if (imageFileID != "") {
+      const thisImageBlob: GoogleAppsScript.Base.Blob | boolean =
       new DriveGS().getImageBlob(imageFileID);
-    if (thisImageBlob !== false) {
-      bellworkForm.addImage(thisImageBlob);
+      if (thisImageBlob !== false) {
+        bellworkForm.addImage(thisImageBlob);
+      }
     }
   }
 }

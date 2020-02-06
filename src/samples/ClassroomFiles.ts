@@ -72,7 +72,7 @@ export function updateClassroomFiles(args: ClassroomArgs): void {
     dataSheet
   } = args;
 
-  const settings: SpreadsheetGS = getDataSheet(dataSheet);
+  const settings: SpreadsheetGS = getDataSheet(dataSheet, settingsName);
   const classworkSettings: MapGS<string | Date, MapGS<string | Date,
     string | Date>> = settings.getDataAsMap(
         settingsName,

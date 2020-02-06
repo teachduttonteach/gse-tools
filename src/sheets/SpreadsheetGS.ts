@@ -8,12 +8,14 @@ import {MapGS} from '../map/MapGS';
  *
  * @param {GoogleAppsScript.Spreadsheet.Spreadsheet | string | any} id the ID
  *  of the spreadsheet or the Sheet object itself
+ * @param {string} sheetName if only one sheet is desired, specify it here
  * @return {SpreadsheetGS} the Spreadsheet object
  */
 export function newSpreadsheet(
-    id?: GoogleAppsScript.Spreadsheet.Spreadsheet | string | any):
+    id?: GoogleAppsScript.Spreadsheet.Spreadsheet | string | any,
+    sheetName?: string):
   SpreadsheetGS {
-  return new SpreadsheetGS(id);
+  return new SpreadsheetGS(id, sheetName);
 }
 
 /**
@@ -165,8 +167,9 @@ export class SpreadsheetGS extends UiGS {
   /**
    *
    * @param {GoogleAppsScript.Spreadsheet.Spreadsheet | string | any | undefined} id the id of the Google Sheet to use
+   * @param {string} sheetName if only one sheet is desired, specify it here
    */
-  constructor(id?: GoogleAppsScript.Spreadsheet.Spreadsheet | string | any) {
+  constructor(id?: GoogleAppsScript.Spreadsheet.Spreadsheet | string | boolean | any, sheetName?: string) {
     super();
     if (typeof id === 'object') this._spreadsheet = id;
     else if (typeof id === 'string') {
@@ -178,12 +181,22 @@ export class SpreadsheetGS extends UiGS {
       throw new Error('Could not find spreadsheet in SpreadsheetGS()');
     }
     if (this._sheets == null) throw new Error('Sheet object not set');
-    for (const s of this._spreadsheet.getSheets()) {
-      const thisSheet: string = s.getName();
-      if (thisSheet == undefined) {
-        throw new Error('Sheet not defined in SpreadsheetGS()');
+    if (sheetName !== undefined) {
+      const thisSheet = this._spreadsheet.getSheetByName(sheetName);
+      if (thisSheet === null) {
+        throw new Error('Sheet "' + sheetName + 
+          '" not defined in SpreadsheetGS()');
       }
-      (this._sheets as { [key: string]: any })[thisSheet] = new SheetGS(s);
+      (this._sheets as { [key: string]: any })[sheetName] = 
+        new SheetGS(thisSheet);
+    } else {
+      for (const thisSheet of this._spreadsheet.getSheets()) {
+        const sheetName: string = thisSheet.getName();
+        if (sheetName == undefined) {
+          throw new Error('Sheet not defined in SpreadsheetGS()');
+        }
+        (this._sheets as { [key: string]: any })[sheetName] = new SheetGS(thisSheet);
+      }  
     }
     if (typeof id === 'number') this._sheets[id];
   }

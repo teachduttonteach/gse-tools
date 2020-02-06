@@ -229,23 +229,23 @@ function updateClassAgenda(args: AgendaParams,
   futureDate.setMilliseconds(futureDate.getMilliseconds() + 
     (getOneDay() * daysToLookAhead));
 
-  const thisAgendaSpreadsheetName = row.get(agendaSpreadsheetIDColumnName);
-  if (thisAgendaSpreadsheetName == null ||
-      typeof thisAgendaSpreadsheetName !== 'string') {
+  const thisAgendaSpreadsheetID = row.get(agendaSpreadsheetIDColumnName);
+  if (thisAgendaSpreadsheetID == null ||
+      typeof thisAgendaSpreadsheetID !== 'string') {
     throw new Error('Could not find spreadsheet ID in ' +
       'Agenda.updateClassAgenda()');
   }
-  const agendaSpreadsheet: SpreadsheetGS =
-    new SpreadsheetGS(thisAgendaSpreadsheetName);
 
-  const thisSheetNameColumnName = row.get(agendaSheetNameColumnName);
-  if (thisSheetNameColumnName == null ||
-    typeof thisSheetNameColumnName !== 'string') {
+  const thisSheetName = row.get(agendaSheetNameColumnName);
+  if (thisSheetName == null ||
+    typeof thisSheetName !== 'string') {
     throw new Error('Could not find sheet name column name (' +
     agendaSheetNameColumnName + ') in Bellwork.updateTodaysQuestion()');
   }
+  const agendaSpreadsheet: SpreadsheetGS =
+    new SpreadsheetGS(thisAgendaSpreadsheetID, thisSheetName);
   const agendaSheet: SheetGS =
-    agendaSpreadsheet.getSheet(thisSheetNameColumnName);
+    agendaSpreadsheet.getSheet(thisSheetName);
 
   const thisAgendaDateColumnName = checkNull(row.get(agendaDateColumnName),
     'Bellwork date column number', 'updateClassAgenda()', 'Error');
@@ -308,7 +308,6 @@ function writeAgendaToDoc(args: AgendaParams,
     for (let work of topicWork) {
       for (let lesson of lessonInfo) {
         if (lesson.title == work.title) {
-          Logger.log("Found " + lesson.title);
           lesson.dueDate = work.dueDate;
           lesson.description = work.description;
         }
