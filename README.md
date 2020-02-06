@@ -75,7 +75,7 @@ While this project cannot magically impart basic coding skills to teachers, the 
     - In **gse-tools**, the code is simplified: `slide.setList(listText);`
 - Hide GAS idiosyncrasies in modules, improving coding efficiency at the expense of code flexibility
 - Reduce API calls where possible
-    - In GAS, searching for the value of a cell in a Sheet requires an API call to the Sheet for every single cell searched
+    - In GAS, searching for the value of a cell in a Sheet can require an API call to the Sheet for every single cell searched
     - In **gse-tools**, all of the cell values are held in a variable and can be searched multiple times with no expensive API calls
 - Allow for programmers with a wider variety of experience levels to use the library
 

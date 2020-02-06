@@ -247,7 +247,7 @@ function updateClassAgenda(args: AgendaParams,
   const agendaSheet: SheetGS =
     agendaSpreadsheet.getSheet(thisSheetNameColumnName);
 
-  const thisAgendaDateColumnName: number = checkNull(row.get(agendaDateColumnName),
+  const thisAgendaDateColumnName = checkNull(row.get(agendaDateColumnName),
     'Bellwork date column number', 'updateClassAgenda()', 'Error');
   let lessonRow: number = agendaSheet.skipBlankRows(1,
       +thisAgendaDateColumnName);
@@ -261,7 +261,7 @@ function updateClassAgenda(args: AgendaParams,
     if (compareDates(dateInCell, dateToday, true, true) && 
       compareDates(futureDate, dateInCell, true, true)) {
       
-      const thisLessonColumnNumber: number = checkNull(row.get(lessonColumnName), 
+      const thisLessonColumnNumber = checkNull(row.get(lessonColumnName), 
         'Lesson column number', 'updateClassAgenda()', 'Error');
       let lessonInfo = {} as LessonInfo;
       lessonInfo.title = agendaSheet.getValue(lessonRow, +thisLessonColumnNumber)

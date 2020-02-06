@@ -977,7 +977,8 @@ export class SheetGS {
 
     // TODO: Set values with this._sheet.getRange().setValues()
 
-    if (value instanceof Array && value.every(function(e: any | any[]) { return e instanceof Array })) {
+    if (value instanceof Array && value.every(function(e: any | any[]) 
+      { return e instanceof Array })) {
       //@ts-ignore
       this._sheet.getRange(startRow, startCol, numRows, numCols).setValues(value);
       return this.resetData();

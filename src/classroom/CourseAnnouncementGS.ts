@@ -77,7 +77,7 @@ export class CourseAnnouncementGS {
     this._announcementResource = {} as AnnouncementResource;
     this._announcementResource.text = text;
     this._announcementResource.materials = [];
-    this._announcementResource.state = AnnouncementState.PUBLISHED;
+    this._announcementResource.state = AnnouncementState.Published;
   }
 
   /**
@@ -99,7 +99,7 @@ export class CourseAnnouncementGS {
    * @return {CourseAnnouncementGS} the object for chaining
    */
   schedule(time: Date): CourseAnnouncementGS {
-    this._announcementResource.state = AnnouncementState.DRAFT;
+    this._announcementResource.state = AnnouncementState.Draft;
     this._announcementResource.scheduledTime = time.toISOString();
     return this;
   }
@@ -114,7 +114,7 @@ export class CourseAnnouncementGS {
    */
   assign(studentIds: Array<string>): CourseAnnouncementGS {
     this._announcementResource.assigneeMode =
-      AssigneeMode.INDIVIDUAL_STUDENTS;
+      AssigneeMode.IndividualStudents;
     this._announcementResource.individualStudentsOptions =
       {} as GoogleAppsScript.Classroom.Schema.IndividualStudentsOptions;
     this._announcementResource.individualStudentsOptions.studentIds =

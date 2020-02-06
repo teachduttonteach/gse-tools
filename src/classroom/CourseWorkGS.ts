@@ -111,11 +111,11 @@ export class CourseWorkGS {
       this._courseWorkResource = {} as CourseWorkResource;
       this._courseWorkResource.title = title;
       this._courseWorkResource.description = description;
-      this._courseWorkResource.state = CourseWorkState.PUBLISHED;
+      this._courseWorkResource.state = CourseWorkState.Published;
       this._courseWorkResource.maxPoints = maxPoints;
-      this._courseWorkResource.workType = CourseWorkType.ASSIGNMENT;
+      this._courseWorkResource.workType = CourseWorkType.Assignment;
       this._courseWorkResource.topicId = topicId;
-      this._courseWorkResource.assigneeMode = AssigneeMode.ALL_STUDENTS;
+      this._courseWorkResource.assigneeMode = AssigneeMode.All;
     }
 
     /**
@@ -161,7 +161,7 @@ export class CourseWorkGS {
      * @return {CourseWorkGS} the object for chaining
      */
     schedule(time: Date): CourseWorkGS {
-      this._courseWorkResource.state = CourseWorkState.DRAFT;
+      this._courseWorkResource.state = CourseWorkState.Draft;
       this._courseWorkResource.scheduledTime = time.toISOString();
       return this;
     }
@@ -175,7 +175,7 @@ export class CourseWorkGS {
      */
     changeType(type: CourseWorkType, choices?: Array<string>): CourseWorkGS {
       this._courseWorkResource.workType = type;
-      if (type == CourseWorkType.MULTIPLE_CHOICE_QUESTION) {
+      if (type == CourseWorkType.MultipleChoice) {
         this._courseWorkResource.multipleChoiceQuestion.choices = choices;
       }
       return this;
@@ -189,7 +189,7 @@ export class CourseWorkGS {
      * @return {CourseWorkGS} the object for chaining
      */
     assign(studentIds: Array<string>): CourseWorkGS {
-      this._courseWorkResource.assigneeMode = AssigneeMode.INDIVIDUAL_STUDENTS;
+      this._courseWorkResource.assigneeMode = AssigneeMode.IndividualStudents;
       this._courseWorkResource.individualStudentsOptions.studentIds =
         studentIds;
       return this;

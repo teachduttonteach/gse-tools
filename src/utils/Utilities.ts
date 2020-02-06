@@ -39,15 +39,16 @@ export function getTodaysDate(timezoneOffset: number): Date {
   return date;
 }
 
-export function checkNull(testValue: any, description: string, 
-  functionName: string, 
-  errorType: 'Error' | 'Warning' | 'Log' | 'None' = 'Error'): any | null {
+export function checkNull<T>(testValue: T | undefined | null, 
+  description: string, functionName: string, 
+  errorType: 'Error' | 'Warning' | 'Log' | 'None' = 'Error'): T {
 
   if ((testValue === undefined) || (testValue === null)) {
     const errorString = description + ' not defined in ' + functionName;
     if (errorType == 'Error') throw new Error(errorString);
     else if (errorType == 'Warning') console.log('WARNING: ' + errorString);
     else if (errorType == 'Log') Logger.log(errorString);
+    return {} as T;
   }
   return testValue;
 }
