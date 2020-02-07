@@ -7,14 +7,14 @@ import {QuestionType} from '../enums/QuestionType';
 
 function onSubmit(e: GoogleAppsScript.Events.FormsOnFormSubmit) {
     let testFormEvent = new FormEventGS(e);
-    console.log("Full date: " + testFormEvent.fullDate());
+    console.log("Full date: " + testFormEvent.getFullDate());
 
     let testFormEventOptions = {} as FormEventOptions;
     testFormEventOptions.dateDelimiter = " ... ";
-    console.log("Full date 1: " + testFormEvent.fullDate(testFormEventOptions));
+    console.log("Full date 1: " + testFormEvent.getFullDate(testFormEventOptions));
 
     testFormEventOptions.dateOrder = "DM";
-    console.log("Full date 2: " + testFormEvent.fullDate(testFormEventOptions));
+    console.log("Full date 2: " + testFormEvent.getFullDate(testFormEventOptions));
 
     console.log("Email: " + testFormEvent.getEmail());
 

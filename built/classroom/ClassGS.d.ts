@@ -1,5 +1,5 @@
 /// <reference types="google-apps-script" />
-import { ClassDataParams } from 'ClassDataParams';
+import { DateParams } from '../calendar/DateParams';
 import { TopicInfo } from './TopicInfo';
 import { MapGS } from '../map/MapGS';
 import { CourseWorkGS } from './CourseWorkGS';
@@ -121,10 +121,11 @@ export declare class ClassGS {
      *
      * @param {GoogleAppsScript.Classroom.Schema.Course} course the
      *  Google course object
-     * @param {ClassDataParams} args the optional parameters for creating the
+     * @param {DateParams} args the optional parameters for creating the
      *  classroom data object
      */
-    constructor(course: GoogleAppsScript.Classroom.Schema.Course, args?: ClassDataParams);
+    constructor(course: GoogleAppsScript.Classroom.Schema.Course, 
+        args?: DateParams);
     /**
      * Add course materials to a Work object
      *

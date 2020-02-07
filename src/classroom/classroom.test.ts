@@ -13,9 +13,9 @@ function test() {
   const classId = '';
 
   const classDataParams: MapGS<string, Array<string>> = new MapGS();
-  classDataParams.set('dueDateString', ['DueDate', 'DUE DATE', 'due']);
-  classDataParams.set('dueDateDelim', [':', '-', '...']);
-  classDataParams.set('dueDateOrder', ['DMY', 'DYM', 'MDY', 'MYD', 'DMY', 'DYM']);
+  classDataParams.set('titlePrefix', ['DueDate', 'DUE DATE', 'due']);
+  classDataParams.set('dateDelim', [':', '-', '...']);
+  classDataParams.set('dateOrder', ['DMY', 'DYM', 'MDY', 'MYD', 'DMY', 'DYM']);
 
   const materialParamsFile: CourseMaterial = {} as CourseMaterial;
   materialParamsFile.title = 'Test Material with File';

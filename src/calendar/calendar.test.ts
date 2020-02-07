@@ -1,5 +1,5 @@
 import { CalendarGS } from './CalendarGS';
-import { DateParams } from './DateParams';
+import { DateParams } from '../DateParams';
 import { MapGS } from '../map/MapGS';
 import { Test } from '../test/Test';
 
@@ -45,7 +45,7 @@ function test() {
     "getUpcomingDueDatesList"
   );
 
-  let upcomingEvent = holidayCalendar.getUpcomingEvents(30)[0];
+  let upcomingEvent = holidayCalendar.getUpcomingEvents(30, -5)[0];
 
   // getDate
   testSuite.testMethod(upcomingEvent.getDate.bind(upcomingEvent), [], "getDate");

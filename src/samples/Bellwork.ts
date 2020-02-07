@@ -6,11 +6,45 @@ import {areDatesEqual, getTodaysDate} from '../utils/Utilities';
 import {SheetGS} from '../sheets/SheetGS';
 import {SlideshowGS} from '../slides/SlideshowGS';
 import {FormsGS} from '../forms/FormsGS';
-import {DateParams} from '../calendar/DateParams';
+import {DateParams} from '../DateParams';
 import {CalendarGS} from '../calendar/CalendarGS';
 import {SlideGS} from '../slides/SlideGS';
 import {MapGS} from '../map/MapGS';
 import {QuestionType} from '../enums/QuestionType';
+import { FormEventGS } from '../forms/FormEventGS';
+
+/**
+ * All of the arguments used by the tabulateBellwork function
+ */
+type TabulateParams = {
+  /**
+   * The column name in the 'gse-tools Settings' sheet that contains the 
+   *  sheet for the bellwork results; default is 'Bellwork Results Sheet'
+   */
+  bellworkResultsColumn?: string;
+  /**
+   * The column name in the 'gse-tools Settings' sheet that contains the 
+   *  title for the associated bellwork form; default is 'Bellwork Title'
+   */
+  bellworkTitleColumn?: string;
+  /**
+   * The name of the data settings sheet to use; defaults to 'gse-tools Settings'
+   */
+  dataSheet?: string;
+  /**
+   * The name of the sheet on the data settings sheet for the bellwork; default is 'Bellwork'
+   */
+  sheetName?: string;
+  /**
+   * The column name in the 'gse-tools Settings' sheet that contains the 
+   *  id for the results spreadsheet; default is 'Spreadsheet ID'
+   */
+  spreadsheetIDColumn?: string;
+  /**
+   * Date parameters for constructing the date for the results sheet column header
+   */
+  columnDateParams?: DateParams;
+}
 
 /**
  * All of the arguments and other variables used by the Bellwork script
@@ -582,3 +616,93 @@ function showBellworkOnForm(
     }
   }
 }
+
+export function tabulateBellwork(
+  event: GoogleAppsScript.Events.FormsOnFormSubmit, 
+  args?: TabulateParams): boolean {
+    const formEvent: FormEventGS = new FormEventGS(event);
+    if (args == undefined) args = {} as TabulateParams;
+    const {
+      bellworkResultsColumn = 'Bellwork Results Sheet',
+      dataSheet = 'gse-tools Settings',
+      sheetName = 'Bellwork',
+      bellworkTitleColumn = 'Bellwork Title',
+      spreadsheetIDColumn = 'Spreadsheet ID',
+      columnDateParams = {} as DateParams,
+    } = args;
+    
+    const formTitle = formEvent.getTitle();
+    const response = formEvent.getItemResponse(0);
+    if (response instanceof Array) throw new Error('Bellwork form response ' +
+      'needs to have single values only in tabulateBellwork()');
+    const title = (formEvent.getFullDate(columnDateParams) + "\n" + 
+      formEvent.getItemTitle(0));
+    const fullName: [string, string] = formEvent.getNameFromEmail();
+    if (fullName.length != 2) throw new Error("Could not get name from email" +
+      " in tabulateBellwork()");
+    
+    const allClasses = getDataSheet(dataSheet, sheetName)
+    .getDataAsMap(sheetName);
+
+    let destinationSheetName: string = "";
+    let bellworkSheetID: string = "";
+
+    for (const className of allClasses.keys()) {
+      const classData = allClasses.get(className);
+      if ((classData != null) && (classData != undefined)) {
+        const bellworkTitle = classData.get(bellworkTitleColumn);
+        if ((bellworkTitle != null) && (bellworkTitle != undefined)) {
+          if (formTitle.indexOf(bellworkTitle.toString()) == 0) {
+
+            const bellworkResultsSheetName = classData.get(bellworkResultsColumn);
+            if ((bellworkResultsSheetName != null) && (bellworkResultsSheetName != undefined)) {
+              destinationSheetName = bellworkResultsSheetName.toString();
+            } else {
+              throw new Error('Could not find bellwork results sheet for ' +
+              ' class "' + className + '" in column "' + 
+              bellworkResultsColumn + '" for tabulateBellwork()');
+            }
+
+            const spreadsheetID = classData.get(spreadsheetIDColumn);
+            if ((spreadsheetID == null) || (spreadsheetID == undefined)) {
+              throw new Error('Could not find bellwork results sheet ID for ' +
+              ' class "' + className + '" in column "' + 
+              spreadsheetIDColumn + '" for tabulateBellwork()');
+            }
+            bellworkSheetID = spreadsheetID.toString();
+        
+          }
+        } else {
+          throw new Error('Could not find bellwork title for class "' +
+            className + '" in column "' + bellworkTitleColumn + 
+            '" in tabulateBellwork()');
+        }
+      } else {
+        throw new Error('Could not find data for class "' + className + 
+          '" in tabulateBellwork()');
+      }
+    }
+
+    const responseSheet = new SpreadsheetGS(bellworkSheetID, 
+      destinationSheetName).getSheet(destinationSheetName);
+    if (responseSheet.getValue(1, 3) != title) {
+      responseSheet.insertCol(3).setValue(title, 1, 3);
+    }
+
+    let foundName: boolean = false;
+    const lastRow: number = responseSheet.getLastRow();
+    for (var i = 2; i <= lastRow; i++) {
+      if ((responseSheet.getValue(i, 1) == fullName[0]) && 
+        (responseSheet.getValue(i, 2) == fullName[1])) {
+        responseSheet.setValue(response, i, 3);
+        foundName = true;
+        break;
+      } 
+    }
+    if (!foundName) {
+      responseSheet.setValues([[fullName[0], fullName[1], response]], 
+        lastRow + 1, 1, 1, 3);
+    }
+  
+    return true;
+  }

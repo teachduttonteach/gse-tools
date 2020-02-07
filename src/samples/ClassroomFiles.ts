@@ -4,7 +4,7 @@ import {DriveGS} from '../drive/DriveGS';
 import {getDataSheet} from '../DataSheet';
 import {ClassGS} from '../classroom/ClassGS';
 import {ClassroomDocsGS} from '../classroom-docs/ClassroomDocsGS';
-import {DateParams} from '../calendar/DateParams';
+import {DateParams} from '../DateParams';
 import {MapGS} from '../map/MapGS';
 
 /**

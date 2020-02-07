@@ -926,6 +926,11 @@ export class SheetGS {
    * @param {string | Date | Array<string | Date> | Array<Array<string | Date>> | CellRange} firstParam the value, as a string or array;
    *  OR an object containing the following parameters: startRow, startCol,
    *  numRows, numCols, and value
+   *  Values as arrays have as rows the first dimension and as columns the 
+   *  second dimension. 
+   * ```javascript
+   * mySheet.setValues([["John", "Doe"],["Jane", "Doe"]], 1, 1, 2, 2);
+   * ```
    * @param {number} startRow the beginning row to place this value
    * or set of values, indexed at 1
    * @param {number} startCol the beginning column to place this value

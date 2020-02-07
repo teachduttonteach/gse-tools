@@ -1,4 +1,4 @@
-import {ClassDataParams} from 'ClassDataParams';
+import {DateParams} from '../DateParams';
 import {Work} from 'Work';
 import {CourseMaterial} from './CourseMaterial';
 import {TopicInfo} from './TopicInfo';
@@ -152,25 +152,25 @@ export class ClassGS {
    *
    * @param {GoogleAppsScript.Classroom.Schema.Date} workDueDate the Google
    *  Date object holding the due date
-   * @param {ClassDataParams} args the class data arguments for determining
+   * @param {DateParams} args the class data arguments for determining
    *  the date string
    *
    * @return {string} the due date string
    */
   private _getDueDate(workDueDate: GoogleAppsScript.Classroom.Schema.Date,
-      args: ClassDataParams): string {
-    const {dueDateString = 'Due Date:', dueDateDelim = '/',
-      dueDateOrder = 'MDY'} = args;
+      args: DateParams): string {
+    const {titlePrefix = 'Due Date:', dateDelim = '/',
+      dateOrder = 'MDY'} = args;
 
     // Add the corresponding piece of the date for each part of the order
-    let dueDate = dueDateString + ' ';
-    for (let d = 0; d < dueDateOrder.length; d++) {
-      const thisChar = dueDateOrder.charAt(d);
+    let dueDate = titlePrefix + ' ';
+    for (let d = 0; d < dateOrder.length; d++) {
+      const thisChar = dateOrder.charAt(d);
       if (thisChar.toUpperCase() == 'M') dueDate += workDueDate.month;
       else if (thisChar.toUpperCase() == 'D') dueDate += workDueDate.day;
       else if (thisChar.toUpperCase() == 'Y') dueDate += workDueDate.year;
-      if (thisChar != dueDateOrder.substr(dueDateOrder.length - 1, 1)) {
-        dueDate += dueDateDelim;
+      if (thisChar != dateOrder.substr(dateOrder.length - 1, 1)) {
+        dueDate += dateDelim;
       }
     }
     return dueDate;
@@ -180,11 +180,11 @@ export class ClassGS {
    *
    * @param {GoogleAppsScript.Classroom.Schema.Course} course the
    *  Google course object
-   * @param {ClassDataParams} args the optional parameters for creating the
+   * @param {DateParams} args the optional parameters for creating the
    *  classroom data object
    */
   constructor(course: GoogleAppsScript.Classroom.Schema.Course,
-      args?: ClassDataParams) {
+      args?: DateParams) {
     if (course == undefined || course.id == undefined) {
       throw new Error('Course not defined in ClassGS');
     }
@@ -239,7 +239,7 @@ export class ClassGS {
       }
     }
 
-    if (args == undefined) args = {} as ClassDataParams;
+    if (args == undefined) args = {} as DateParams;
 
     // Get the lists of classwork, announcements, and topics
     const thisClassroomWork =

@@ -5,7 +5,7 @@ import {DriveGS} from '../drive/DriveGS';
 import {getDataSheet} from '../DataSheet';
 import {ClassGS} from '../classroom/ClassGS';
 import {Work} from '../classroom/Work'
-import {DateParams} from '../calendar/DateParams';
+import {DateParams} from '../DateParams';
 import {MapGS} from '../map/MapGS';
 import {SlideshowGS} from '../slides/SlideshowGS';
 import {getTodaysDate, getOneDay, compareDates, checkNull} from '../utils/Utilities'

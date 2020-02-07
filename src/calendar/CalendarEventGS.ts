@@ -1,4 +1,4 @@
-import {DateParams} from './DateParams';
+import {DateParams} from '../DateParams';
 
 /**
  * Get the underlying object

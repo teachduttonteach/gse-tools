@@ -361,48 +361,6 @@ export class GroupCreatorGS {
   }
 
   /**
-   * Get the spreadsheet ID and sheet name for groups
-   * @return {[string, string]} the spreadsheet ID and sheet name
-   */
-  private _getSpreadsheetForGroups(): [string, string] {
-    const {
-      className,
-      sheetName = 'Student Groups',
-      settingsSheetColumnName = 'Sheet Name',
-      spreadsheetColumn = 'Spreadsheet',
-    } = this._args;
-    const settingsSheet = getDataSheet()
-        .getDataAsMap(sheetName)
-        .get(className);
-    if (settingsSheet == null) {
-      throw new Error(
-          'Could not find class \'' +
-          className +
-          '\' in ' +
-          'settings sheet \'' +
-          sheetName +
-          '\' in ' +
-          'GroupCreator.calculateGroups()',
-      );
-    }
-
-    const thisSpreadsheetId = settingsSheet.get(spreadsheetColumn);
-    if (thisSpreadsheetId == null || typeof thisSpreadsheetId !== 'string') {
-      throw new Error('Could not find spreadsheet for class \'' +
-        className + '\' in GroupCreator.calculateGroups()');
-    }
-
-    const sheetNameFromSettings = settingsSheet.get(settingsSheetColumnName);
-    if (sheetNameFromSettings == null ||
-      typeof sheetNameFromSettings !== 'string') {
-      throw new Error('Could not find column that contains sheet' +
-        ' name in GroupCreator.calculateGroups()');
-    }
-
-    return [thisSpreadsheetId, sheetNameFromSettings];
-  }
-
-  /**
    * Calculate the groups for this set
    *
    * @return {GroupCreatorGS} the object for chaining
@@ -414,22 +372,23 @@ export class GroupCreatorGS {
       spreadsheetId,
     } = this._args;
 
-    let sheetColumn: string;
-    if (typeof spreadsheetId === null) {
-      [spreadsheetId, sheetColumn] =
-      this._getSpreadsheetForGroups();
-    } else sheetColumn = sheetName;
-
-    const groupSpreadsheet = new SpreadsheetGS(spreadsheetId);
+    let groupSpreadsheet: SpreadsheetGS;
+    if ((spreadsheetId === null) || (spreadsheetId === undefined) 
+      || (spreadsheetId == "")) {
+      groupSpreadsheet = new SpreadsheetGS(true, sheetName);
+      spreadsheetId = groupSpreadsheet.getObject().getId();
+    } else {
+      groupSpreadsheet = new SpreadsheetGS(spreadsheetId, sheetName);
+    }
     if (groupSpreadsheet == null) {
       throw new Error('Could not create spreadsheet object in ' +
         'GroupCreator.calculateGroups()');
     }
 
     setCache('spreadsheetId', spreadsheetId);
-    setCache('sheetName', sheetColumn);
+    setCache('sheetName', sheetName);
 
-    const groupData = groupSpreadsheet.getDataAsMap(sheetColumn);
+    const groupData = groupSpreadsheet.getDataAsMap(sheetName);
     if (groupData == null) {
       throw new Error('Could not find sheet name \'' + sheetName +
         '\' on spreadsheet in GroupCreator.calculateGroups()');

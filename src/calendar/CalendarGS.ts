@@ -1,5 +1,5 @@
 import {CalendarEventGS} from './CalendarEventGS';
-import {DateParams} from './DateParams';
+import {DateParams} from '../DateParams';
 import {getTodaysDate} from '../utils/Utilities';
 
 /**
