@@ -502,10 +502,9 @@ function showBellworkOnSlide(
           'Samples.doForBellwork()');
       }
       const upcomingEvents: string =
-        new CalendarGS(currentClass.getCalendarId()).getUpcomingDueDates(
+        new CalendarGS(currentClass.getCalendarId(), timezoneOffset).getUpcomingDueDates(
             +thisDaysToLookAhead,
-            dueDateParams,
-            timezoneOffset,
+            dueDateParams
         );
       const thisSlide = slideShow.getSlideByNotes(upcomingDueDatesSlideNotes);
       if (thisSlide != null) thisSlide.setList(upcomingEvents);
