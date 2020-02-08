@@ -3,13 +3,13 @@ import { DocsGS } from '../docs/DocsGS';
 import { DriveGS } from '../drive/DriveGS';
 
 export class Test {
-  _mode: string;
+  _mode: 'email' | 'doc' | 'log';
   _fn: string;
   _toPrint: string;
   _recipient: string;
   _clearDoc: boolean;
 
-  constructor(mode: string = 'log', recipient: string | boolean = 'john.dutton@campusinternationalschool.org') {
+  constructor(mode: 'email' | 'doc' | 'log' = 'log', recipient: string | boolean = 'john.dutton@campusinternationalschool.org') {
     if (mode.toLowerCase() == 'email') {
       this._mode = 'email';
       if (typeof recipient === "string") this._recipient = recipient;

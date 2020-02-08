@@ -73,9 +73,7 @@ export class CalendarEventGS {
   constructor(event: GoogleAppsScript.Calendar.CalendarEvent,
       timezoneOffset: number = -5) {
     const startTime = event.getStartTime();
-    Logger.log(startTime);
     startTime.setUTCHours(startTime.getUTCHours() + timezoneOffset);
-    Logger.log(startTime);
     this._date = startTime.getUTCDate();
     this._month = startTime.getUTCMonth() + 1;
     this._title = event.getTitle();

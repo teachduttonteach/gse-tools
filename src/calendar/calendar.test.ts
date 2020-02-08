@@ -44,7 +44,7 @@ function test() {
       'getUpcomingDueDatesList',
   );
 
-  const upcomingEvent = holidayCalendar.getUpcomingEvents(30, -5)[0];
+  const upcomingEvent = holidayCalendar.getUpcomingEvents(30)[0];
 
   // getDate
   testSuite.testMethod(upcomingEvent.getDate.bind(upcomingEvent), [], 

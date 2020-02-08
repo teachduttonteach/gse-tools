@@ -1,0 +1,20 @@
+cd src/calendar
+./update.sh -t
+cd ../classroom
+./update.sh -t
+cd ../classroom-docs
+./update.sh -t
+cd ../docs
+./update.sh -t
+cd ../drive
+./update.sh -t
+cd ../forms
+./update.sh -t
+cd ../sheets
+./update.sh -t
+cd ../slides
+./update.sh -t
+cd ../test
+./update.sh
+cd ../..
+clasp push
