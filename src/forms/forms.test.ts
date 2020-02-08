@@ -26,10 +26,10 @@ function onSubmit(e: GoogleAppsScript.Events.FormsOnFormSubmit) {
 
 function test() {
   // @ts-ignore
-  const testSuite = new gsetoolstest.Test();
+  const testSuite = new gsetoolstest.Test('doc', true);
 
   const testForms = new FormsGS('1REupX2baJq753tG9jKWCsjAMEfvzncvfSTBSV3WX4IU');
-  testForms.replaceTrigger(GoogleAppsScript.Script.EventType.ON_FORM_SUBMIT);
+  testForms.replaceTrigger(ScriptApp.EventType.ON_FORM_SUBMIT);
 
   testForms.deleteItems();
 
