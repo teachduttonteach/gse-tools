@@ -59,7 +59,7 @@ export function convertFormLinebreaksToList(obj: FormsGS, text: string):
 export function addFormItem(
     obj: FormsGS,
     title: string,
-    questionType: string,
+    questionType: QuestionType,
     optionsList?: string | Array<string>,
     mcGridRowsList?: string | Array<string>,
 ): FormsGS {
@@ -322,7 +322,7 @@ export class FormsGS extends UiGS {
    */
   addItem(
       title: string,
-      questionType: string,
+      questionType: QuestionType,
       optionsList?: string | Array<string>,
       mcGridRowsList?: string | Array<string>,
   ): FormsGS {
@@ -336,16 +336,16 @@ export class FormsGS extends UiGS {
     }
 
     switch (questionType) {
-      case 'Paragraph':
+      case QuestionType.Paragraph:
         this._form.addParagraphTextItem().setTitle(title);
         break;
-      case 'True / False':
+      case QuestionType["True / False"]:
         this._form
             .addMultipleChoiceItem()
             .setTitle(title)
             .setChoiceValues(['True', 'False']);
         break;
-      case 'Multiple Choice':
+      case QuestionType["Multiple Choice"]:
         if (optionsList == undefined) {
           throw new Error('Options list must be defined in FormsGS.addItem()');
         } else if (typeof optionsList === 'string') {
@@ -354,7 +354,7 @@ export class FormsGS extends UiGS {
         } else this.addMultipleChoice(title, optionsList);
 
         break;
-      case 'Multiple Select':
+      case QuestionType["Multiple Select"]:
         this._form.addCheckboxItem().setTitle(title);
 
         if (optionsList == undefined) {
@@ -365,7 +365,7 @@ export class FormsGS extends UiGS {
         } else this.addMultipleCheck(title, optionsList);
 
         break;
-      case 'MC Grid':
+      case QuestionType["MC Grid"]:
         const item = this._form.addGridItem().setTitle(title);
 
         if (optionsList == undefined) {
@@ -383,7 +383,7 @@ export class FormsGS extends UiGS {
         } else item.setRows(mcGridRowsList);
 
         break;
-      case 'MS Grid':
+      case QuestionType["MS Grid"]:
         const gridItem = this._form.addCheckboxGridItem().setTitle(title);
 
         if (optionsList == undefined) {
