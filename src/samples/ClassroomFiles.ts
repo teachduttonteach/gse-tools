@@ -36,7 +36,7 @@ type ClassroomArgs = {
    */
   dueDateParams?: DateParams;
   /**
-   * The name of the data settings sheet to use; defaults to 'gse-tools 
+   * The name of the data settings sheet to use; defaults to 'gse-tools
    *  Settings'
    */
   dataSheet?: string;
@@ -44,7 +44,7 @@ type ClassroomArgs = {
 
 /**
  * Update Google Docs from Classroom information
- * 
+ *
  * ```javascript
  * var dateParams = {
  *  titlePrefix: ' - ',
@@ -52,7 +52,7 @@ type ClassroomArgs = {
  *  dateOrder: 'MD',
  *  noEventString: 'NONE',
  * };
- * 
+ *
  * var classroomArgs = {
  *  settingsName: 'Classroom',
  *  classroomCodeColumnName: 'Class Code',
@@ -69,7 +69,7 @@ export function updateClassroomFiles(args: ClassroomArgs): void {
   const {
     settingsName = 'Classroom',
     classroomCodeColumnName = 'Classroom Code',
-    dataSheet
+    dataSheet,
   } = args;
 
   const settings: SpreadsheetGS = getDataSheet(dataSheet, settingsName);

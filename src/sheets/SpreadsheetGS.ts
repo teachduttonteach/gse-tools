@@ -169,7 +169,9 @@ export class SpreadsheetGS extends UiGS {
    * @param {GoogleAppsScript.Spreadsheet.Spreadsheet | string | any | undefined} id the id of the Google Sheet to use
    * @param {string} sheetName if only one sheet is desired, specify it here
    */
-  constructor(id?: GoogleAppsScript.Spreadsheet.Spreadsheet | string | boolean | any, sheetName?: string) {
+  constructor(
+    id?: GoogleAppsScript.Spreadsheet.Spreadsheet | string | boolean | any, 
+    sheetName?: string) {
     super();
     if (typeof id === 'object') this._spreadsheet = id;
     else if (typeof id === 'string') {
@@ -184,10 +186,10 @@ export class SpreadsheetGS extends UiGS {
     if (sheetName !== undefined) {
       const thisSheet = this._spreadsheet.getSheetByName(sheetName);
       if (thisSheet === null) {
-        throw new Error('Sheet "' + sheetName + 
+        throw new Error('Sheet "' + sheetName +
           '" not defined in SpreadsheetGS()');
       }
-      (this._sheets as { [key: string]: any })[sheetName] = 
+      (this._sheets as { [key: string]: any })[sheetName] =
         new SheetGS(thisSheet);
     } else {
       for (const thisSheet of this._spreadsheet.getSheets()) {
@@ -195,8 +197,9 @@ export class SpreadsheetGS extends UiGS {
         if (sheetName == undefined) {
           throw new Error('Sheet not defined in SpreadsheetGS()');
         }
-        (this._sheets as { [key: string]: any })[sheetName] = new SheetGS(thisSheet);
-      }  
+        (this._sheets as { [key: string]: any })[sheetName] = 
+          new SheetGS(thisSheet);
+      }
     }
     if (typeof id === 'number') this._sheets[id];
   }

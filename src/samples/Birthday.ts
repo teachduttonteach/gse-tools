@@ -44,7 +44,7 @@ export type BirthdayParams = {
  *  studentNameColumn: 'Last',
  *  dateOrder: 'MD'
  * };
- * gsetools.sendBirthdayEmail(10, "teachduttonteach@gmail.com", 
+ * gsetools.sendBirthdayEmail(10, "teachduttonteach@gmail.com",
  *  birthdayParams);
  * ```
  *

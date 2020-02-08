@@ -79,7 +79,7 @@
 				<a href="#gse-tools-1" id="gse-tools-1" style="color: inherit; text-decoration: none;">
 					<h3>gse-tools</h3>
 				</a>
-				<p>Project key: <code>1qNPRbBbOQhFX9sLa8LzH_YYcceEDSC6hgO9500fgTyFXMNXdoEcjqlPv</code></p>
+				<p>Project key: <code>1SRl5DGs_tVG42joBNHBFhPvivWtX07XRmIo533wfxzXgkM4ahPT8E5JA</code></p>
 				<p>Provides access to <a href="https://teachduttonteach.github.io/gse-tools/globals.html">all modules</a>.</p>
 				<a href="#gse-tools-calendar" id="gse-tools-calendar" style="color: inherit; text-decoration: none;">
 					<h3>gse-tools-calendar</h3>
@@ -143,7 +143,7 @@
 					</li>
 					<li>Hide GAS idiosyncrasies in modules, improving coding efficiency at the expense of code flexibility</li>
 					<li>Reduce API calls where possible<ul>
-							<li>In GAS, searching for the value of a cell in a Sheet requires an API call to the Sheet for every single cell searched</li>
+							<li>In GAS, searching for the value of a cell in a Sheet can require an API call to the Sheet for every single cell searched</li>
 							<li>In <strong>gse-tools</strong>, all of the cell values are held in a variable and can be searched multiple times with no expensive API calls</li>
 						</ul>
 					</li>
@@ -314,9 +314,6 @@
 					<li class=" tsd-kind-type-alias">
 						<a href="globals.html#cellrange" class="tsd-kind-icon">Cell<wbr>Range</a>
 					</li>
-					<li class=" tsd-kind-type-alias">
-						<a href="globals.html#classdataparams" class="tsd-kind-icon">Class<wbr>Data<wbr>Params</a>
-					</li>
 					<li class=" tsd-kind-type-alias tsd-is-not-exported">
 						<a href="globals.html#classroomargs" class="tsd-kind-icon">Classroom<wbr>Args</a>
 					</li>
@@ -343,6 +340,9 @@
 					</li>
 					<li class=" tsd-kind-type-alias">
 						<a href="globals.html#sidebarbutton" class="tsd-kind-icon">Sidebar<wbr>Button</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-is-not-exported">
+						<a href="globals.html#tabulateparams" class="tsd-kind-icon">Tabulate<wbr>Params</a>
 					</li>
 					<li class=" tsd-kind-type-alias">
 						<a href="globals.html#timeofday" class="tsd-kind-icon">Time<wbr>OfDay</a>
@@ -500,7 +500,7 @@
 					<li class=" tsd-kind-function">
 						<a href="globals.html#changeworkingstatus" class="tsd-kind-icon">change<wbr>Working<wbr>Status</a>
 					</li>
-					<li class=" tsd-kind-function">
+					<li class=" tsd-kind-function tsd-has-type-parameter">
 						<a href="globals.html#checknull" class="tsd-kind-icon">check<wbr>Null</a>
 					</li>
 					<li class=" tsd-kind-function">
@@ -547,9 +547,6 @@
 					</li>
 					<li class=" tsd-kind-function">
 						<a href="globals.html#displaygroupset" class="tsd-kind-icon">display<wbr>Group<wbr>Set</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#fullformeventdate" class="tsd-kind-icon">full<wbr>Form<wbr>Event<wbr>Date</a>
 					</li>
 					<li class=" tsd-kind-function tsd-has-type-parameter">
 						<a href="globals.html#getcache" class="tsd-kind-icon">get<wbr>Cache</a>
@@ -621,7 +618,19 @@
 						<a href="globals.html#getformeventtitle" class="tsd-kind-icon">get<wbr>Form<wbr>Event<wbr>Title</a>
 					</li>
 					<li class=" tsd-kind-function">
+						<a href="globals.html#getformitem" class="tsd-kind-icon">get<wbr>Form<wbr>Item</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#getformitemresponse" class="tsd-kind-icon">get<wbr>Form<wbr>Item<wbr>Response</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#getformitemtitle" class="tsd-kind-icon">get<wbr>Form<wbr>Item<wbr>Title</a>
+					</li>
+					<li class=" tsd-kind-function">
 						<a href="globals.html#getformobject" class="tsd-kind-icon">get<wbr>Form<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#getfullformeventdate" class="tsd-kind-icon">get<wbr>Full<wbr>Form<wbr>Event<wbr>Date</a>
 					</li>
 					<li class=" tsd-kind-function">
 						<a href="globals.html#getgoogleclass" class="tsd-kind-icon">get<wbr>Google<wbr>Class</a>
@@ -637,6 +646,9 @@
 					</li>
 					<li class=" tsd-kind-function">
 						<a href="globals.html#getnamefromemail" class="tsd-kind-icon">get<wbr>Name<wbr>From<wbr>Email</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#getnumformitems" class="tsd-kind-icon">get<wbr>Num<wbr>Form<wbr>Items</a>
 					</li>
 					<li class=" tsd-kind-function">
 						<a href="globals.html#getoauthtoken" class="tsd-kind-icon">getOAuth<wbr>Token</a>
@@ -904,6 +916,9 @@
 					</li>
 					<li class=" tsd-kind-function">
 						<a href="globals.html#skipblankrows" class="tsd-kind-icon">skip<wbr>Blank<wbr>Rows</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#tabulatebellwork" class="tsd-kind-icon">tabulate<wbr>Bellwork</a>
 					</li>
 					<li class=" tsd-kind-function">
 						<a href="globals.html#updatebellwork" class="tsd-kind-icon">update<wbr>Bellwork</a>

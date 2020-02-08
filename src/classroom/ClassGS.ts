@@ -124,12 +124,12 @@ export function getClassName(obj: ClassGS): string {
  * Gets the id of the calendar associated with the course
  * ```
  * var enrollmentCode = '1234qz';
- * 
+ *
  * var gseClassroom = gsetools.newClassroom();
  * var gseClass = gsetools.getGoogleClass(gseClassroom, enrollmentCode);
  * var calendarId = gsetools.getClassCalendarId(gseClass);
  * ```
- * 
+ *
  * @param {ClassGS} obj the Class object
  * @return {string} the calendar id
  */

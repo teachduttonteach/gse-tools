@@ -39,10 +39,20 @@ export function getTodaysDate(timezoneOffset: number): Date {
   return date;
 }
 
-export function checkNull<T>(testValue: T | undefined | null, 
-  description: string, functionName: string, 
-  errorType: 'Error' | 'Warning' | 'Log' | 'None' = 'Error'): T {
-
+/**
+ * Check to see if an assignment is null, and return the value of the 
+ *  assignment
+ * @param {T | undefined | null} testValue the assignment to test 
+ * @param {string} description the description of the assignment being tested,
+ *  will display for an error or warning
+ * @param {string} functionName the name of the function to display for an
+ *  error or warning
+ * @param {'Error' | 'Warning' | 'Log' | 'None'} errorType the type of error
+ *  to throw if the assignment is null
+ */
+export function checkNull<T>(testValue: T | undefined | null,
+    description: string, functionName: string,
+    errorType: 'Error' | 'Warning' | 'Log' | 'None' = 'Error'): T {
   if ((testValue === undefined) || (testValue === null)) {
     const errorString = description + ' not defined in ' + functionName;
     if (errorType == 'Error') throw new Error(errorString);

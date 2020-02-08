@@ -4,19 +4,21 @@
  */
 export type DateParams = {
   /**
-   * what to print out before the title of the event
+   * What to print out before the date
    */
   titlePrefix?: string;
   /**
-   * the delimiter between sections of the date
+   * The delimiter between sections of the date
    */
   dateDelim?: string;
   /**
-   * the order to display the date in, "DM" or "MD"
+   * The order to display the date in, "DM" or "MD", or "DMY", "MDY", "YMD" or
+   *  "YDM". Do you really want an option with the year in the middle? Contact
+   *  me at teachduttonteach@gmail.com if it's that important to you :)
    */
   dateOrder?: 'DM' | 'MD' | 'DMY' | 'MDY' | 'YMD' | 'YDM';
   /**
-   * what to print if there is no event for this day
+   * What to print if there is no event / date for this day
    */
   noEventString?: string;
 };

@@ -5,7 +5,7 @@ import {ClassGS} from 'ClassGS';
  * Get the courses and coursework
  * ```javascript
  * var enrollmentCode = '1234qz';
- * 
+ *
  * var gseClassroom = gsetools.newClassroom();
  * var gseClass = gsetools.getGoogleClass(gseClassroom, enrollmentCode);
  * ```

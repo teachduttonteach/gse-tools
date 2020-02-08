@@ -132,14 +132,14 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class tsd-is-overwrite">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>SpreadsheetGS<span class="tsd-signature-symbol">(</span>id<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Spreadsheet</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="spreadsheetgs.html" class="tsd-signature-type">SpreadsheetGS</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>SpreadsheetGS<span class="tsd-signature-symbol">(</span>id<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">Spreadsheet</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">any</span>, sheetName<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="spreadsheetgs.html" class="tsd-signature-type">SpreadsheetGS</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<p>Overrides <a href="uigs.html">UiGS</a>.<a href="uigs.html#constructor">constructor</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/d8a06df/src/sheets/SpreadsheetGS.ts#L163">sheets/SpreadsheetGS.ts:163</a></li>
+									<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/d592273/src/sheets/SpreadsheetGS.ts#L165">sheets/SpreadsheetGS.ts:165</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -147,10 +147,18 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5><span class="tsd-flag ts-flagOptional">Optional</span> id: <span class="tsd-signature-type">Spreadsheet</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">any</span></h5>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> id: <span class="tsd-signature-type">Spreadsheet</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">any</span></h5>
 									<div class="tsd-comment tsd-typography">
 										<div class="lead">
 											<p>the id of the Google Sheet to use</p>
+										</div>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> sheetName: <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<div class="lead">
+											<p>if only one sheet is desired, specify it here</p>
 										</div>
 									</div>
 								</li>
@@ -168,7 +176,7 @@
 					<div class="tsd-signature tsd-kind-icon">_sheets<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Sheet</span><span class="tsd-signature-symbol">[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/d8a06df/src/sheets/SpreadsheetGS.ts#L162">sheets/SpreadsheetGS.ts:162</a></li>
+							<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/d592273/src/sheets/SpreadsheetGS.ts#L164">sheets/SpreadsheetGS.ts:164</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -178,7 +186,7 @@
 					<div class="tsd-signature tsd-kind-icon">_spreadsheet<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Spreadsheet</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/d8a06df/src/sheets/SpreadsheetGS.ts#L161">sheets/SpreadsheetGS.ts:161</a></li>
+							<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/d592273/src/sheets/SpreadsheetGS.ts#L163">sheets/SpreadsheetGS.ts:163</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -188,7 +196,7 @@
 					<div class="tsd-signature tsd-kind-icon">_ui<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Ui</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/d8a06df/src/sheets/SpreadsheetGS.ts#L163">sheets/SpreadsheetGS.ts:163</a></li>
+							<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/d592273/src/sheets/SpreadsheetGS.ts#L165">sheets/SpreadsheetGS.ts:165</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -205,7 +213,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/d8a06df/src/sheets/SpreadsheetGS.ts#L196">sheets/SpreadsheetGS.ts:196</a></li>
+									<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/d592273/src/sheets/SpreadsheetGS.ts#L212">sheets/SpreadsheetGS.ts:212</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -229,7 +237,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="uigs.html">UiGS</a>.<a href="uigs.html#addmenu">addMenu</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/d8a06df/src/UiGS.ts#L46">UiGS.ts:46</a></li>
+									<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/d592273/src/UiGS.ts#L46">UiGS.ts:46</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -275,7 +283,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/d8a06df/src/sheets/SpreadsheetGS.ts#L307">sheets/SpreadsheetGS.ts:307</a></li>
+									<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/d592273/src/sheets/SpreadsheetGS.ts#L323">sheets/SpreadsheetGS.ts:323</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -317,7 +325,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/d8a06df/src/sheets/SpreadsheetGS.ts#L250">sheets/SpreadsheetGS.ts:250</a></li>
+									<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/d592273/src/sheets/SpreadsheetGS.ts#L266">sheets/SpreadsheetGS.ts:266</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -349,7 +357,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/d8a06df/src/sheets/SpreadsheetGS.ts#L370">sheets/SpreadsheetGS.ts:370</a></li>
+									<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/d592273/src/sheets/SpreadsheetGS.ts#L386">sheets/SpreadsheetGS.ts:386</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -381,7 +389,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/d8a06df/src/sheets/SpreadsheetGS.ts#L221">sheets/SpreadsheetGS.ts:221</a></li>
+									<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/d592273/src/sheets/SpreadsheetGS.ts#L237">sheets/SpreadsheetGS.ts:237</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -422,7 +430,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/d8a06df/src/sheets/SpreadsheetGS.ts#L206">sheets/SpreadsheetGS.ts:206</a></li>
+									<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/d592273/src/sheets/SpreadsheetGS.ts#L222">sheets/SpreadsheetGS.ts:222</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -445,7 +453,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/d8a06df/src/sheets/SpreadsheetGS.ts#L234">sheets/SpreadsheetGS.ts:234</a></li>
+									<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/d592273/src/sheets/SpreadsheetGS.ts#L250">sheets/SpreadsheetGS.ts:250</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -477,7 +485,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/d8a06df/src/sheets/SpreadsheetGS.ts#L283">sheets/SpreadsheetGS.ts:283</a></li>
+									<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/d592273/src/sheets/SpreadsheetGS.ts#L299">sheets/SpreadsheetGS.ts:299</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -510,7 +518,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="uigs.html">UiGS</a>.<a href="uigs.html#getuiobject">getUiObject</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/d8a06df/src/UiGS.ts#L28">UiGS.ts:28</a></li>
+									<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/d592273/src/UiGS.ts#L28">UiGS.ts:28</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -533,7 +541,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/d8a06df/src/sheets/SpreadsheetGS.ts#L266">sheets/SpreadsheetGS.ts:266</a></li>
+									<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/d592273/src/sheets/SpreadsheetGS.ts#L282">sheets/SpreadsheetGS.ts:282</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -565,7 +573,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/d8a06df/src/sheets/SpreadsheetGS.ts#L356">sheets/SpreadsheetGS.ts:356</a></li>
+									<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/d592273/src/sheets/SpreadsheetGS.ts#L372">sheets/SpreadsheetGS.ts:372</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -612,7 +620,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="uigs.html">UiGS</a>.<a href="uigs.html#showsidebar">showSidebar</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/d8a06df/src/UiGS.ts#L75">UiGS.ts:75</a></li>
+									<li>Defined in <a href="https://github.com/teachduttonteach/gseTools/blob/d592273/src/UiGS.ts#L75">UiGS.ts:75</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">

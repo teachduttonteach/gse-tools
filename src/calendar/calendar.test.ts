@@ -1,13 +1,10 @@
-import { CalendarGS } from './CalendarGS';
-import { DateParams } from '../DateParams';
-import { MapGS } from '../map/MapGS';
-import { Test } from '../test/Test';
+import {CalendarGS} from './CalendarGS';
+import {MapGS} from '../map/MapGS';
 
 /** Test functions in app */
 function test() {
   const calendarId = 'en.usa#holiday@group.v.calendar.google.com';
   const holidayCalendar = new CalendarGS(calendarId);
-  const eventOptions: DateParams = {} as DateParams;
 
   const argumentValues: MapGS<string, Array<string>> = new MapGS();
   argumentValues.set('dateOrder', ['MD', 'DM']);
@@ -15,43 +12,46 @@ function test() {
   argumentValues.set('noEventString', ['Nothing', 'None']);
   argumentValues.set('titlePrefix', [' ', ' ... ']);
 
-  //@ts-ignore
+  // @ts-ignore
   const testSuite = new gsetoolstest.Test();
 
   // getUpcomingDueDates
   testSuite.testEachArgumentOfMethod(
-    argumentValues,
-    holidayCalendar.getUpcomingDueDates.bind(holidayCalendar),
-    [25, 'objectToTest'],
-    "getUpcomingDueDates"
+      argumentValues,
+      holidayCalendar.getUpcomingDueDates.bind(holidayCalendar),
+      [25, 'objectToTest'],
+      'getUpcomingDueDates',
   );
 
   // getId
-  testSuite.testMethod(holidayCalendar.getId.bind(holidayCalendar), [], "getId"); 
-  
+  testSuite.testMethod(holidayCalendar.getId.bind(holidayCalendar), [], 
+    'getId');
+
   // getObject
-  testSuite.testEquals("getObject", holidayCalendar.getObject().getId(), 
-    calendarId);
+  testSuite.testEquals('getObject', holidayCalendar.getObject().getId(),
+      calendarId);
 
   // getUpcomingEvents
-  testSuite.testMethodThenCall(holidayCalendar.getUpcomingEvents.bind(holidayCalendar),
-    [[10],[20],[30]], "getDate", "getUpcomingEvents", true);
+  testSuite.testMethodThenCall(holidayCalendar.getUpcomingEvents
+    .bind(holidayCalendar),
+      [[10], [20], [30]], 'getDate', 'getUpcomingEvents', true);
 
   // getUpcomingDueDatesList
   testSuite.testEachArgumentOfMethod(
-    argumentValues,
-    holidayCalendar.getUpcomingDueDatesList.bind(holidayCalendar),
-    [25, 'objectToTest'],
-    "getUpcomingDueDatesList"
+      argumentValues,
+      holidayCalendar.getUpcomingDueDatesList.bind(holidayCalendar),
+      [25, 'objectToTest'],
+      'getUpcomingDueDatesList',
   );
 
-  let upcomingEvent = holidayCalendar.getUpcomingEvents(30, -5)[0];
+  const upcomingEvent = holidayCalendar.getUpcomingEvents(30, -5)[0];
 
   // getDate
-  testSuite.testMethod(upcomingEvent.getDate.bind(upcomingEvent), [], "getDate");
+  testSuite.testMethod(upcomingEvent.getDate.bind(upcomingEvent), [], 
+    'getDate');
 
   // getObject
-  testSuite.testObject(upcomingEvent, "upcomingEvent");
+  testSuite.testObject(upcomingEvent, 'upcomingEvent');
 
   testSuite.finish();
 }

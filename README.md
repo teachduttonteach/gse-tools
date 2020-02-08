@@ -13,7 +13,7 @@ The following is a list of all of the libraries you can import into Google Apps 
 Unfortunately, the Google Apps Script interface does not allow autocomplete access to object methods. You can use all of the libraries in either function-based or object-oriented ways. See "TypeScript & Modules" and "Accessing from Apps Script" below for more information.
 
 ### gse-tools
-Project key: `1qNPRbBbOQhFX9sLa8LzH_YYcceEDSC6hgO9500fgTyFXMNXdoEcjqlPv`
+Project key: `1SRl5DGs_tVG42joBNHBFhPvivWtX07XRmIo533wfxzXgkM4ahPT8E5JA`
 
 Provides access to [all modules](https://teachduttonteach.github.io/gse-tools/globals.html).
 

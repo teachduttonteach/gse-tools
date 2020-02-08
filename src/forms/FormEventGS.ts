@@ -1,5 +1,5 @@
 import {FormEventOptions} from './FormEventOptions';
-import {DateParams} from '../DateParams'
+import {DateParams} from '../DateParams';
 
 /**
  * Class to provide functions to Google Form events
@@ -43,12 +43,11 @@ export function getNumFormItems(obj: FormEventGS): number {
 /**
  * Get the numbered item response off of the form event
  * @param {FormEventGS} obj the FormEvent object
- * @param {number} num the number of the response 
+ * @param {number} num the number of the response
  * @return {GoogleAppsScript.Forms.ItemResponse} the ItemResponse object
  */
-export function getFormItem(obj: FormEventGS, num: number): 
+export function getFormItem(obj: FormEventGS, num: number):
   GoogleAppsScript.Forms.ItemResponse {
-  
   return obj.getItem(num);
 }
 
@@ -56,9 +55,9 @@ export function getFormItem(obj: FormEventGS, num: number):
  * Gets the response for the item number
  * @param {FormEventGS} obj the FormEvent object
  * @param {number} num the number of the response
- * @return {string | string[] | string[][]} the item response 
+ * @return {string | Array<string> | Array<Array<string>>} the item response
  */
-export function getFormItemResponse(obj: FormEventGS, num: number): 
+export function getFormItemResponse(obj: FormEventGS, num: number):
   string | string[] | string[][] {
   return obj.getItemResponse(num);
 }
@@ -100,10 +99,10 @@ export function getFullFormEventDate(obj: FormEventGS,
  * Gets the title for the item number
  * @param {FormEventGS} obj the FormEvent object
  * @param {number} num the number of the response
- * @return {string} the item title 
+ * @return {string} the item title
  */
 export function getFormItemTitle(obj: FormEventGS, num: number): string {
-  return obj.getItemTitle(num);    
+  return obj.getItemTitle(num);
 }
 
 /**
@@ -157,7 +156,7 @@ export class FormEventGS {
   /**
    * Gets the response for the item number
    * @param {number} num the number of the response
-   * @return {string | string[] | string[][]} the item response 
+   * @return {string | Array<string> | Array<Array<string>>} the item response
    */
   getItemResponse(num: number): string | string[] | string[][] {
     return this.getItem(num).getResponse();
@@ -165,25 +164,27 @@ export class FormEventGS {
 
   /**
    * Get the numbered item response off of the form event
-   * @param {number} num the number of the response 
+   * @param {number} num the number of the response
    * @return {GoogleAppsScript.Forms.ItemResponse} the ItemResponse object
    */
   getItem(num: number): GoogleAppsScript.Forms.ItemResponse {
     const thisItem = this._response.getItemResponses()[num];
-    if ((thisItem == null) || (thisItem == undefined)) throw new 
-      Error("Could not find item #" + num + " in form item responses having" +
-      " length of " + this.getNumItems() + 
-      " in FormEventGS.getItemResponse()");
+    if ((thisItem == null) || (thisItem == undefined)) {
+      throw new
+      Error('Could not find item #' + num + ' in form item responses having' +
+      ' length of ' + this.getNumItems() +
+      ' in FormEventGS.getItemResponse()');
+    }
     return thisItem;
   }
 
   /**
    * Gets the title for the item number
    * @param {number} num the number of the item
-   * @return {string} the item title 
+   * @return {string} the item title
    */
   getItemTitle(num: number): string {
-    return this.getItem(num).getItem().getTitle();    
+    return this.getItem(num).getItem().getTitle();
   }
 
   /**
@@ -209,15 +210,20 @@ export class FormEventGS {
    * @return {[string, string]} the first and last name
    */
   getNameFromEmail(): [string, string] {
-    if ((this._email == null) || (this._email == undefined)) throw new
-      Error("Email not found on form response in " +
-      "FormEventGS.getNameFromEmail()");
-    const email: string[] = this._email.split("@")[0].split(".");
-    if (!(email instanceof Array)) throw new Error("Could not find name in " +
-      "email address '" + this._email + "' in FormEventGS.getNameFromEmail()");
+    if ((this._email == null) || (this._email == undefined)) {
+      throw new
+      Error('Email not found on form response in ' +
+      'FormEventGS.getNameFromEmail()');
+    }
+    const email: string[] = this._email.split('@')[0].split('.');
+    if (!(email instanceof Array)) {
+      throw new Error('Could not find name in ' +
+      'email address \'' + this._email +
+      '\' in FormEventGS.getNameFromEmail()');
+    }
     const firstName = email[0].charAt(0).toUpperCase() + email[0].slice(1);
     const lastName = email[1].charAt(0).toUpperCase() + email[1].slice(1);
-    return [firstName, lastName];    
+    return [firstName, lastName];
   }
 
   /**

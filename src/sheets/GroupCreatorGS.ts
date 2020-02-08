@@ -373,8 +373,8 @@ export class GroupCreatorGS {
     } = this._args;
 
     let groupSpreadsheet: SpreadsheetGS;
-    if ((spreadsheetId === null) || (spreadsheetId === undefined) 
-      || (spreadsheetId == "")) {
+    if ((spreadsheetId === null) || (spreadsheetId === undefined) ||
+      (spreadsheetId == '')) {
       groupSpreadsheet = new SpreadsheetGS(true, sheetName);
       spreadsheetId = groupSpreadsheet.getObject().getId();
     } else {

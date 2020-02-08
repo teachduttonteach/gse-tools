@@ -129,7 +129,7 @@ export function addSlide(obj: SlideshowGS, title: string, body: string,
  *
  * @return {SlideGS} the slide object
  */
-export function getSlideByNotes(obj: SlideshowGS, notes: string): 
+export function getSlideByNotes(obj: SlideshowGS, notes: string):
   SlideGS | null {
   return obj.getSlideByNotes(notes);
 }
@@ -431,7 +431,7 @@ export class SlideshowGS extends UiGS {
    * @return {SlideshowGS} the object for chaining
    */
   setSlideBodyByType(slideNotes: string, slideText: string): SlideshowGS {
-    let thisSlide = this.getSlideByNotes(slideNotes);
+    const thisSlide = this.getSlideByNotes(slideNotes);
     if (thisSlide != null) thisSlide.setBody(slideText);
     return this;
   }
@@ -445,7 +445,7 @@ export class SlideshowGS extends UiGS {
    * @return {SlideshowGS} the object for chaining
    */
   setSlideTitleByType(slideNotes: string, title: string): SlideshowGS {
-    let thisSlide = this.getSlideByNotes(slideNotes);
+    const thisSlide = this.getSlideByNotes(slideNotes);
     if (thisSlide != null) thisSlide.setTitle(title);
     return this;
   }

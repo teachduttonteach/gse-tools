@@ -12,9 +12,9 @@ import {DriveGS} from './drive/DriveGS';
  * @return {SpreadsheetGS} the data sheet
  */
 export function getDataSheet(name: string = 'gse-tools Settings',
-  sheetName?: string):
+    sheetName?: string):
   SpreadsheetGS {
   if (name == 'id') name = ScriptApp.getScriptId();
   return new SpreadsheetGS(new DriveGS().getOrCreateFileByName(name).getId(),
-    sheetName);
+      sheetName);
 }

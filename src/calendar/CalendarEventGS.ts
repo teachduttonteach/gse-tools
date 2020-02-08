@@ -70,8 +70,8 @@ export class CalendarEventGS {
    *  event from Google Calendar
    * @param {number} timezoneOffset the timezone, default is -5 (EST)
    */
-  constructor(event: GoogleAppsScript.Calendar.CalendarEvent, 
-    timezoneOffset: number = -5) {
+  constructor(event: GoogleAppsScript.Calendar.CalendarEvent,
+      timezoneOffset: number = -5) {
     const startTime = event.getStartTime();
     Logger.log(startTime);
     startTime.setUTCHours(startTime.getUTCHours() + timezoneOffset);
