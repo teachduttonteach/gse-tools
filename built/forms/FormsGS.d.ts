@@ -1,5 +1,6 @@
 /// <reference types="google-apps-script" />
 import { UiGS } from '../UiGS';
+import { QuestionType } from '../enums/QuestionType';
 /**
  * Class to manipulate Google Forms
  * @param {string} id the id of the form
@@ -41,7 +42,7 @@ export declare function convertFormLinebreaksToList(obj: FormsGS, text: string):
  *
  * @return {FormsGS} the object for chaining
  */
-export declare function addFormItem(obj: FormsGS, title: string, questionType: string, optionsList?: string | Array<string>, mcGridRowsList?: string | Array<string>): FormsGS;
+export declare function addFormItem(obj: FormsGS, title: string, questionType: QuestionType, optionsList?: string | Array<string>, mcGridRowsList?: string | Array<string>): FormsGS;
 /**
  * Adds a paragraph item to the form
  *
@@ -214,7 +215,7 @@ export declare class FormsGS extends UiGS {
      *
      * @return {FormsGS} the object for chaining
      */
-    addItem(title: string, questionType: string, optionsList?: string | Array<string>, mcGridRowsList?: string | Array<string>): FormsGS;
+    addItem(title: string, questionType: QuestionType, optionsList?: string | Array<string>, mcGridRowsList?: string | Array<string>): FormsGS;
     /**
      * Adds a paragraph item to the form
      *

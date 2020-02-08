@@ -1,4 +1,5 @@
 /// <reference types="google-apps-script" />
+import { QuestionType } from '../enums/QuestionType';
 import { Dimensions } from './Dimensions';
 /**
  * Class to access methods and properties of individual Slides of Google
@@ -93,7 +94,7 @@ export declare function addSlideItems(obj: SlideGS, questionOptions: string | Ar
  *
  * @return {SlideGS} the object for chaining
  */
-export declare function addSlideItem(obj: SlideGS, type: string, itemsToAdd: string | Array<string>, bulletType?: GoogleAppsScript.Slides.ListPreset): SlideGS;
+export declare function addSlideItem(obj: SlideGS, type: QuestionType, itemsToAdd: string | Array<string>, bulletType?: GoogleAppsScript.Slides.ListPreset): SlideGS;
 /**
  * Change the picture displayed in the slide
  *
@@ -249,7 +250,7 @@ export declare class SlideGS {
      *
      * @return {SlideGS} the object for chaining
      */
-    addItem(type: string, itemsToAdd: string | Array<string>, bulletType?: GoogleAppsScript.Slides.ListPreset): SlideGS;
+    addItem(type: QuestionType, itemsToAdd: string | Array<string>, bulletType?: GoogleAppsScript.Slides.ListPreset): SlideGS;
     /**
      * Sets the dimensions of the slide for picture orientation
      *

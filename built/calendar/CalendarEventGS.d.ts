@@ -1,5 +1,5 @@
 /// <reference types="google-apps-script" />
-import { DateParams } from './DateParams';
+import { DateParams } from '../DateParams';
 /**
  * Get the underlying object
  *

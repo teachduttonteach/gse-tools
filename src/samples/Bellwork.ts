@@ -378,23 +378,25 @@ function updateTodaysQuestion(args: BellworkArgs,
         throw new Error('Could not find question type column name in ' +
         'Samples.doForBellwork()');
       }
-      let questionTypeString: string =
-        questionSheet.
-            getValue(questionRow, +thisQuestionType).toString();
-
-      if (!(questionTypeString in QuestionType)) {
-        questionTypeString = 'Paragraph';
+      let thisQuestionTypeString: QuestionType | undefined = 
+        (<any>QuestionType)
+        [questionSheet.getValue(questionRow, +thisQuestionType).toString()];
+      if ((thisQuestionTypeString === undefined) || 
+        !(thisQuestionTypeString in QuestionType)) {
+        console.log("WARNING: Question type '" + thisQuestionTypeString + 
+          "' not a valid question type in updateTodaysQuestion()");
+        thisQuestionTypeString = QuestionType.Paragraph;
       }
 
       if (displayBellworkOnForm) {
         showBellworkOnForm(args, row, form, questionRow, questionSheet,
-            questionTitle, questionTypeString);
+            questionTitle, thisQuestionTypeString);
       }
 
       if (displayBellworkOnSlide || displayExitQuestionOnSlide ||
         displayUpcomingDueDates) {
         showBellworkOnSlide(args, row, questionRow, questionSheet,
-            questionTitle, questionTypeString);
+            questionTitle, thisQuestionTypeString);
       }
       return true;
     }
@@ -412,7 +414,7 @@ function updateTodaysQuestion(args: BellworkArgs,
  * @param {number} questionRow the row of the current question
  * @param {SheetGS} questionSheet the sheet containing the question
  * @param {string} questionTitle the title of the bellwork question
- * @param {string} questionType the type of the bellwork question
+ * @param {QuestionType} questionType the type of the bellwork question
  *  class
  */
 function showBellworkOnSlide(
@@ -421,7 +423,7 @@ function showBellworkOnSlide(
     questionRow: number,
     questionSheet: SheetGS,
     questionTitle: string,
-    questionType: string,
+    questionType: QuestionType,
 ): void {
   const {
     bellworkSlideNotes = 'Bellwork',
@@ -533,7 +535,7 @@ function showBellworkOnSlide(
  * @param {number} questionRow the number of the current row
  * @param {SheetGS} questionSheet the sheet where the question info is
  * @param {string} questionTitle the title of the bellwork question
- * @param {string} questionType the type of the bellwork question
+ * @param {QuestionType} questionType the type of the bellwork question
  */
 function showBellworkOnForm(
     args: BellworkArgs,
@@ -542,7 +544,7 @@ function showBellworkOnForm(
     questionRow: number,
     questionSheet: SheetGS,
     questionTitle: string,
-    questionType: string,
+    questionType: QuestionType,
 ) {
   const {
     bellworkTitleColumnName = 'Bellwork Title',

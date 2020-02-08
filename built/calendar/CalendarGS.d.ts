@@ -1,6 +1,6 @@
 /// <reference types="google-apps-script" />
 import { CalendarEventGS } from './CalendarEventGS';
-import { DateParams } from './DateParams';
+import { DateParams } from '../DateParams';
 /**
  * Class to hold properties and methods to manipulate the Google Calendar
  *
@@ -108,7 +108,6 @@ export declare function getUpcomingDueDates(obj: CalendarGS, daysToLookAhead: nu
  *  on the calendar
  * @param {DateParams} eventOptions options for displaying that there are
  *  no events and how to display the date; see above for defaults
- * @param {string} noEventString the string to display if there is no event
  * @param {number} timezoneOffset the timezone
  * @return {Array<string>} the list of due dates as an array
  */

@@ -1,5 +1,5 @@
 import { ClassGS } from '../classroom/ClassGS';
-import { DateParams } from '../calendar/DateParams';
+import { DateParams } from '../DateParams';
 /**
  * All of the arguments and other variables used by the Bellwork script
  */
@@ -36,6 +36,24 @@ declare type ClassroomArgs = {
 };
 /**
  * Update Google Docs from Classroom information
+ *
+ * ```javascript
+ * var dateParams = {
+ *  titlePrefix: ' - ',
+ *  dateDelim: '/',
+ *  dateOrder: 'MD',
+ *  noEventString: 'NONE',
+ * };
+ *
+ * var classroomArgs = {
+ *  settingsName: 'Classroom',
+ *  classroomCodeColumnName: 'Class Code',
+ *  newFileName: 'Google Classroom Test Summary',
+ *  templateName: 'Google Classroom Summary Test Template',
+ *  dueDateParams: dateParams,
+ * };
+ * gsetools.updateClassroomFiles(classroomArgs);
+ * ```
  * @param {ClassroomArgs} args the parameters to use
  */
 export declare function updateClassroomFiles(args: ClassroomArgs): void;

@@ -1,7 +1,40 @@
-import { SheetGS } from '../sheets/SheetGS';
-import { FormsGS } from '../forms/FormsGS';
-import { DateParams } from '../calendar/DateParams';
-import { MapGS } from '../map/MapGS';
+/// <reference types="google-apps-script" />
+import { DateParams } from '../DateParams';
+/**
+ * All of the arguments used by the tabulateBellwork function
+ */
+declare type TabulateParams = {
+    /**
+     * The column name in the 'gse-tools Settings' sheet that contains the
+     *  sheet for the bellwork results; default is 'Bellwork Results Sheet'
+     */
+    bellworkResultsColumn?: string;
+    /**
+     * The column name in the 'gse-tools Settings' sheet that contains the
+     *  title for the associated bellwork form; default is 'Bellwork Title'
+     */
+    bellworkTitleColumn?: string;
+    /**
+     * The name of the data settings sheet to use; defaults to
+     *  'gse-tools Settings'
+     */
+    dataSheet?: string;
+    /**
+     * The name of the sheet on the data settings sheet for the bellwork;
+     *  default is 'Bellwork'
+     */
+    sheetName?: string;
+    /**
+     * The column name in the 'gse-tools Settings' sheet that contains the
+     *  id for the results spreadsheet; default is 'Spreadsheet ID'
+     */
+    spreadsheetIDColumn?: string;
+    /**
+     * Date parameters for constructing the date for the results sheet column
+     *  header
+     */
+    columnDateParams?: DateParams;
+};
 /**
  * All of the arguments and other variables used by the Bellwork script
  */
@@ -164,44 +197,60 @@ declare type BellworkArgs = {
 /**
  * Update the bellwork with the associated parameters
  *
+ * ```javascript
+ * var dateParams = {
+ *  titlePrefix: ' - ',
+ *  dateDelim: '/',
+ *  dateOrder: 'MD',
+ *  noEventString: 'NONE'
+ * };
+ *
+ * var bellworkParams = {
+ *  bellworkSettingsSheetName: 'Bellwork',
+ *  classroomCodeColumnName: 'Class Code',
+ *  bellworkColumnName: 'Bellwork Column Number',
+ *  bellworkDateColumnName: 'Date Column',
+ *  bellworkFormIDColumnName: 'Form ID',
+ *  bellworkSlideshowIDColumnName: 'Slideshow ID',
+ *  bellworkSpreadsheetIDColumnName: 'Spreadsheet ID',
+ *  bellworkTitleColumnName: 'Bellwork Title',
+ *  bellworkSlideNotes: 'Bellwork',
+ *  dateInBellworkTitle: true,
+ *  onSubmitBellworkFunctionName: 'onSubmitBellwork',
+ *  bellworkSheetNameColumnName: 'Sheet Name',
+ *  bellworkSheetDateColumnEnd: 'END',
+ *  dailyPicturesColumnName: 'Daily Picture Folder',
+ *  dailyPicturesNotes: 'Agenda',
+ *  daysToLookAheadColumnName: '# of Days to Look',
+ *  upcomingDueDatesSlideName: 'Upcoming Due Dates',
+ *  dateDelimiter: '/',
+ *  exitQuestionColumnName: 'Exit Question Column Number',
+ *  exitQuestionSlideNotes: 'Exit Question',
+ *  questionTypeColumnName: 'Question Type Column Number',
+ *  optionsColumnName: 'Question Options Column Number',
+ *  gridRowsColumnName: 'Grid Rows Column Number',
+ *  imageColumnName: 'Bellwork Form Image Column',
+ *  dueDateParams: dateParams,
+ *  displayBellworkOnForm: true,
+ *  displayBellworkOnSlide: true,
+ *  displayExitQuestionOnSlide: true,
+ *  displayUpcomingDueDates: true,
+ *  timezoneOffset: -5,
+ *  dataSheet: 'GSE Settings'
+ * };
+ * gsetools.updateBellwork(bellworkParams);
+ * ```
+ *
  * @param {BellworkArgs} args the parameters
  */
 export declare function updateBellwork(args: BellworkArgs): void;
 /**
- * Figure out the current question and determine whether to display it on
- *  a form or slides
- *
- * @param {BellworkArgs} args the passed arguments
- * @param {MapGS<string | Date, string | Date>} row the relevant information
- *  from the settings
- * @param {FormsGS} form the form to use for the question
- * @return {boolean} whether the question was found or not
+ * Take the submitted bellwork and adds it to an existing Sheet for the
+ *  submitting student and their response
+ * @param {GoogleAppsScript.Events.FormsOnFormSubmit} event the Google Form
+ *  event
+ * @param {TabulateParams} args the tabulate bellwork parameters
+ * @return {boolean} returns true if the bellwork was tabulated
  */
-export declare function updateTodaysQuestion(args: BellworkArgs, row: MapGS<string | Date, string | Date>, form: FormsGS): boolean;
-/**
- * Display bellwork on both the associated slideshow and form
- *
- * @param {BellworkArgs} args the passed arguments
- * @param {MapGS<string | Date, string | Date>} settingsRow the info about
- * the current date
- * @param {number} questionRow the row of the current question
- * @param {SheetGS} questionSheet the sheet containing the question
- * @param {string} questionTitle the title of the bellwork question
- * @param {string} questionType the type of the bellwork question
- *  class
- */
-export declare function showBellworkOnSlide(args: BellworkArgs, settingsRow: MapGS<string | Date, string | Date>, questionRow: number, questionSheet: SheetGS, questionTitle: string, questionType: string): void;
-/**
- * Displays the bellwork on a form
- *
- * @param {args} args the parameters for the function
- * @param {MapGS<string | Date, string | Date>} row the information for the
- *  current date
- * @param {FormsGS} bellworkForm the form to display the bellwork on
- * @param {number} questionRow the number of the current row
- * @param {SheetGS} questionSheet the sheet where the question info is
- * @param {string} questionTitle the title of the bellwork question
- * @param {string} questionType the type of the bellwork question
- */
-export declare function showBellworkOnForm(args: BellworkArgs, row: MapGS<string | Date, string | Date>, bellworkForm: FormsGS, questionRow: number, questionSheet: SheetGS, questionTitle: string, questionType: string): void;
+export declare function tabulateBellwork(event: GoogleAppsScript.Events.FormsOnFormSubmit, args?: TabulateParams): boolean;
 export {};

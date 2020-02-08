@@ -392,7 +392,7 @@ export class SlideshowGS extends UiGS {
      * @return {SlideshowGS} the object for chaining
      */
     setSlideBodyByType(slideNotes, slideText) {
-        let thisSlide = this.getSlideByNotes(slideNotes);
+        const thisSlide = this.getSlideByNotes(slideNotes);
         if (thisSlide != null)
             thisSlide.setBody(slideText);
         return this;
@@ -406,7 +406,7 @@ export class SlideshowGS extends UiGS {
      * @return {SlideshowGS} the object for chaining
      */
     setSlideTitleByType(slideNotes, title) {
-        let thisSlide = this.getSlideByNotes(slideNotes);
+        const thisSlide = this.getSlideByNotes(slideNotes);
         if (thisSlide != null)
             thisSlide.setTitle(title);
         return this;

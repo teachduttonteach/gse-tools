@@ -1,3 +1,4 @@
+import { QuestionType } from '../enums/QuestionType';
 /**
  * Class to access methods and properties of individual Slides of Google
  *  Presentations
@@ -374,11 +375,11 @@ export class SlideGS {
      */
     addItem(type, itemsToAdd, bulletType = SlidesApp.ListPreset.DISC_CIRCLE_SQUARE) {
         switch (type) {
-            case 'True / False':
+            case QuestionType["True / False"]:
                 this.setBody('True or False?');
                 break;
-            case 'Multiple Choice':
-            case 'Multiple Select':
+            case QuestionType["Multiple Choice"]:
+            case QuestionType["Multiple Select"]:
                 this.addItems(itemsToAdd, bulletType);
                 break;
         }

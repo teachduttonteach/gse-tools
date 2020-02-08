@@ -36,6 +36,30 @@ export function getTodaysDate(timezoneOffset) {
     return date;
 }
 /**
+ * Check to see if an assignment is null, and return the value of the
+ *  assignment
+ * @param {T | undefined | null} testValue the assignment to test
+ * @param {string} description the description of the assignment being tested,
+ *  will display for an error or warning
+ * @param {string} functionName the name of the function to display for an
+ *  error or warning
+ * @param {'Error' | 'Warning' | 'Log' | 'None'} errorType the type of error
+ *  to throw if the assignment is null
+ */
+export function checkNull(testValue, description, functionName, errorType = 'Error') {
+    if ((testValue === undefined) || (testValue === null)) {
+        const errorString = description + ' not defined in ' + functionName;
+        if (errorType == 'Error')
+            throw new Error(errorString);
+        else if (errorType == 'Warning')
+            console.log('WARNING: ' + errorString);
+        else if (errorType == 'Log')
+            Logger.log(errorString);
+        return {};
+    }
+    return testValue;
+}
+/**
  * Checks to see if two dates are equal
  *
  * @param {Date | string} date1 the first date

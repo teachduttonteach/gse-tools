@@ -123,7 +123,7 @@ export class ClassGS {
      *
      * @param {GoogleAppsScript.Classroom.Schema.Course} course the
      *  Google course object
-     * @param {ClassDataParams} args the optional parameters for creating the
+     * @param {DateParams} args the optional parameters for creating the
      *  classroom data object
      */
     constructor(course, args) {
@@ -206,25 +206,25 @@ export class ClassGS {
      *
      * @param {GoogleAppsScript.Classroom.Schema.Date} workDueDate the Google
      *  Date object holding the due date
-     * @param {ClassDataParams} args the class data arguments for determining
+     * @param {DateParams} args the class data arguments for determining
      *  the date string
      *
      * @return {string} the due date string
      */
     _getDueDate(workDueDate, args) {
-        const { dueDateString = 'Due Date:', dueDateDelim = '/', dueDateOrder = 'MDY' } = args;
+        const { titlePrefix = 'Due Date:', dateDelim = '/', dateOrder = 'MDY' } = args;
         // Add the corresponding piece of the date for each part of the order
-        let dueDate = dueDateString + ' ';
-        for (let d = 0; d < dueDateOrder.length; d++) {
-            const thisChar = dueDateOrder.charAt(d);
+        let dueDate = titlePrefix + ' ';
+        for (let d = 0; d < dateOrder.length; d++) {
+            const thisChar = dateOrder.charAt(d);
             if (thisChar.toUpperCase() == 'M')
                 dueDate += workDueDate.month;
             else if (thisChar.toUpperCase() == 'D')
                 dueDate += workDueDate.day;
             else if (thisChar.toUpperCase() == 'Y')
                 dueDate += workDueDate.year;
-            if (thisChar != dueDateOrder.substr(dueDateOrder.length - 1, 1)) {
-                dueDate += dueDateDelim;
+            if (thisChar != dateOrder.substr(dateOrder.length - 1, 1)) {
+                dueDate += dateDelim;
             }
         }
         return dueDate;

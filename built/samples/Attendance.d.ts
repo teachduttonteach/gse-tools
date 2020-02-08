@@ -47,6 +47,20 @@ export declare type AttendanceParams = {
 };
 /**
  * Change the attendance value for the student and date
+ *
+ * ```javascript
+ * var attendanceParams = {
+ *  attendanceSheetName: 'Attendance',
+ *  fullnameColumnName: 'Full Name',
+ *  maximumLength: 40,
+ *  normalStatusColor: '#DDDDDD',
+ *  secondaryColumnsToCheck: [{name: 'Period', value: [1, 1]}],
+ *  studentInfoSheetName: 'Student Info',
+ *  workingStatusCell: [1, 1],
+ *  workingStatusColor: '#DD0000'
+ * };
+ * gsetools.changeAttendance(e, attendanceParams);
+ * ```
  * @param {SheetEventGS} _e the Google event from onEdit
  * @param {AttendanceParams} args the parameters for attendance
  */

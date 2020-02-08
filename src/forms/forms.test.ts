@@ -4,13 +4,14 @@ import {FormsGS} from './FormsGS';
 import {Test} from '../test/Test';
 import {DriveGS} from '../drive/DriveGS';
 import {QuestionType} from '../enums/QuestionType';
+import { DateParams } from '../DateParams';
 
 function onSubmit(e: GoogleAppsScript.Events.FormsOnFormSubmit) {
   const testFormEvent = new FormEventGS(e);
   console.log('Full date: ' + testFormEvent.getFullDate());
 
-  const testFormEventOptions = {} as FormEventOptions;
-  testFormEventOptions.dateDelimiter = ' ... ';
+  const testFormEventOptions = {} as DateParams;
+  testFormEventOptions.dateDelim = ' ... ';
   console.log('Full date 1: ' + testFormEvent.getFullDate(testFormEventOptions));
 
   testFormEventOptions.dateOrder = 'DM';
@@ -48,7 +49,7 @@ function test() {
   }
 
   // Correct items
-  testForms.addItem('Test item', QuestionType.PARAGRAPH);
+  testForms.addItem('Test item', QuestionType.Paragraph);
   testForms.addParagraph('Test Paragraph item');
   testForms.addTrueFalse('Test TrueFalse');
 

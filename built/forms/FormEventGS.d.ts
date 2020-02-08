@@ -1,5 +1,5 @@
 /// <reference types="google-apps-script" />
-import { FormEventOptions } from './FormEventOptions';
+import { DateParams } from '../DateParams';
 /**
  * Class to provide functions to Google Form events
  *
@@ -23,6 +23,26 @@ export declare function newFormEvent(e: GoogleAppsScript.Events.FormsOnFormSubmi
  */
 export declare function getFormEventObject(obj: FormEventGS): GoogleAppsScript.Events.FormsOnFormSubmit;
 /**
+ * Gets the number of items in the response
+ * @param {FormEventGS} obj the FormEvent object
+ * @return {number} the number of items
+ */
+export declare function getNumFormItems(obj: FormEventGS): number;
+/**
+ * Get the numbered item response off of the form event
+ * @param {FormEventGS} obj the FormEvent object
+ * @param {number} num the number of the response
+ * @return {GoogleAppsScript.Forms.ItemResponse} the ItemResponse object
+ */
+export declare function getFormItem(obj: FormEventGS, num: number): GoogleAppsScript.Forms.ItemResponse;
+/**
+ * Gets the response for the item number
+ * @param {FormEventGS} obj the FormEvent object
+ * @param {number} num the number of the response
+ * @return {string | Array<string> | Array<Array<string>>} the item response
+ */
+export declare function getFormItemResponse(obj: FormEventGS, num: number): string | string[] | string[][];
+/**
  * Gets the title of the form
  *
  * @param {FormEventGS} obj the FormEvent object
@@ -40,10 +60,17 @@ export declare function getFormEventEmail(obj: FormEventGS): string;
  * Prints the full date from a list of optional arguments
  *
  * @param {FormEventGS} obj the FormEvent object
- * @param {FormEventOptions} options the options for the form event
+ * @param {DateParams} dateParams the options for the form event
  * @return {string} the full date
  */
-export declare function fullFormEventDate(obj: FormEventGS, options?: FormEventOptions): string;
+export declare function getFullFormEventDate(obj: FormEventGS, dateParams?: DateParams): string;
+/**
+ * Gets the title for the item number
+ * @param {FormEventGS} obj the FormEvent object
+ * @param {number} num the number of the response
+ * @return {string} the item title
+ */
+export declare function getFormItemTitle(obj: FormEventGS, num: number): string;
 /**
  * Class to provide functions to Google Form events
  *
@@ -74,6 +101,29 @@ export declare class FormEventGS {
      */
     getObject(): GoogleAppsScript.Events.FormsOnFormSubmit;
     /**
+     * Gets the number of items in the response
+     * @return {number} the number of items
+     */
+    getNumItems(): number;
+    /**
+     * Gets the response for the item number
+     * @param {number} num the number of the response
+     * @return {string | Array<string> | Array<Array<string>>} the item response
+     */
+    getItemResponse(num: number): string | string[] | string[][];
+    /**
+     * Get the numbered item response off of the form event
+     * @param {number} num the number of the response
+     * @return {GoogleAppsScript.Forms.ItemResponse} the ItemResponse object
+     */
+    getItem(num: number): GoogleAppsScript.Forms.ItemResponse;
+    /**
+     * Gets the title for the item number
+     * @param {number} num the number of the item
+     * @return {string} the item title
+     */
+    getItemTitle(num: number): string;
+    /**
      * Gets the title of the form
      *
      * @return {string} the title
@@ -86,10 +136,15 @@ export declare class FormEventGS {
      */
     getEmail(): string;
     /**
+     * Gets the first and last name from the email address
+     * @return {[string, string]} the first and last name
+     */
+    getNameFromEmail(): [string, string];
+    /**
      * Prints the full date from a list of optional arguments
      *
-     * @param {FormEventOptions} options the options for the form event
+     * @param {DateParams} dateParams the options for the form event
      * @return {string} the full date
      */
-    fullDate(options?: FormEventOptions): string;
+    getFullDate(dateParams?: DateParams): string;
 }

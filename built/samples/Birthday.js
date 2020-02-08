@@ -3,6 +3,16 @@ import { SpreadsheetGS } from '../sheets/SpreadsheetGS';
 import { MapGS } from '../map/MapGS';
 /**
  * Send birthday email to the requested recipient
+ * ```javascript
+ * var birthdayParams = {
+ *  studentInfoSheet: 'Student Info',
+ *  birthdayColumnName: 'Birthdate',
+ *  studentNameColumn: 'Last',
+ *  dateOrder: 'MD'
+ * };
+ * gsetools.sendBirthdayEmail(10, "teachduttonteach@gmail.com",
+ *  birthdayParams);
+ * ```
  *
  * @param {number} lookAheadDays how many days to look ahead
  * @param {string} emailToSend the email address to send it to

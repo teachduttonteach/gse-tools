@@ -1,8 +1,8 @@
-import { DateParams } from '../calendar/DateParams';
+import { DateParams } from '../DateParams';
 /**
  * All of the arguments and other variables used by the Agenda script
  */
-declare type AgendaArgs = {
+declare type AgendaParams = {
     /**
      * Sheet name for the gse-tools Settings Google Sheet for the agenda files;
      * default is 'Agenda'
@@ -93,8 +93,39 @@ declare type AgendaArgs = {
 /**
  * Update the daily agenda from Google Sheets, writing to (optionally) a
  * Google Doc and a slide on a Google Slides
- * @param {AgendaArgs} args the parameters to use
+ *
+ * ```javascript
+ * var dateParams = {
+ *  titlePrefix: ' - ',
+ *  dateDelim: '/',
+ *  dateOrder: 'MD',
+ *  noEventString: 'NONE',
+ * };
+ * var agendaArgs = {
+ *  settingsName: 'Agenda',
+ *  lessonColumnName: 'Lesson Column Number',
+ *  agendaSlideshowIDColumnName: 'Agenda Slides ID',
+ *  agendaSpreadsheetIDColumnName: 'Agenda Spreadsheet ID',
+ *  lessonDateColumnName: 'Lesson Date Column Number',
+ *  classroomCodeColumnName: 'Classroom Code',
+ *  agendaFileName: 'Daily Class Agenda',
+ *  templateName: 'Daily Class Agenda Template',
+ *  timezoneOffset: -5,
+ *  agendaSheetNameColumnName: 'Sheet Name',
+ *  agendaDateColumnName: 'Date Column',
+ *  agendaSheetDateColumnEnd: 'END',
+ *  writeAgenda: true,
+ *  displayAgenda: true,
+ *  daysToLookAhead: 7,
+ *  agendaSlideNotes: 'Agenda',
+ *  agendaDateParams: dateParams,
+ *  dataSheet: 'GSE Settings'
+ * }
+ * gsetools.updateDailyAgenda(agendaArgs);
+ * ```
+ *
+ * @param {AgendaParams} args the parameters to use
  * @return {true} returns true if successful
  */
-export declare function updateDailyAgenda(args?: AgendaArgs): true;
+export declare function updateDailyAgenda(args?: AgendaParams): true;
 export {};

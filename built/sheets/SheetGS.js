@@ -753,6 +753,11 @@ export class SheetGS {
      * @param {string | Date | Array<string | Date> | Array<Array<string | Date>> | CellRange} firstParam the value, as a string or array;
      *  OR an object containing the following parameters: startRow, startCol,
      *  numRows, numCols, and value
+     *  Values as arrays have as rows the first dimension and as columns the
+     *  second dimension.
+     * ```javascript
+     * mySheet.setValues([["John", "Doe"],["Jane", "Doe"]], 1, 1, 2, 2);
+     * ```
      * @param {number} startRow the beginning row to place this value
      * or set of values, indexed at 1
      * @param {number} startCol the beginning column to place this value
@@ -789,9 +794,12 @@ export class SheetGS {
                 ') must be greater or equal to one');
         }
         // TODO: Set values with this._sheet.getRange().setValues()
-        if (value instanceof Array && value.every(function (e) { return e instanceof Array; })) {
-            //@ts-ignore
-            this._sheet.getRange(startRow, startCol, numRows, numCols).setValues(value);
+        if (value instanceof Array && value.every(function (e) {
+            return e instanceof Array;
+        })) {
+            this._sheet.getRange(startRow, startCol, numRows, numCols)
+                // @ts-ignore
+                .setValues(value);
             return this.resetData();
         }
         for (let i = 0; i < numRows; i++) {

@@ -4,13 +4,31 @@ import { getDataSheet } from '../DataSheet';
 import { ClassroomDocsGS } from '../classroom-docs/ClassroomDocsGS';
 /**
  * Update Google Docs from Classroom information
+ *
+ * ```javascript
+ * var dateParams = {
+ *  titlePrefix: ' - ',
+ *  dateDelim: '/',
+ *  dateOrder: 'MD',
+ *  noEventString: 'NONE',
+ * };
+ *
+ * var classroomArgs = {
+ *  settingsName: 'Classroom',
+ *  classroomCodeColumnName: 'Class Code',
+ *  newFileName: 'Google Classroom Test Summary',
+ *  templateName: 'Google Classroom Summary Test Template',
+ *  dueDateParams: dateParams,
+ * };
+ * gsetools.updateClassroomFiles(classroomArgs);
+ * ```
  * @param {ClassroomArgs} args the parameters to use
  */
 export function updateClassroomFiles(args) {
     if (args == null)
         args = {};
-    const { settingsName = 'Classroom', classroomCodeColumnName = 'Classroom Code', dataSheet } = args;
-    const settings = getDataSheet(dataSheet);
+    const { settingsName = 'Classroom', classroomCodeColumnName = 'Classroom Code', dataSheet, } = args;
+    const settings = getDataSheet(dataSheet, settingsName);
     const classworkSettings = settings.getDataAsMap(settingsName);
     const allClasses = new ClassroomGS();
     classworkSettings.reset();

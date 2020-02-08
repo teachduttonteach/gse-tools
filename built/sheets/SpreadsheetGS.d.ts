@@ -8,9 +8,10 @@ import { MapGS } from '../map/MapGS';
  *
  * @param {GoogleAppsScript.Spreadsheet.Spreadsheet | string | any} id the ID
  *  of the spreadsheet or the Sheet object itself
+ * @param {string} sheetName if only one sheet is desired, specify it here
  * @return {SpreadsheetGS} the Spreadsheet object
  */
-export declare function newSpreadsheet(id?: GoogleAppsScript.Spreadsheet.Spreadsheet | string | any): SpreadsheetGS;
+export declare function newSpreadsheet(id?: GoogleAppsScript.Spreadsheet.Spreadsheet | string | any, sheetName?: string): SpreadsheetGS;
 /**
  * Activate the UI for the spreadsheet
  *
@@ -117,8 +118,9 @@ export declare class SpreadsheetGS extends UiGS {
     /**
      *
      * @param {GoogleAppsScript.Spreadsheet.Spreadsheet | string | any | undefined} id the id of the Google Sheet to use
+     * @param {string} sheetName if only one sheet is desired, specify it here
      */
-    constructor(id?: GoogleAppsScript.Spreadsheet.Spreadsheet | string | any);
+    constructor(id?: GoogleAppsScript.Spreadsheet.Spreadsheet | string | boolean | any, sheetName?: string);
     /**
      * Activate the UI for the spreadsheet
      *

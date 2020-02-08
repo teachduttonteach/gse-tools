@@ -133,7 +133,7 @@ export function addSlideItems(
  */
 export function addSlideItem(
     obj: SlideGS,
-    type: string,
+    type: QuestionType,
     itemsToAdd: string | Array<string>,
     bulletType: GoogleAppsScript.Slides.ListPreset =
     SlidesApp.ListPreset.DISC_CIRCLE_SQUARE,
@@ -439,17 +439,17 @@ export class SlideGS {
    * @return {SlideGS} the object for chaining
    */
   addItem(
-      type: string,
+      type: QuestionType,
       itemsToAdd: string | Array<string>,
       bulletType: GoogleAppsScript.Slides.ListPreset =
       SlidesApp.ListPreset.DISC_CIRCLE_SQUARE,
   ): SlideGS {
     switch (type) {
-      case 'True / False':
+      case QuestionType["True / False"]:
         this.setBody('True or False?');
         break;
-      case 'Multiple Choice':
-      case 'Multiple Select':
+      case QuestionType["Multiple Choice"]:
+      case QuestionType["Multiple Select"]:
         this.addItems(itemsToAdd, bulletType);
         break;
     }

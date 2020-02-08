@@ -1,5 +1,5 @@
 /// <reference types="google-apps-script" />
-import { DateParams } from '../calendar/DateParams';
+import { DateParams } from '../DateParams';
 import { TopicInfo } from './TopicInfo';
 import { MapGS } from '../map/MapGS';
 import { CourseWorkGS } from './CourseWorkGS';
@@ -111,7 +111,7 @@ export declare class ClassGS {
      *
      * @param {GoogleAppsScript.Classroom.Schema.Date} workDueDate the Google
      *  Date object holding the due date
-     * @param {ClassDataParams} args the class data arguments for determining
+     * @param {DateParams} args the class data arguments for determining
      *  the date string
      *
      * @return {string} the due date string
@@ -124,8 +124,7 @@ export declare class ClassGS {
      * @param {DateParams} args the optional parameters for creating the
      *  classroom data object
      */
-    constructor(course: GoogleAppsScript.Classroom.Schema.Course, 
-        args?: DateParams);
+    constructor(course: GoogleAppsScript.Classroom.Schema.Course, args?: DateParams);
     /**
      * Add course materials to a Work object
      *

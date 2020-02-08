@@ -1,4 +1,5 @@
 import { UiGS } from '../UiGS';
+import { QuestionType } from '../enums/QuestionType';
 import { DriveGS } from '../drive/DriveGS';
 /**
  * Class to manipulate Google Forms
@@ -278,16 +279,16 @@ export class FormsGS extends UiGS {
                 'FormsGS.addItem()');
         }
         switch (questionType) {
-            case 'Paragraph':
+            case QuestionType.Paragraph:
                 this._form.addParagraphTextItem().setTitle(title);
                 break;
-            case 'True / False':
+            case QuestionType["True / False"]:
                 this._form
                     .addMultipleChoiceItem()
                     .setTitle(title)
                     .setChoiceValues(['True', 'False']);
                 break;
-            case 'Multiple Choice':
+            case QuestionType["Multiple Choice"]:
                 if (optionsList == undefined) {
                     throw new Error('Options list must be defined in FormsGS.addItem()');
                 }
@@ -297,7 +298,7 @@ export class FormsGS extends UiGS {
                 else
                     this.addMultipleChoice(title, optionsList);
                 break;
-            case 'Multiple Select':
+            case QuestionType["Multiple Select"]:
                 this._form.addCheckboxItem().setTitle(title);
                 if (optionsList == undefined) {
                     throw new Error('Options list must be defined in FormsGS.addItem()');
@@ -308,7 +309,7 @@ export class FormsGS extends UiGS {
                 else
                     this.addMultipleCheck(title, optionsList);
                 break;
-            case 'MC Grid':
+            case QuestionType["MC Grid"]:
                 const item = this._form.addGridItem().setTitle(title);
                 if (optionsList == undefined) {
                     throw new Error('Options list must be ' +
@@ -329,7 +330,7 @@ export class FormsGS extends UiGS {
                 else
                     item.setRows(mcGridRowsList);
                 break;
-            case 'MS Grid':
+            case QuestionType["MS Grid"]:
                 const gridItem = this._form.addCheckboxGridItem().setTitle(title);
                 if (optionsList == undefined) {
                     throw new Error('Options list must be ' +

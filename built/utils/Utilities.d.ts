@@ -25,6 +25,18 @@ export declare function getOneDay(): number;
  */
 export declare function getTodaysDate(timezoneOffset: number): Date;
 /**
+ * Check to see if an assignment is null, and return the value of the
+ *  assignment
+ * @param {T | undefined | null} testValue the assignment to test
+ * @param {string} description the description of the assignment being tested,
+ *  will display for an error or warning
+ * @param {string} functionName the name of the function to display for an
+ *  error or warning
+ * @param {'Error' | 'Warning' | 'Log' | 'None'} errorType the type of error
+ *  to throw if the assignment is null
+ */
+export declare function checkNull<T>(testValue: T | undefined | null, description: string, functionName: string, errorType?: 'Error' | 'Warning' | 'Log' | 'None'): T;
+/**
  * Checks to see if two dates are equal
  *
  * @param {Date | string} date1 the first date

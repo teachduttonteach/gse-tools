@@ -115,7 +115,6 @@ export function getUpcomingDueDates(obj, daysToLookAhead, eventOptions, timezone
  *  on the calendar
  * @param {DateParams} eventOptions options for displaying that there are
  *  no events and how to display the date; see above for defaults
- * @param {string} noEventString the string to display if there is no event
  * @param {number} timezoneOffset the timezone
  * @return {Array<string>} the list of due dates as an array
  */

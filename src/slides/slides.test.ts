@@ -9,7 +9,8 @@ function test() {
   const thisSlideshow = new SlideshowGS('1_opOab_7nZQJnpWnUReg_euNxMmTnuvAMxY7MkswfDs');
   // thisSlideshow.clear();
   Logger.log(thisSlideshow.getObject().getName());
-  Logger.log(thisSlideshow.getSlideByNotes('Session objectives').getTitle());
+  const sessionObjectivesSlide = thisSlideshow.getSlideByNotes('Session objectives');
+  if (sessionObjectivesSlide != null) Logger.log(sessionObjectivesSlide.getTitle());
   Logger.log(thisSlideshow.getTemplateSlideUsed().toString());
   thisSlideshow.removeSlide('Session objectives');
   thisSlideshow.addSlide(new Date().toString(), 'Inserted slide', 'Session objectives');
@@ -20,7 +21,7 @@ function test() {
 
   const thisSlide = thisSlideshow.getSlide(3);
   thisSlideshow.changeSlidePicture('1TrdcLHHWumKdfuy8BWcRK1zn-AEH6gIX', thisSlide);
-  thisSlide.addItem('Multiple Choice', 'one\ntwo\nthree');
+  thisSlide.addItem(QuestionType["Multiple Choice"], 'one\ntwo\nthree');
   thisSlide.addItems(['four', 'five']);
 
   const blob = new DriveGS().getImageBlob('1QsF3e390z9N7LPte8IOUqiiVYO3lHWXq');
