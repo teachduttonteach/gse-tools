@@ -646,17 +646,20 @@ export class ClassGS {
   getParentEmails(studentID?: string): Array<string> {
     let parentEmails: Array<string> = [];
     const parentList = this._getParentProfiles(studentID);
-    parentList.values().every(function(pList) {
-      pList.every(function(parent) {
-        const parentProfile = parent.guardianProfile;
-        if ((parentProfile != undefined) && (parentProfile != null)) {
-          const emailAddress = parentProfile.emailAddress;
-          if ((emailAddress != undefined) && (emailAddress != null)) {
-            parentEmails.push(emailAddress);
+    for (let studentID of parentList.keys()) {
+      const parentListForStudent = parentList.get(studentID);
+      if ((parentListForStudent != undefined) && (parentListForStudent != null)) {
+        for (let parentProfile of parentListForStudent) {
+          const guardianProfile = parentProfile.guardianProfile;
+          if ((guardianProfile != undefined) && (guardianProfile != null)) {
+            const emailAddress = guardianProfile.emailAddress;
+            if ((emailAddress != undefined) && (emailAddress != null)) {
+              parentEmails.push(emailAddress);
+            }
           }
         }
-      });
-    });
+      }
+    }
     return parentEmails;
   }
 
@@ -717,6 +720,8 @@ export class ClassGS {
       new MapGS<string, GoogleAppsScript.Classroom.Schema.Guardian[]>();
     for (let thisStudentID of theseStudentIDs) {
       const guardiansForStudent = theseGuardians.list(thisStudentID).guardians;
+      Logger.log("Student ID: " + thisStudentID + ", guardians: " + 
+      JSON.stringify(guardiansForStudent));
       if ((guardiansForStudent !== undefined) &&
         (guardiansForStudent !== null)) {
           parentProfiles.set(thisStudentID, guardiansForStudent);

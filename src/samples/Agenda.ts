@@ -11,6 +11,7 @@ import {SlideshowGS} from '../slides/SlideshowGS';
 import {getTodaysDate, getOneDay, compareDates, checkNull} from 
   '../utils/Utilities';
 import {DocsGS} from '../docs/DocsGS';
+import {BirthdayParams, sendBirthdayEmail} from './Birthday'
 
 /**
  * The object to hold information about the current lesson
@@ -32,6 +33,41 @@ type LessonInfo = {
    * The description of the lesson, optional
    */
   description?: string;
+}
+
+type ParentEmailInfo = {
+  /**
+   * The subject of the email to send to parents; default is "This Week's
+   * Agenda"
+   */
+  subject?: string;
+  /**
+   * Send agenda as PDF; default is false
+   */
+  sendAsPDF?: boolean;
+  /**
+   * Send agenda in body of email; default is true
+   */
+  sendInBody?: boolean;
+  /**
+   * Send the link to the Google Document with the agenda; default is true
+   */
+  sendDocLink?: boolean;
+  /**
+   * Send the link to the associated Google Sites page; default is false
+   */
+  sendSitesLink?: boolean;
+  /**
+   * The text to display for the Google Docs link; default is "Click here to 
+   *  see the agenda in Google Docs."
+   */
+  docsLinkText?: string;
+  /**
+   * The text to display for the Google Sites link; default is "Click here to 
+   *  see the Google Site for this class."
+   */
+  sitesLinkText?: string;  
+
 }
 
 /**
@@ -69,6 +105,11 @@ type AgendaParams = {
    *  classroom enrollment code; default is 'Classroom Code'
    */
   classroomCodeColumnName?: string;
+  /**
+   * Column name for the gse-tools Settings sheet column that contains the
+   *  Google Sites link; default is 'Google Sites'
+   */
+  sitesLinkColumnName?: string;
   /**
    * Name to use for files that are created holding class info; default is
    *  'Daily Class Agenda'
@@ -116,6 +157,11 @@ type AgendaParams = {
    */
   displayAgenda?: boolean;
   /**
+   * Specify parameters if you want to send an email to parents; writeAgenda
+   *  must also be set to true; default is empty
+   */
+  emailToParents?: ParentEmailInfo;
+  /**
    * How many days ahead to include in the agenda; default is 7
    */
   daysToLookAhead?: number;
@@ -152,6 +198,7 @@ type AgendaParams = {
  *  agendaSheetDateColumnEnd: 'END',
  *  writeAgenda: true,
  *  displayAgenda: true,
+ *  emailToParents: false,
  *  daysToLookAhead: 7,
  *  agendaSlideNotes: 'Agenda',
  *  agendaDateParams: dateParams,
@@ -279,7 +326,7 @@ function updateClassAgenda(args: AgendaParams,
   if (lessonTitles.length == 0) return false;
 
   if (writeAgenda) {
-    writeAgendaToDoc(args, lessonTitles, currentClass);
+    writeAgendaToDoc(args, row, lessonTitles, currentClass);
   }
 
   if (displayAgenda) {
@@ -297,12 +344,15 @@ function updateClassAgenda(args: AgendaParams,
  * @return {true} returns true if successful
  */
 function writeAgendaToDoc(args: AgendaParams,
+    row: MapGS<string | Date, string | Date>,
     lessonInfo: Array<LessonInfo>,
     currentClass: ClassGS): true {
   const {
     templateName = 'Agenda Document Template',
     agendaFileName = 'Class Agenda',
     agendaDateParams = {} as DateParams,
+    emailToParents = {} as ParentEmailInfo,
+    sitesLinkColumnName = 'Google Sites',
   } = args;
 
   for (const topic of currentClass.getTopics()) {
@@ -342,6 +392,39 @@ function writeAgendaToDoc(args: AgendaParams,
     }
     if (individualLesson.description !== undefined) {
       agendaDoc.addText(individualLesson.description, 4);
+    }
+  }
+
+  if (emailToParents != {}) {
+    const {
+      subject = "This Week's Agenda",
+      sendAsPDF = false,
+      sendInBody = true,
+      sendDocLink = true,
+      sendSitesLink = false,
+      docsLinkText = "Click here to see the agenda in Google Docs",
+      sitesLinkText = "Click here to see the Google Site for this class"  
+    } = emailToParents;
+    const parentEmails = currentClass.getParentEmails();
+    for (let email of parentEmails) {
+      let sendEMail: GoogleAppsScript.Mail.MailAdvancedParameters = {
+        to: email,
+        subject: subject,
+        body: "",
+      };
+      if (sendInBody) sendEMail.body = 
+        agendaDoc.getBody().asBody().getText().toString();
+      if (sendAsPDF) sendEMail.attachments = 
+        [agendaDoc.getObject().getAs('application/pdf')];
+      if (sendDocLink) sendEMail.body += "\n" + docsLinkText + ": " + 
+        agendaDoc.getObject().getUrl();
+      if (sendSitesLink) {
+        const sitesLink = row.get(sitesLinkColumnName);
+        if ((sitesLink != undefined) && (sitesLink != null) 
+          && (sitesLink != "")) 
+          sendEMail.body += "\n" + sitesLinkText + ": " + sitesLink.toString();
+      }
+      MailApp.sendEmail(sendEMail);
     }
   }
 
