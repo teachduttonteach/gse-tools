@@ -183,6 +183,13 @@ type AgendaParams = {
  *  dateOrder: 'MD',
  *  noEventString: 'NONE',
  * };
+ * var emailArgs = {
+ *  subject: "This Week's Agenda",
+ *  sendAsPDF: true,
+ *  sendInBody: true,
+ *  sendDocLink: true,
+ * sendSitesLink: true 
+ * };
  * var agendaArgs = {
  *  settingsName: 'Agenda',
  *  lessonColumnName: 'Lesson Column Number',
@@ -198,7 +205,7 @@ type AgendaParams = {
  *  agendaSheetDateColumnEnd: 'END',
  *  writeAgenda: true,
  *  displayAgenda: true,
- *  emailToParents: false,
+ *  emailToParents: emailArgs,
  *  daysToLookAhead: 7,
  *  agendaSlideNotes: 'Agenda',
  *  agendaDateParams: dateParams,
@@ -351,7 +358,7 @@ function writeAgendaToDoc(args: AgendaParams,
     templateName = 'Agenda Document Template',
     agendaFileName = 'Class Agenda',
     agendaDateParams = {} as DateParams,
-    emailToParents = {} as ParentEmailInfo,
+    emailToParents = undefined,
     sitesLinkColumnName = 'Google Sites',
   } = args;
 
@@ -395,7 +402,7 @@ function writeAgendaToDoc(args: AgendaParams,
     }
   }
 
-  if (emailToParents != {}) {
+  if (emailToParents != undefined) {
     const {
       subject = "This Week's Agenda",
       sendAsPDF = false,

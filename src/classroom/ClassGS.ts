@@ -720,7 +720,6 @@ export class ClassGS {
       new MapGS<string, GoogleAppsScript.Classroom.Schema.Guardian[]>();
     for (let thisStudentID of theseStudentIDs) {
       const guardiansForStudent = theseGuardians.list(thisStudentID).guardians;
-      Logger.log("Student ID: " + thisStudentID + ", guardians: " + 
       JSON.stringify(guardiansForStudent));
       if ((guardiansForStudent !== undefined) &&
         (guardiansForStudent !== null)) {

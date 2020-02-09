@@ -47,9 +47,6 @@ Project key: `1oyfsFWcowJSVKND18FrPkDklCVMyhEEOW05EJ_eo-QoZDhxD85QnfFSL`
 
 Files: [FormsGS](https://teachduttonteach.github.io/gse-tools/classes/formsgs.html), [FormEventGS](https://teachduttonteach.github.io/gse-tools/classes/formeventgs.html), [MapGS](https://teachduttonteach.github.io/gse-tools/classes/mapgs.html), [UiGS](https://teachduttonteach.github.io/gse-tools/classes/uigs.html)
 
-### gse-tools-samples
-Project key: `1KuJA0xJvdhTKbQhS3b8Yum-tiYbON8YqsWel3-_EigCTdo7QIWrlRth1`
-
 ### gse-tools-sheets
 Project key: `11-VQGNfjMaZaW_8DgTSwVXEPdZSMAZVOhEHZsLCkeLkJppGRmJyOYsFe`
 
@@ -59,6 +56,22 @@ Files: [SpreadsheetGS](https://teachduttonteach.github.io/gse-tools/classes/spre
 Project key: `1wn-OnB6Yzt_2BMSCqxsnTZ3Q7gCARLK18eTjWcakluqDip3TXizfCwRa`
 
 Files: [SlideshowGS](https://teachduttonteach.github.io/gse-tools/classes/slideshowgs.html), [SlideGS](https://teachduttonteach.github.io/gse-tools/classes/slidegs.html), [MapGS](https://teachduttonteach.github.io/gse-tools/classes/mapgs.html), [UiGS](https://teachduttonteach.github.io/gse-tools/classes/uigs.html)
+
+### Samples
+Agenda: [updateDailyAgenda()](https://teachduttonteach.github.io/gse-tools/globals.html#updatedailyagenda)
+* Creates an agenda as a Google Doc from the information in Google Classroom and a Google Sheet containing lesson information ([sample lesson info](https://docs.google.com/spreadsheets/d/1_CwCHD1QqwM-5Mw458Uu4nzTBGJ40Ffx7LPKk5peq4Y/edit?usp=sharing)). Also can send e-mails to parents as defined in Google Classroom. Gets settings from a Google Sheet ([sample settings sheet](https://docs.google.com/spreadsheets/d/1mJCt77JaMPrV-bqU62PVK7DT6BPF-eDCsDpLLvVJlgk)).
+
+Attendance: [changeAttendance()](https://teachduttonteach.github.io/gse-tools/globals.html#changeattendance)
+* Acts on a Google Sheet when the Sheet is updated to reflect saved student attendance in another sheet ([sample attendance sheet](https://docs.google.com/spreadsheets/d/1ml1J53j9h63g-6Qe_-WJq3g3gaVs_IrVDJpTiCTla40/edit?usp=sharing)).
+
+Bellwork: [updateBellwork()](https://teachduttonteach.github.io/gse-tools/globals.html#updatebellwork)
+* Updates the Bellwork from a Google Sheet ([sample lesson info](https://docs.google.com/spreadsheets/d/1_CwCHD1QqwM-5Mw458Uu4nzTBGJ40Ffx7LPKk5peq4Y/)) to a Google Form ([sample form](https://docs.google.com/forms/d/1dR4vnuy2xVpnumrtLacN8-4jTgtsftS_6swIjMuo6d8/edit?usp=sharing)) and a Google Slides ([sample slides](https://docs.google.com/presentation/d/1RZvg-ldOQRJQNvRx-H5YmwWez0AwElif8gO28UZlQAU/edit?usp=sharing)) document. When students complete the Bellwork, then it writes the answer and name back to a Google Sheet. Settings are stored in a Google Sheet ([sample sheet](https://docs.google.com/spreadsheets/d/1mJCt77JaMPrV-bqU62PVK7DT6BPF-eDCsDpLLvVJlgk))
+
+Birthday: [sendBirthdayEmail()](https://teachduttonteach.github.io/gse-tools/globals.html#sendbirthdayemail)
+* Can be used as a trigger to send an automatic email about student birthdays. Links to a Google Sheet with the student data ([sample sheet](https://docs.google.com/spreadsheets/d/1ml1J53j9h63g-6Qe_-WJq3g3gaVs_IrVDJpTiCTla40/edit?usp=sharing)).
+
+ClassroomFiles: [updateClassroomFiles()](https://teachduttonteach.github.io/gse-tools/globals.html#updateclassroomfiles)
+* Creates Google Docs for each topic within the specified Google Classes on a data sheet ([sample sheet](https://docs.google.com/spreadsheets/d/1mJCt77JaMPrV-bqU62PVK7DT6BPF-eDCsDpLLvVJlgk)).
 
 ## Purpose & G Suite for Education
 

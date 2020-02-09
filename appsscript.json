@@ -27,7 +27,8 @@
     "https://www.googleapis.com/auth/documents",
     "https://www.googleapis.com/auth/script.container.ui",
     "https://www.googleapis.com/auth/script.send_mail",
-    "https://www.googleapis.com/auth/script.scriptapp"
+    "https://www.googleapis.com/auth/script.scriptapp",
+    "https://www.googleapis.com/auth/classroom.guardianlinks.students"
   ],
   "dependencies": {
     "enabledAdvancedServices": [{
