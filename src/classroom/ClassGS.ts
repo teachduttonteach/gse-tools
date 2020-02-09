@@ -444,6 +444,23 @@ export class ClassGS {
 
   /**
    * Get the list of students associated with the class
+   * ```javascript
+   * var myClassroom = new gsetools.ClassroomGS();
+   * var myClass = myClassroom.getClass('izg4qrh');
+   * var myStudents = myClass.getStudents();
+   * 
+   * // Get the list of student IDs as an array
+   * var studentIDs = myStudents.keys();
+   * 
+   * // Get the list of student names as an array
+   * var studentNames = myStudents.values();
+   * 
+   * // Get student names for their IDs
+   * while (myStudents.hasNext()) {
+   *  var studentID = myStudents.next();
+   *  var studentName = myStudents.get(studentID);
+   * }
+   * ```
    *
    * @return {MapGS<string, string>} a map of the student ID to the full name
    */
@@ -465,6 +482,50 @@ export class ClassGS {
     }
     return studentList;
   }
+
+  /**
+   * Get the list of student names associated with the class
+   * ```javascript
+   * var myClassroom = new gsetools.ClassroomGS();
+   * var myClass = myClassroom.getClass('izg4qrh');
+   * var studentNames = myClass.getStudentNames();
+   * ```
+   *
+   * @return {Array<string>} a list of the student names
+   */
+  getStudentNames(): Array<string> {
+    return this.getStudents().values();
+  }
+
+  /**
+   * Get the list of student IDs associated with the class
+   * ```javascript
+   * var myClassroom = new gsetools.ClassroomGS();
+   * var myClass = myClassroom.getClass('izg4qrh');
+   * var studentIDs = myClass.getStudentIDs();
+   * ```
+   *
+   * @return {Array<string>} a list of the student IDs
+   */
+  getStudentIDs(): Array<string> {
+    return this.getStudents().keys();
+  }
+
+  /**
+   * Get the list of student IDs associated with the class
+   * ```javascript
+   * var myClassroom = new gsetools.ClassroomGS();
+   * var myClass = myClassroom.getClass('izg4qrh');
+   * var studentIDs = myClass.getStudentIDs();
+   * ```
+   * @param {string} id the student ID
+   * @return {string | null} the student name, or null if not found
+   */
+  getStudentName(id: string): string | null {
+    return this.getStudents().get(id);
+  }
+
+  
 
   /**
    * Adds course work to the object
