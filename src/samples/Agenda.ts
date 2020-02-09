@@ -257,18 +257,21 @@ function updateClassAgenda(args: AgendaParams,
   while ((lessonRow <= agendaSheet.getLastRow()) &&
     ((agendaSheet.getValue(lessonRow, +thisAgendaDateColumnName) !==
     agendaSheetDateColumnEnd))) {
-    const dateInCell: Date = new Date(agendaSheet.getValue(lessonRow,
-        +thisAgendaDateColumnName));
+    const dateValue = agendaSheet.getDateValue(lessonRow, 
+      +thisAgendaDateColumnName);
+    if (dateValue != null) {
+      const dateInCell: Date = dateValue;
 
-    if (compareDates(dateInCell, dateToday, true, true) &&
-      compareDates(futureDate, dateInCell, true, true)) {
-      const thisLessonColumnNumber = checkNull(row.get(lessonColumnName),
-          'Lesson column number', 'updateClassAgenda()', 'Error');
-      const lessonInfo = {} as LessonInfo;
-      lessonInfo.title = agendaSheet.getValue(lessonRow, 
-          +thisLessonColumnNumber).toString();
-      lessonInfo.lessonDate = dateInCell;
-      lessonTitles.push(lessonInfo);
+      if (compareDates(dateInCell, dateToday, true, true) &&
+        compareDates(futureDate, dateInCell, true, true)) {
+        const thisLessonColumnNumber = checkNull(row.get(lessonColumnName),
+            'Lesson column number', 'updateClassAgenda()', 'Error');
+        const lessonInfo = {} as LessonInfo;
+        lessonInfo.title = agendaSheet.getValue(lessonRow, 
+            +thisLessonColumnNumber).toString();
+        lessonInfo.lessonDate = dateInCell;
+        lessonTitles.push(lessonInfo);
+      }
     }
     lessonRow++;
   }

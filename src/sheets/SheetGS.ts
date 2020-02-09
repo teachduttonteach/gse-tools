@@ -656,10 +656,10 @@ export class SheetGS {
    * @return {Date} the date value requested
    */
   getDateValue(row: number, col: number): Date | null {
-    console.log('WARNING: Getting date value from ' + row + ' and ' + col +
-      ' = ' + this._data[row - 1][col - 1]);
     const dateValue = this._data[row - 1][col - 1];
     if (dateValue instanceof Date) return dateValue;
+    console.log("WARNING: Value '" + dateValue + "' at row, col '" + 
+      [row, col].join(",") +  "' is not a date in SheetGS.getDateValue()");
     return null;
   }
 
