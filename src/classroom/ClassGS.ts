@@ -466,21 +466,32 @@ export class ClassGS {
    */
   getStudents(): MapGS<string, string> {
     const studentList: MapGS<string, string> = new MapGS<string, string>();
+    const thisStudentList = this._getStudentProfiles();
+    for (const s of thisStudentList) {
+      if ((s.userId != undefined) && (s.profile != undefined) &&
+      (s.profile.name != undefined) &&
+      (s.profile.name.fullName != undefined)) {
+        studentList.set(s.userId, s.profile.name.fullName);
+      }
+    }
+    return studentList;
+  }
+
+  /**
+   * Get the student profiles from Classroom for the current class
+   * @return {GoogleAppsScript.Classroom.Schema.Student[]} the list of students
+   *  which can be empty if there are no students found
+   */
+  private _getStudentProfiles(): GoogleAppsScript.Classroom.Schema.Student[] {
     if ((Classroom.Courses != undefined) &&
       (Classroom.Courses.Students != undefined)) {
       const thisStudentList = Classroom.Courses.Students.list(this._id);
       if ((thisStudentList != undefined) &&
         (thisStudentList.students != undefined)) {
-        for (const s of thisStudentList.students) {
-          if ((s.userId != undefined) && (s.profile != undefined) &&
-          (s.profile.name != undefined) &&
-          (s.profile.name.fullName != undefined)) {
-            studentList.set(s.userId, s.profile.name.fullName);
-          }
-        }
+          return thisStudentList.students;
       }
     }
-    return studentList;
+    return [];
   }
 
   /**
@@ -525,7 +536,100 @@ export class ClassGS {
     return this.getStudents().get(id);
   }
 
-  
+  /**
+   * Get a list of the parent e-mails for the class (or for an individual
+   * student)
+   * ```javascript
+   * var myClassroom = new gsetools.ClassroomGS();
+   * var myClass = myClassroom.getClass('izg4qrh');
+   * var parentEmails = myClass.getParentEmails();
+   * ```
+   * @param {string} studentID the optional student ID
+   * @return {Array<string>} the list of parent emails
+   */
+  getParentEmails(studentID?: string): Array<string> {
+    let parentEmails: Array<string> = [];
+    const parentList = this._getParentProfiles(studentID);
+    parentList.values().every(function(pList) {
+      pList.every(function(parent) {
+        const parentProfile = parent.guardianProfile;
+        if ((parentProfile != undefined) && (parentProfile != null)) {
+          const emailAddress = parentProfile.emailAddress;
+          if ((emailAddress != undefined) && (emailAddress != null)) {
+            parentEmails.push(emailAddress);
+          }
+        }
+      });
+    });
+    return parentEmails;
+  }
+
+  /**
+   * Get a list of the parent names for the class (or for an individual
+   * student)
+   * ```javascript
+   * var myClassroom = new gsetools.ClassroomGS();
+   * var myClass = myClassroom.getClass('izg4qrh');
+   * var parentNames = myClass.getParentNames();
+   * ```
+   * @param {string} studentID the optional student ID
+   * @return {Array<string>} the list of parent emails
+   */
+  getParentNames(studentID?: string): Array<string> {
+    let parentNames: Array<string> = [];
+    const parentList = this._getParentProfiles(studentID);
+    parentList.values().every(function(pList) {
+      pList.every(function(parent) {
+        const parentProfile = parent.guardianProfile;
+        if ((parentProfile != undefined) && (parentProfile != null)) {
+          const parentName = parentProfile.name?.fullName;
+          if ((parentName != undefined) && (parentName != null)) {
+            parentNames.push(parentName);
+          }
+        }
+      });
+    });
+    return parentNames;
+  }
+
+  /**
+   * Get the list of parents associated with the class (or a particular 
+   *  student)
+   * @param {string} studentID the optional studentID to get parents for
+   * @return {MapGS<string, GoogleAppsScript.Classroom.Schema.Guardian[]>} a 
+   * list of the parent profiles
+   */
+  private _getParentProfiles(studentID?: string): MapGS<string, GoogleAppsScript.Classroom.Schema.Guardian[]> {
+    let theseStudentIDs: string[];
+    if (studentID != undefined) theseStudentIDs = [studentID];
+    else theseStudentIDs = this.getStudentIDs();
+
+    const userProfiles = Classroom.UserProfiles;
+    if ((userProfiles == undefined) || (userProfiles == null)) {
+      throw new Error("Could not retrieve user profiles in " + 
+      "ClassGS.getParents(). Make sure you have access to the class.");
+    }
+
+    const theseGuardians = userProfiles.Guardians;
+    if ((theseGuardians == undefined) || (theseGuardians == null)) {
+      throw new Error("Could not retrieve guardians in " + 
+      "ClassGS.getParents(). Make sure you have access to the guardians.");
+    }
+
+    let parentProfiles: 
+      MapGS<string, GoogleAppsScript.Classroom.Schema.Guardian[]> = 
+      new MapGS<string, GoogleAppsScript.Classroom.Schema.Guardian[]>();
+    for (let thisStudentID of theseStudentIDs) {
+      const guardiansForStudent = theseGuardians.list(thisStudentID).guardians;
+      if ((guardiansForStudent !== undefined) &&
+        (guardiansForStudent !== null)) {
+          parentProfiles.set(thisStudentID, guardiansForStudent);
+      }
+    }
+    return parentProfiles;
+  }
+
+
 
   /**
    * Adds course work to the object
