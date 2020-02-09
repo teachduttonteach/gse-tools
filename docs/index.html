@@ -111,10 +111,6 @@
 				</a>
 				<p>Project key: <code>1oyfsFWcowJSVKND18FrPkDklCVMyhEEOW05EJ_eo-QoZDhxD85QnfFSL</code></p>
 				<p>Files: <a href="https://teachduttonteach.github.io/gse-tools/classes/formsgs.html">FormsGS</a>, <a href="https://teachduttonteach.github.io/gse-tools/classes/formeventgs.html">FormEventGS</a>, <a href="https://teachduttonteach.github.io/gse-tools/classes/mapgs.html">MapGS</a>, <a href="https://teachduttonteach.github.io/gse-tools/classes/uigs.html">UiGS</a></p>
-				<a href="#gse-tools-samples" id="gse-tools-samples" style="color: inherit; text-decoration: none;">
-					<h3>gse-tools-samples</h3>
-				</a>
-				<p>Project key: <code>1KuJA0xJvdhTKbQhS3b8Yum-tiYbON8YqsWel3-_EigCTdo7QIWrlRth1</code></p>
 				<a href="#gse-tools-sheets" id="gse-tools-sheets" style="color: inherit; text-decoration: none;">
 					<h3>gse-tools-sheets</h3>
 				</a>
@@ -125,6 +121,29 @@
 				</a>
 				<p>Project key: <code>1wn-OnB6Yzt_2BMSCqxsnTZ3Q7gCARLK18eTjWcakluqDip3TXizfCwRa</code></p>
 				<p>Files: <a href="https://teachduttonteach.github.io/gse-tools/classes/slideshowgs.html">SlideshowGS</a>, <a href="https://teachduttonteach.github.io/gse-tools/classes/slidegs.html">SlideGS</a>, <a href="https://teachduttonteach.github.io/gse-tools/classes/mapgs.html">MapGS</a>, <a href="https://teachduttonteach.github.io/gse-tools/classes/uigs.html">UiGS</a></p>
+				<a href="#samples" id="samples" style="color: inherit; text-decoration: none;">
+					<h3>Samples</h3>
+				</a>
+				<p>Agenda: <a href="https://teachduttonteach.github.io/gse-tools/globals.html#updatedailyagenda">updateDailyAgenda()</a></p>
+				<ul>
+					<li>Creates an agenda as a Google Doc from the information in Google Classroom and a Google Sheet containing lesson information (<a href="https://docs.google.com/spreadsheets/d/1_CwCHD1QqwM-5Mw458Uu4nzTBGJ40Ffx7LPKk5peq4Y/edit?usp=sharing">sample lesson info</a>). Also can send e-mails to parents as defined in Google Classroom. Gets settings from a Google Sheet (<a href="https://docs.google.com/spreadsheets/d/1mJCt77JaMPrV-bqU62PVK7DT6BPF-eDCsDpLLvVJlgk">sample settings sheet</a>).</li>
+				</ul>
+				<p>Attendance: <a href="https://teachduttonteach.github.io/gse-tools/globals.html#changeattendance">changeAttendance()</a></p>
+				<ul>
+					<li>Acts on a Google Sheet when the Sheet is updated to reflect saved student attendance in another sheet (<a href="https://docs.google.com/spreadsheets/d/1ml1J53j9h63g-6Qe_-WJq3g3gaVs_IrVDJpTiCTla40/edit?usp=sharing">sample attendance sheet</a>).</li>
+				</ul>
+				<p>Bellwork: <a href="https://teachduttonteach.github.io/gse-tools/globals.html#updatebellwork">updateBellwork()</a></p>
+				<ul>
+					<li>Updates the Bellwork from a Google Sheet (<a href="https://docs.google.com/spreadsheets/d/1_CwCHD1QqwM-5Mw458Uu4nzTBGJ40Ffx7LPKk5peq4Y/">sample lesson info</a>) to a Google Form (<a href="https://docs.google.com/forms/d/1dR4vnuy2xVpnumrtLacN8-4jTgtsftS_6swIjMuo6d8/edit?usp=sharing">sample form</a>) and a Google Slides (<a href="https://docs.google.com/presentation/d/1RZvg-ldOQRJQNvRx-H5YmwWez0AwElif8gO28UZlQAU/edit?usp=sharing">sample slides</a>) document. When students complete the Bellwork, then it writes the answer and name back to a Google Sheet. Settings are stored in a Google Sheet (<a href="https://docs.google.com/spreadsheets/d/1mJCt77JaMPrV-bqU62PVK7DT6BPF-eDCsDpLLvVJlgk">sample sheet</a>)</li>
+				</ul>
+				<p>Birthday: <a href="https://teachduttonteach.github.io/gse-tools/globals.html#sendbirthdayemail">sendBirthdayEmail()</a></p>
+				<ul>
+					<li>Can be used as a trigger to send an automatic email about student birthdays. Links to a Google Sheet with the student data (<a href="https://docs.google.com/spreadsheets/d/1ml1J53j9h63g-6Qe_-WJq3g3gaVs_IrVDJpTiCTla40/edit?usp=sharing">sample sheet</a>).</li>
+				</ul>
+				<p>ClassroomFiles: <a href="https://teachduttonteach.github.io/gse-tools/globals.html#updateclassroomfiles">updateClassroomFiles()</a></p>
+				<ul>
+					<li>Creates Google Docs for each topic within the specified Google Classes on a data sheet (<a href="https://docs.google.com/spreadsheets/d/1mJCt77JaMPrV-bqU62PVK7DT6BPF-eDCsDpLLvVJlgk">sample sheet</a>).</li>
+				</ul>
 				<a href="#purpose-amp-g-suite-for-education" id="purpose-amp-g-suite-for-education" style="color: inherit; text-decoration: none;">
 					<h2>Purpose &amp; G Suite for Education</h2>
 				</a>
@@ -337,6 +356,9 @@
 					</li>
 					<li class=" tsd-kind-type-alias tsd-is-not-exported">
 						<a href="globals.html#lessoninfo" class="tsd-kind-icon">Lesson<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-is-not-exported">
+						<a href="globals.html#parentemailinfo" class="tsd-kind-icon">Parent<wbr>Email<wbr>Info</a>
 					</li>
 					<li class=" tsd-kind-type-alias">
 						<a href="globals.html#sidebarbutton" class="tsd-kind-icon">Sidebar<wbr>Button</a>
@@ -576,9 +598,6 @@
 						<a href="globals.html#getclassname" class="tsd-kind-icon">get<wbr>Class<wbr>Name</a>
 					</li>
 					<li class=" tsd-kind-function">
-						<a href="globals.html#getclassstudents" class="tsd-kind-icon">get<wbr>Class<wbr>Students</a>
-					</li>
-					<li class=" tsd-kind-function">
 						<a href="globals.html#getclasstopicinfo" class="tsd-kind-icon">get<wbr>Class<wbr>Topic<wbr>Info</a>
 					</li>
 					<li class=" tsd-kind-function">
@@ -670,6 +689,12 @@
 					</li>
 					<li class=" tsd-kind-function">
 						<a href="globals.html#getorcreatesheet" class="tsd-kind-icon">get<wbr>OrCreate<wbr>Sheet</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#getparentemails" class="tsd-kind-icon">get<wbr>Parent<wbr>Emails</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#getparentnames" class="tsd-kind-icon">get<wbr>Parent<wbr>Names</a>
 					</li>
 					<li class=" tsd-kind-function">
 						<a href="globals.html#getrandompicture" class="tsd-kind-icon">get<wbr>Random<wbr>Picture</a>
@@ -769,6 +794,18 @@
 					</li>
 					<li class=" tsd-kind-function">
 						<a href="globals.html#getspreadsheetobject" class="tsd-kind-icon">get<wbr>Spreadsheet<wbr>Object</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#getstudentids" class="tsd-kind-icon">get<wbr>StudentIDs</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#getstudentname" class="tsd-kind-icon">get<wbr>Student<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#getstudentnames" class="tsd-kind-icon">get<wbr>Student<wbr>Names</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#getstudents" class="tsd-kind-icon">get<wbr>Students</a>
 					</li>
 					<li class=" tsd-kind-function">
 						<a href="globals.html#gettodaysdate" class="tsd-kind-icon">get<wbr>Todays<wbr>Date</a>
