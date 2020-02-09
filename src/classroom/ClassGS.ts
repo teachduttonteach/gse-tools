@@ -20,13 +20,110 @@ export function newClass(course: GoogleAppsScript.Classroom.Schema.Course):
 
 /**
  * Get the list of students associated with the class
+ * ```javascript
+ * var myClassroom = new gsetools.ClassroomGS();
+ * var myClass = myClassroom.getClass('izg4qrh');
+ * var myStudents = myClass.getStudents();
+ * 
+ * // Get the list of student IDs as an array
+ * var studentIDs = myStudents.keys();
+ * 
+ * // Get the list of student names as an array
+ * var studentNames = myStudents.values();
+ * 
+ * // Get student names for their IDs
+ * while (myStudents.hasNext()) {
+ *  var studentID = myStudents.next();
+ *  var studentName = myStudents.get(studentID);
+ * }
+ * ```
  *
  * @param {ClassGS} obj the Class object
  * @return {MapGS<string, string>} a map of the student ID to the full name
  */
-export function getClassStudents(obj: ClassGS): MapGS<string, string> {
+export function getStudents(obj: ClassGS): MapGS<string, string> {
   return obj.getStudents();
 }
+
+/**
+ * Get the list of student names associated with the class
+ * ```javascript
+ * var myClassroom = new gsetools.ClassroomGS();
+ * var myClass = myClassroom.getClass('izg4qrh');
+ * var studentNames = myClass.getStudentNames();
+ * ```
+ *
+ * @param {ClassGS} obj the Class object
+ * @return {Array<string>} a list of the student names
+ */
+export function getStudentNames(obj: ClassGS): Array<string> {
+  return obj.getStudentNames();
+}
+
+/**
+ * Get the list of student IDs associated with the class
+ * ```javascript
+ * var myClassroom = new gsetools.ClassroomGS();
+ * var myClass = myClassroom.getClass('izg4qrh');
+ * var studentIDs = myClass.getStudentIDs();
+ * ```
+ *
+ * @param {ClassGS} obj the Class object
+ * @return {Array<string>} a list of the student IDs
+ */
+export function getStudentIDs(obj: ClassGS): Array<string> {
+  return obj.getStudentIDs();
+}
+
+/**
+ * Get the list of student IDs associated with the class
+ * ```javascript
+ * var myClassroom = new gsetools.ClassroomGS();
+ * var myClass = myClassroom.getClass('izg4qrh');
+ * var studentIDs = myClass.getStudentIDs();
+ * ```
+ * @param {ClassGS} obj the Class object
+ * @param {string} id the student ID
+ * @return {string | null} the student name, or null if not found
+ */
+export function getStudentName(obj: ClassGS, id: string): string | null {
+  return obj.getStudentName(id);
+}
+
+/**
+ * Get a list of the parent e-mails for the class (or for an individual
+ * student)
+ * ```javascript
+ * var myClassroom = new gsetools.ClassroomGS();
+ * var myClass = myClassroom.getClass('izg4qrh');
+ * var parentEmails = myClass.getParentEmails();
+ * ```
+ * @param {ClassGS} obj the Class object
+ * @param {string} studentID the optional student ID
+ * @return {Array<string>} the list of parent emails
+ */
+export function getParentEmails(obj: ClassGS, studentID?: string): 
+  Array<string> {
+  return obj.getParentEmails(studentID);
+}
+
+/**
+ * Get a list of the parent names for the class (or for an individual
+ * student)
+ * ```javascript
+ * var myClassroom = new gsetools.ClassroomGS();
+ * var myClass = myClassroom.getClass('izg4qrh');
+ * var parentNames = myClass.getParentNames();
+ * ```
+ * @param {ClassGS} obj the Class object
+ * @param {string} studentID the optional student ID
+ * @return {Array<string>} the list of parent emails
+ */
+export function getParentNames(obj: ClassGS, studentID?: string): 
+  Array<string> {
+  return obj.getParentNames(studentID);
+}
+
 
 /**
  * Adds course work to the object
