@@ -4,7 +4,6 @@ import {DriveGS} from '../drive/DriveGS';
 import {getDataSheet} from '../DataSheet';
 import {ClassGS} from '../classroom/ClassGS';
 import {ClassroomDocsGS} from '../classroom-docs/ClassroomDocsGS';
-import {DateParams} from '../DateParams';
 import {MapGS} from '../map/MapGS';
 
 /**
@@ -32,10 +31,6 @@ type ClassroomArgs = {
    */
   templateName?: string;
   /**
-   * Parameters for displaying due dates; default is empty
-   */
-  dueDateParams?: DateParams;
-  /**
    * The name of the data settings sheet to use; defaults to 'gse-tools
    *  Settings'
    */
@@ -46,20 +41,25 @@ type ClassroomArgs = {
  * Update Google Docs from Classroom information
  *
  * ```javascript
- * var dateParams = {
- *  titlePrefix: ' - ',
- *  dateDelim: '/',
- *  dateOrder: 'MD',
- *  noEventString: 'NONE',
- * };
- *
+ * // These are all optional arguments - all have default values (see documentation)  
  * var classroomArgs = {
- *  settingsName: 'Classroom',
- *  classroomCodeColumnName: 'Class Code',
- *  newFileName: 'Google Classroom Test Summary',
- *  templateName: 'Google Classroom Summary Test Template',
- *  dueDateParams: dateParams,
+ *   // The Settings Spreadsheet name
+ *   dataSheet: 'gse-tools Settings',
+ *   
+ *   // The sheet name within the Settings Spreadsheet that has settings for each class 
+ *   settingsName: 'Classroom',
+ *   
+ *   // The column name in the settings sheet that has the Google Classroom enrollment codes
+ *   classroomCodeColumnName: 'Class Code',
+ *   
+ *   // The name to give all files created by this script; will also include the class name
+ *   newFileName: 'Google Classroom Summary',
+ *   
+ *   // The template file to use for all of the files created by this script
+ *   templateName: 'Google Classroom Summary Test Template',
  * };
+ * 
+ * // Call the gse-tools function
  * gsetools.updateClassroomFiles(classroomArgs);
  * ```
  * @param {ClassroomArgs} args the parameters to use
@@ -69,7 +69,7 @@ export function updateClassroomFiles(args: ClassroomArgs): void {
   const {
     settingsName = 'Classroom',
     classroomCodeColumnName = 'Classroom Code',
-    dataSheet,
+    dataSheet = 'gse-tools Settings',
   } = args;
 
   const settings: SpreadsheetGS = getDataSheet(dataSheet, settingsName);
