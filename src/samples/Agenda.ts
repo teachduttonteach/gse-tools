@@ -449,7 +449,7 @@ function writeAgendaToDoc(args: AgendaParams,
   }
 
   const agendaTitle: string = agendaFileName + ' ' + currentClass.getName();
-  const agendaDoc = new DocsGS(new DriveGS()
+  let agendaDoc = new DocsGS(new DriveGS()
       .getOrCreateFileFromTemplateByName(agendaTitle, templateName).getId());
   agendaDoc.clearBody();
   agendaDoc.addText(agendaTitle, 'T');
@@ -474,6 +474,9 @@ function writeAgendaToDoc(args: AgendaParams,
       agendaDoc.addText(individualLesson.description, 4);
     }
   }
+
+  agendaDoc = new DocsGS(new DriveGS()
+      .getOrCreateFileFromTemplateByName(agendaTitle, templateName).getId());
 
   if (emailToParents != undefined) {
     const {

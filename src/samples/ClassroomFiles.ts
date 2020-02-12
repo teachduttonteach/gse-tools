@@ -5,6 +5,7 @@ import {getDataSheet} from '../DataSheet';
 import {ClassGS} from '../classroom/ClassGS';
 import {ClassroomDocsGS} from '../classroom-docs/ClassroomDocsGS';
 import {MapGS} from '../map/MapGS';
+import { WriteDocsParams } from '../classroom-docs/WriteDocsParams';
 
 /**
  * All of the arguments and other variables used by the Bellwork script
@@ -63,14 +64,18 @@ type ClassroomArgs = {
  * gsetools.updateClassroomFiles(classroomArgs);
  * ```
  * @param {ClassroomArgs} args the parameters to use
+ * @param {WriteDocsParams} writeDocsParams the parameters that define how to 
+ *  write the documents
  */
-export function updateClassroomFiles(args: ClassroomArgs): void {
+export function updateClassroomFiles(args: ClassroomArgs, writeDocsParams?: WriteDocsParams): void {
   if (args == null) args = {} as ClassroomArgs;
   const {
     settingsName = 'Classroom',
     classroomCodeColumnName = 'Classroom Code',
     dataSheet = 'gse-tools Settings',
   } = args;
+
+  if (writeDocsParams == undefined) writeDocsParams = {} as WriteDocsParams;
 
   const settings: SpreadsheetGS = getDataSheet(dataSheet, settingsName);
   const classworkSettings: MapGS<string | Date, MapGS<string | Date,
@@ -96,7 +101,7 @@ export function updateClassroomFiles(args: ClassroomArgs): void {
 
     if (thisClassroomCode != '') {
       const currentClass = allClasses.getClass(thisClassroomCode);
-      updateGoogleClassroom(args, currentClass);
+      updateGoogleClassroom(args, currentClass, writeDocsParams);
     }
   }
 }
@@ -106,9 +111,10 @@ export function updateClassroomFiles(args: ClassroomArgs): void {
  *
  * @param {ClassroomArgs} args the classroom parameters
  * @param {ClassGS} currentClass the current Google class
+ * @param {WriteDocsParams} writeDocsParams the document writing parameters
  */
 export function updateGoogleClassroom(args: ClassroomArgs,
-    currentClass: ClassGS) {
+    currentClass: ClassGS, writeDocsParams: WriteDocsParams) {
   const {
     newFileName = 'Google Classroom Summary',
     templateName = 'Google Classroom Summary Template',
@@ -121,6 +127,6 @@ export function updateGoogleClassroom(args: ClassroomArgs,
         'Topic "' + currentClass.getTopicName(theseTopics[topic]) + '" for ' +
       currentClass.getName() + ': ' + newFileName, templateName);
     new ClassroomDocsGS(fileObject.getId())
-        .writeClassroomDocuments(currentClass, theseTopics[topic]);
+        .writeClassroomDocuments(currentClass, theseTopics[topic], writeDocsParams);
   }
 }
