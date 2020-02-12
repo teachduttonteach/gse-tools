@@ -87,7 +87,7 @@ export class ClassroomDocsGS {
         throw new Error('Announcement titles undefined in ' +
         'DocsGS.writeClassroomDocuments()');
       }
-      for (let a = 0; a < displayAnnouncements; a++) {
+      for (let a = 0; ((a < displayAnnouncements) && (a < thisAnnouncements.length)); a++) {
         this._doc.addText(thisAnnouncements[a], 'Normal');
       }
     }
@@ -127,11 +127,12 @@ export class ClassroomDocsGS {
     } = options;
 
     // Display the title, due date and description
-    if (displayCourseworkTitle) this._doc.addText(courseWork.title, 2);
+    if (displayCourseworkTitle && courseWork.title) this._doc.addText(courseWork.title, 2);
     if (displayDueDate && courseWork.dueDate) {
       this._doc.addText(courseWork.dueDate, 3);
     }
-    if (displayDescription && courseWork.description) {
+    if (displayDescription && ((courseWork.description != null) && 
+    (courseWork.description != undefined) && (courseWork.description != ""))) {
       this._doc.addText(courseWork.description, 'Normal');
     }
 
