@@ -1,5 +1,5 @@
 {
-    "editor.wordWrap": "on",
+    "editor.wordWrap": "wordWrapColumn",
     "editor.rulers": [
         79,
         120
