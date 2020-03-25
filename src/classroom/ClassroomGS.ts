@@ -92,4 +92,13 @@ export class ClassroomGS {
     throw new Error('Could not find class with code ' + enrollmentCode +
       ' in ClassroomGS()');
   }
+
+  /**
+   * Get the class list, including enrollment codes
+   */
+  getClassList() {
+    for (const c of this._classList) {
+      Logger.log([c.enrollmentCode, c.name, c.description].join("\t"));
+    }
+  }
 }

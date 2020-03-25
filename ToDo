@@ -26,3 +26,14 @@ clasp: https://github.com/google/clasp/blob/master/README.md
 Modules to build:
 Email
 Tasks
+Sidebar
+File Picker
+Setup for settings sheet including file picker and Sidebar
+- Every column in the settings sheet should have a type; instead of string, etc
+  types should include File, Image, Folder, Choice (and part of that type would be the choices?)
+
+Things to optimize:
+Updating and deleting triggers
+
+Features to document:
+Using Settings sheet on a building-wide level, administrator-level or user level
