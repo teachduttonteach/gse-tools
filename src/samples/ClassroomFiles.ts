@@ -36,6 +36,19 @@ type ClassroomArgs = {
    *  Settings'
    */
   dataSheet?: string;
+  /**
+   * Column name of the ID of the destination folder to store files in
+   */
+  destinationFolder?: string;
+  /**
+   * Column name for whether or not the Table of Contents should be created
+   */
+  tableOfContents?: string;
+  /**
+   * Name of the template to use for the Table of Contents to be created; 
+   *  default is 'Google Classroom Summary TOC Template'
+   */
+  tocTemplateName?: string;
 };
 
 /**
@@ -73,6 +86,8 @@ export function updateClassroomFiles(args: ClassroomArgs, writeDocsParams?: Writ
     settingsName = 'Classroom',
     classroomCodeColumnName = 'Classroom Code',
     dataSheet = 'gse-tools Settings',
+    destinationFolder = 'Destination Folder',
+    tableOfContents = 'Table of Contents'
   } = args;
 
   if (writeDocsParams == undefined) writeDocsParams = {} as WriteDocsParams;
@@ -99,9 +114,19 @@ export function updateClassroomFiles(args: ClassroomArgs, writeDocsParams?: Writ
       throw new Error('Classroom code not found in updateClassroomFiles');
     }
 
+    const thisDestinationFolder = thisRow.get(destinationFolder);
+    if (thisDestinationFolder instanceof Date) 
+      throw new Error('Destination folder cannot be a Date'); 
+
+    let createTableOfContents = false;
+    const thisTableOfContents = thisRow.get(tableOfContents);
+    if (thisTableOfContents instanceof Date) 
+      throw new Error('Table of contents cannot be a Date'); 
+    else if (thisTableOfContents != "") createTableOfContents = true;
+
     if (thisClassroomCode != '') {
       const currentClass = allClasses.getClass(thisClassroomCode);
-      updateGoogleClassroom(args, currentClass, writeDocsParams);
+      updateGoogleClassroom(args, currentClass, writeDocsParams, createTableOfContents, thisDestinationFolder);
     }
   }
 }
@@ -112,21 +137,43 @@ export function updateClassroomFiles(args: ClassroomArgs, writeDocsParams?: Writ
  * @param {ClassroomArgs} args the classroom parameters
  * @param {ClassGS} currentClass the current Google class
  * @param {WriteDocsParams} writeDocsParams the document writing parameters
+ * @param {boolean} tableOfContents whether or not to create a TOC
+ * @param {string | null} destinationFolder the destination folder for the 
+ *  files
  */
 export function updateGoogleClassroom(args: ClassroomArgs,
-    currentClass: ClassGS, writeDocsParams: WriteDocsParams) {
+    currentClass: ClassGS, writeDocsParams: WriteDocsParams, 
+    tableOfContents: boolean, destinationFolder: string | null) {
   const {
     newFileName = 'Google Classroom Summary',
     templateName = 'Google Classroom Summary Template',
+    tocTemplateName = 'Google Classroom Summary TOC Template'
   } = args;
 
   const gDrive = new DriveGS();
   const theseTopics: Array<string> = currentClass.getTopics();
+
+  let allCreatedFiles: Array<GoogleAppsScript.Drive.File> = [];
+
   for (let topic = 0; topic < theseTopics.length; topic++) {
     const fileObject = gDrive.getOrCreateFileFromTemplateByName(
         'Topic "' + currentClass.getTopicName(theseTopics[topic]) + '" for ' +
-      currentClass.getName() + ': ' + newFileName, templateName);
+      currentClass.getName() + ': ' + newFileName, templateName, 
+      destinationFolder);
+    allCreatedFiles.push(fileObject);
     new ClassroomDocsGS(fileObject.getId())
         .writeClassroomDocuments(currentClass, theseTopics[topic], writeDocsParams);
   }
+
+  if (tableOfContents) {
+    let tocFile = gDrive.getOrCreateFileFromTemplateByName(
+      'Table of Contents for ' + currentClass.getName(), tocTemplateName, destinationFolder);
+    for (const thisFile of allCreatedFiles) {
+      
+    }
+  }
+}
+
+export function getClassList() {
+  new ClassroomGS().getClassList();
 }

@@ -42,6 +42,7 @@ export function getImageBlob(
  * @param {DriveGS} obj the Drive object
  * @param {string} fileName the name of the file
  * @param {string} templateName the name of the template
+ * @param {string | null} destinationFolder the id of the folder
  *
  * @return {GoogleAppsScript.Drive.File} the file as a Google Object
  */
@@ -49,8 +50,9 @@ export function getOrCreateFileFromTemplateByName(
     obj: DriveGS,
     fileName: string,
     templateName: string,
+    destinationFolder: string | null
 ): GoogleAppsScript.Drive.File {
-  return obj.getOrCreateFileFromTemplateByName(fileName, templateName);
+  return obj.getOrCreateFileFromTemplateByName(fileName, templateName, destinationFolder);
 }
 
 /**
@@ -191,10 +193,12 @@ export class DriveGS {
    *
    * @param {string} fileName the name of the file
    * @param {string} templateName the name of the template
+   * @param {string | null} destinationFolder the id of the folder
    *
    * @return {GoogleAppsScript.Drive.File} the file as a Google Object
    */
-  getOrCreateFileFromTemplateByName(fileName: string, templateName: string):
+  getOrCreateFileFromTemplateByName(fileName: string, templateName: string, 
+    destinationFolder: string | null):
     GoogleAppsScript.Drive.File {
     if (fileName == null || templateName == null) {
       throw new Error('File name and template name need to be defined for ' +
@@ -205,7 +209,13 @@ export class DriveGS {
     if (fileObject.hasNext()) return fileObject.next();
 
     const templateFile = DriveApp.getFilesByName(templateName);
-    if (templateFile.hasNext()) return templateFile.next().makeCopy(fileName);
+    if (templateFile.hasNext()) {
+      if (destinationFolder !== null) {
+        const googleFolder = DriveApp.getFolderById(destinationFolder);
+        return templateFile.next().makeCopy(fileName, googleFolder);
+      }
+      return templateFile.next().makeCopy(fileName);
+    }
 
     throw new Error('Could not find file or template in DriveGS.' +
     'getOrCreateFileFromTemplateByName()');

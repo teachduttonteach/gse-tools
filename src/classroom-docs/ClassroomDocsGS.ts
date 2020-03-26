@@ -167,4 +167,50 @@ export class ClassroomDocsGS {
       }
     }
   }
+
+  /**
+   * Writes the table of contents document from the list of files
+   *
+   * @param {ClassGS} classData the object that holds class data
+   * @param {Array<GoogleAppsScript.Drive.File>} allCreatedFiles the created
+   *  files to put into the TOC
+   *
+   * @return {ClassroomDocsGS} the object for chaining
+   */
+  writeTableOfContents(classData: ClassGS, 
+    allCreatedFiles: Array<GoogleAppsScript.Drive.File>): ClassroomDocsGS {
+
+    // Clear the body and get the doc title
+    this._doc.clearBody();
+    const docTitle = classData.getName();
+    const thisLevel = getDocLevels('T');
+    if (docTitle == undefined || thisLevel == undefined) {
+      throw new Error(
+          'Title (' + docTitle + ') or level (' + thisLevel + ') not defined' +
+          ' in DocsGS.writeTableOfContents()',
+      );
+    }
+
+    // Display the title by removing the first child if necessary
+    const thisBody = this._doc.getBody();
+    const thisChild = thisBody.getChild(0);
+    if (thisChild.getType() == DocumentApp.ElementType.LIST_ITEM) {
+      thisBody.appendParagraph(docTitle).setHeading(thisLevel);
+      thisChild.removeFromParent();
+    } else {
+      thisChild
+          .asParagraph()
+          .setHeading(thisLevel)
+          .setText(docTitle);
+    }
+
+    this._doc.addText('Topics:', 'Normal');
+    let count = 1;
+    for (const file of allCreatedFiles) {
+      this._doc.appendItem(count.toString(), file.getName(), file.getUrl());
+      count++;
+    }
+
+    return this;
+  }
 }
