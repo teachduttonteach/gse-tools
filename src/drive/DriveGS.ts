@@ -50,9 +50,10 @@ export function getOrCreateFileFromTemplateByName(
     obj: DriveGS,
     fileName: string,
     templateName: string,
+    sourceFolder: string | null,
     destinationFolder: string | null
 ): GoogleAppsScript.Drive.File {
-  return obj.getOrCreateFileFromTemplateByName(fileName, templateName, destinationFolder);
+  return obj.getOrCreateFileFromTemplateByName(fileName, templateName, sourceFolder, destinationFolder);
 }
 
 /**
@@ -69,8 +70,10 @@ export function getOrCreateFileFromTemplateById(
     obj: DriveGS,
     fileId: string,
     templateId: string,
+    destinationFolder: string | null
 ): GoogleAppsScript.Drive.File {
-  return obj.getOrCreateFileFromTemplateById(fileId, templateId);
+  return obj.getOrCreateFileFromTemplateById(fileId, templateId, 
+    destinationFolder);
 }
 
 /**
@@ -193,28 +196,43 @@ export class DriveGS {
    *
    * @param {string} fileName the name of the file
    * @param {string} templateName the name of the template
-   * @param {string | null} destinationFolder the id of the folder
+   * @param {string | null} sourceFolder the id of the source folder for the 
+   *  file
+   * @param {string | null} destinationFolder the id of the folder to write the 
+   *  file to
    *
    * @return {GoogleAppsScript.Drive.File} the file as a Google Object
    */
   getOrCreateFileFromTemplateByName(fileName: string, templateName: string, 
-    destinationFolder: string | null):
+    sourceFolder: string | null, destinationFolder: string | null):
     GoogleAppsScript.Drive.File {
     if (fileName == null || templateName == null) {
       throw new Error('File name and template name need to be defined for ' +
         'Drive.getOrCreateFile');
     }
-    const fileObject: GoogleAppsScript.Drive.FileIterator =
-      DriveApp.getFilesByName(fileName);
+
+    let fileObject: GoogleAppsScript.Drive.FileIterator = {} as 
+      GoogleAppsScript.Drive.FileIterator;
+
+    if (sourceFolder !== null) {
+      fileObject = DriveApp.getFolderById(sourceFolder).
+        getFilesByName(fileName);
+    } else {
+      fileObject = DriveApp.getFilesByName(fileName);
+    }
+
     if (fileObject.hasNext()) return fileObject.next();
 
-    const templateFile = DriveApp.getFilesByName(templateName);
+    let templateFile: GoogleAppsScript.Drive.FileIterator = 
+      DriveApp.getFilesByName(templateName);
+    
     if (templateFile.hasNext()) {
       if (destinationFolder !== null) {
-        const googleFolder = DriveApp.getFolderById(destinationFolder);
-        return templateFile.next().makeCopy(fileName, googleFolder);
+        return templateFile.next().makeCopy(fileName, 
+          DriveApp.getFolderById(destinationFolder));
+      } else {
+        return templateFile.next().makeCopy(fileName);
       }
-      return templateFile.next().makeCopy(fileName);
     }
 
     throw new Error('Could not find file or template in DriveGS.' +
@@ -227,28 +245,37 @@ export class DriveGS {
    *
    * @param {string} fileId the name of the file
    * @param {string} templateId the name of the template
+   * @param {string | null} destinationFolder the id of the folder to write 
+   *  the new file to
    *
    * @return {GoogleAppsScript.Drive.File} the file as a Google object
    */
-  getOrCreateFileFromTemplateById(fileId: string, templateId: string):
+  getOrCreateFileFromTemplateById(fileId: string, templateId: string, 
+    destinationFolder: string | null):
     GoogleAppsScript.Drive.File {
     if (fileId == null || templateId == null) {
       throw new Error('File id ' + 'and template id need to be defined for ' +
        'DriveGS.getOrCreateFileFromTemplateById()');
     }
 
-    let fileObject: GoogleAppsScript.Drive.File;
-    try {
-      fileObject = DriveApp.getFileById(fileId);
-    } catch (e) {
-      const templateFile = DriveApp.getFileById(templateId);
-      if (templateFile == null) {
-        throw new Error('Could not find template ' +
-          'file in DriveGS.getOrCreateFileFromTemplateById()');
-      }
-      return templateFile.makeCopy();
+    let fileObject: GoogleAppsScript.Drive.File = DriveApp.getFileById(fileId);
+    if ((fileObject == null) || (fileObject == undefined)) {
+      throw new Error('Could not find file ID ' + fileId + ' in ' +
+      'DriveGS.getOrCreateFileFromTemplateById()');
     }
-    return fileObject;
+
+    const templateFile = DriveApp.getFileById(templateId);
+    if (templateFile == null) {
+      throw new Error('Could not find template ' +
+        'file in DriveGS.getOrCreateFileFromTemplateById()');
+    }
+
+    if (destinationFolder !== null) {
+      return templateFile.makeCopy(fileObject.getName(), 
+        DriveApp.getFolderById(destinationFolder));
+    } 
+      
+    return templateFile.makeCopy(fileObject.getName());
   }
 
   /**

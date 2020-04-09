@@ -239,6 +239,7 @@ export function getClassCalendarId(obj: ClassGS): string {
 export class ClassGS {
   private _course: GoogleAppsScript.Classroom.Schema.Course;
   private _topics: MapGS<string, TopicInfo>;
+  private _notopic: TopicInfo;
   private _announcements: Array<string>;
   private _id: string;
 
@@ -319,6 +320,13 @@ export class ClassGS {
     // @ts-ignore
       theseClassroomCourses.Topics.list(course.id).topic;
 
+    this._notopic = {
+      level: 2,
+      // @ts-ignore
+      name: 'Assignments (no topic)',
+      work: [],
+    };
+
     // Get all of the topics into the appropriate Map
     this._topics = new MapGS<string, TopicInfo>();
     if (theseClassroomTopics != undefined) {
@@ -369,6 +377,8 @@ export class ClassGS {
         const thisTopicId = courseWork.topicId;
         if (thisTopicId != null) {
           this._topics.get(thisTopicId)?.work.push(objWork);
+        } else {
+          this._notopic.work.push(objWork);
         }
       }
     }
@@ -444,15 +454,18 @@ export class ClassGS {
   /**
    * Gets the course work associated with the specified topic
    *
-   * @param {string} topicId the topic id
+   * @param {string | false} topicId the topic id or false if getting course
+   *  work unassociated with a topic
    *
    * @return {CouseWork} the object for chaining
    */
-  getTopicInfo(topicId: string): TopicInfo {
+  getTopicInfo(topicId: string | false): TopicInfo {
     if (topicId == undefined) {
       throw new Error('Topic name ' + topicId +
         ' undefined in Topic.getTopicInfo()');
     }
+    if (topicId == false) return this._notopic;
+
     const thisTopicInfo = this._topics.get(topicId);
 
     if (thisTopicInfo == undefined) {

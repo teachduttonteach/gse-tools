@@ -19,9 +19,11 @@ export function writeClassroomDocuments(
     obj: ClassroomDocsGS,
     classData: ClassGS,
     topicName: string,
+    displayAnnouncements: number,
     options?: WriteDocsParams,
 ): ClassroomDocsGS {
-  return obj.writeClassroomDocuments(classData, topicName, options);
+  return obj.writeClassroomDocuments(classData, topicName, 
+    displayAnnouncements, options);
 }
 
 /**
@@ -44,21 +46,30 @@ export class ClassroomDocsGS {
    * Writes a document from the Classroom info
    *
    * @param {ClassGS} classData the object that holds class data
-   * @param {string} topicId the topic id for the class info to print
+   * @param {string | false} topicId the topic id for the class info to print
+   *  or false if printing the assignments without a topic
+   * @param {number} displayAnnouncements the number of announcements to 
+   *  display
    * @param {WriteDocsParams} options the options for displaying the info
+   * @param {string} noTopicString the string to display if these assignments
+   *  don't have an associated topic
    *
    * @return {ClassroomDocsGS} the object for chaining
    */
-  writeClassroomDocuments(classData: ClassGS, topicId: string,
-      options?: WriteDocsParams): ClassroomDocsGS {
+  writeClassroomDocuments(classData: ClassGS,  
+      topicId: string | false, displayAnnouncements: number, 
+      options?: WriteDocsParams, noTopicString?: string): ClassroomDocsGS {
     // Expand options
     if (options == undefined) options = {} as WriteDocsParams;
-    let {displayAnnouncements = 1, displayCoursework = true,
+    let {displayCoursework = true,
       docTitle = undefined} = options;
 
     // Clear the body and get the doc title
     this._doc.clearBody();
-    if (docTitle == undefined) docTitle = classData.getTopicName(topicId);
+    if (docTitle == undefined) {
+      if (topicId == false) docTitle = noTopicString;
+      else docTitle = classData.getTopicName(topicId);
+    }
     const thisLevel = getDocLevels('T');
     if (docTitle == undefined || thisLevel == undefined) {
       throw new Error(
@@ -174,19 +185,24 @@ export class ClassroomDocsGS {
    * @param {ClassGS} classData the object that holds class data
    * @param {Array<GoogleAppsScript.Drive.File>} allCreatedFiles the created
    *  files to put into the TOC
+   * @param {string[]} allTopics the list of topics to print
+   * @param {string} noTopicString what to print for the assignments that do 
+   *  not have a topic
+   * @param {string} className the name of the class to print instead of the
+   *  name of the class from Classroom
    *
    * @return {ClassroomDocsGS} the object for chaining
    */
-  writeTableOfContents(classData: ClassGS, 
-    allCreatedFiles: Array<GoogleAppsScript.Drive.File>): ClassroomDocsGS {
+  writeTableOfContents(classData: ClassGS, className: string,
+    allCreatedFiles: Array<GoogleAppsScript.Drive.File>, allTopics: string[],
+    noTopicString: string): ClassroomDocsGS {
 
     // Clear the body and get the doc title
     this._doc.clearBody();
-    const docTitle = classData.getName();
     const thisLevel = getDocLevels('T');
-    if (docTitle == undefined || thisLevel == undefined) {
+    if (className == undefined || thisLevel == undefined) {
       throw new Error(
-          'Title (' + docTitle + ') or level (' + thisLevel + ') not defined' +
+          'Title (' + className + ') or level (' + thisLevel + ') not defined' +
           ' in DocsGS.writeTableOfContents()',
       );
     }
@@ -195,22 +211,29 @@ export class ClassroomDocsGS {
     const thisBody = this._doc.getBody();
     const thisChild = thisBody.getChild(0);
     if (thisChild.getType() == DocumentApp.ElementType.LIST_ITEM) {
-      thisBody.appendParagraph(docTitle).setHeading(thisLevel);
+      thisBody.appendParagraph(className).setHeading(thisLevel);
       thisChild.removeFromParent();
     } else {
       thisChild
           .asParagraph()
           .setHeading(thisLevel)
-          .setText(docTitle);
+          .setText(className);
     }
 
-    this._doc.addText('Topics:', 'Normal');
-    let count = 1;
-    for (const file of allCreatedFiles) {
-      this._doc.appendItem(count.toString(), file.getName(), file.getUrl());
-      count++;
-    }
+    if ((allCreatedFiles !== undefined) && (allCreatedFiles.length > 0)) {
+      this._doc.addText('Click to view classroom materials:', 'Normal');
 
+      const firstFile = allCreatedFiles.shift();
+      if (firstFile !== undefined) this._doc.appendItem('', noTopicString, firstFile.getUrl());
+  
+      let count = 0;
+      for (const file of allCreatedFiles) {
+        this._doc.appendItem("", 
+        classData.getTopicName(allTopics[count]), file.getUrl());
+        count++;
+      }
+    
+    }
     return this;
   }
 }

@@ -3,10 +3,6 @@
  */
 export type WriteDocsParams = {
   /**
-   * How many announcements to display in the document (default: 1)
-   */
-  displayAnnouncements?: number;
-  /**
    * Whether or not to display course work (default: true)
    */
   displayCoursework?: boolean;

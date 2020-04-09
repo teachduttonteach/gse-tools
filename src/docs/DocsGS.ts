@@ -194,9 +194,12 @@ export class DocsGS extends UiGS {
       throw new Error('Text, title and link need to be defined for ' +
       'DocsGS.appendItem()');
     }
+
+    let displayTitle = title;
+    if (text != "") displayTitle = text + this._titleDelim + ' ' + title; 
     this._docObject
         .getBody()
-        .appendListItem(text + this._titleDelim + ' ' + title)
+        .appendListItem(displayTitle)
         .setGlyphType(this._separator)
         .setLinkUrl(link);
     return this;
