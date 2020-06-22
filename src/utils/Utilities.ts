@@ -1,3 +1,10 @@
+export enum ErrorType {
+  ERROR,
+  WARNING,
+  LOG,
+  NONE
+}
+
 /**
  * Benchmarking tool
  *
@@ -52,16 +59,28 @@ export function getTodaysDate(timezoneOffset: number): Date {
  */
 export function checkNull<T>(testValue: T | undefined | null,
     description: string, functionName: string,
-    errorType: 'Error' | 'Warning' | 'Log' | 'None' = 'Error'): T {
+    errorType: ErrorType = ErrorType.ERROR): T {
   if ((testValue === undefined) || (testValue === null)) {
     const errorString = description + ' not defined in ' + functionName;
-    if (errorType == 'Error') throw new Error(errorString);
-    else if (errorType == 'Warning') console.log('WARNING: ' + errorString);
-    else if (errorType == 'Log') Logger.log(errorString);
+    throwError(errorType, errorString);
     return {} as T;
   }
   return testValue;
 }
+
+export function throwError(errorType: ErrorType, errorString: string) {
+  if (errorType == ErrorType.ERROR) throw new Error(errorString);
+  else if (errorType == ErrorType.WARNING) console.log('WARNING: ' + errorString);
+  else if (errorType == ErrorType.LOG) Logger.log(errorString);
+}
+
+export function checkNullAndString(testValue: string | undefined | null, 
+  description: string, functionName: string, errorType: ErrorType = ErrorType.ERROR): string {
+    const notNull = checkNull(testValue, description, functionName, errorType);
+    if (typeof notNull !== 'string') return notNull;
+    throwError(errorType, description + ' not a string in ' + functionName);
+    return "";
+  }
 
 /**
  * Checks to see if two dates are equal

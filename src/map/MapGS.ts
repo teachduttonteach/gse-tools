@@ -1,4 +1,28 @@
-import {areDatesEqual} from '../utils/Utilities';
+import {areDatesEqual, throwError, ErrorType} from '../utils/Utilities';
+
+export interface Key<A, B> {
+  key: A;
+  errorType: ErrorType;
+  description: string;
+  default: B | undefined;
+}
+
+export function Key<A, B>(k: A, e: ErrorType, desc: string, def?: B): Key<A, B> {
+  return {
+    key: k,
+    errorType: e,
+    description: desc,
+    default: def
+  };
+}
+
+export class Row {
+  private _row: MapGS<string | Date, string | Date>;
+  constructor(r: MapGS<string | Date, string | Date>) {
+    this._row = r;
+  }
+
+}
 
 /**
  * A reworking of the Map data type for ES3. Since there is no Iterator type
@@ -15,6 +39,7 @@ export class MapGS<A, B> {
   private _counter: number = 0;
   public size: number = 0;
 
+  
   /**
    *
    * @param {Array<A, B>} args an Array of key/value pairs
@@ -135,10 +160,48 @@ export class MapGS<A, B> {
    * @param {A} key the key to retrieve
    * @return {B | null} the value, or null if the key was not found
    */
-  get(key: A): B | null {
-    const keyNum = this._getMember(key);
-    if (keyNum == null) return null;
-    return this._values[keyNum];
+  get(args: Key<A, B>): B | undefined {
+    const keyNum = this._getMember(args.key);
+    if (keyNum == null) {
+      if (args.default) return args.default; 
+      throwError(args.errorType, args.description);
+    } else return this._values[keyNum];
+  }
+
+  private getString(args: Key<A, B>): string {
+    return String(this.get(args));
+  }
+
+  getStringOrError(key: A, e: string, def?: B): string {
+    return this.getString(Key(key, ErrorType.ERROR, e, def));
+  }
+
+  getWithError(key: A, e: string, def?: B): B | undefined {
+    return this.get(Key(key, ErrorType.ERROR, e, def));
+  }
+
+  getStringOrWarning(key: A, w: string, def?: B): string {
+    return this.getString(Key(key, ErrorType.WARNING, w, def));
+  }
+
+  getWithWarning(key: A, w: string, def?: B): B | undefined {
+    return this.get(Key(key, ErrorType.WARNING, w, def));
+  }
+
+  getStringOrLog(key: A, w: string, def?: B): string {
+    return this.getString(Key(key, ErrorType.LOG, w, def));
+  }
+
+  getWithLog(key: A, e: string, def?: B): B | undefined {
+    return this.get(Key(key, ErrorType.LOG, e, def));
+  }
+
+  getStringOrNone(key: A, def?: B): string {
+    return this.getString(Key(key, ErrorType.NONE, "", def));
+  }
+
+  getWithNone(key: A, def?: B): B | undefined {
+    return this.get(Key(key, ErrorType.NONE, "", def));
   }
 
   /**

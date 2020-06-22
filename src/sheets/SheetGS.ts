@@ -253,7 +253,7 @@ export function areSheetValuesEqual(
  */
 export function areSheetValuesEqualAsMap(
     obj: SheetGS,
-    value1: Date | string | null,
+    value1: Date | string | undefined,
     value2: Date | string,
     level: string = 'YEAR',
 ): boolean {
@@ -627,7 +627,7 @@ export class SheetGS {
   }
 
   /**
-   * Gets the string value of the cell
+   * Gets the value of the cell
    *
    * @param {number} row the row of the value, indexed at 1
    * @param {number} col the column of the value, indexed at 1
@@ -646,6 +646,10 @@ export class SheetGS {
     }
 
     return this._data[row - 1][col - 1];
+  }
+
+  getStringValue(row: number, col: number): string {
+    return this.getValue(row, col).toString();
   }
 
   /**
@@ -1040,11 +1044,10 @@ export class SheetGS {
    *
    * @return {boolean} whether or not they are equal
    */
-  areValuesEqualAsMap(value1: Date | string | null, value2: Date | string,
+  areValuesEqualAsMap(value1: Date | string | undefined, value2: Date | string,
       level: string = 'YEAR'): boolean {
-    if (value1 == null) {
-      throw new Error('Could not find map value in ' +
-        'SheetGS.areMapValuesEqual()');
+    if (!value1) {
+      throw new Error('Could not find map value in SheetGS.areMapValuesEqual()');
     }
 
     if ((value1 instanceof Date && areDatesEqual(value1, value2, level)) ||
@@ -1075,11 +1078,11 @@ export class SheetGS {
 
     const dataMap = this.getDataAsMap(true);
     for (const r of dataMap.keys()) {
-      const thisRow = dataMap.get(r);
+      const thisRow = dataMap.getWithError(r, 'Could not find row in SheetGS');
       if (thisRow != null) {
         let matchedAllColumns = true;
         for (const c of columnsToMatch) {
-          if (!this.areValuesEqualAsMap(thisRow.get(c.name), c.value)) {
+          if (!this.areValuesEqualAsMap(thisRow.getWithError(c.name, 'Could not find name in map in SheetGS'), c.value)) {
             matchedAllColumns = false;
             break;
           }
@@ -1118,11 +1121,11 @@ export class SheetGS {
 
     const dataMap = this.getDataAsMap(false);
     for (const c of dataMap.keys()) {
-      const thisColumn = dataMap.get(c);
+      const thisColumn = dataMap.getWithError(c, 'Could not find column in SheetGS');
       if (thisColumn != null) {
         let matchedAllRows = true;
         for (const r of rowsToMatch) {
-          if (!this.areValuesEqualAsMap(thisColumn.get(r.name), r.value)) {
+          if (!this.areValuesEqualAsMap(thisColumn.getWithError(r.name, 'Row name not found in SheetGS'), r.value)) {
             matchedAllRows = false;
             break;
           }
@@ -1233,7 +1236,7 @@ export class SheetGS {
         // Loop through all of the rows
         for (const recordKeyMember of recordKeyList) {
           // Find the rows that have the correct value
-          const mapValue = recordKeyMember.get(matchColumnName);
+          const mapValue = recordKeyMember.getWithError(matchColumnName, 'Could not find column name in SheetGS');
           if (mapValue == null) {
             throw new Error('Could not find column name \'' +
               matchColumnName + '\' to match value \'' +
@@ -1247,7 +1250,7 @@ export class SheetGS {
             for (const returnColumn of returnColumnNames) {
               // Get the column value, make sure it exists and add it to the
               //  array
-              const returnColumnValue = recordKeyMember.get(returnColumn);
+              const returnColumnValue = recordKeyMember.getWithError(returnColumn, 'Could not find record in SheetGS');
               if (returnColumnValue != null) {
                 columnRecordsToPush.push(returnColumnValue);
               }
@@ -1291,13 +1294,13 @@ export class SheetGS {
       const recordKeyList = data.getAll(record);
       if (recordKeyList != null) {
         for (const recordKeyMember of recordKeyList) {
-          if (this.areValuesEqualAsMap(recordKeyMember.get(matchColumnName),
+          if (this.areValuesEqualAsMap(recordKeyMember.getWithError(matchColumnName, 'Could not find record in SheetGS'),
               matchColumnValue)) {
             const columnRecordsToPush: MapGS<string | Date, string | Date> =
                new MapGS();
 
             for (const returnColumn of returnColumnNames) {
-              const returnColumnValue = recordKeyMember.get(returnColumn);
+              const returnColumnValue = recordKeyMember.getWithError(returnColumn, 'Could not find record in SheetGS');
               if (returnColumnValue != null) {
                 columnRecordsToPush.set(returnColumn, returnColumnValue);
               }
@@ -1408,15 +1411,14 @@ export class SheetGS {
 
     // Make a new TextFinder object if one doesn't already exist for finding
     //  this text
-    if (this._textFinder.get(findText) == undefined) {
+    if (!this._textFinder.getWithNone(findText)) {
       this._textFinder.set(findText, this._sheet.createTextFinder(findText));
     }
 
     // Get the TextFinder object or say that it can't be found
-    const currentTextFinder = this._textFinder.get(findText);
-    if (currentTextFinder == undefined) {
-      throw new Error('Could not create textFinder in ' +
-        'SheetGS.getCellFromFind()');
+    const currentTextFinder = this._textFinder.getWithNone(findText);
+    if (!currentTextFinder) {
+      throw new Error('Could not create textFinder in SheetGS.getCellFromFind()');
     }
 
     // If we're looking for greater than the 1st instance of the text, look

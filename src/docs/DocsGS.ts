@@ -205,6 +205,10 @@ export class DocsGS extends UiGS {
     return this;
   }
 
+  addTitleText(text: string): DocsGS {
+    return this.addText(text, 'T');
+  }
+
   /**
    * Adds text to the document
    *
