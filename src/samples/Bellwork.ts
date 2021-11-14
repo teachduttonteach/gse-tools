@@ -74,10 +74,10 @@ type BellworkArgs = {
    */
   bellworkDateColumnName?: string;
   /**
-   * Column name for the gse-tools Settings sheet column that contains the
-   *  bellwork alt text column number; default is "Bellwork Alt Text Column Number"
+   * String to look for in the alt text of the slide text boxes for this class; 
+   *  default is "Bellwork Alt Text"
    */
-  thisBellworkAltTextColumnName?: string;
+  bellworkAltText?: string;
   /**
    * Column name for the gse-tools Settings sheet column that contains the
    *  bellwork title to display before the current date on the form;
@@ -429,7 +429,7 @@ function updateTodaysQuestion(args: BellworkArgs,
     row: MapGS<string | Date, string | Date>, form: FormsGS): boolean {
   const {
     bellworkDateColumnName = 'Bellwork Date Column Number',
-    thisBellworkAltTextColumnName = 'Bellwork Alt Text Column Number',
+    bellworkAltText = 'Bellwork Alt Text',
     bellworkSpreadsheetIDColumnName = 'Spreadsheet',
     bellworkSheetNameColumnName = 'Sheet Name',
     bellworkSheetDateColumnEnd = 'END',
@@ -509,11 +509,11 @@ function updateTodaysQuestion(args: BellworkArgs,
 
       if (displayBellworkOnSlide || displayExitQuestionOnSlide ||
         displayUpcomingDueDates) {
-        const thisBellworkAltText = row.get(thisBellworkAltTextColumnName);
+        const thisBellworkAltText = row.get(bellworkAltText);
         if (thisBellworkAltText == null ||
           typeof thisBellworkAltText !== 'string') {
           throw new Error('Could not find bellwork alt text column name (' +
-          thisBellworkAltTextColumnName + ') in Bellwork.updateTodaysQuestion()');
+          bellworkAltText + ') in Bellwork.updateTodaysQuestion()');
         }
                 
         showBellworkOnSlide(args, row, questionRow, questionSheet,

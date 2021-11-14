@@ -1,20 +1,20 @@
 cd src/calendar
-./update.sh
+bash ./update.sh
 cd ../classroom
-./update.sh
+bash ./update.sh
 cd ../classroom-docs
-./update.sh
+bash ./update.sh
 cd ../docs
-./update.sh
+bash ./update.sh
 cd ../drive
-./update.sh
+bash ./update.sh
 cd ../forms
-./update.sh
+bash ./update.sh
 cd ../sheets
-./update.sh
+bash ./update.sh
 cd ../slides
-./update.sh
+bash ./update.sh
 cd ../test
-./update.sh
+bash ./update.sh
 cd ../..
 clasp push
