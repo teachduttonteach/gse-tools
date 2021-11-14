@@ -294,9 +294,14 @@ export class SlideGS {
    * @return {string} the title
    */
   getTitle(): string {
-    return this._slide
-        .getPlaceholder(SlidesApp.PlaceholderType.TITLE)
-        .asShape()
+    const thisTitle = this._slide
+      .getPlaceholder(SlidesApp.PlaceholderType.TITLE);
+    if (thisTitle == null) throw new Error("Could not find Title element in " +
+        "SlideGS.getTitle()");
+    const thisShape = thisTitle.asShape();
+    if (thisShape == null) throw new Error("Could not find Text element in " +
+        "SlideGS.getTitle()");
+    return thisShape
         .getText()
         .asString();
   }
@@ -307,9 +312,14 @@ export class SlideGS {
    * @return {string} the speaker notes
    */
   getNotes(): string {
-    return this._slide
-        .getNotesPage()
-        .getSpeakerNotesShape()
+    const thisTitle = this._slide
+      .getNotesPage();
+    if (thisTitle == null) throw new Error("Could not find Notes page in " +
+        "SlideGS.getNotes()");
+    const thisShape = thisTitle.getSpeakerNotesShape();
+    if (thisShape == null) throw new Error("Could not find Text element in " +
+        "SlideGS.getNotes()");
+    return thisShape
         .getText()
         .asString();
   }
@@ -323,11 +333,16 @@ export class SlideGS {
    */
   setNotes(text: string): SlideGS {
     if (text == null) {
-      throw new Error('Notes text cannot be blank in Slide.setNotes');
+      throw new Error('Notes text cannot be blank in SlideGS.setNotes()');
     }
-    this._slide
-        .getNotesPage()
-        .getSpeakerNotesShape()
+    const thisTitle = this._slide
+      .getNotesPage();
+    if (thisTitle == null) throw new Error("Could not find Notes page in " +
+        "SlideGS.setNotes()");
+    const thisShape = thisTitle.getSpeakerNotesShape();
+    if (thisShape == null) throw new Error("Could not find Text element in " +
+        "SlideGS.setNotes()");
+    thisShape
         .getText()
         .setText(text);
     return this;
@@ -342,11 +357,16 @@ export class SlideGS {
    */
   setTitle(title: string): SlideGS {
     if (title == null) {
-      throw new Error('Slide title cannot be blank in Slide.setTitle');
+      throw new Error('Slide title cannot be blank in SlideGS.setTitle()');
     }
-    this._slide
-        .getPlaceholder(SlidesApp.PlaceholderType.TITLE)
-        .asShape()
+    const thisTitle = this._slide
+      .getPlaceholder(SlidesApp.PlaceholderType.TITLE);
+    if (thisTitle == null) throw new Error("Could not find Title element in " +
+        "SlideGS.setTitle()");
+    const thisShape = thisTitle.asShape();
+    if (thisShape == null) throw new Error("Could not find Text element in " +
+        "SlideGS.setTitle()");
+    thisShape
         .getText()
         .setText(title);
     return this;
@@ -361,11 +381,16 @@ export class SlideGS {
    */
   setBody(body: string): SlideGS {
     if (body == null) {
-      throw new Error('Body cannot be blank in Slide.setBody');
+      throw new Error('Body text cannot be blank in SlideGS.setBody()');
     }
-    this._slide
-        .getPlaceholder(SlidesApp.PlaceholderType.BODY)
-        .asShape()
+    const thisBody = 
+      this._slide.getPlaceholder(SlidesApp.PlaceholderType.BODY);
+    if (thisBody == null) throw new Error("Could not find Body element in " +
+      "SlideGS.setBody()");
+    const thisShape = thisBody.asShape();
+    if (thisShape == null) throw new Error("Could not find Text element in " +
+      "SlideGS.setBody()");
+    thisShape
         .getText()
         .setText(body);
     return this;
@@ -387,13 +412,21 @@ export class SlideGS {
       SlidesApp.ListPreset.DISC_CIRCLE_SQUARE,
   ): SlideGS {
     if (text == null) {
-      throw new Error('Text cannot be blank in Slide.setList');
+      throw new Error('Text cannot be blank in SlideGS.setList()');
     }
-    this._slide
-        .getPlaceholder(SlidesApp.PlaceholderType.BODY)
-        .asShape()
+    const thisTitle = this._slide
+      .getPlaceholder(SlidesApp.PlaceholderType.BODY);
+    if (thisTitle == null) throw new Error("Could not find Body element in " +
+        "SlideGS.setList()");
+    const thisShape = thisTitle.asShape();
+    if (thisShape == null) throw new Error("Could not find Text element in " +
+        "SlideGS.setList()");
+    const thisText = thisShape
         .getText()
-        .setText(text)
+        .setText(text);
+    if (thisText == null) throw new Error("Could not find text in " + 
+        "SlideGS.setList()");
+    thisText
         .getListStyle()
         .applyListPreset(bulletType);
     return this;
