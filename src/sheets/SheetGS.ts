@@ -591,7 +591,7 @@ export class SheetGS {
     this._lastCol = this._sheet.getLastColumn();
     this._data =
       this._lastRow && this._lastCol ? this._sheet.getRange(1, 1,
-          this._lastRow, this._lastCol).getValues() : [];
+          this._lastRow, this._lastCol).getValues() : [[]];
     for (let r = 0; r < this._data.length; r++) {
       for (let c = 0; c < this._data[r].length; c++) {
         if ( Object.prototype.toString.call(this._data[r][c]) ===
