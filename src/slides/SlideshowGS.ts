@@ -193,7 +193,7 @@ export function setSlideTitleByType(obj: SlideshowGS, slideNotes: string,
 export class SlideshowGS extends UiGS {
   private _presentation: GoogleAppsScript.Slides.Presentation;
   private _allSlides: Array<SlideGS>;
-  _ui: GoogleAppsScript.Base.Ui;
+  //_ui: GoogleAppsScript.Base.Ui;
   private _template: GoogleAppsScript.Slides.Presentation;
   private _templateSlideUsed: number;
 
