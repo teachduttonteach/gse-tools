@@ -75,6 +75,11 @@ type BellworkArgs = {
   bellworkDateColumnName?: string;
   /**
    * Column name for the gse-tools Settings sheet column that contains the
+   *  bellwork alt text column number; default is "Bellwork Alt Text Column Number"
+   */
+  thisBellworkAltTextColumnName?: string;
+  /**
+   * Column name for the gse-tools Settings sheet column that contains the
    *  bellwork title to display before the current date on the form;
    *  default is "Bellwork Title"
    */
@@ -178,6 +183,16 @@ type BellworkArgs = {
    * Whether or not to display the exit ticket on slide; default is true
    */
   displayExitQuestionOnSlide?: boolean;
+  /**
+   * Whether or not to display the bellwork response options on the slide;
+   *  default is false
+   */
+  displayBellworkOptions?: boolean;
+  /**
+   * Whether or not to display the bellwork question as the title of the slide;
+   *  default is false
+   */
+  displayBellworkAsTitle?: boolean;
 
   /**
    * Column name for the sheet column that contains the number of days to
@@ -414,6 +429,7 @@ function updateTodaysQuestion(args: BellworkArgs,
     row: MapGS<string | Date, string | Date>, form: FormsGS): boolean {
   const {
     bellworkDateColumnName = 'Bellwork Date Column Number',
+    thisBellworkAltTextColumnName = 'Bellwork Alt Text Column Number',
     bellworkSpreadsheetIDColumnName = 'Spreadsheet',
     bellworkSheetNameColumnName = 'Sheet Name',
     bellworkSheetDateColumnEnd = 'END',
@@ -441,6 +457,7 @@ function updateTodaysQuestion(args: BellworkArgs,
     throw new Error('Could not find sheet name column name (' +
       bellworkSheetNameColumnName + ') in Bellwork.updateTodaysQuestion()');
   }
+
   // TODO: Make Map of open spreadsheets
   const questionSpreadsheet: SpreadsheetGS =
     new SpreadsheetGS(thisSpreadsheetID, thisSheetName);
@@ -464,7 +481,7 @@ function updateTodaysQuestion(args: BellworkArgs,
       const thisBellworkColumnName = row.get(bellworkColumnName);
       if (thisBellworkColumnName == null) {
         throw new Error('Could not find bellwork column name in ' +
-        'Samples.doForBellwork()');
+        'Bellwork.updateTodaysQuestion()');
       }
       const questionTitle: string =
         questionSheet.
@@ -473,7 +490,7 @@ function updateTodaysQuestion(args: BellworkArgs,
       const thisQuestionType = row.get(questionTypeColumnName);
       if (thisQuestionType == null) {
         throw new Error('Could not find question type column name in ' +
-        'Samples.doForBellwork()');
+        'Bellwork.updateTodaysQuestion()');
       }
       let thisQuestionTypeString: QuestionType | undefined = 
         (<any>QuestionType)
@@ -481,7 +498,7 @@ function updateTodaysQuestion(args: BellworkArgs,
       if ((thisQuestionTypeString === undefined) || 
         !(thisQuestionTypeString in QuestionType)) {
         console.log("WARNING: Question type '" + thisQuestionTypeString + 
-          "' not a valid question type in updateTodaysQuestion()");
+          "' not a valid question type in Bellwork.updateTodaysQuestion()");
         thisQuestionTypeString = QuestionType.Paragraph;
       }
 
@@ -492,8 +509,15 @@ function updateTodaysQuestion(args: BellworkArgs,
 
       if (displayBellworkOnSlide || displayExitQuestionOnSlide ||
         displayUpcomingDueDates) {
+        const thisBellworkAltText = row.get(thisBellworkAltTextColumnName);
+        if (thisBellworkAltText == null ||
+          typeof thisBellworkAltText !== 'string') {
+          throw new Error('Could not find bellwork alt text column name (' +
+          thisBellworkAltTextColumnName + ') in Bellwork.updateTodaysQuestion()');
+        }
+                
         showBellworkOnSlide(args, row, questionRow, questionSheet,
-            questionTitle, thisQuestionTypeString);
+            questionTitle, thisQuestionTypeString, thisBellworkAltText);
       }
       return true;
     }
@@ -521,6 +545,7 @@ function showBellworkOnSlide(
     questionSheet: SheetGS,
     questionTitle: string,
     questionType: QuestionType,
+    bellworkDescription: string,
 ): void {
   const {
     bellworkSlideNotes = 'Bellwork',
@@ -536,6 +561,8 @@ function showBellworkOnSlide(
     classroomCodeColumnName = 'Classroom Code',
     imageColumnName = 'Bellwork Form Image Column',
     displayBellworkOnSlide = true,
+    displayBellworkOptions = false,
+    displayBellworkAsTitle = false,
     displayExitQuestionOnSlide = true,
     displayUpcomingDueDates = true,
     timezoneOffset = -5,
@@ -565,15 +592,32 @@ function showBellworkOnSlide(
       const bellworkSlide =
         slideShow.getSlideByNotes(bellworkSlideNotes);
       if (bellworkSlide != null) {
-        const theseOptionsColumnName = settingsRow.get(optionsColumnName);
-        if (theseOptionsColumnName != null) {
-          const theseOptions = questionSheet.getValue(questionRow,
-              +theseOptionsColumnName).toString();
-          if (theseOptions !== null && theseOptions != '') {
-            bellworkSlide.addItem(questionType, theseOptions);
+        if (displayBellworkOptions) {
+          const theseOptionsColumnName = settingsRow.get(optionsColumnName);
+          if (theseOptionsColumnName != null) {
+            const theseOptions = questionSheet.getValue(questionRow,
+                +theseOptionsColumnName).toString();
+            if (theseOptions !== null && theseOptions != '') {
+              bellworkSlide.addItem(questionType, theseOptions);
+            }
           }
         }
-        bellworkSlide.setTitle(questionTitle);
+        if (displayBellworkAsTitle) bellworkSlide.setTitle(questionTitle);
+        else {
+          bellworkSlide.getPageElements().forEach(function(pageElement) {
+            const thisDescription = pageElement.getDescription();
+            if ((thisDescription != null) && 
+              (thisDescription.indexOf(bellworkDescription))) {
+                const thisShape = pageElement.asShape();
+                if (thisShape != null) {
+                  thisShape.getText().setText(questionTitle);
+                } else {
+                  throw new Error('Could not find text box on bellwork ' +
+                    'slide with description "' + bellworkDescription + '"');
+                }
+            }
+          });
+        }
 
         const thisBellworkImage = settingsRow.get(imageColumnName);
         if (thisBellworkImage != null) {
