@@ -31,18 +31,16 @@ export type CourseMaterial = {
  * @return {Array<GoogleAppsScript.Classroom.Schema.Material>} the list of
  *  course materials
  */
-export function addCourseMaterials(materials: Array<CourseMaterial>):
-  Array<GoogleAppsScript.Classroom.Schema.Material> {
+export function addCourseMaterials(
+  materials: Array<CourseMaterial>,
+): Array<GoogleAppsScript.Classroom.Schema.Material> {
   const materialList: Array<GoogleAppsScript.Classroom.Schema.Material> = [];
 
   for (const m of materials) {
-    const newMaterial: GoogleAppsScript.Classroom.Schema.Material =
-      {} as GoogleAppsScript.Classroom.Schema.Material;
+    const newMaterial: GoogleAppsScript.Classroom.Schema.Material = {} as GoogleAppsScript.Classroom.Schema.Material;
     if (m.file != undefined) {
-      newMaterial.driveFile =
-        {} as GoogleAppsScript.Classroom.Schema.SharedDriveFile;
-      newMaterial.driveFile.driveFile =
-        {} as GoogleAppsScript.Classroom.Schema.DriveFile;
+      newMaterial.driveFile = {} as GoogleAppsScript.Classroom.Schema.SharedDriveFile;
+      newMaterial.driveFile.driveFile = {} as GoogleAppsScript.Classroom.Schema.DriveFile;
       newMaterial.driveFile.driveFile.title = m.title;
       newMaterial.driveFile.driveFile.id = m.file;
     } else if (m.form != undefined) {
@@ -54,8 +52,7 @@ export function addCourseMaterials(materials: Array<CourseMaterial>):
       newMaterial.link.title = m.title;
       newMaterial.link.url = m.link;
     } else if (m.video != undefined) {
-      newMaterial.youtubeVideo =
-        {} as GoogleAppsScript.Classroom.Schema.YouTubeVideo;
+      newMaterial.youtubeVideo = {} as GoogleAppsScript.Classroom.Schema.YouTubeVideo;
       newMaterial.youtubeVideo.title = m.title;
       newMaterial.youtubeVideo.alternateLink = m.video;
     }

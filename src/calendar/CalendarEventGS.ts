@@ -1,4 +1,4 @@
-import {DateParams} from '../DateParams';
+import { DateParams } from '../DateParams';
 
 /**
  * Get the underlying object
@@ -6,8 +6,7 @@ import {DateParams} from '../DateParams';
  * @param {CalendarEventGS} obj the CalendarEvent object
  * @return {GoogleAppsScript.Calendar.CalendarEvent} the object
  */
-export function getCalendarEventObject(obj: CalendarEventGS):
-  GoogleAppsScript.Calendar.CalendarEvent {
+export function getCalendarEventObject(obj: CalendarEventGS): GoogleAppsScript.Calendar.CalendarEvent {
   return obj.getObject();
 }
 
@@ -40,10 +39,10 @@ export function getCalendarEventObject(obj: CalendarEventGS):
  * @return {string} the string containing the date
  */
 export function getCalendarEventDate(
-    obj: CalendarEventGS,
-    firstParam?: string | DateParams,
-    titlePrefix?: string,
-    dateDelim?: string,
+  obj: CalendarEventGS,
+  firstParam?: string | DateParams,
+  titlePrefix?: string,
+  dateDelim?: string,
 ): string {
   return obj.getDate(firstParam, titlePrefix, dateDelim);
 }
@@ -70,8 +69,7 @@ export class CalendarEventGS {
    *  event from Google Calendar
    * @param {number} timezoneOffset the timezone, default is -5 (EST)
    */
-  constructor(event: GoogleAppsScript.Calendar.CalendarEvent,
-      timezoneOffset: number = -5) {
+  constructor(event: GoogleAppsScript.Calendar.CalendarEvent, timezoneOffset: number = -5) {
     const startTime = event.getStartTime();
     startTime.setUTCHours(startTime.getUTCHours() + timezoneOffset);
     this._date = startTime.getUTCDate();
@@ -116,8 +114,7 @@ export class CalendarEventGS {
    *
    * @return {string} the string containing the date
    */
-  public getDate(firstParam?: string | DateParams, titlePrefix?: string,
-      dateDelim?: string): string {
+  public getDate(firstParam?: string | DateParams, titlePrefix?: string, dateDelim?: string): string {
     // Get values out of array
     let dateOrder: string = 'DM';
     if (typeof firstParam === 'object') {

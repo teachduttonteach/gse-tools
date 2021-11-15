@@ -1,7 +1,7 @@
-import {Test} from '../test/Test';
-import {SpreadsheetGS} from './SpreadsheetGS';
-import {SheetEventGS} from './SheetEventGS';
-import {GroupCreatorGS} from './GroupCreatorGS';
+import { Test } from '../test/Test';
+import { SpreadsheetGS } from './SpreadsheetGS';
+import { SheetEventGS } from './SheetEventGS';
+import { GroupCreatorGS } from './GroupCreatorGS';
 
 function testEvent(event: SheetEventGS) {
   const thisActiveSheet = event.getActiveSheet();
@@ -11,8 +11,7 @@ function testEvent(event: SheetEventGS) {
 
     const thisSheet = event.getSheet();
     if (thisSheet !== undefined) {
-      console.log('Sheet Name: ' +
-            thisSheet.getObject().getName());
+      console.log('Sheet Name: ' + thisSheet.getObject().getName());
     }
   }
 
@@ -81,13 +80,12 @@ function test() {
   // @ts-ignore
   const testSuite = new gsetoolstest.Test();
 
-  const testSpreadsheet =
-        new SpreadsheetGS('1NpeyOdQV69nvY2WmZIFio3glHCeqTfxxtarLIFaVRyk');
-    // Exists
+  const testSpreadsheet = new SpreadsheetGS('1NpeyOdQV69nvY2WmZIFio3glHCeqTfxxtarLIFaVRyk');
+  // Exists
   Logger.log('HasSheet: ' + testSpreadsheet.hasSheet('First'));
 
   // Doesn't exist
-  Logger.log('Doesn\'t have sheet: ' + testSpreadsheet.hasSheet('Garbage'));
+  Logger.log("Doesn't have sheet: " + testSpreadsheet.hasSheet('Garbage'));
 
   // Exists
   let testMap = testSpreadsheet.getDataAsMap('First');
@@ -145,17 +143,29 @@ function test() {
   // @ts-ignore
   // Logger.log("Get value of 2, 'A', 'A', 2:" + testSheetRight.getValues(2, 'A', 'A', 2));
 
-
   // Finds
   const thisDate = new Date();
   thisDate.setMonth(0, 22);
-  Logger.log('Finding names for ' + thisDate.toUTCString() + ': ' +
-        testSheetRight.getRecordsMatchingColumnValue('Date', thisDate, ['First Name']));
-  Logger.log('Finding names for ' + thisDate.toUTCString() + ': ' +
-    testSheetRight.getRecordsMatchingColumnValue('Period', '1', ['Last Name']));
+  Logger.log(
+    'Finding names for ' +
+      thisDate.toUTCString() +
+      ': ' +
+      testSheetRight.getRecordsMatchingColumnValue('Date', thisDate, ['First Name']),
+  );
+  Logger.log(
+    'Finding names for ' +
+      thisDate.toUTCString() +
+      ': ' +
+      testSheetRight.getRecordsMatchingColumnValue('Period', '1', ['Last Name']),
+  );
   // Logger.log("Finding names for " + thisDate.toUTCString() + ": " + testSheetRight.getRecordsMatchingColumnValue("ASDF", "ASDF", ["ASDF"]));
   // @ts-ignore
-  Logger.log('Finding names for ' + thisDate.toUTCString() + ': ' + testSheetRight.getRecordsMatchingColumnValue('Date', thisDate, 'ASDF'));
+  Logger.log(
+    'Finding names for ' +
+      thisDate.toUTCString() +
+      ': ' +
+      testSheetRight.getRecordsMatchingColumnValue('Date', thisDate, 'ASDF'),
+  );
   Logger.log('Find cell for Bob: ' + testSheetRight.getCellFromFind('Bob'));
   Logger.log('Find cell for ASDF: ' + testSheetRight.getCellFromFind('ASDF'));
   Logger.log('Find column for Jasmine: ' + testSheetRight.getColumnFromFind('Jasmine'));
@@ -171,13 +181,26 @@ function test() {
   // Logger.log("Column A as map: " + testSheetRight.getColumnAsMap("A").values());
   // Logger.log("Column -1 as map: " + testSheetRight.getColumnAsMap(-1).values());
 
-  Logger.log('Finding names for ' + thisDate.toUTCString() + ': ' +
-    testSheetRight.getRecordsMatchingColumnValueAsMap('Date', thisDate, ['First Name']).values());
-  Logger.log('Finding names for ' + thisDate.toUTCString() + ': ' +
-    testSheetRight.getRecordsMatchingColumnValueAsMap('Period', '1', ['Last Name']).values());
+  Logger.log(
+    'Finding names for ' +
+      thisDate.toUTCString() +
+      ': ' +
+      testSheetRight.getRecordsMatchingColumnValueAsMap('Date', thisDate, ['First Name']).values(),
+  );
+  Logger.log(
+    'Finding names for ' +
+      thisDate.toUTCString() +
+      ': ' +
+      testSheetRight.getRecordsMatchingColumnValueAsMap('Period', '1', ['Last Name']).values(),
+  );
   // Logger.log("Finding names for " + thisDate.toUTCString() + ": " + testSheetRight.getRecordsMatchingColumnValueAsMap("ASDF", "ASDF", ["ASDF"]).keys());
   // @ts-ignore
-  Logger.log('Finding names for ' + thisDate.toUTCString() + ': ' + testSheetRight.getRecordsMatchingColumnValueAsMap('Date', thisDate, 'ASDF').values());
+  Logger.log(
+    'Finding names for ' +
+      thisDate.toUTCString() +
+      ': ' +
+      testSheetRight.getRecordsMatchingColumnValueAsMap('Date', thisDate, 'ASDF').values(),
+  );
 
   // Maps
   Logger.log('Row 1 as map: ' + testSheetRight.getRowAsMap(1).values());
@@ -190,7 +213,7 @@ function test() {
   Logger.log('Get value of 2, 2, -1, 1:' + testSheetRight.getValuesAsMap(2, 2, -1, 1).keys());
   // Logger.log("Get value of 2, 100, 100, 1:" + testSheetRight.getValuesAsMap(2, 100, 100, 1).keys());
   // @ts-ignore
-  Logger.log('Get value of 2, \'A\', \'A\', 2:' + testSheetRight.getValuesAsMap(2, 'A', 'A', 2).keys());
+  Logger.log("Get value of 2, 'A', 'A', 2:" + testSheetRight.getValuesAsMap(2, 'A', 'A', 2).keys());
 
   testSheetRight.changeWorkingStatus(true, [2, 2]);
 
@@ -215,20 +238,35 @@ function test() {
   testSheetThird.setValueWithLists('Four and 1/22', thisDate, 'Four');
   // testSheetSecond.setValue()
 
-
   Logger.log('Skip blank rows: ' + testSheetThird.skipBlankRows(1));
   testSheetThird.deleteRow(11);
   testSheetThird.resetData();
   testSheetThird.setValue('New Val 55', 5, 5);
   testSheetThird.setValues('BLAH', 10, 8, 2, 2);
 
-  testSheetThird.setValueWithMatchingColumns('Test Val 3DE', 'Three', [{name: 'Title', value: 'D'}, {name: 'One', value: 'E'}], true);
+  testSheetThird.setValueWithMatchingColumns(
+    'Test Val 3DE',
+    'Three',
+    [
+      { name: 'Title', value: 'D' },
+      { name: 'One', value: 'E' },
+    ],
+    true,
+  );
 
-  testSheetThird.setValueWithMatchingColumns('Test Val 1/22 A', thisDate, [{name: 'Title', value: 'A'}], true);
+  testSheetThird.setValueWithMatchingColumns('Test Val 1/22 A', thisDate, [{ name: 'Title', value: 'A' }], true);
 
-  testSheetThird.setValueWithMatchingColumns('Test Val 1/22 Five', 'Five', [{name: 'One', value: thisDate}], true);
+  testSheetThird.setValueWithMatchingColumns('Test Val 1/22 Five', 'Five', [{ name: 'One', value: thisDate }], true);
 
-  testSheetThird.setValueWithMatchingRows('Test Val IOneOneA', 'I', [{name: 'Title', value: 'One'}, {name: 'A', value: 'OneA'}], true);
+  testSheetThird.setValueWithMatchingRows(
+    'Test Val IOneOneA',
+    'I',
+    [
+      { name: 'Title', value: 'One' },
+      { name: 'A', value: 'OneA' },
+    ],
+    true,
+  );
 
   /*
     let testGroupCreator = new GroupCreator({className: "Physics",

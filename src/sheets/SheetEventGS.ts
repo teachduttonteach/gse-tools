@@ -1,7 +1,7 @@
-import {SpreadsheetGS} from './SpreadsheetGS';
-import {SheetGS} from './SheetGS';
-import {TriggerRanges} from './TriggerRanges';
-import {MapGS} from '../map/MapGS';
+import { SpreadsheetGS } from './SpreadsheetGS';
+import { SheetGS } from './SheetGS';
+import { TriggerRanges } from './TriggerRanges';
+import { MapGS } from '../map/MapGS';
 
 /**
  * Class to process Spreadsheet events (like onEdit, onChange)
@@ -13,10 +13,13 @@ import {MapGS} from '../map/MapGS';
  *  event object
  * @return {SheetEventGS} the SheetEventGS object
  */
-export function newSheetEvent(event: GoogleAppsScript.Events.SheetsOnEdit |
-  GoogleAppsScript.Events.SheetsOnChange |
-  GoogleAppsScript.Events.SheetsOnFormSubmit |
-  GoogleAppsScript.Events.SheetsOnOpen): SheetEventGS {
+export function newSheetEvent(
+  event:
+    | GoogleAppsScript.Events.SheetsOnEdit
+    | GoogleAppsScript.Events.SheetsOnChange
+    | GoogleAppsScript.Events.SheetsOnFormSubmit
+    | GoogleAppsScript.Events.SheetsOnOpen,
+): SheetEventGS {
   return new SheetEventGS(event);
 }
 
@@ -29,11 +32,13 @@ export function newSheetEvent(event: GoogleAppsScript.Events.SheetsOnEdit |
   GoogleAppsScript.Events.SheetsOnFormSubmit |
   GoogleAppsScript.Events.SheetsOnOpen} the Event object
  */
-export function getSheetEventObject(obj: SheetEventGS):
-  GoogleAppsScript.Events.SheetsOnEdit |
-  GoogleAppsScript.Events.SheetsOnChange |
-  GoogleAppsScript.Events.SheetsOnFormSubmit |
-  GoogleAppsScript.Events.SheetsOnOpen {
+export function getSheetEventObject(
+  obj: SheetEventGS,
+):
+  | GoogleAppsScript.Events.SheetsOnEdit
+  | GoogleAppsScript.Events.SheetsOnChange
+  | GoogleAppsScript.Events.SheetsOnFormSubmit
+  | GoogleAppsScript.Events.SheetsOnOpen {
   return obj.getObject();
 }
 
@@ -45,8 +50,7 @@ export function getSheetEventObject(obj: SheetEventGS):
  * @return {SpreadsheetGS} the spreadsheet, or undefined if the event does not
  *  refer to a spreadsheet
  */
-export function getSheetEventActiveSheet(obj: SheetEventGS):
-  SpreadsheetGS | undefined {
+export function getSheetEventActiveSheet(obj: SheetEventGS): SpreadsheetGS | undefined {
   return obj.getActiveSheet();
 }
 
@@ -101,8 +105,7 @@ export function getSheetEventColumn(obj: SheetEventGS): number | undefined {
  * @return {string | Date | undefined} the value, or undefined if the event
  *  has no value
  */
-export function getSheetEventEditedValue(obj: SheetEventGS):
-  string | Date | undefined {
+export function getSheetEventEditedValue(obj: SheetEventGS): string | Date | undefined {
   return obj.getEditedValue();
 }
 
@@ -127,8 +130,7 @@ export function checkSheetEventCell(obj: SheetEventGS): boolean | undefined {
  * @return {string | undefined} the value of the cell, or undefined if the
  *  event has no sheet
  */
-export function getSheetEventValue(obj: SheetEventGS, row: number,
-    col: number): string | Date | undefined {
+export function getSheetEventValue(obj: SheetEventGS, row: number, col: number): string | Date | undefined {
   return obj.getValue(row, col);
 }
 
@@ -140,8 +142,7 @@ export function getSheetEventValue(obj: SheetEventGS, row: number,
  * @return {SheetEventGS | undefined} the object for chaining, or undefined if
  *  the event has no sheet
  */
-export function addSheetEventTriggerSheetName(obj: SheetEventGS, name: string):
-  SheetEventGS | undefined {
+export function addSheetEventTriggerSheetName(obj: SheetEventGS, name: string): SheetEventGS | undefined {
   return obj.addTriggerSheetName(name);
 }
 
@@ -154,8 +155,11 @@ export function addSheetEventTriggerSheetName(obj: SheetEventGS, name: string):
  * @return {SheetEventGS | undefined} the object for chaining, or undefined if
  *  the event has no sheet
  */
-export function addSheetEventTriggerColumnRange(obj: SheetEventGS,
-    min: number = 0, max: number = 0): SheetEventGS | undefined {
+export function addSheetEventTriggerColumnRange(
+  obj: SheetEventGS,
+  min: number = 0,
+  max: number = 0,
+): SheetEventGS | undefined {
   return obj.addTriggerColumnRange(min, max);
 }
 
@@ -168,8 +172,11 @@ export function addSheetEventTriggerColumnRange(obj: SheetEventGS,
  * @return {SheetEventGS | undefined} the object for chaining, or undefined if
  *  the event has no sheet
  */
-export function addSheetEventTriggerRowRange(obj: SheetEventGS,
-    min: number = 0, max: number = 0): SheetEventGS | undefined {
+export function addSheetEventTriggerRowRange(
+  obj: SheetEventGS,
+  min: number = 0,
+  max: number = 0,
+): SheetEventGS | undefined {
   return obj.addTriggerRowRange(min, max);
 }
 
@@ -186,10 +193,10 @@ export function addSheetEventTriggerRowRange(obj: SheetEventGS,
  *  the event has no sheet
  */
 export function addSheetEventTriggerRange(
-    obj: SheetEventGS,
-    forRow: boolean,
-    min: number | Array<number>,
-    max: number | Array<number>,
+  obj: SheetEventGS,
+  forRow: boolean,
+  min: number | Array<number>,
+  max: number | Array<number>,
 ): SheetEventGS | undefined {
   return obj.addTriggerRange(forRow, min, max);
 }
@@ -206,11 +213,12 @@ export class SheetEventGS {
   private _value: string | Date;
   private _triggerRanges: TriggerRanges;
   private _triggerSheet: string;
-  private _namedValues: {[key: string]: Array<string>};
-  private _event: GoogleAppsScript.Events.SheetsOnEdit |
-    GoogleAppsScript.Events.SheetsOnChange |
-    GoogleAppsScript.Events.SheetsOnFormSubmit |
-    GoogleAppsScript.Events.SheetsOnOpen;
+  private _namedValues: { [key: string]: Array<string> };
+  private _event:
+    | GoogleAppsScript.Events.SheetsOnEdit
+    | GoogleAppsScript.Events.SheetsOnChange
+    | GoogleAppsScript.Events.SheetsOnFormSubmit
+    | GoogleAppsScript.Events.SheetsOnOpen;
   private _activeSheet: SpreadsheetGS;
 
   /**
@@ -221,15 +229,16 @@ export class SheetEventGS {
    * GoogleAppsScript.Events.SheetsOnOpen} event the underlying
    *  event object
    */
-  constructor(private event: GoogleAppsScript.Events.SheetsOnEdit |
-    GoogleAppsScript.Events.SheetsOnChange |
-    GoogleAppsScript.Events.SheetsOnFormSubmit |
-    GoogleAppsScript.Events.SheetsOnOpen) {
+  constructor(
+    private event:
+      | GoogleAppsScript.Events.SheetsOnEdit
+      | GoogleAppsScript.Events.SheetsOnChange
+      | GoogleAppsScript.Events.SheetsOnFormSubmit
+      | GoogleAppsScript.Events.SheetsOnOpen,
+  ) {
     if ('source' in event) {
-      const spreadsheet =
-        new SpreadsheetGS(event.source.getActiveSheet().getParent());
-      this._sheet =
-        spreadsheet.getSheet(event.source.getActiveSheet().getName());
+      const spreadsheet = new SpreadsheetGS(event.source.getActiveSheet().getParent());
+      this._sheet = spreadsheet.getSheet(event.source.getActiveSheet().getName());
       this._sheetName = event.source.getActiveSheet().getName();
       this._activeSheet = spreadsheet;
     }
@@ -255,10 +264,11 @@ export class SheetEventGS {
     GoogleAppsScript.Events.SheetsOnFormSubmit |
     GoogleAppsScript.Events.SheetsOnOpen} the Event object
    */
-  getObject(): GoogleAppsScript.Events.SheetsOnEdit |
-  GoogleAppsScript.Events.SheetsOnChange |
-  GoogleAppsScript.Events.SheetsOnFormSubmit |
-  GoogleAppsScript.Events.SheetsOnOpen {
+  getObject():
+    | GoogleAppsScript.Events.SheetsOnEdit
+    | GoogleAppsScript.Events.SheetsOnChange
+    | GoogleAppsScript.Events.SheetsOnFormSubmit
+    | GoogleAppsScript.Events.SheetsOnOpen {
     return this._event;
   }
 
@@ -270,8 +280,7 @@ export class SheetEventGS {
    */
   getActiveSheet(): SpreadsheetGS | undefined {
     if (this._activeSheet !== undefined) return this._activeSheet;
-    console.log('WARNING: No active sheet for this event in ' +
-      'SheetEventGS.getActiveSheet()');
+    console.log('WARNING: No active sheet for this event in ' + 'SheetEventGS.getActiveSheet()');
     return undefined;
   }
 
@@ -283,8 +292,7 @@ export class SheetEventGS {
    */
   getSheetName(): string | undefined {
     if (this._sheetName !== undefined) return this._sheetName;
-    console.log('WARNING: No sheet name for this event in ' +
-      'SheetEventGS.getSheetName()');
+    console.log('WARNING: No sheet name for this event in ' + 'SheetEventGS.getSheetName()');
     return undefined;
   }
 
@@ -320,8 +328,7 @@ export class SheetEventGS {
    */
   getColumn(): number | undefined {
     if (this._column !== undefined) return this._column;
-    console.log('WARNING: No sheet name for this event in ' +
-      'SheetEventGS.getColumn()');
+    console.log('WARNING: No sheet name for this event in ' + 'SheetEventGS.getColumn()');
     return undefined;
   }
 
@@ -348,8 +355,7 @@ export class SheetEventGS {
    */
   getEditedValue(): string | Date | undefined {
     if (this._value !== undefined) return this._value;
-    console.log('WARNING: No value for this event in ' +
-      'SheetEventGS.getEditedValue()');
+    console.log('WARNING: No value for this event in ' + 'SheetEventGS.getEditedValue()');
     return undefined;
   }
 
@@ -360,18 +366,15 @@ export class SheetEventGS {
    *  undefined if the event has no associated sheet
    */
   checkCell(): boolean | undefined {
-    if ((this._triggerSheet === undefined) ||
-      (this._sheetName === undefined)) {
-      console.log('WARNING: No associated sheet for this event in ' +
-        'SheetEventGS.checkCell()');
+    if (this._triggerSheet === undefined || this._sheetName === undefined) {
+      console.log('WARNING: No associated sheet for this event in ' + 'SheetEventGS.checkCell()');
       return undefined;
     }
 
     let foundColumn: boolean = false;
     let foundRow: boolean = false;
     if (this._triggerSheet == this._sheetName) {
-      const [columns, rows] = [this._triggerRanges.columns,
-        this._triggerRanges.rows];
+      const [columns, rows] = [this._triggerRanges.columns, this._triggerRanges.rows];
 
       for (const c of columns) {
         if (c[0] <= this._column && this._column <= c[1]) {
@@ -401,8 +404,7 @@ export class SheetEventGS {
    */
   getValue(row: number, col: number): string | Date | undefined {
     if (this._sheet !== undefined) return this._sheet.getValue(row, col);
-    console.log('WARNING: No sheet associated with this event in ' +
-      'SheetEventGS.getValue()');
+    console.log('WARNING: No sheet associated with this event in ' + 'SheetEventGS.getValue()');
     return undefined;
   }
 
@@ -415,8 +417,7 @@ export class SheetEventGS {
    */
   addTriggerSheetName(name: string): SheetEventGS | undefined {
     if (this._activeSheet === undefined) {
-      console.log('WARNING: No sheet associated with this event in ' +
-        'SheetEventGS.addTriggerSheetName()');
+      console.log('WARNING: No sheet associated with this event in ' + 'SheetEventGS.addTriggerSheetName()');
       return undefined;
     }
 
@@ -436,8 +437,7 @@ export class SheetEventGS {
    * @return {SheetEventGS | undefined} the object for chaining, or undefined
    *  if there is no associated range
    */
-  addTriggerColumnRange(min: number = 0, max: number = 0):
-    SheetEventGS | undefined {
+  addTriggerColumnRange(min: number = 0, max: number = 0): SheetEventGS | undefined {
     return this.addTriggerRange(false, min, max);
   }
 
@@ -449,8 +449,7 @@ export class SheetEventGS {
    * @return {SheetEventGS | undefined} the object for chaining, or undefined
    *  if there is no associated range
    */
-  addTriggerRowRange(min: number = 0, max: number = 0):
-    SheetEventGS | undefined {
+  addTriggerRowRange(min: number = 0, max: number = 0): SheetEventGS | undefined {
     return this.addTriggerRange(true, min, max);
   }
 
@@ -465,11 +464,9 @@ export class SheetEventGS {
    * @return {SheetEventGS | undefined} the object for chaining, or undefined
    *  if there is no associated range
    */
-  addTriggerRange(forRow: boolean, min: number | Array<number>,
-      max: number | Array<number>): SheetEventGS | undefined {
+  addTriggerRange(forRow: boolean, min: number | Array<number>, max: number | Array<number>): SheetEventGS | undefined {
     if (this._triggerRanges === undefined) {
-      console.log('WARNING: No trigger ranges associated with this event in ' +
-      'SheetEventGS.addTriggerRange()');
+      console.log('WARNING: No trigger ranges associated with this event in ' + 'SheetEventGS.addTriggerRange()');
       return undefined;
     }
 

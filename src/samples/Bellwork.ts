@@ -1,17 +1,17 @@
-import {SpreadsheetGS} from '../sheets/SpreadsheetGS';
-import {ClassroomGS} from '../classroom/ClassroomGS';
-import {DriveGS} from '../drive/DriveGS';
-import {getDataSheet} from '../DataSheet';
-import {areDatesEqual, getTodaysDate} from '../utils/Utilities';
-import {SheetGS} from '../sheets/SheetGS';
-import {SlideshowGS} from '../slides/SlideshowGS';
-import {FormsGS} from '../forms/FormsGS';
-import {DateParams} from '../DateParams';
-import {CalendarGS} from '../calendar/CalendarGS';
-import {SlideGS} from '../slides/SlideGS';
-import {MapGS} from '../map/MapGS';
-import {QuestionType} from '../enums/QuestionType';
-import {FormEventGS} from '../forms/FormEventGS';
+import { SpreadsheetGS } from '../sheets/SpreadsheetGS';
+import { ClassroomGS } from '../classroom/ClassroomGS';
+import { DriveGS } from '../drive/DriveGS';
+import { getDataSheet } from '../DataSheet';
+import { areDatesEqual, getTodaysDate } from '../utils/Utilities';
+import { SheetGS } from '../sheets/SheetGS';
+import { SlideshowGS } from '../slides/SlideshowGS';
+import { FormsGS } from '../forms/FormsGS';
+import { DateParams } from '../DateParams';
+import { CalendarGS } from '../calendar/CalendarGS';
+import { SlideGS } from '../slides/SlideGS';
+import { MapGS } from '../map/MapGS';
+import { QuestionType } from '../enums/QuestionType';
+import { FormEventGS } from '../forms/FormEventGS';
 
 /**
  * All of the arguments used by the tabulateBellwork function
@@ -28,12 +28,12 @@ type TabulateParams = {
    */
   bellworkTitleColumn?: string;
   /**
-   * The name of the data settings sheet to use; defaults to 
+   * The name of the data settings sheet to use; defaults to
    *  'gse-tools Settings'
    */
   dataSheet?: string;
   /**
-   * The name of the sheet on the data settings sheet for the bellwork; 
+   * The name of the sheet on the data settings sheet for the bellwork;
    *  default is 'Bellwork'
    */
   sheetName?: string;
@@ -43,11 +43,11 @@ type TabulateParams = {
    */
   spreadsheetIDColumn?: string;
   /**
-   * Date parameters for constructing the date for the results sheet column 
+   * Date parameters for constructing the date for the results sheet column
    *  header
    */
   columnDateParams?: DateParams;
-}
+};
 
 /**
  * All of the arguments and other variables used by the Bellwork script
@@ -74,7 +74,7 @@ type BellworkArgs = {
    */
   bellworkDateColumnName?: string;
   /**
-   * String to look for in the alt text of the slide text boxes for this class; 
+   * String to look for in the alt text of the slide text boxes for this class;
    *  default is "Bellwork Alt Text"
    */
   bellworkAltText?: string;
@@ -235,133 +235,133 @@ type BellworkArgs = {
  * // Object to hold all of the date settings (all have default
  * // settings)
  * var dateParams = {
- *   
+ *
  *   // String that will go between the date and the title
  *   titlePrefix: ' - ',
- *   
+ *
  *   // Delimiter to go between the month and day of the date
  *   dateDelim: '/',
- *   
+ *
  *   // The order to display the date; can be MD or DM
  *   dateOrder: 'MD',
- * 
+ *
  *   // What to display if there are no events
  *   noEventString: 'NONE',
  * };
- * 
- * // These are all optional arguments - all have default values 
- * // (see documentation)  
+ *
+ * // These are all optional arguments - all have default values
+ * // (see documentation)
  * var bellworkParams = {
  *   // The Settings Spreadsheet name
  *   dataSheet: 'gse-tools Settings',
- *   
- *   // The sheet name within the Settings Spreadsheet that has 
- *   // settings for each class 
+ *
+ *   // The sheet name within the Settings Spreadsheet that has
+ *   // settings for each class
  *   settingsName: 'Bellwork',
- *   
- *   // Column in the Settings sheet that has the classroom code  
+ *
+ *   // Column in the Settings sheet that has the classroom code
  *   // for the class
  *   classroomCodeColumnName: 'Classroom Code',
- * 
+ *
  *   // Column in the Settings sheet that defines which column in the
  *   // bellwork sheet to look for the bellwork
  *   bellworkColumnName: 'Bellwork Column Number',
- * 
+ *
  *   // Column in the Settings sheet that defines which column in the
  *   // bellwork sheet to look for the date
  *   bellworkDateColumnName: 'Date Column',
- * 
+ *
  *   // Object that defines how to display the date
  *   dueDateParams: dateParams,
- * 
+ *
  *   // Whether or not to display the bellwork on a Form
  *   displayBellworkOnForm: true,
- *   
- *   // Column in the Settings sheet that has the bellwork form 
+ *
+ *   // Column in the Settings sheet that has the bellwork form
  *   // ID for the class
  *   bellworkFormIDColumnName: 'Form ID',
- * 
+ *
  *   // Whether or not to display the bellwork on a Slide
  *   displayBellworkOnSlide: true,
- * 
- *   // Column in the Settings sheet that has the bellwork slideshow 
+ *
+ *   // Column in the Settings sheet that has the bellwork slideshow
  *   // ID for the class
  *   bellworkSlideshowIDColumnName: 'Slideshow ID',
- *   
- *   // When displaying the bellwork on a Google Slide, put this string 
+ *
+ *   // When displaying the bellwork on a Google Slide, put this string
  *   // in the slide notes and the script will put the bellwork on that
  *   // slide
  *   bellworkSlideNotes: 'Bellwork',
- * 
- *   // Column in the Settings sheet that has the bellwork spreadsheet 
+ *
+ *   // Column in the Settings sheet that has the bellwork spreadsheet
  *   // ID for the class
  *   bellworkSpreadsheetIDColumnName: 'Spreadsheet ID',
- * 
+ *
  *   // Column in the Settings sheet that defines the bellwork title
  *   // for each class
  *   bellworkTitleColumnName: 'Bellwork Title',
- *   
+ *
  *   // Whether or not to display the date in the bellwork title
  *   dateInBellworkTitle: true,
- * 
+ *
  *   // The function to call when a student submits bellwork
  *   onSubmitBellworkFunctionName: 'onSubmitBellwork',
- * 
+ *
  *   // Column in the Settings sheet that defines the sheet name to
  *   // look for all of the bellwork info
  *   bellworkSheetNameColumnName: 'Sheet Name',
- * 
- *   // Useful string to define when the bellwork Spreadsheet no longer 
- *   // has valid entries (so the user can put other information in the 
- *   // sheet)    
+ *
+ *   // Useful string to define when the bellwork Spreadsheet no longer
+ *   // has valid entries (so the user can put other information in the
+ *   // sheet)
  *   bellworkSheetDateColumnEnd: 'END',
- * 
+ *
  *   // Column in the Settings sheet that defines the folder which has
  *   // pictures that can be randomly chosen to be displayed on the
  *   // Slide
  *   dailyPicturesColumnName: 'Daily Picture Folder',
  *
- *   // When displaying a picture on a Slide, put this string in the 
+ *   // When displaying a picture on a Slide, put this string in the
  *   // slide notes and the script will put the agenda on that slide
  *   dailyPicturesNotes: 'Agenda',
- * 
+ *
  *   // Whether or not to display upcoming due dates
  *   displayUpcomingDueDates: true,
- *   
- *   // Column in the Settings sheet that defines the number of days 
+ *
+ *   // Column in the Settings sheet that defines the number of days
  *   // to look ahead for due dates
  *   daysToLookAheadColumnName: '# of Days to Look',
- *   
+ *
  *   // When displaying upcoming due dates on a Slide, put this string
- *   // in the slide notes and the script will put the due dates on 
+ *   // in the slide notes and the script will put the due dates on
  *   // that slide
  *   upcomingDueDatesSlideNotes: 'Upcoming Due Dates',
- * 
+ *
  *   // Whether or not to display the exit question on the slideshow
  *   displayExitQuestionOnSlide: true,
- *   
+ *
  *   // Column in the Settings sheet that defines the column number
  *   // for the current exit question
  *   exitQuestionColumnName: 'Exit Question Column Number',
- *   
+ *
  *   // When displaying an exit question on a Slide, put this string
  *   // in the slide notes and the script will put the exit question
  *   // on that slide
  *   exitQuestionSlideNotes: 'Exit Question',
- * 
+ *
  *   // Column in the Settings sheet that defines the column number
  *   // for the question type (Paragraph, Multiple Choice, etc.)
  *   questionTypeColumnName: 'Question Type Column Number',
- *   
+ *
  *   // Column in the Settings sheet that defines the column number
  *   // for the question options (for Multiple Choice, Select, etc.)
  *   optionsColumnName: 'Question Options Column Number',
- *   
+ *
  *   // Column in the Settings sheet that defines the column number
  *   // for the grid rows options (for MC Grid, MS Grid question
  *   // types); the optionsColumnName will refer to the grid columns
  *   gridRowsColumnName: 'Grid Rows Column Number',
- * 
+ *
  *   // Column in the Settings sheet that defines the column number
  *   // for the image to display with the bellwork
  *   imageColumnName: 'Bellwork Form Image Column',
@@ -384,23 +384,21 @@ export function updateBellwork(args: BellworkArgs): void {
     dataSheet,
   } = args;
 
-  const settings: SpreadsheetGS = getDataSheet(dataSheet,
-      settingsName);
-  const bellworkSettings: MapGS<string | Date, MapGS<string | Date,
-    string | Date>> = settings.getDataAsMap(settingsName);
+  const settings: SpreadsheetGS = getDataSheet(dataSheet, settingsName);
+  const bellworkSettings: MapGS<string | Date, MapGS<string | Date, string | Date>> = settings.getDataAsMap(
+    settingsName,
+  );
 
   bellworkSettings.reset();
   while (bellworkSettings.hasNext()) {
     const row = bellworkSettings.next();
     const thisRow = bellworkSettings.get(row);
-    if (thisRow === null || bellworkFormIDColumnName === null ||
-      bellworkSpreadsheetIDColumnName === null) {
+    if (thisRow === null || bellworkFormIDColumnName === null || bellworkSpreadsheetIDColumnName === null) {
       throw new Error('Could not find row in bellworkSettings');
     }
 
     const thisBellworkForm = thisRow.get(bellworkFormIDColumnName);
-    if (thisBellworkForm === undefined ||
-      typeof thisBellworkForm !== 'string') {
+    if (thisBellworkForm === undefined || typeof thisBellworkForm !== 'string') {
       throw new Error('Bellwork form column not found');
     }
 
@@ -425,8 +423,7 @@ export function updateBellwork(args: BellworkArgs): void {
  * @param {FormsGS} form the form to use for the question
  * @return {boolean} whether the question was found or not
  */
-function updateTodaysQuestion(args: BellworkArgs,
-    row: MapGS<string | Date, string | Date>, form: FormsGS): boolean {
+function updateTodaysQuestion(args: BellworkArgs, row: MapGS<string | Date, string | Date>, form: FormsGS): boolean {
   const {
     bellworkDateColumnName = 'Bellwork Date Column Number',
     bellworkAltText = 'Bellwork Alt Text',
@@ -445,79 +442,76 @@ function updateTodaysQuestion(args: BellworkArgs,
   const dateToday: Date = getTodaysDate(timezoneOffset);
 
   const thisSpreadsheetID = row.get(bellworkSpreadsheetIDColumnName);
-  if (thisSpreadsheetID == null ||
-      typeof thisSpreadsheetID !== 'string') {
-    throw new Error('Could not find spreadsheet column name in ' +
-      'Bellwork.updateTodaysQuestion()');
+  if (thisSpreadsheetID == null || typeof thisSpreadsheetID !== 'string') {
+    throw new Error('Could not find spreadsheet column name in ' + 'Bellwork.updateTodaysQuestion()');
   }
 
   const thisSheetName = row.get(bellworkSheetNameColumnName);
-  if (thisSheetName == null ||
-    typeof thisSheetName !== 'string') {
-    throw new Error('Could not find sheet name column name (' +
-      bellworkSheetNameColumnName + ') in Bellwork.updateTodaysQuestion()');
+  if (thisSheetName == null || typeof thisSheetName !== 'string') {
+    throw new Error(
+      'Could not find sheet name column name (' + bellworkSheetNameColumnName + ') in Bellwork.updateTodaysQuestion()',
+    );
   }
 
   // TODO: Make Map of open spreadsheets
-  const questionSpreadsheet: SpreadsheetGS =
-    new SpreadsheetGS(thisSpreadsheetID, thisSheetName);
-  const questionSheet: SheetGS =
-    questionSpreadsheet.getSheet(thisSheetName);
+  const questionSpreadsheet: SpreadsheetGS = new SpreadsheetGS(thisSpreadsheetID, thisSheetName);
+  const questionSheet: SheetGS = questionSpreadsheet.getSheet(thisSheetName);
 
   const thisBellworkDateColumnName = row.get(bellworkDateColumnName);
   if (thisBellworkDateColumnName == null) {
-    throw new Error('Could not find bellwork date column name in ' +
-      'Bellwork.updateTodaysQuestion()');
+    throw new Error('Could not find bellwork date column name in ' + 'Bellwork.updateTodaysQuestion()');
   }
-  let questionRow: number = questionSheet.skipBlankRows(1,
-      +thisBellworkDateColumnName);
-  while ((questionRow <= questionSheet.getLastRow()) &&
-    ((questionSheet.getValue(questionRow, +thisBellworkDateColumnName) !==
-    bellworkSheetDateColumnEnd))) {
-    const dateInCell: Date = new Date(questionSheet.getValue(questionRow,
-        +thisBellworkDateColumnName));
+  let questionRow: number = questionSheet.skipBlankRows(1, +thisBellworkDateColumnName);
+  while (
+    questionRow <= questionSheet.getLastRow() &&
+    questionSheet.getValue(questionRow, +thisBellworkDateColumnName) !== bellworkSheetDateColumnEnd
+  ) {
+    const dateInCell: Date = new Date(questionSheet.getValue(questionRow, +thisBellworkDateColumnName));
 
     if (areDatesEqual(dateToday, dateInCell, 'month')) {
       const thisBellworkColumnName = row.get(bellworkColumnName);
       if (thisBellworkColumnName == null) {
-        throw new Error('Could not find bellwork column name in ' +
-        'Bellwork.updateTodaysQuestion()');
+        throw new Error('Could not find bellwork column name in ' + 'Bellwork.updateTodaysQuestion()');
       }
-      const questionTitle: string =
-        questionSheet.
-            getValue(questionRow, +thisBellworkColumnName).toString();
+      const questionTitle: string = questionSheet.getValue(questionRow, +thisBellworkColumnName).toString();
 
       const thisQuestionType = row.get(questionTypeColumnName);
       if (thisQuestionType == null) {
-        throw new Error('Could not find question type column name in ' +
-        'Bellwork.updateTodaysQuestion()');
+        throw new Error('Could not find question type column name in ' + 'Bellwork.updateTodaysQuestion()');
       }
-      let thisQuestionTypeString: QuestionType | undefined = 
-        (<any>QuestionType)
-        [questionSheet.getValue(questionRow, +thisQuestionType).toString()];
-      if ((thisQuestionTypeString === undefined) || 
-        !(thisQuestionTypeString in QuestionType)) {
-        console.log("WARNING: Question type '" + thisQuestionTypeString + 
-          "' not a valid question type in Bellwork.updateTodaysQuestion()");
+      let thisQuestionTypeString: QuestionType | undefined = (<any>QuestionType)[
+        questionSheet.getValue(questionRow, +thisQuestionType).toString()
+      ];
+      if (thisQuestionTypeString === undefined || !(thisQuestionTypeString in QuestionType)) {
+        console.log(
+          "WARNING: Question type '" +
+            thisQuestionTypeString +
+            "' not a valid question type in Bellwork.updateTodaysQuestion()",
+        );
         thisQuestionTypeString = QuestionType.Paragraph;
       }
 
       if (displayBellworkOnForm) {
-        showBellworkOnForm(args, row, form, questionRow, questionSheet,
-            questionTitle, thisQuestionTypeString);
+        showBellworkOnForm(args, row, form, questionRow, questionSheet, questionTitle, thisQuestionTypeString);
       }
 
-      if (displayBellworkOnSlide || displayExitQuestionOnSlide ||
-        displayUpcomingDueDates) {
+      if (displayBellworkOnSlide || displayExitQuestionOnSlide || displayUpcomingDueDates) {
         const thisBellworkAltText = row.get(bellworkAltText);
-        if (thisBellworkAltText == null ||
-          typeof thisBellworkAltText !== 'string') {
-          throw new Error('Could not find bellwork alt text column name (' +
-          bellworkAltText + ') in Bellwork.updateTodaysQuestion()');
+        if (thisBellworkAltText == null || typeof thisBellworkAltText !== 'string') {
+          throw new Error(
+            'Could not find bellwork alt text column name (' + bellworkAltText + ') in Bellwork.updateTodaysQuestion()',
+          );
         }
-                
-        showBellworkOnSlide(args, row, questionRow, questionSheet,
-            questionTitle, thisQuestionTypeString, thisBellworkAltText);
+
+        showBellworkOnSlide(
+          args,
+          row,
+          questionRow,
+          questionSheet,
+          questionTitle,
+          thisQuestionTypeString,
+          thisBellworkAltText,
+        );
       }
       return true;
     }
@@ -539,13 +533,13 @@ function updateTodaysQuestion(args: BellworkArgs,
  *  class
  */
 function showBellworkOnSlide(
-    args: BellworkArgs,
-    settingsRow: MapGS<string | Date, string | Date>,
-    questionRow: number,
-    questionSheet: SheetGS,
-    questionTitle: string,
-    questionType: QuestionType,
-    bellworkDescription: string,
+  args: BellworkArgs,
+  settingsRow: MapGS<string | Date, string | Date>,
+  questionRow: number,
+  questionSheet: SheetGS,
+  questionTitle: string,
+  questionType: QuestionType,
+  bellworkDescription: string,
 ): void {
   const {
     bellworkSlideNotes = 'Bellwork',
@@ -568,35 +562,28 @@ function showBellworkOnSlide(
     timezoneOffset = -5,
   } = args;
 
-  const thisSlideshowID =
-    settingsRow.get(bellworkSlideshowIDColumnName);
-  if (thisSlideshowID == null ||
-    typeof thisSlideshowID !== 'string') {
-    throw new Error('Could not find slide show ID in ' +
-      'Samples.updateTodaysQuestion()');
+  const thisSlideshowID = settingsRow.get(bellworkSlideshowIDColumnName);
+  if (thisSlideshowID == null || typeof thisSlideshowID !== 'string') {
+    throw new Error('Could not find slide show ID in ' + 'Samples.updateTodaysQuestion()');
   }
   const slideShow = new SlideshowGS(thisSlideshowID);
 
   const thisBellworkImageFolder = settingsRow.get(dailyPicturesColumnName);
-  if ((thisBellworkImageFolder !== null) && (thisBellworkImageFolder != '')) {
+  if (thisBellworkImageFolder !== null && thisBellworkImageFolder != '') {
     const thisSlide = slideShow.getSlideByNotes(dailyPicturesNotes);
     if (thisSlide != null) {
-      slideShow.changeSlidePictureFromFolder(
-          thisBellworkImageFolder.toString(), thisSlide);
+      slideShow.changeSlidePictureFromFolder(thisBellworkImageFolder.toString(), thisSlide);
     }
   }
 
-  if (displayBellworkOnSlide || displayExitQuestionOnSlide ||
-      displayUpcomingDueDates) {
+  if (displayBellworkOnSlide || displayExitQuestionOnSlide || displayUpcomingDueDates) {
     if (displayBellworkOnSlide) {
-      const bellworkSlide =
-        slideShow.getSlideByNotes(bellworkSlideNotes);
+      const bellworkSlide = slideShow.getSlideByNotes(bellworkSlideNotes);
       if (bellworkSlide != null) {
         if (displayBellworkOptions) {
           const theseOptionsColumnName = settingsRow.get(optionsColumnName);
           if (theseOptionsColumnName != null) {
-            const theseOptions = questionSheet.getValue(questionRow,
-                +theseOptionsColumnName).toString();
+            const theseOptions = questionSheet.getValue(questionRow, +theseOptionsColumnName).toString();
             if (theseOptions !== null && theseOptions != '') {
               bellworkSlide.addItem(questionType, theseOptions);
             }
@@ -606,15 +593,15 @@ function showBellworkOnSlide(
         else {
           bellworkSlide.getPageElements().forEach(function(pageElement) {
             const thisDescription = pageElement.getDescription();
-            if ((thisDescription != null) && 
-              (thisDescription.indexOf(bellworkDescription))) {
-                const thisShape = pageElement.asShape();
-                if (thisShape != null) {
-                  thisShape.getText().setText(questionTitle);
-                } else {
-                  throw new Error('Could not find text box on bellwork ' +
-                    'slide with description "' + bellworkDescription + '"');
-                }
+            if (thisDescription != null && thisDescription.indexOf(bellworkDescription)) {
+              const thisShape = pageElement.asShape();
+              if (thisShape != null) {
+                thisShape.getText().setText(questionTitle);
+              } else {
+                throw new Error(
+                  'Could not find text box on bellwork ' + 'slide with description "' + bellworkDescription + '"',
+                );
+              }
             }
           });
         }
@@ -622,8 +609,9 @@ function showBellworkOnSlide(
         const thisBellworkImage = settingsRow.get(imageColumnName);
         if (thisBellworkImage != null) {
           slideShow.changeSlidePicture(
-              questionSheet.getValue(questionRow, +thisBellworkImage,
-              ).toString(), bellworkSlide);
+            questionSheet.getValue(questionRow, +thisBellworkImage).toString(),
+            bellworkSlide,
+          );
         }
       }
     }
@@ -631,32 +619,29 @@ function showBellworkOnSlide(
     if (displayUpcomingDueDates) {
       const allClasses: ClassroomGS = new ClassroomGS();
       const thisClassroomCode = settingsRow.get(classroomCodeColumnName);
-      if (thisClassroomCode === undefined ||
-        typeof thisClassroomCode !== 'string') {
+      if (thisClassroomCode === undefined || typeof thisClassroomCode !== 'string') {
         throw new Error('Classroom code not found');
       }
       const currentClass = allClasses.getClass(thisClassroomCode);
 
       const thisDaysToLookAhead = settingsRow.get(daysToLookAheadColumnName);
       if (thisDaysToLookAhead == null) {
-        throw new Error('Could not find days to look ahead in ' +
-          'Samples.doForBellwork()');
+        throw new Error('Could not find days to look ahead in ' + 'Samples.doForBellwork()');
       }
-      const upcomingEvents: string =
-        new CalendarGS(currentClass.getCalendarId(), timezoneOffset)
-          .getUpcomingDueDates(+thisDaysToLookAhead, dueDateParams);
+      const upcomingEvents: string = new CalendarGS(currentClass.getCalendarId(), timezoneOffset).getUpcomingDueDates(
+        +thisDaysToLookAhead,
+        dueDateParams,
+      );
       const thisSlide = slideShow.getSlideByNotes(upcomingDueDatesSlideNotes);
       if (thisSlide != null) thisSlide.setList(upcomingEvents);
     }
 
     if (displayExitQuestionOnSlide) {
       const thisExitTicketColumnName = settingsRow.get(exitQuestionColumnName);
-      if ((thisExitTicketColumnName != null) &&
-        (+thisExitTicketColumnName > 0)) {
+      if (thisExitTicketColumnName != null && +thisExitTicketColumnName > 0) {
         slideShow.setSlideBodyByType(
-            exitQuestionSlideNotes,
-            questionSheet.getValue(questionRow,
-                +thisExitTicketColumnName).toString(),
+          exitQuestionSlideNotes,
+          questionSheet.getValue(questionRow, +thisExitTicketColumnName).toString(),
         );
       }
     }
@@ -676,13 +661,13 @@ function showBellworkOnSlide(
  * @param {QuestionType} questionType the type of the bellwork question
  */
 function showBellworkOnForm(
-    args: BellworkArgs,
-    row: MapGS<string | Date, string | Date>,
-    bellworkForm: FormsGS,
-    questionRow: number,
-    questionSheet: SheetGS,
-    questionTitle: string,
-    questionType: QuestionType,
+  args: BellworkArgs,
+  row: MapGS<string | Date, string | Date>,
+  bellworkForm: FormsGS,
+  questionRow: number,
+  questionSheet: SheetGS,
+  questionTitle: string,
+  questionType: QuestionType,
 ) {
   const {
     bellworkTitleColumnName = 'Bellwork Title',
@@ -694,16 +679,12 @@ function showBellworkOnForm(
     timezoneOffset = -5,
   } = args;
 
-  const {
-    dateOrder = 'MD',
-    dateDelim = '/'
-  } = dueDateParams;
+  const { dateOrder = 'MD', dateDelim = '/' } = dueDateParams;
 
   const dateToday: Date = getTodaysDate(timezoneOffset);
 
   let thisBellworkTitleColumnName = row.get(bellworkTitleColumnName);
-  if (thisBellworkTitleColumnName == null ||
-    typeof thisBellworkTitleColumnName !== 'string') {
+  if (thisBellworkTitleColumnName == null || typeof thisBellworkTitleColumnName !== 'string') {
     thisBellworkTitleColumnName = 'Bellwork';
   }
 
@@ -711,9 +692,7 @@ function showBellworkOnForm(
     const thisMonth = Number(dateToday.getUTCMonth()) + 1;
     const thisDay = dateToday.getUTCDate();
 
-    if (dateOrder.indexOf('M') >
-        dateOrder.indexOf('D')
-    ) {
+    if (dateOrder.indexOf('M') > dateOrder.indexOf('D')) {
       thisBellworkTitleColumnName += ' ' + thisDay + dateDelim + thisMonth;
     } else {
       thisBellworkTitleColumnName += ' ' + thisMonth + dateDelim + thisDay;
@@ -725,25 +704,22 @@ function showBellworkOnForm(
   const theseGridRowsColumnName = row.get(gridRowsColumnName);
   let theseOptionsValue: string = '';
   if (theseOptionsColumnName != null) {
-    theseOptionsValue = questionSheet.getValue(questionRow,
-        +theseOptionsColumnName).toString();
+    theseOptionsValue = questionSheet.getValue(questionRow, +theseOptionsColumnName).toString();
   }
   if (theseOptionsValue != '') {
     let theseRowsValue: string = '';
     if (theseGridRowsColumnName !== null) {
-      theseRowsValue = questionSheet.getValue(questionRow,
-          +theseGridRowsColumnName).toString();
+      theseRowsValue = questionSheet.getValue(questionRow, +theseGridRowsColumnName).toString();
     }
     if (theseRowsValue != '') {
       bellworkForm.addItem(
-          questionTitle,
-          questionType,
-          bellworkForm.convertLinebreaksToList(theseOptionsValue),
-          bellworkForm.convertLinebreaksToList(theseRowsValue),
+        questionTitle,
+        questionType,
+        bellworkForm.convertLinebreaksToList(theseOptionsValue),
+        bellworkForm.convertLinebreaksToList(theseRowsValue),
       );
     } else {
-      bellworkForm.addItem(questionTitle, questionType,
-          bellworkForm.convertLinebreaksToList(theseOptionsValue));
+      bellworkForm.addItem(questionTitle, questionType, bellworkForm.convertLinebreaksToList(theseOptionsValue));
     }
   } else {
     bellworkForm.addItem(questionTitle, questionType);
@@ -751,11 +727,9 @@ function showBellworkOnForm(
 
   const thisImageColumnNumber = row.get(imageColumnName);
   if (thisImageColumnNumber !== null) {
-    const imageFileID: string = questionSheet.getValue(questionRow,
-        +thisImageColumnNumber).toString();
+    const imageFileID: string = questionSheet.getValue(questionRow, +thisImageColumnNumber).toString();
     if (imageFileID != '') {
-      const thisImageBlob: GoogleAppsScript.Base.Blob | boolean =
-      new DriveGS().getImageBlob(imageFileID);
+      const thisImageBlob: GoogleAppsScript.Base.Blob | boolean = new DriveGS().getImageBlob(imageFileID);
       if (thisImageBlob !== false) {
         bellworkForm.addImage(thisImageBlob);
       }
@@ -764,61 +738,59 @@ function showBellworkOnForm(
 }
 
 /**
- * Take the submitted bellwork and adds it to an existing Sheet for the 
+ * Take the submitted bellwork and adds it to an existing Sheet for the
  *  submitting student and their response
  * ```javascript
  *  // Object to hold all of the date settings (all have default
  *  // settings)
  *  var dateParams = {
- *   
+ *
  *   // String that will go between the date and the title
  *   titlePrefix: ' - ',
- *   
+ *
  *   // Delimiter to go between the month and day of the date
  *   dateDelim: '/',
- *   
+ *
  *   // The order to display the date; can be MD or DM
  *   dateOrder: 'MD',
- * 
+ *
  *   // What to display if there are no events
  *   noEventString: 'NONE',
  * };
- * 
+ *
  * var tabulateArgs = {
- *   // The name of the data settings sheet to use; defaults to 
+ *   // The name of the data settings sheet to use; defaults to
  *   // 'gse-tools Settings'
  *   dataSheet: 'gse-tools Settings',
- * 
- *   // The name of the sheet on the data settings sheet for the bellwork; 
+ *
+ *   // The name of the sheet on the data settings sheet for the bellwork;
  *   // default is 'Bellwork'
  *   sheetName: 'Bellwork',
- *   
+ *
  *   // The column name in the 'gse-tools Settings' sheet that contains the
  *   // sheet for the bellwork results; default is 'Bellwork Results Sheet'
  *   bellworkResultsColumn: 'Bellwork Results Sheet',
- * 
+ *
  *   // The column name in the 'gse-tools Settings' sheet that contains the
  *   // title for the associated bellwork form; default is 'Bellwork Title'
  *   bellworkTitleColumn: 'Bellwork Title',
- *  
+ *
  *   // The column name in the 'gse-tools Settings' sheet that contains the
  *   // id for the results spreadsheet; default is 'Spreadsheet ID'
  *   spreadsheetIDColumn: 'Spreadsheet ID',
- *   
- *   // Date parameters for constructing the date for the results sheet column 
+ *
+ *   // Date parameters for constructing the date for the results sheet column
  *   // header
  *   columnDateParams: dateParams
  * };
  * gsetools.tabulateBellwork(e, tabulateArgs);
  * ```
- * @param {GoogleAppsScript.Events.FormsOnFormSubmit} event the Google Form 
+ * @param {GoogleAppsScript.Events.FormsOnFormSubmit} event the Google Form
  *  event
  * @param {TabulateParams} args the tabulate bellwork parameters
- * @return {boolean} returns true if the bellwork was tabulated 
+ * @return {boolean} returns true if the bellwork was tabulated
  */
-export function tabulateBellwork(
-    event: GoogleAppsScript.Events.FormsOnFormSubmit,
-    args?: TabulateParams): boolean {
+export function tabulateBellwork(event: GoogleAppsScript.Events.FormsOnFormSubmit, args?: TabulateParams): boolean {
   const formEvent: FormEventGS = new FormEventGS(event);
   if (args == undefined) args = {} as TabulateParams;
   const {
@@ -833,61 +805,67 @@ export function tabulateBellwork(
   const formTitle = formEvent.getTitle();
   const response = formEvent.getItemResponse(0);
   if (response instanceof Array) {
-    throw new Error('Bellwork form response ' +
-      'needs to have single values only in tabulateBellwork()');
+    throw new Error('Bellwork form response ' + 'needs to have single values only in tabulateBellwork()');
   }
-  const title = (formEvent.getFullDate(columnDateParams) + '\n' +
-      formEvent.getItemTitle(0));
+  const title = formEvent.getFullDate(columnDateParams) + '\n' + formEvent.getItemTitle(0);
   const fullName: [string, string] = formEvent.getNameFromEmail();
   if (fullName.length != 2) {
-    throw new Error('Could not get name from email' +
-      ' in tabulateBellwork()');
+    throw new Error('Could not get name from email' + ' in tabulateBellwork()');
   }
 
-  const allClasses = getDataSheet(dataSheet, sheetName)
-      .getDataAsMap(sheetName);
+  const allClasses = getDataSheet(dataSheet, sheetName).getDataAsMap(sheetName);
 
   let destinationSheetName: string = '';
   let bellworkSheetID: string = '';
 
   for (const className of allClasses.keys()) {
     const classData = allClasses.get(className);
-    if ((classData != null) && (classData != undefined)) {
+    if (classData != null && classData != undefined) {
       const bellworkTitle = classData.get(bellworkTitleColumn);
-      if ((bellworkTitle != null) && (bellworkTitle != undefined)) {
+      if (bellworkTitle != null && bellworkTitle != undefined) {
         if (formTitle.indexOf(bellworkTitle.toString()) == 0) {
-          const bellworkResultsSheetName = 
-            classData.get(bellworkResultsColumn);
-          if ((bellworkResultsSheetName != null) && 
-            (bellworkResultsSheetName != undefined)) {
+          const bellworkResultsSheetName = classData.get(bellworkResultsColumn);
+          if (bellworkResultsSheetName != null && bellworkResultsSheetName != undefined) {
             destinationSheetName = bellworkResultsSheetName.toString();
           } else {
-            throw new Error('Could not find bellwork results sheet for ' +
-              ' class "' + className + '" in column "' +
-              bellworkResultsColumn + '" for tabulateBellwork()');
+            throw new Error(
+              'Could not find bellwork results sheet for ' +
+                ' class "' +
+                className +
+                '" in column "' +
+                bellworkResultsColumn +
+                '" for tabulateBellwork()',
+            );
           }
 
           const spreadsheetID = classData.get(spreadsheetIDColumn);
-          if ((spreadsheetID == null) || (spreadsheetID == undefined)) {
-            throw new Error('Could not find bellwork results sheet ID for ' +
-              ' class "' + className + '" in column "' +
-              spreadsheetIDColumn + '" for tabulateBellwork()');
+          if (spreadsheetID == null || spreadsheetID == undefined) {
+            throw new Error(
+              'Could not find bellwork results sheet ID for ' +
+                ' class "' +
+                className +
+                '" in column "' +
+                spreadsheetIDColumn +
+                '" for tabulateBellwork()',
+            );
           }
           bellworkSheetID = spreadsheetID.toString();
         }
       } else {
-        throw new Error('Could not find bellwork title for class "' +
-            className + '" in column "' + bellworkTitleColumn +
-            '" in tabulateBellwork()');
+        throw new Error(
+          'Could not find bellwork title for class "' +
+            className +
+            '" in column "' +
+            bellworkTitleColumn +
+            '" in tabulateBellwork()',
+        );
       }
     } else {
-      throw new Error('Could not find data for class "' + className +
-          '" in tabulateBellwork()');
+      throw new Error('Could not find data for class "' + className + '" in tabulateBellwork()');
     }
   }
 
-  const responseSheet = new SpreadsheetGS(bellworkSheetID,
-      destinationSheetName).getSheet(destinationSheetName);
+  const responseSheet = new SpreadsheetGS(bellworkSheetID, destinationSheetName).getSheet(destinationSheetName);
   if (responseSheet.getValue(1, 3) != title) {
     responseSheet.insertCol(3).setValue(title, 1, 3);
   }
@@ -895,16 +873,14 @@ export function tabulateBellwork(
   let foundName: boolean = false;
   const lastRow: number = responseSheet.getLastRow();
   for (let i = 2; i <= lastRow; i++) {
-    if ((responseSheet.getValue(i, 1) == fullName[0]) &&
-        (responseSheet.getValue(i, 2) == fullName[1])) {
+    if (responseSheet.getValue(i, 1) == fullName[0] && responseSheet.getValue(i, 2) == fullName[1]) {
       responseSheet.setValue(response, i, 3);
       foundName = true;
       break;
     }
   }
   if (!foundName) {
-    responseSheet.setValues([[fullName[0], fullName[1], response]],
-        lastRow + 1, 1, 1, 3);
+    responseSheet.setValues([[fullName[0], fullName[1], response]], lastRow + 1, 1, 1, 3);
   }
 
   return true;

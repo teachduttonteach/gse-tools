@@ -1,7 +1,7 @@
-import {SpreadsheetGS} from '../sheets/SpreadsheetGS';
-import {MapGS} from '../map/MapGS';
-import {SheetEventGS} from '../sheets/SheetEventGS';
-import {getDataSheet} from '../DataSheet';
+import { SpreadsheetGS } from '../sheets/SpreadsheetGS';
+import { MapGS } from '../map/MapGS';
+import { SheetEventGS } from '../sheets/SheetEventGS';
+import { getDataSheet } from '../DataSheet';
 
 /**
  * Parameters to run attendance
@@ -39,8 +39,7 @@ export type AttendanceParams = {
    *  set of data from the attendance sheet; default is
    *  [{name: 'Period', value: [1, 1]}]
    */
-  secondaryColumnsToCheck?:
-    Array<{ name: string | Date; value: [number, number] }>;
+  secondaryColumnsToCheck?: Array<{ name: string | Date; value: [number, number] }>;
   /**
    * The maximum number of students to accomodate on the attendance form;
    *  default is 40
@@ -54,49 +53,48 @@ export type AttendanceParams = {
  * ```javascript
  * // When a cell is edited on the Sheet
  * function onEdit(e) {
- *   
+ *
  *   // Check to see if we're on the Attendance sheet
  *   if (e.source.getActiveSheet().getName() == "Attendance") {
  *     var attendanceParams = {
- *       
+ *
  *       // The sheet that contains the attendance information
  *       attendanceSheetName: 'Attendance',
- *       
+ *
  *       // The sheet that contains the student information
  *       studentInfoSheetName: 'Student Info',
- * 
+ *
  *       // The column that contains the full student name
  *       fullnameColumnName: 'Full Name',
- *       
+ *
  *       // The maximum number of students to display attendance info
  *       maximumLength: 40,
- *       
+ *
  *       // The cell on the attendance sheet to change color in order
  *       // to display whether or not it is working
  *       workingStatusCell: [1, 1],
- *       
- *       // The color to turn the working status cell when the script 
+ *
+ *       // The color to turn the working status cell when the script
  *       // is working
  *       workingStatusColor: '#DD0000',
- * 
+ *
  *       // The background color of the working status cell when the
  *       // script is not working
  *       normalStatusColor: '#DDDDDD',
- * 
- *       // Define the columns to check to get the students for 
+ *
+ *       // Define the columns to check to get the students for
  *       // attendance; name is the column name on the student info
  *       // sheet, and value is the cell on the attendance sheet
  *       secondaryColumnsToCheck: [{name: 'Period', value: [1, 1]}],
- *     }; 
+ *     };
  *     gsetools.changeAttendance(e, attendanceParams);
- *   } 
+ *   }
  * }
  * ```
  * @param {SheetEventGS} _e the Google event from onEdit
  * @param {AttendanceParams} args the parameters for attendance
  */
-export function changeAttendance(_e: GoogleAppsScript.Events.SheetsOnEdit,
-    args?: AttendanceParams) {
+export function changeAttendance(_e: GoogleAppsScript.Events.SheetsOnEdit, args?: AttendanceParams) {
   if (args == null) args = {} as AttendanceParams;
   const {
     workingStatusCell = [1, 1] as [number, number],
@@ -105,7 +103,7 @@ export function changeAttendance(_e: GoogleAppsScript.Events.SheetsOnEdit,
     studentInfoSheetName = 'Student Info',
     attendanceSheetName = 'Attendance',
     fullnameColumnName = 'Full Name',
-    secondaryColumnsToCheck = [{name: 'Period', value: [1, 1]}],
+    secondaryColumnsToCheck = [{ name: 'Period', value: [1, 1] }],
     maximumLength = 40,
   } = args;
   const e: SheetEventGS = new SheetEventGS(_e);
@@ -116,25 +114,27 @@ export function changeAttendance(_e: GoogleAppsScript.Events.SheetsOnEdit,
     const thisColumn = e.getColumn();
     const thisEditedValue = e.getEditedValue();
 
-    if ((attendanceSheet === undefined) || (thisActiveSheet === undefined) ||
-      (thisRow === undefined) || (thisColumn == undefined) ||
-      (thisEditedValue === undefined)) return;
+    if (
+      attendanceSheet === undefined ||
+      thisActiveSheet === undefined ||
+      thisRow === undefined ||
+      thisColumn == undefined ||
+      thisEditedValue === undefined
+    )
+      return;
 
-    attendanceSheet.changeWorkingStatus(true, workingStatusCell,
-        workingStatusColor);
+    attendanceSheet.changeWorkingStatus(true, workingStatusCell, workingStatusColor);
     const studentInfoSheet = thisActiveSheet.getSheet(studentInfoSheetName);
     const topRow = attendanceSheet.getRow(thisRow);
     const name = topRow[0];
     const attendance = topRow[topRow.length - 1];
     const currentDate = attendanceSheet.getValue(1, topRow.length);
 
-    const secondaryColumns: Array<{ name: string | Date;
-      value: string | Date }> = [];
+    const secondaryColumns: Array<{ name: string | Date; value: string | Date }> = [];
     for (const columnToCheck of secondaryColumnsToCheck) {
       secondaryColumns.push({
         name: columnToCheck.name,
-        value: attendanceSheet.getValue(columnToCheck.value[0],
-            columnToCheck.value[1]),
+        value: attendanceSheet.getValue(columnToCheck.value[0], columnToCheck.value[1]),
       });
     }
 
@@ -150,28 +150,28 @@ export function changeAttendance(_e: GoogleAppsScript.Events.SheetsOnEdit,
           }
 
           const records = studentInfoSheet.getRecordsMatchingColumnValue(
-              secondaryColumns[0].name,
-              secondaryColumns[0].value,
-              returnColumnNames,
-              true,
+            secondaryColumns[0].name,
+            secondaryColumns[0].value,
+            returnColumnNames,
+            true,
           );
-          attendanceSheet.setValues(records, 2, 1, records.length,
-              topRow.length);
+          attendanceSheet.setValues(records, 2, 1, records.length, topRow.length);
         }
       }
     } else if (thisColumn > 1 && thisColumn < topRow.length) {
       // edits a column in the middle between the name and attendance record
-      secondaryColumns.push({name: fullnameColumnName, value: name});
-      studentInfoSheet.setValueWithMatchingColumns(thisEditedValue,
-          attendanceSheet.getValue(1, thisColumn), secondaryColumns);
+      secondaryColumns.push({ name: fullnameColumnName, value: name });
+      studentInfoSheet.setValueWithMatchingColumns(
+        thisEditedValue,
+        attendanceSheet.getValue(1, thisColumn),
+        secondaryColumns,
+      );
     } else if (e.getColumn() === topRow.length) {
       // edit the attendance record
-      secondaryColumns.push({name: fullnameColumnName, value: name});
-      studentInfoSheet.setValueWithMatchingColumns(attendance, currentDate,
-          secondaryColumns);
+      secondaryColumns.push({ name: fullnameColumnName, value: name });
+      studentInfoSheet.setValueWithMatchingColumns(attendance, currentDate, secondaryColumns);
     }
-    attendanceSheet.changeWorkingStatus(false, workingStatusCell,
-        normalStatusColor);
+    attendanceSheet.changeWorkingStatus(false, workingStatusCell, normalStatusColor);
   }
 }
 

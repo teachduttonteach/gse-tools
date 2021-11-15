@@ -1,6 +1,6 @@
-import {UiGS} from '../UiGS';
-import {DriveGS} from '../drive/DriveGS';
-import {SlideGS} from './SlideGS';
+import { UiGS } from '../UiGS';
+import { DriveGS } from '../drive/DriveGS';
+import { SlideGS } from './SlideGS';
 
 /**
  * Class to access methods and properties of Google Presentations
@@ -48,8 +48,7 @@ export function activateSlideshowUi(obj: SlideshowGS): SlideshowGS {
  * @param {SlideshowGS} obj the Slideshow object
  * @return {GoogleAppsScript.Slides.Presentation} the Presentation object
  */
-export function getSlideshowObject(obj: SlideshowGS):
-  GoogleAppsScript.Slides.Presentation {
+export function getSlideshowObject(obj: SlideshowGS): GoogleAppsScript.Slides.Presentation {
   return obj.getObject();
 }
 
@@ -61,8 +60,7 @@ export function getSlideshowObject(obj: SlideshowGS):
  *
  * @return {SlideshowGS} the object for chaining
  */
-export function setSlideshowTemplate(obj: SlideshowGS, id: string):
-  SlideshowGS {
+export function setSlideshowTemplate(obj: SlideshowGS, id: string): SlideshowGS {
   return obj.setTemplate(id);
 }
 
@@ -75,8 +73,7 @@ export function setSlideshowTemplate(obj: SlideshowGS, id: string):
  *
  * @return {SlideshowGS} the object for chaining
  */
-export function changeSlideshowPictureFromFolder(obj: SlideshowGS,
-    folder: string, slide: SlideGS): SlideshowGS {
+export function changeSlideshowPictureFromFolder(obj: SlideshowGS, folder: string, slide: SlideGS): SlideshowGS {
   return obj.changeSlidePictureFromFolder(folder, slide);
 }
 
@@ -89,8 +86,7 @@ export function changeSlideshowPictureFromFolder(obj: SlideshowGS,
  *
  * @return {SlideshowGS} the object for chaining
  */
-export function changeSlideshowPicture(obj: SlideshowGS, imageId: string,
-    slide: SlideGS): SlideshowGS {
+export function changeSlideshowPicture(obj: SlideshowGS, imageId: string, slide: SlideGS): SlideshowGS {
   return obj.changeSlidePicture(imageId, slide);
 }
 
@@ -116,8 +112,7 @@ export function getSlide(obj: SlideshowGS, num: number): SlideGS {
  *
  * @return {SlideGS} the new slide object
  */
-export function addSlide(obj: SlideshowGS, title: string, body: string,
-    type: string): SlideGS {
+export function addSlide(obj: SlideshowGS, title: string, body: string, type: string): SlideGS {
   return obj.addSlide(title, body, type);
 }
 
@@ -129,8 +124,7 @@ export function addSlide(obj: SlideshowGS, title: string, body: string,
  *
  * @return {SlideGS} the slide object
  */
-export function getSlideByNotes(obj: SlideshowGS, notes: string):
-  SlideGS | null {
+export function getSlideByNotes(obj: SlideshowGS, notes: string): SlideGS | null {
   return obj.getSlideByNotes(notes);
 }
 
@@ -168,8 +162,7 @@ export function getSlideByType(obj: SlideshowGS, typeTitle: string): SlideGS {
  *
  * @return {SlideshowGS} the object for chaining
  */
-export function setSlideBodyByType(obj: SlideshowGS, slideNotes: string,
-    slideText: string): SlideshowGS {
+export function setSlideBodyByType(obj: SlideshowGS, slideNotes: string, slideText: string): SlideshowGS {
   return obj.setSlideBodyByType(slideNotes, slideText);
 }
 
@@ -182,8 +175,7 @@ export function setSlideBodyByType(obj: SlideshowGS, slideNotes: string,
  *
  * @return {SlideshowGS} the object for chaining
  */
-export function setSlideTitleByType(obj: SlideshowGS, slideNotes: string,
-    title: string): SlideshowGS {
+export function setSlideTitleByType(obj: SlideshowGS, slideNotes: string, title: string): SlideshowGS {
   return obj.setSlideTitleByType(slideNotes, title);
 }
 
@@ -205,8 +197,7 @@ export class SlideshowGS extends UiGS {
     super();
     this._presentation = SlidesApp.openById(id);
     if (this._presentation == null) {
-      throw new Error('Slideshow not found with id ' + id +
-        ' in SlideshowGS()');
+      throw new Error('Slideshow not found with id ' + id + ' in SlideshowGS()');
     }
     this._getAllSlides();
     this._templateSlideUsed = -1;
@@ -269,8 +260,7 @@ export class SlideshowGS extends UiGS {
     }
     this._template = SlidesApp.openById(id);
     if (this._template == null) {
-      throw new Error('Could not find requested Google Slides template in ' +
-        'Slides.setTemplate');
+      throw new Error('Could not find requested Google Slides template in ' + 'Slides.setTemplate');
     }
     return this;
   }
@@ -287,8 +277,7 @@ export class SlideshowGS extends UiGS {
     if (imageId != null) {
       const chosenPicture = new DriveGS().getImageBlob(imageId);
       if (chosenPicture) {
-        slide
-            .positionPicture(slide.changePicture(chosenPicture));
+        slide.positionPicture(slide.changePicture(chosenPicture));
       }
     }
     return this;
@@ -319,8 +308,7 @@ export class SlideshowGS extends UiGS {
    */
   getSlide(num: number): SlideGS {
     if (typeof num === 'number') return this._allSlides[num - 1];
-    throw new Error('Could not get slide #' + num +
-      ' from slideshow in Slides.getSlide');
+    throw new Error('Could not get slide #' + num + ' from slideshow in Slides.getSlide');
   }
 
   /**
@@ -346,24 +334,20 @@ export class SlideshowGS extends UiGS {
     let slideAdded: GoogleAppsScript.Slides.Slide;
     if (this._template != null) {
       if (this._template.getSlides().length > 0) {
-        const slideToGet = this._allSlides.length %
-          this._template.getSlides().length;
-        slideAdded = this._presentation
-            .appendSlide(this._template.getSlides()[slideToGet]);
+        const slideToGet = this._allSlides.length % this._template.getSlides().length;
+        slideAdded = this._presentation.appendSlide(this._template.getSlides()[slideToGet]);
         this._templateSlideUsed = slideToGet;
       } else {
-        slideAdded = this._presentation
-            .appendSlide(this._template.getSlides()[0]);
+        slideAdded = this._presentation.appendSlide(this._template.getSlides()[0]);
       }
     } else {
-      slideAdded = this._presentation
-          .appendSlide(SlidesApp.PredefinedLayout.TITLE_AND_BODY);
+      slideAdded = this._presentation.appendSlide(SlidesApp.PredefinedLayout.TITLE_AND_BODY);
     }
     this._getAllSlides();
     return new SlideGS(slideAdded)
-        .setTitle(title)
-        .setBody(body)
-        .setNotes(notes);
+      .setTitle(title)
+      .setBody(body)
+      .setNotes(notes);
   }
 
   /**
@@ -375,16 +359,14 @@ export class SlideshowGS extends UiGS {
    */
   getSlideByNotes(notes: string): SlideGS | null {
     if (notes == null) {
-      throw new Error('Notes are not defined to remove in ' +
-      'SlideshowGS.getSlideByNotes()');
+      throw new Error('Notes are not defined to remove in ' + 'SlideshowGS.getSlideByNotes()');
     }
     for (let j = 0; j < this._allSlides.length; j++) {
       if (this._allSlides[j].getNotes().indexOf(notes) == 0) {
         return this._allSlides[j];
       }
     }
-    console.log('WARNING: Slide id ' + notes + ' not found in ' +
-      'SlideshowGS.getSlideByNotes()');
+    console.log('WARNING: Slide id ' + notes + ' not found in ' + 'SlideshowGS.getSlideByNotes()');
     return null;
   }
 

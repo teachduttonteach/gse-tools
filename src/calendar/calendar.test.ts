@@ -1,5 +1,5 @@
-import {CalendarGS} from './CalendarGS';
-import {MapGS} from '../map/MapGS';
+import { CalendarGS } from './CalendarGS';
+import { MapGS } from '../map/MapGS';
 
 /** Test functions in app */
 function test() {
@@ -17,38 +17,39 @@ function test() {
 
   // getUpcomingDueDates
   testSuite.testEachArgumentOfMethod(
-      argumentValues,
-      holidayCalendar.getUpcomingDueDates.bind(holidayCalendar),
-      [25, 'objectToTest'],
-      'getUpcomingDueDates',
+    argumentValues,
+    holidayCalendar.getUpcomingDueDates.bind(holidayCalendar),
+    [25, 'objectToTest'],
+    'getUpcomingDueDates',
   );
 
   // getId
-  testSuite.testMethod(holidayCalendar.getId.bind(holidayCalendar), [], 
-    'getId');
+  testSuite.testMethod(holidayCalendar.getId.bind(holidayCalendar), [], 'getId');
 
   // getObject
-  testSuite.testEquals('getObject', holidayCalendar.getObject().getId(),
-      calendarId);
+  testSuite.testEquals('getObject', holidayCalendar.getObject().getId(), calendarId);
 
   // getUpcomingEvents
-  testSuite.testMethodThenCall(holidayCalendar.getUpcomingEvents
-    .bind(holidayCalendar),
-      [[10], [20], [30]], 'getDate', 'getUpcomingEvents', true);
+  testSuite.testMethodThenCall(
+    holidayCalendar.getUpcomingEvents.bind(holidayCalendar),
+    [[10], [20], [30]],
+    'getDate',
+    'getUpcomingEvents',
+    true,
+  );
 
   // getUpcomingDueDatesList
   testSuite.testEachArgumentOfMethod(
-      argumentValues,
-      holidayCalendar.getUpcomingDueDatesList.bind(holidayCalendar),
-      [25, 'objectToTest'],
-      'getUpcomingDueDatesList',
+    argumentValues,
+    holidayCalendar.getUpcomingDueDatesList.bind(holidayCalendar),
+    [25, 'objectToTest'],
+    'getUpcomingDueDatesList',
   );
 
   const upcomingEvent = holidayCalendar.getUpcomingEvents(30)[0];
 
   // getDate
-  testSuite.testMethod(upcomingEvent.getDate.bind(upcomingEvent), [], 
-    'getDate');
+  testSuite.testMethod(upcomingEvent.getDate.bind(upcomingEvent), [], 'getDate');
 
   // getObject
   testSuite.testObject(upcomingEvent, 'upcomingEvent');

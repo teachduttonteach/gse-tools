@@ -5,7 +5,7 @@ export enum CourseWorkState {
   None = 'COURSE_WORK_STATE_UNSPECIFIED',
   Published = 'PUBLISHED',
   Draft = 'DRAFT',
-  Deleted = 'DELETED'
+  Deleted = 'DELETED',
 }
 
 /**
@@ -15,7 +15,7 @@ export enum CourseWorkType {
   None = 'COURSE_WORK_TYPE_UNSPECIFIED',
   Assignment = 'ASSIGNMENT',
   ShortAnswer = 'SHORT_ANSWER_QUESTION',
-  MultipleChoice = 'MULTIPLE_CHOICE_QUESTION'
+  MultipleChoice = 'MULTIPLE_CHOICE_QUESTION',
 }
 
 /**
@@ -25,7 +25,7 @@ export enum AnnouncementState {
   None = 'ANNOUNCEMENT_STATE_UNSPECIFIED',
   Published = 'PUBLISHED',
   Draft = 'DRAFT',
-  Deleted = 'DELETED'
+  Deleted = 'DELETED',
 }
 
 /**
@@ -34,15 +34,14 @@ export enum AnnouncementState {
 export enum AssigneeMode {
   None = 'ASSIGNEE_MODE_UNSPECIFIED',
   All = 'ALL_STUDENTS',
-  IndividualStudents = 'INDIVIDUAL_STUDENTS'
+  IndividualStudents = 'INDIVIDUAL_STUDENTS',
 }
 
 /**
  * How submissions can be modified
  */
 export enum SubmissionModificationMode {
-  None =
-    'SUBMISSION_MODIFICATION_MODE_UNSPECIFIED',
+  None = 'SUBMISSION_MODIFICATION_MODE_UNSPECIFIED',
   ModifiableUntilTurnedIn = 'MODIFIABLE_UNTIL_TURNED_IN',
-  Modifiable = 'MODIFIABLE'
+  Modifiable = 'MODIFIABLE',
 }

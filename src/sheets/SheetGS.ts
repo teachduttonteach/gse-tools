@@ -1,6 +1,6 @@
-import {MapGS} from '../map/MapGS';
-import {areDatesEqual} from '../utils/Utilities';
-import {CellRange} from './CellRange';
+import { MapGS } from '../map/MapGS';
+import { areDatesEqual } from '../utils/Utilities';
+import { CellRange } from './CellRange';
 
 /**
  * Class to access methods and properties of individual
@@ -9,8 +9,7 @@ import {CellRange} from './CellRange';
  * the Google Apps Script Sheet object
  * @return {SheetGS} the Sheet object
  */
-export function newSheet(sheetObject: GoogleAppsScript.Spreadsheet.Sheet):
-  SheetGS {
+export function newSheet(sheetObject: GoogleAppsScript.Spreadsheet.Sheet): SheetGS {
   return new SheetGS(sheetObject);
 }
 
@@ -30,8 +29,7 @@ export function resetSheetData(obj: SheetGS): SheetGS {
  * @param {SheetGS} obj the Sheet object
  * @return {GoogleAppsScript.Spreadsheet.Sheet} the Sheet object
  */
-export function getSheetObject(obj: SheetGS):
-  GoogleAppsScript.Spreadsheet.Sheet {
+export function getSheetObject(obj: SheetGS): GoogleAppsScript.Spreadsheet.Sheet {
   return obj.getObject();
 }
 
@@ -43,8 +41,7 @@ export function getSheetObject(obj: SheetGS):
  * @param {number} col the column of the value, indexed at 1
  * @return {string | Date} the value requested
  */
-export function getSheetValue(obj: SheetGS, row: number, col: number):
-  string | Date {
+export function getSheetValue(obj: SheetGS, row: number, col: number): string | Date {
   return obj.getValue(row, col);
 }
 
@@ -56,8 +53,7 @@ export function getSheetValue(obj: SheetGS, row: number, col: number):
  * @param {number} col the column of the value, indexed at 1
  * @return {Date} the date value requested
  */
-export function getSheetDateValue(obj: SheetGS, row: number, col: number):
-  Date | null {
+export function getSheetDateValue(obj: SheetGS, row: number, col: number): Date | null {
   return obj.getDateValue(row, col);
 }
 
@@ -73,11 +69,11 @@ export function getSheetDateValue(obj: SheetGS, row: number, col: number):
  *  or Dates
  */
 export function getSheetValues(
-    obj: SheetGS,
-    row: number,
-    col: number,
-    numRows: number,
-    numCols: number,
+  obj: SheetGS,
+  row: number,
+  col: number,
+  numRows: number,
+  numCols: number,
 ): Array<Array<string | Date>> {
   return obj.getValues(row, col, numRows, numCols);
 }
@@ -96,11 +92,11 @@ export function getSheetValues(
  *  a map object of rows with maps of columns
  */
 export function getSheetValuesAsMap(
-    obj: SheetGS,
-    row: number,
-    col: number,
-    numRows: number,
-    numCols: number,
+  obj: SheetGS,
+  row: number,
+  col: number,
+  numRows: number,
+  numCols: number,
 ): MapGS<string | Date, MapGS<string | Date, string | Date>> {
   return obj.getValuesAsMap(row, col, numRows, numCols);
 }
@@ -112,8 +108,7 @@ export function getSheetValuesAsMap(
  * @param {number} numColumn number of the column
  * @return {Array<string | Date>} the column as an array
  */
-export function getSheetColumn(obj: SheetGS, numColumn: number):
-  Array<string | Date> {
+export function getSheetColumn(obj: SheetGS, numColumn: number): Array<string | Date> {
   return obj.getColumn(numColumn);
 }
 
@@ -125,8 +120,7 @@ export function getSheetColumn(obj: SheetGS, numColumn: number):
  * @return {MapGS<string | Date, string | Date>}
  *   the row names with column values
  */
-export function getSheetColumnAsMap(obj: SheetGS, numColumn: number):
-  MapGS<string | Date, string | Date> {
+export function getSheetColumnAsMap(obj: SheetGS, numColumn: number): MapGS<string | Date, string | Date> {
   return obj.getColumnAsMap(numColumn);
 }
 
@@ -138,8 +132,7 @@ export function getSheetColumnAsMap(obj: SheetGS, numColumn: number):
  *
  * @return {string[]} the array of strings
  */
-export function convertSheetLinebreaksToList(obj: SheetGS, row: number,
-    column: number): string[] {
+export function convertSheetLinebreaksToList(obj: SheetGS, row: number, column: number): string[] {
   return obj.convertLinebreaksToList(row, column);
 }
 
@@ -157,11 +150,11 @@ export function convertSheetLinebreaksToList(obj: SheetGS, row: number,
  * @return {SheetGS} the sheet for chaining
  */
 export function setSheetValue(
-    obj: SheetGS,
-    value: string | Date,
-    row: number,
-    col: number,
-    reset: boolean = true,
+  obj: SheetGS,
+  value: string | Date,
+  row: number,
+  col: number,
+  reset: boolean = true,
 ): SheetGS {
   return obj.setValue(value, row, col, reset);
 }
@@ -180,11 +173,11 @@ export function setSheetValue(
  * @return {SheetGS} the sheet for chaining
  */
 export function setSheetValueAsMap(
-    obj: SheetGS,
-    value: string | Date,
-    row: string | Date,
-    column: string | Date,
-    reset: boolean = true,
+  obj: SheetGS,
+  value: string | Date,
+  row: string | Date,
+  column: string | Date,
+  reset: boolean = true,
 ): SheetGS {
   return obj.setValueWithLists(value, row, column, reset);
 }
@@ -209,13 +202,12 @@ export function setSheetValueAsMap(
  * @return {SheetGS} the object for chaining
  */
 export function setSheetValues(
-    obj: SheetGS,
-    firstParam: string | Date | Array<string | Date> |
-      Array<Array<string | Date>> | CellRange,
-    startRow: number = 1,
-    startCol: number = 1,
-    numRows: number = 1,
-    numCols: number = 1,
+  obj: SheetGS,
+  firstParam: string | Date | Array<string | Date> | Array<Array<string | Date>> | CellRange,
+  startRow: number = 1,
+  startCol: number = 1,
+  numRows: number = 1,
+  numCols: number = 1,
 ): SheetGS {
   return obj.setValues(firstParam, startRow, startCol, numRows, numCols);
 }
@@ -232,10 +224,10 @@ export function setSheetValues(
  * @return {boolean} whether or not they are equal
  */
 export function areSheetValuesEqual(
-    obj: SheetGS,
-    value: Date | string,
-    cell: [number, number],
-    level: string = 'YEAR',
+  obj: SheetGS,
+  value: Date | string,
+  cell: [number, number],
+  level: string = 'YEAR',
 ): boolean {
   return obj.areSheetValuesEqual(value, cell, level);
 }
@@ -252,10 +244,10 @@ export function areSheetValuesEqual(
  * @return {boolean} whether or not they are equal
  */
 export function areSheetValuesEqualAsMap(
-    obj: SheetGS,
-    value1: Date | string | null,
-    value2: Date | string,
-    level: string = 'YEAR',
+  obj: SheetGS,
+  value1: Date | string | null,
+  value2: Date | string,
+  level: string = 'YEAR',
 ): boolean {
   return obj.areValuesEqualAsMap(value1, value2, level);
 }
@@ -272,8 +264,8 @@ export function areSheetValuesEqualAsMap(
  *  the data object
  */
 export function getSheetDataAsMap(
-    obj: SheetGS,
-    rowFirst: boolean = true,
+  obj: SheetGS,
+  rowFirst: boolean = true,
 ): MapGS<string | Date, MapGS<string | Date, string | Date>> {
   return obj.getDataAsMap(rowFirst);
 }
@@ -288,8 +280,7 @@ export function getSheetDataAsMap(
  * @param {number} numCols the number of columns to clear
  * @return {SheetGS} the object for chaining
  */
-export function clearSheet(obj: SheetGS, row: number, col: number,
-    numRows: number = 1, numCols: number = 1): SheetGS {
+export function clearSheet(obj: SheetGS, row: number, col: number, numRows: number = 1, numCols: number = 1): SheetGS {
   return obj.clear(row, col, numRows, numCols);
 }
 
@@ -310,14 +301,13 @@ export function clearSheet(obj: SheetGS, row: number, col: number,
  *  the requested column values, not indexed by row
  */
 export function getRecordsMatchingColumnValue(
-    obj: SheetGS,
-    matchColumnName: string | Date,
-    matchColumnValue: string | Date,
-    returnColumnNames: Array<string | Date>,
-    sorted: boolean = false,
+  obj: SheetGS,
+  matchColumnName: string | Date,
+  matchColumnValue: string | Date,
+  returnColumnNames: Array<string | Date>,
+  sorted: boolean = false,
 ): Array<Array<string | Date>> {
-  return obj.getRecordsMatchingColumnValue(matchColumnName, matchColumnValue,
-      returnColumnNames, sorted);
+  return obj.getRecordsMatchingColumnValue(matchColumnName, matchColumnValue, returnColumnNames, sorted);
 }
 
 /**
@@ -337,13 +327,12 @@ export function getRecordsMatchingColumnValue(
  *  requested columns
  */
 export function getRecordsMatchingColumnValueAsMap(
-    obj: SheetGS,
-    matchColumnName: string | Date,
-    matchColumnValue: string | Date,
-    returnColumnNames: Array<string | Date>,
+  obj: SheetGS,
+  matchColumnName: string | Date,
+  matchColumnValue: string | Date,
+  returnColumnNames: Array<string | Date>,
 ): MapGS<string | Date, MapGS<string | Date, string | Date>> {
-  return obj.getRecordsMatchingColumnValueAsMap(matchColumnName,
-      matchColumnValue, returnColumnNames);
+  return obj.getRecordsMatchingColumnValueAsMap(matchColumnName, matchColumnValue, returnColumnNames);
 }
 
 /**
@@ -355,8 +344,7 @@ export function getRecordsMatchingColumnValueAsMap(
  *
  * @return {number} the first row that isn't blank
  */
-export function skipBlankRows(obj: SheetGS, startRow: number = 1,
-    col: number = 1): number {
+export function skipBlankRows(obj: SheetGS, startRow: number = 1, col: number = 1): number {
   return obj.skipBlankRows(startRow, col);
 }
 
@@ -408,9 +396,9 @@ export function insertCol(obj: SheetGS, col: number): SheetGS {
  *  false if the desired text is not found
  */
 export function getCellFromFind(
-    obj: SheetGS,
-    findText: string,
-    findNumber: number = 1,
+  obj: SheetGS,
+  findText: string,
+  findNumber: number = 1,
 ): GoogleAppsScript.Spreadsheet.Range | false {
   return obj.getCellFromFind(findText, findNumber);
 }
@@ -425,8 +413,7 @@ export function getCellFromFind(
  *
  * @return {number} the row found
  */
-export function getRowFromFind(obj: SheetGS, findText: string,
-    findNumber: number = 1): number {
+export function getRowFromFind(obj: SheetGS, findText: string, findNumber: number = 1): number {
   return obj.getRowFromFind(findText, findNumber);
 }
 
@@ -448,8 +435,7 @@ export function getRow(obj: SheetGS, rowNumber: number): Array<string | Date> {
  * @return {MapGS<string | Date, string | Date>} the map of values for the
  *  row
  */
-export function getRowAsMap(obj: SheetGS, rowNumber: number):
-  MapGS<string | Date, string | Date> {
+export function getRowAsMap(obj: SheetGS, rowNumber: number): MapGS<string | Date, string | Date> {
   return obj.getRowAsMap(rowNumber);
 }
 
@@ -463,8 +449,7 @@ export function getRowAsMap(obj: SheetGS, rowNumber: number):
  *
  * @return {number} the column found
  */
-export function getColumnFromFind(obj: SheetGS, findText: string,
-    findNumber: number = 1): number {
+export function getColumnFromFind(obj: SheetGS, findText: string, findNumber: number = 1): number {
   return obj.getColumnFromFind(findText, findNumber);
 }
 
@@ -500,10 +485,10 @@ export function getLastColumn(obj: SheetGS): number {
  * @return {SheetGS} the object for chaining
  */
 export function changeWorkingStatus(
-    obj: SheetGS,
-    working: boolean,
-    cell: [number, number] = [1, 1],
-    color: string = '#DD0000',
+  obj: SheetGS,
+  working: boolean,
+  cell: [number, number] = [1, 1],
+  color: string = '#DD0000',
 ): SheetGS {
   return obj.changeWorkingStatus(working, cell, color);
 }
@@ -518,8 +503,7 @@ export function changeWorkingStatus(
  *
  * @return {SheetGS} the object for chaining
  */
-export function setSheetBackground(obj: SheetGS, row: number, col: number,
-    color: string): SheetGS {
+export function setSheetBackground(obj: SheetGS, row: number, col: number, color: string): SheetGS {
   return obj.setBackground(row, col, color);
 }
 
@@ -536,11 +520,11 @@ export function setSheetBackground(obj: SheetGS, row: number, col: number,
  *  matching columns
  */
 export function setValueWithMatchingColumns(
-    obj: SheetGS,
-    value: string | Date,
-    column: string | Date | number,
-    columnsToMatch: Array<{name: string | Date, value: string | Date}>,
-    reset: boolean = true,
+  obj: SheetGS,
+  value: string | Date,
+  column: string | Date | number,
+  columnsToMatch: Array<{ name: string | Date; value: string | Date }>,
+  reset: boolean = true,
 ): SheetGS | null {
   return obj.setValueWithMatchingColumns(value, column, columnsToMatch, reset);
 }
@@ -558,11 +542,11 @@ export function setValueWithMatchingColumns(
  *  matching rows
  */
 export function setValueWithMatchingRows(
-    obj: SheetGS,
-    value: string | Date,
-    row: string | Date | number,
-    rowsToMatch: Array<{name: string | Date, value: string | Date}>,
-    reset: boolean = true,
+  obj: SheetGS,
+  value: string | Date,
+  row: string | Date | number,
+  rowsToMatch: Array<{ name: string | Date; value: string | Date }>,
+  reset: boolean = true,
 ): SheetGS | null {
   return obj.setValueWithMatchingRows(value, row, rowsToMatch, reset);
 }
@@ -590,12 +574,10 @@ export class SheetGS {
     this._lastRow = this._sheet.getLastRow();
     this._lastCol = this._sheet.getLastColumn();
     this._data =
-      this._lastRow && this._lastCol ? this._sheet.getRange(1, 1,
-          this._lastRow, this._lastCol).getValues() : [[]];
+      this._lastRow && this._lastCol ? this._sheet.getRange(1, 1, this._lastRow, this._lastCol).getValues() : [[]];
     for (let r = 0; r < this._data.length; r++) {
       for (let c = 0; c < this._data[r].length; c++) {
-        if ( Object.prototype.toString.call(this._data[r][c]) ===
-          '[object Date]' ) {
+        if (Object.prototype.toString.call(this._data[r][c]) === '[object Date]') {
           this._data[r][c] = new Date(this._data[r][c]);
         }
       }
@@ -611,8 +593,7 @@ export class SheetGS {
   resetData(): SheetGS {
     this._lastRow = this._sheet.getLastRow();
     this._lastCol = this._sheet.getLastColumn();
-    this._data = this._sheet.getRange(1, 1, this._lastRow, this._lastCol)
-        .getValues();
+    this._data = this._sheet.getRange(1, 1, this._lastRow, this._lastCol).getValues();
     this._textFinder = new MapGS();
     return this;
   }
@@ -634,15 +615,12 @@ export class SheetGS {
    * @return {string} the value requested
    */
   getValue(row: number, col: number): string | Date {
-    if ((typeof row !== 'number') || (typeof col !== 'number')) {
-      throw new
-      Error('Row and column values (' + row + ', ' + col + ') must be ' +
-      'numbers in SheetGS.getValue()');
+    if (typeof row !== 'number' || typeof col !== 'number') {
+      throw new Error('Row and column values (' + row + ', ' + col + ') must be ' + 'numbers in SheetGS.getValue()');
     }
 
-    if ((row < 1) || (col < 1)) {
-      throw new Error('Row and column numbers (' +
-      row + ',' + col + ') must be greater than 0 in SheetGS.getValue()');
+    if (row < 1 || col < 1) {
+      throw new Error('Row and column numbers (' + row + ',' + col + ') must be greater than 0 in SheetGS.getValue()');
     }
 
     return this._data[row - 1][col - 1];
@@ -658,8 +636,13 @@ export class SheetGS {
   getDateValue(row: number, col: number): Date | null {
     const dateValue = this._data[row - 1][col - 1];
     if (dateValue instanceof Date) return dateValue;
-    console.log("WARNING: Value '" + dateValue + "' at row, col '" + 
-      [row, col].join(",") +  "' is not a date in SheetGS.getDateValue()");
+    console.log(
+      "WARNING: Value '" +
+        dateValue +
+        "' at row, col '" +
+        [row, col].join(',') +
+        "' is not a date in SheetGS.getDateValue()",
+    );
     return null;
   }
 
@@ -673,23 +656,28 @@ export class SheetGS {
    * @return {Array<Array<string | Date>>} the array of arrays of strings
    *  or Dates
    */
-  getValues(row: number, col: number, numRows: number, numCols: number):
-    Array<Array<string | Date>> {
+  getValues(row: number, col: number, numRows: number, numCols: number): Array<Array<string | Date>> {
     const returnValue: Array<Array<string | Date>> = [];
 
-    if ((typeof row !== 'number') || (typeof col !== 'number') ||
-      (typeof numRows !== 'number') || (typeof numCols !== 'number')) {
+    if (
+      typeof row !== 'number' ||
+      typeof col !== 'number' ||
+      typeof numRows !== 'number' ||
+      typeof numCols !== 'number'
+    ) {
       throw new Error(
-          'Row, column, number of rows and columns (' +
-          [row, col, numRows, numCols].join(',') + ') must all be numbers ' +
+        'Row, column, number of rows and columns (' +
+          [row, col, numRows, numCols].join(',') +
+          ') must all be numbers ' +
           'in SheetGS.getValues()',
       );
     }
 
     if (row < 1 || col < 1 || numRows < 1 || numCols < 1) {
       throw new Error(
-          'Row, column, number of rows and columns (' +
-          [row, col, numRows, numCols].join(',') + ') must all be greater ' +
+        'Row, column, number of rows and columns (' +
+          [row, col, numRows, numCols].join(',') +
+          ') must all be greater ' +
           'than or equal to 1 in SheetGS.getValues()',
       );
     }
@@ -699,8 +687,7 @@ export class SheetGS {
       for (let c = col; c < col + numCols; c++) {
         const thisValue = this._data[r - 1][c - 1];
         if (thisValue === undefined) {
-          throw new Error('Could not find value' +
-          ' at (' + [r - 1, c - 1].join(',') + ') in SheetGS.getValues()');
+          throw new Error('Could not find value' + ' at (' + [r - 1, c - 1].join(',') + ') in SheetGS.getValues()');
         }
         columnsValues.push(thisValue);
       }
@@ -723,27 +710,23 @@ export class SheetGS {
    *  a map object of rows with maps of columns
    */
   getValuesAsMap(
-      row: number,
-      col: number,
-      numRows: number,
-      numCols: number,
+    row: number,
+    col: number,
+    numRows: number,
+    numCols: number,
   ): MapGS<string | Date, MapGS<string | Date, string | Date>> {
-    const _return: MapGS<string | Date, MapGS<string | Date, string | Date>> =
-      new MapGS();
+    const _return: MapGS<string | Date, MapGS<string | Date, string | Date>> = new MapGS();
 
     if (numRows == -1) numRows = this._lastRow - row;
     if (numCols == -1) numCols = this._lastCol - col;
 
     if (row < 1 || col < 1 || numRows < 1 || numCols < 1) {
       throw new Error(
-          'Row, column, number of rows and columns must all be greater ' +
-        'than or equal to 1 in SheetGS.getMapValues()',
+        'Row, column, number of rows and columns must all be greater ' + 'than or equal to 1 in SheetGS.getMapValues()',
       );
     }
-    if (((row + numRows) > this._lastRow) ||
-      ((col + numCols) > this._lastCol)) {
-      throw new Error('Rows and columns requested must not exceed size ' +
-        'of sheet in SheetGS.getValuesAsMap()');
+    if (row + numRows > this._lastRow || col + numCols > this._lastCol) {
+      throw new Error('Rows and columns requested must not exceed size ' + 'of sheet in SheetGS.getValuesAsMap()');
     }
 
     for (let r = row; r < row + numRows; r++) {
@@ -764,13 +747,11 @@ export class SheetGS {
    */
   getColumn(colNumber: number): Array<string | Date> {
     if (typeof colNumber !== 'number') {
-      throw new Error('Column \'' + colNumber +
-      '\' must be a number in SheetGS.getColumn()');
+      throw new Error("Column '" + colNumber + "' must be a number in SheetGS.getColumn()");
     }
 
     if (colNumber < 1) {
-      throw new Error('Column \'' + colNumber + '\' must be ' +
-      'greater than 0 in SheetGS.getColumn()');
+      throw new Error("Column '" + colNumber + "' must be " + 'greater than 0 in SheetGS.getColumn()');
     }
 
     const returnArray: Array<string | Date> = [];
@@ -789,12 +770,10 @@ export class SheetGS {
    */
   getColumnAsMap(numColumn: number): MapGS<string | Date, string | Date> {
     if (typeof numColumn !== 'number') {
-      throw new Error('Column number must be ' +
-      'a number in SheetGS.getColumnAsMap()');
+      throw new Error('Column number must be ' + 'a number in SheetGS.getColumnAsMap()');
     }
     if (numColumn < 1) {
-      throw new Error('Column number must be greater than ' +
-      '0 in SheetGS.getColumnAsMap()');
+      throw new Error('Column number must be greater than ' + '0 in SheetGS.getColumnAsMap()');
     }
     const returnArray: MapGS<string | Date, string | Date> = new MapGS();
     for (const r of this._data) {
@@ -828,11 +807,9 @@ export class SheetGS {
    *
    * @return {SheetGS} the sheet for chaining
    */
-  setValue(value: string | Date, row: number, col: number,
-      reset: boolean = true): SheetGS {
+  setValue(value: string | Date, row: number, col: number, reset: boolean = true): SheetGS {
     if (row < 1 || col < 1) {
-      throw new Error('Row and column numbers need to be greater than 0 in ' +
-        'SheetGS.setValue()');
+      throw new Error('Row and column numbers need to be greater than 0 in ' + 'SheetGS.setValue()');
     }
     this._sheet.getRange(row, col).setValue(value);
     if (reset) this.resetData();
@@ -851,25 +828,27 @@ export class SheetGS {
    *
    * @return {SheetGS} the sheet for chaining
    */
-  setValueWithLists(value: string | Date,
-      row: string | Date | Array<string | Date>,
-      column: string | Date | Array<string | Date>,
-      reset: boolean = true): SheetGS {
-    if ((value === undefined) || (row === undefined) ||
-      (column === undefined)) {
-      throw new Error('Value, row name, and column ' +
-      'name must all be defined in SheetGS.setValueAsMap()');
+  setValueWithLists(
+    value: string | Date,
+    row: string | Date | Array<string | Date>,
+    column: string | Date | Array<string | Date>,
+    reset: boolean = true,
+  ): SheetGS {
+    if (value === undefined || row === undefined || column === undefined) {
+      throw new Error('Value, row name, and column ' + 'name must all be defined in SheetGS.setValueAsMap()');
     }
     for (let r: number = 2; r <= this._lastRow; r++) {
-      if (((row instanceof Array) && (this._checkRow(row, r))) ||
-        ((row instanceof Date) &&
-        areDatesEqual(this.getDateValue(r, 1), row)) ||
-         (this.getValue(r, 1) == row)) {
+      if (
+        (row instanceof Array && this._checkRow(row, r)) ||
+        (row instanceof Date && areDatesEqual(this.getDateValue(r, 1), row)) ||
+        this.getValue(r, 1) == row
+      ) {
         for (let c: number = 2; c <= this._lastCol; c++) {
-          if (((column instanceof Array) && (this._checkCol(column, c))) ||
-            ((column instanceof Date) &&
-            areDatesEqual(this.getDateValue(1, c), column)) ||
-            (this.getValue(1, c) == column)) {
+          if (
+            (column instanceof Array && this._checkCol(column, c)) ||
+            (column instanceof Date && areDatesEqual(this.getDateValue(1, c), column)) ||
+            this.getValue(1, c) == column
+          ) {
             this.setValue(value, r, c, reset);
           }
         }
@@ -885,8 +864,7 @@ export class SheetGS {
    * @param {number} rowNumber
    * @return {boolean} whether or not the values are equal
    */
-  private _checkRow(rowArray: Array<string | Date>, rowNumber: number):
-    boolean {
+  private _checkRow(rowArray: Array<string | Date>, rowNumber: number): boolean {
     for (let i = 1; i <= rowArray.length; i++) {
       if (rowArray[i - 1] instanceof Date) {
         if (!areDatesEqual(this.getDateValue(rowNumber, i), rowArray[i - 1])) {
@@ -906,8 +884,7 @@ export class SheetGS {
    * @param {number} colNumber
    * @return {boolean} whether or not the values are equal
    */
-  private _checkCol(colArray: Array<string | Date>, colNumber: number):
-    boolean {
+  private _checkCol(colArray: Array<string | Date>, colNumber: number): boolean {
     for (let i = 1; i <= colArray.length; i++) {
       if (colArray[i - 1] instanceof Date) {
         if (!areDatesEqual(this.getDateValue(i, colNumber), colArray[i - 1])) {
@@ -943,17 +920,14 @@ export class SheetGS {
    * @return {SheetGS} the object for chaining
    */
   setValues(
-      firstParam: string | Date | Array<string | Date> |
-        Array<Array<string | Date>> | CellRange,
-      startRow: number = 1,
-      startCol: number = 1,
-      numRows: number = 1,
-      numCols: number = 1,
+    firstParam: string | Date | Array<string | Date> | Array<Array<string | Date>> | CellRange,
+    startRow: number = 1,
+    startCol: number = 1,
+    numRows: number = 1,
+    numCols: number = 1,
   ): SheetGS {
-    let value: string | Date | Array<string | Date> |
-      Array<Array<string | Date>>;
-    if (typeof firstParam === 'object' && !(firstParam instanceof Array) &&
-      !(firstParam instanceof Date)) {
+    let value: string | Date | Array<string | Date> | Array<Array<string | Date>>;
+    if (typeof firstParam === 'object' && !(firstParam instanceof Array) && !(firstParam instanceof Date)) {
       startRow = firstParam.startRow;
       startCol = firstParam.startCol;
       numRows = firstParam.numRows == null ? 1 : firstParam.numRows;
@@ -965,7 +939,7 @@ export class SheetGS {
 
     if (startRow < 1 || startCol < 1) {
       throw new Error(
-          'The start row (' +
+        'The start row (' +
           startRow +
           ') and start column (' +
           startCol +
@@ -975,19 +949,22 @@ export class SheetGS {
 
     if (numRows < 1 || numCols < 1) {
       throw new Error(
-          'The number of rows (' + numRows + ') and columns (' + numCols +
-            ') must be greater or equal to one',
+        'The number of rows (' + numRows + ') and columns (' + numCols + ') must be greater or equal to one',
       );
     }
 
     // TODO: Set values with this._sheet.getRange().setValues()
 
-    if (value instanceof Array && value.every(function(e: any | any[]) {
-      return e instanceof Array;
-    })) {
-      this._sheet.getRange(startRow, startCol, numRows, numCols)
-      // @ts-ignore
-      .setValues(value);
+    if (
+      value instanceof Array &&
+      value.every(function(e: any | any[]) {
+        return e instanceof Array;
+      })
+    ) {
+      this._sheet
+        .getRange(startRow, startCol, numRows, numCols)
+        // @ts-ignore
+        .setValues(value);
       return this.resetData();
     }
 
@@ -1018,11 +995,9 @@ export class SheetGS {
    *
    * @return {boolean} whether or not they are equal
    */
-  areSheetValuesEqual(value: Date | string, cell: [number, number],
-      level: string = 'YEAR'): boolean {
+  areSheetValuesEqual(value: Date | string, cell: [number, number], level: string = 'YEAR'): boolean {
     if (
-      (value instanceof Date && areDatesEqual(value,
-          this.getDateValue(cell[0], cell[1]), level)) ||
+      (value instanceof Date && areDatesEqual(value, this.getDateValue(cell[0], cell[1]), level)) ||
       value == this.getValue(cell[0], cell[1])
     ) {
       return true;
@@ -1040,18 +1015,14 @@ export class SheetGS {
    *
    * @return {boolean} whether or not they are equal
    */
-  areValuesEqualAsMap(value1: Date | string | null, value2: Date | string,
-      level: string = 'YEAR'): boolean {
+  areValuesEqualAsMap(value1: Date | string | null, value2: Date | string, level: string = 'YEAR'): boolean {
     if (value1 == null) {
-      throw new Error('Could not find map value in ' +
-        'SheetGS.areMapValuesEqual()');
+      throw new Error('Could not find map value in ' + 'SheetGS.areMapValuesEqual()');
     }
 
-    if ((value1 instanceof Date && areDatesEqual(value1, value2, level)) ||
-      (value1 == value2)) return true;
+    if ((value1 instanceof Date && areDatesEqual(value1, value2, level)) || value1 == value2) return true;
     return false;
   }
-
 
   /**
    * Sets the designated value at the specified column if all of the passed
@@ -1066,10 +1037,10 @@ export class SheetGS {
    *  matching columns
    */
   setValueWithMatchingColumns(
-      value: string | Date,
-      column: string | Date | number,
-      columnsToMatch: Array<{name: string | Date, value: string | Date}>,
-      reset: boolean = true,
+    value: string | Date,
+    column: string | Date | number,
+    columnsToMatch: Array<{ name: string | Date; value: string | Date }>,
+    reset: boolean = true,
   ): SheetGS | null {
     if (typeof column == 'number') column = this._data[0][column - 1];
 
@@ -1087,7 +1058,7 @@ export class SheetGS {
         if (matchedAllColumns) {
           const rowNum = dataMap.getNum(r);
           const colNum = thisRow.getNum(column);
-          if ((rowNum != null) && (colNum != null)) {
+          if (rowNum != null && colNum != null) {
             return this.setValue(value, rowNum + 2, colNum + 1, reset);
           }
         }
@@ -1109,10 +1080,10 @@ export class SheetGS {
    *  matching rows
    */
   setValueWithMatchingRows(
-      value: string | Date,
-      row: string | Date | number,
-      rowsToMatch: Array<{name: string | Date, value: string | Date}>,
-      reset: boolean = true,
+    value: string | Date,
+    row: string | Date | number,
+    rowsToMatch: Array<{ name: string | Date; value: string | Date }>,
+    reset: boolean = true,
   ): SheetGS | null {
     if (typeof row == 'number') row = this._data[row - 1][0];
 
@@ -1130,7 +1101,7 @@ export class SheetGS {
         if (matchedAllRows) {
           const colNum = dataMap.getNum(c);
           const rowNum = thisColumn.getNum(row);
-          if ((rowNum != null) && (colNum != null)) {
+          if (rowNum != null && colNum != null) {
             return this.setValue(value, rowNum + 1, colNum + 2, reset);
           }
         }
@@ -1149,11 +1120,9 @@ export class SheetGS {
    * @return {MapGS<string | Date, MapGS<string | Date, string | Date>>}
    *  the data object
    */
-  getDataAsMap(rowFirst: boolean = true): MapGS<string | Date,
-    MapGS<string | Date, string | Date>> {
+  getDataAsMap(rowFirst: boolean = true): MapGS<string | Date, MapGS<string | Date, string | Date>> {
     if (this._mapData != undefined) return this._mapData;
-    const data: MapGS<string | Date, MapGS<string | Date, string | Date>> =
-       new MapGS();
+    const data: MapGS<string | Date, MapGS<string | Date, string | Date>> = new MapGS();
 
     if (rowFirst) {
       for (let r: number = 2; r <= this._lastRow; r++) {
@@ -1184,21 +1153,18 @@ export class SheetGS {
    * @param {number} numCols the number of columns to clear
    * @return {SheetGS} the object for chaining
    */
-  clear(row: number, col: number, numRows: number = 1, numCols: number = 1):
-    SheetGS {
+  clear(row: number, col: number, numRows: number = 1, numCols: number = 1): SheetGS {
     if (row < 1 || col < 1) {
-      throw new Error('Row and column must be greater than or equal to 1 in ' +
-       'SheetGS.clear()');
+      throw new Error('Row and column must be greater than or equal to 1 in ' + 'SheetGS.clear()');
     }
 
     if (numRows < 1 || numCols < 1) {
-      throw new Error('Number of rows and columns must be greater than or ' +
-        'equal to 1 in SheetGS.clear()');
+      throw new Error('Number of rows and columns must be greater than or ' + 'equal to 1 in SheetGS.clear()');
     }
 
     this.getObject()
-        .getRange(row, col, numRows, numCols)
-        .clearContent();
+      .getRange(row, col, numRows, numCols)
+      .clearContent();
     return this;
   }
 
@@ -1218,10 +1184,10 @@ export class SheetGS {
    *  the requested column values, not indexed by row
    */
   getRecordsMatchingColumnValue(
-      matchColumnName: string | Date,
-      matchColumnValue: string | Date,
-      returnColumnNames: Array<string | Date>,
-      sorted: boolean = false,
+    matchColumnName: string | Date,
+    matchColumnValue: string | Date,
+    returnColumnNames: Array<string | Date>,
+    sorted: boolean = false,
   ): Array<Array<string | Date>> {
     const data = this.getDataAsMap();
     const records: Array<Array<string | Date>> = [];
@@ -1235,9 +1201,9 @@ export class SheetGS {
           // Find the rows that have the correct value
           const mapValue = recordKeyMember.get(matchColumnName);
           if (mapValue == null) {
-            throw new Error('Could not find column name \'' +
-              matchColumnName + '\' to match value \'' +
-              matchColumnValue + '\'');
+            throw new Error(
+              "Could not find column name '" + matchColumnName + "' to match value '" + matchColumnValue + "'",
+            );
           }
           if (this.areValuesEqualAsMap(mapValue, matchColumnValue)) {
             // Create an array to hold the matching column values
@@ -1279,22 +1245,19 @@ export class SheetGS {
    *  requested columns
    */
   getRecordsMatchingColumnValueAsMap(
-      matchColumnName: string | Date,
-      matchColumnValue: string | Date,
-      returnColumnNames: Array<string | Date>,
+    matchColumnName: string | Date,
+    matchColumnValue: string | Date,
+    returnColumnNames: Array<string | Date>,
   ): MapGS<string | Date, MapGS<string | Date, string | Date>> {
     const data = this.getDataAsMap();
-    const records: MapGS<string | Date, MapGS<string | Date, string | Date>> =
-       new MapGS();
+    const records: MapGS<string | Date, MapGS<string | Date, string | Date>> = new MapGS();
 
     for (const record of data.keys()) {
       const recordKeyList = data.getAll(record);
       if (recordKeyList != null) {
         for (const recordKeyMember of recordKeyList) {
-          if (this.areValuesEqualAsMap(recordKeyMember.get(matchColumnName),
-              matchColumnValue)) {
-            const columnRecordsToPush: MapGS<string | Date, string | Date> =
-               new MapGS();
+          if (this.areValuesEqualAsMap(recordKeyMember.get(matchColumnName), matchColumnValue)) {
+            const columnRecordsToPush: MapGS<string | Date, string | Date> = new MapGS();
 
             for (const returnColumn of returnColumnNames) {
               const returnColumnValue = recordKeyMember.get(returnColumn);
@@ -1320,12 +1283,10 @@ export class SheetGS {
    */
   skipBlankRows(startRow: number = 1, col: number = 1): number {
     if (col < 1) {
-      throw new Error('Column (' + col + ') must be greater or equal to 1 ' +
-        'in skipBlankRows');
+      throw new Error('Column (' + col + ') must be greater or equal to 1 ' + 'in skipBlankRows');
     }
     if (startRow < 1) {
-      throw new Error('Start row (' + startRow + ') must be greater or ' +
-        'equal to 1 in skipBlankRows');
+      throw new Error('Start row (' + startRow + ') must be greater or ' + 'equal to 1 in skipBlankRows');
     }
     while (startRow < this._lastRow && this.getValue(startRow, col) == '') {
       startRow++;
@@ -1343,7 +1304,7 @@ export class SheetGS {
   deleteRow(row: number): SheetGS {
     if (row < 1 || row > this._lastRow) {
       throw new Error(
-          'The specified row (' +
+        'The specified row (' +
           row +
           ') must be greater ' +
           ' than or equal to 1 and less than or equal to the last row in ' +
@@ -1364,7 +1325,7 @@ export class SheetGS {
   deleteCol(col: number): SheetGS {
     if (col < 1 || col > this._lastCol) {
       throw new Error(
-          'The specified column (' +
+        'The specified column (' +
           col +
           ') must be greater ' +
           'than or equal to 1 and less than or equal to the last column in ' +
@@ -1384,8 +1345,7 @@ export class SheetGS {
    */
   insertCol(col: number): SheetGS {
     if (col < 1) {
-      throw new Error('The specified column (' + col + ') must be greater' +
-        ' than or equal to 1');
+      throw new Error('The specified column (' + col + ') must be greater' + ' than or equal to 1');
     }
     this._sheet.insertColumns(col);
     return this.resetData();
@@ -1400,8 +1360,7 @@ export class SheetGS {
    *
    * @return {GoogleAppsScript.Spreadsheet.Range | false} the Range found
    */
-  getCellFromFind(findText: string, findNumber: number = 1):
-    GoogleAppsScript.Spreadsheet.Range | false {
+  getCellFromFind(findText: string, findNumber: number = 1): GoogleAppsScript.Spreadsheet.Range | false {
     if (findText == '') {
       throw new Error('Text must be defined in SheetGS.getRowFromFind()');
     }
@@ -1415,16 +1374,14 @@ export class SheetGS {
     // Get the TextFinder object or say that it can't be found
     const currentTextFinder = this._textFinder.get(findText);
     if (currentTextFinder == undefined) {
-      throw new Error('Could not create textFinder in ' +
-        'SheetGS.getCellFromFind()');
+      throw new Error('Could not create textFinder in ' + 'SheetGS.getCellFromFind()');
     }
 
     // If we're looking for greater than the 1st instance of the text, look
     //  for it that many times decrementing the findNumber each time
     while (findNumber > 1) {
       if (currentTextFinder.findNext() == null) {
-        throw new Error('Could not find ' + findText + ', ' + findNumber +
-          ' times ' + 'in SheetGS.getCellFromFind()');
+        throw new Error('Could not find ' + findText + ', ' + findNumber + ' times ' + 'in SheetGS.getCellFromFind()');
       }
       findNumber--;
     }
@@ -1432,8 +1389,7 @@ export class SheetGS {
     // Find the instance we want to return
     const currentRange = currentTextFinder.findNext();
     if (currentRange == null) {
-      console.log('WARNING: Could not find instance of ' + findText +
-        ' in SheetGS.getCellFromFind()');
+      console.log('WARNING: Could not find instance of ' + findText + ' in SheetGS.getCellFromFind()');
       return false;
     }
     return currentRange;
@@ -1465,19 +1421,16 @@ export class SheetGS {
    */
   getRow(rowNumber: number): Array<string | Date> {
     if (typeof rowNumber !== 'number') {
-      throw new Error('Row \'' + rowNumber +
-      '\' must be a number in SheetGS.getRow()');
+      throw new Error("Row '" + rowNumber + "' must be a number in SheetGS.getRow()");
     }
 
     if (rowNumber < 1) {
-      throw new Error('Row \'' + rowNumber + '\' must be ' +
-      'greater than 0 in SheetGS.getRow()');
+      throw new Error("Row '" + rowNumber + "' must be " + 'greater than 0 in SheetGS.getRow()');
     }
 
     const thisRow = this._data[rowNumber - 1];
     if (thisRow === undefined) {
-      throw new Error('Row \'' + rowNumber +
-      '\' undefined in SheetGS.getRow()');
+      throw new Error("Row '" + rowNumber + "' undefined in SheetGS.getRow()");
     }
 
     return thisRow;
@@ -1491,12 +1444,10 @@ export class SheetGS {
    */
   getRowAsMap(rowNumber: number): MapGS<string | Date, string | Date> {
     if (typeof rowNumber !== 'number') {
-      throw new Error('Row number must be ' +
-      'a number in SheetGS.getRowAsMap()');
+      throw new Error('Row number must be ' + 'a number in SheetGS.getRowAsMap()');
     }
     if (rowNumber < 1) {
-      throw new Error('Row number must be greater than ' +
-      '0 in SheetGS.getRowAsMap()');
+      throw new Error('Row number must be greater than ' + '0 in SheetGS.getRowAsMap()');
     }
     const returnValue: MapGS<string | Date, string | Date> = new MapGS();
     for (let c = 0; c < this.getLastColumn(); c++) {
@@ -1516,8 +1467,7 @@ export class SheetGS {
    */
   getColumnFromFind(findText: string, findNumber: number = 1): number {
     if (findText == '') {
-      throw new Error('Text to find must be defined in ' +
-        'SheetGS.getColumnFromFind()');
+      throw new Error('Text to find must be defined in ' + 'SheetGS.getColumnFromFind()');
     }
     const thisRange = this.getCellFromFind(findText, findNumber);
     if (!thisRange) return -1;
@@ -1552,8 +1502,7 @@ export class SheetGS {
    *
    * @return {SheetGS} the object for chaining
    */
-  changeWorkingStatus(working: boolean, cell: [number, number] = [1, 1],
-      color: string = '#DD0000'): SheetGS {
+  changeWorkingStatus(working: boolean, cell: [number, number] = [1, 1], color: string = '#DD0000'): SheetGS {
     if (working) this._sheet.protect().setDomainEdit(false);
     else this._sheet.protect().remove();
 

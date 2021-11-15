@@ -1,9 +1,9 @@
-import {Test} from '../test/Test';
-import {SlideGS} from './SlideGS';
-import {SlideshowGS} from './SlideshowGS';
-import {QuestionType} from '../enums/QuestionType';
-import {DriveGS} from '../drive/DriveGS';
-import {Dimensions} from './Dimensions';
+import { Test } from '../test/Test';
+import { SlideGS } from './SlideGS';
+import { SlideshowGS } from './SlideshowGS';
+import { QuestionType } from '../enums/QuestionType';
+import { DriveGS } from '../drive/DriveGS';
+import { Dimensions } from './Dimensions';
 
 function test() {
   const thisSlideshow = new SlideshowGS('1_opOab_7nZQJnpWnUReg_euNxMmTnuvAMxY7MkswfDs');
@@ -18,10 +18,9 @@ function test() {
   thisSlideshow.setSlideTitleByType('survey', 'THIS IS A NEW TiTLE');
   thisSlideshow.setTemplate('1ozaIETzURGRC8sD0aMQuq5ityc-RKitQxvTC4Gacxj0');
 
-
   const thisSlide = thisSlideshow.getSlide(3);
   thisSlideshow.changeSlidePicture('1TrdcLHHWumKdfuy8BWcRK1zn-AEH6gIX', thisSlide);
-  thisSlide.addItem(QuestionType["Multiple Choice"], 'one\ntwo\nthree');
+  thisSlide.addItem(QuestionType['Multiple Choice'], 'one\ntwo\nthree');
   thisSlide.addItems(['four', 'five']);
 
   const blob = new DriveGS().getImageBlob('1QsF3e390z9N7LPte8IOUqiiVYO3lHWXq');

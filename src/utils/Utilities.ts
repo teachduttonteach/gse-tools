@@ -40,9 +40,9 @@ export function getTodaysDate(timezoneOffset: number): Date {
 }
 
 /**
- * Check to see if an assignment is null, and return the value of the 
+ * Check to see if an assignment is null, and return the value of the
  *  assignment
- * @param {T | undefined | null} testValue the assignment to test 
+ * @param {T | undefined | null} testValue the assignment to test
  * @param {string} description the description of the assignment being tested,
  *  will display for an error or warning
  * @param {string} functionName the name of the function to display for an
@@ -50,10 +50,13 @@ export function getTodaysDate(timezoneOffset: number): Date {
  * @param {'Error' | 'Warning' | 'Log' | 'None'} errorType the type of error
  *  to throw if the assignment is null
  */
-export function checkNull<T>(testValue: T | undefined | null,
-    description: string, functionName: string,
-    errorType: 'Error' | 'Warning' | 'Log' | 'None' = 'Error'): T {
-  if ((testValue === undefined) || (testValue === null)) {
+export function checkNull<T>(
+  testValue: T | undefined | null,
+  description: string,
+  functionName: string,
+  errorType: 'Error' | 'Warning' | 'Log' | 'None' = 'Error',
+): T {
+  if (testValue === undefined || testValue === null) {
     const errorString = description + ' not defined in ' + functionName;
     if (errorType == 'Error') throw new Error(errorString);
     else if (errorType == 'Warning') console.log('WARNING: ' + errorString);
@@ -73,13 +76,15 @@ export function checkNull<T>(testValue: T | undefined | null,
  *  checks to see if the day is equal
  * @return {boolean} true if the dates are equal
  */
-export function areDatesEqual(date1: Date | string | null,
-    date2: Date | string | null, level: string = 'YEAR'): boolean {
-  if ((typeof date1 === null) || (typeof date2 === null)) {
+export function areDatesEqual(
+  date1: Date | string | null,
+  date2: Date | string | null,
+  level: string = 'YEAR',
+): boolean {
+  if (typeof date1 === null || typeof date2 === null) {
     return false;
   }
-  if (!(date1 instanceof Date) || !(date2 instanceof Date) ||
-    typeof date1 !== typeof date2) {
+  if (!(date1 instanceof Date) || !(date2 instanceof Date) || typeof date1 !== typeof date2) {
     return false;
   }
   if (level.toUpperCase() === 'YEAR') {
@@ -111,33 +116,32 @@ export function areDatesEqual(date1: Date | string | null,
  * @return {boolean} true if the dates are equal
  */
 export function compareDates(
-    date1: Date | string,
-    date2: Date | string,
-    greaterThan: boolean = true,
-    equal: boolean = true,
-    level: string = 'YEAR',
+  date1: Date | string,
+  date2: Date | string,
+  greaterThan: boolean = true,
+  equal: boolean = true,
+  level: string = 'YEAR',
 ): boolean {
   if (equal && areDatesEqual(date1, date2, level)) {
     return true;
   }
-  if (!(date1 instanceof Date) || !(date2 instanceof Date) ||
-    typeof date1 !== typeof date2) {
+  if (!(date1 instanceof Date) || !(date2 instanceof Date) || typeof date1 !== typeof date2) {
     return false;
   }
   if (level.toUpperCase() === 'YEAR') {
     if (date1.getUTCFullYear() !== date2.getUTCFullYear()) {
-      if (greaterThan !== (date1.getUTCFullYear() > date2.getUTCFullYear())) {
+      if (greaterThan !== date1.getUTCFullYear() > date2.getUTCFullYear()) {
         return false;
       }
     }
   }
   if (level.toUpperCase() !== 'DAY') {
     if (date1.getUTCMonth() !== date2.getUTCMonth()) {
-      if (greaterThan !== (date1.getUTCMonth() > date2.getUTCMonth())) {
+      if (greaterThan !== date1.getUTCMonth() > date2.getUTCMonth()) {
         return false;
       }
     }
   }
 
-  return greaterThan === (date1.getUTCDate() > date2.getUTCDate());
+  return greaterThan === date1.getUTCDate() > date2.getUTCDate();
 }

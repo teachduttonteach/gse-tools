@@ -1,5 +1,5 @@
-import {MapGS} from './map/MapGS';
-import {SidebarButton} from './SidebarButton';
+import { MapGS } from './map/MapGS';
+import { SidebarButton } from './SidebarButton';
 
 /**
  * Class to hold the Google Apps User Interface
@@ -45,19 +45,16 @@ export class UiGS {
    */
   addMenu(menuName: string, itemName: string, functionName: string): UiGS {
     if (menuName == '' || itemName == '' || functionName == '') {
-      throw new Error('Name of menu, item and function must be defined in ' +
-        'UiGS.addMenu()');
+      throw new Error('Name of menu, item and function must be defined in ' + 'UiGS.addMenu()');
     }
     const thisMenu = this._menus.get(menuName);
     if (thisMenu != null) {
       thisMenu.addItem(itemName, functionName).addToUi();
     } else {
-      this._menus.set(menuName, this._ui.createMenu(menuName)
-          .addItem(itemName, functionName));
+      this._menus.set(menuName, this._ui.createMenu(menuName).addItem(itemName, functionName));
       const thisMenu = this._menus.get(menuName);
       if (thisMenu == undefined) {
-        throw new Error('Could not find menu (' + menuName +
-          ') in UiGS.addMenu()');
+        throw new Error('Could not find menu (' + menuName + ') in UiGS.addMenu()');
       }
       thisMenu.addToUi();
     }
@@ -72,28 +69,25 @@ export class UiGS {
    * @param {Array<SidebarButton>} buttons the buttons to display
    * @param {number} width how wide the sidebar should be; default is 300
    */
-  showSidebar(displayText: string, title: string,
-      buttons?: Array<SidebarButton>, width: number = 300) {
+  showSidebar(displayText: string, title: string, buttons?: Array<SidebarButton>, width: number = 300) {
     if (buttons != null) {
-      displayText += '<p><script>function closeThis(bool) { ' +
-        'google.script.host.close(); }</script>';
+      displayText += '<p><script>function closeThis(bool) { ' + 'google.script.host.close(); }</script>';
       for (const button of buttons) {
-        displayText += '<button type=\'button\' onclick=\'';
+        displayText += "<button type='button' onclick='";
         if (button.wait == true) {
-          displayText += 'this.innerHTML = ' +
-          '"Wait ..."; this.disabled = true; ';
+          displayText += 'this.innerHTML = ' + '"Wait ..."; this.disabled = true; ';
         }
         displayText += 'google.script.run.';
         if (button.close == true) {
           displayText += 'withSuccessHandler(closeThis).';
         }
-        displayText += button.function + '();\'>' + button.text + '</button> ';
+        displayText += button.function + "();'>" + button.text + '</button> ';
       }
     }
     this._ui.showSidebar(
-        HtmlService.createHtmlOutput(displayText)
-            .setTitle(title)
-            .setWidth(width),
+      HtmlService.createHtmlOutput(displayText)
+        .setTitle(title)
+        .setWidth(width),
     );
   }
 }

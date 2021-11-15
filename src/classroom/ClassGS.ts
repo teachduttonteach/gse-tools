@@ -1,11 +1,11 @@
-import {DateParams} from '../DateParams';
-import {Work} from 'Work';
-import {CourseMaterial} from './CourseMaterial';
-import {TopicInfo} from './TopicInfo';
-import {MapGS} from '../map/MapGS';
-import {TopicResource} from './TopicResource';
-import {CourseWorkGS} from './CourseWorkGS';
-import {CourseAnnouncementGS} from './CourseAnnouncementGS';
+import { DateParams } from '../DateParams';
+import { Work } from 'Work';
+import { CourseMaterial } from './CourseMaterial';
+import { TopicInfo } from './TopicInfo';
+import { MapGS } from '../map/MapGS';
+import { TopicResource } from './TopicResource';
+import { CourseWorkGS } from './CourseWorkGS';
+import { CourseAnnouncementGS } from './CourseAnnouncementGS';
 
 /**
  * Class to access a single course in Google Classroom
@@ -13,8 +13,7 @@ import {CourseAnnouncementGS} from './CourseAnnouncementGS';
  *  Google course object
  * @return {ClassGS} the object for chaining
  */
-export function newClass(course: GoogleAppsScript.Classroom.Schema.Course):
-  ClassGS {
+export function newClass(course: GoogleAppsScript.Classroom.Schema.Course): ClassGS {
   return new ClassGS(course);
 }
 
@@ -24,13 +23,13 @@ export function newClass(course: GoogleAppsScript.Classroom.Schema.Course):
  * var myClassroom = new gsetools.newClassroom();
  * var myClass = gsetools.getGoogleClass(myClassroom, 'izg4qrh');
  * var myStudents = gsetools.getStudents(myClass);
- * 
+ *
  * // Get the list of student IDs as an array
  * var studentIDs = myStudents.keys();
- * 
+ *
  * // Get the list of student names as an array
  * var studentNames = myStudents.values();
- * 
+ *
  * // Get student names for their IDs
  * while (myStudents.hasNext()) {
  *  var studentID = myStudents.next();
@@ -102,8 +101,7 @@ export function getStudentName(obj: ClassGS, id: string): string | null {
  * @param {string} studentID the optional student ID
  * @return {Array<string>} the list of parent emails
  */
-export function getParentEmails(obj: ClassGS, studentID?: string): 
-  Array<string> {
+export function getParentEmails(obj: ClassGS, studentID?: string): Array<string> {
   return obj.getParentEmails(studentID);
 }
 
@@ -119,8 +117,7 @@ export function getParentEmails(obj: ClassGS, studentID?: string):
  * @param {string} studentID the optional student ID
  * @return {Array<string>} the list of parent emails
  */
-export function getParentNames(obj: ClassGS, studentID?: string): 
-  Array<string> {
+export function getParentNames(obj: ClassGS, studentID?: string): Array<string> {
   return obj.getParentNames(studentID);
 }
 
@@ -132,8 +129,7 @@ export function getParentNames(obj: ClassGS, studentID?: string):
  *
  * @return {ClassGS} the object for chaining
  */
-export function addCourseWork(obj: ClassGS, work: CourseWorkGS):
-  ClassGS {
+export function addCourseWork(obj: ClassGS, work: CourseWorkGS): ClassGS {
   return obj.addCourseWork(work);
 }
 
@@ -157,8 +153,7 @@ export function addClassTopic(obj: ClassGS, topic: string): ClassGS {
  *
  * @return {ClassGS} the object for chaining
  */
-export function addClassAnnouncement(obj: ClassGS,
-    announcement: CourseAnnouncementGS): ClassGS {
+export function addClassAnnouncement(obj: ClassGS, announcement: CourseAnnouncementGS): ClassGS {
   return obj.addAnnouncement(announcement);
 }
 
@@ -242,7 +237,6 @@ export class ClassGS {
   private _announcements: Array<string>;
   private _id: string;
 
-
   /**
    * Gets the due date string
    *
@@ -253,10 +247,8 @@ export class ClassGS {
    *
    * @return {string} the due date string
    */
-  private _getDueDate(workDueDate: GoogleAppsScript.Classroom.Schema.Date,
-      args: DateParams): string {
-    const {titlePrefix = 'Due Date:', dateDelim = '/',
-      dateOrder = 'MDY'} = args;
+  private _getDueDate(workDueDate: GoogleAppsScript.Classroom.Schema.Date, args: DateParams): string {
+    const { titlePrefix = 'Due Date:', dateDelim = '/', dateOrder = 'MDY' } = args;
 
     // Add the corresponding piece of the date for each part of the order
     let dueDate = titlePrefix + ' ';
@@ -279,8 +271,7 @@ export class ClassGS {
    * @param {DateParams} args the optional parameters for creating the
    *  classroom data object
    */
-  constructor(course: GoogleAppsScript.Classroom.Schema.Course,
-      args?: DateParams) {
+  constructor(course: GoogleAppsScript.Classroom.Schema.Course, args?: DateParams) {
     if (course == undefined || course.id == undefined) {
       throw new Error('Course not defined in ClassGS');
     }
@@ -289,26 +280,19 @@ export class ClassGS {
 
     // Get the courses object
     const theseClassroomCourses = Classroom.Courses;
-    if (
-      theseClassroomCourses == undefined ||
-      theseClassroomCourses.CourseWork == undefined
-    ) {
+    if (theseClassroomCourses == undefined || theseClassroomCourses.CourseWork == undefined) {
       throw new Error('Could not find courses in ClassGS');
     }
 
     this._announcements = [];
     if (theseClassroomCourses.Announcements != undefined) {
-      const theseClassroomAnnouncements =
-      theseClassroomCourses.Announcements.list(course.id).announcements;
+      const theseClassroomAnnouncements = theseClassroomCourses.Announcements.list(course.id).announcements;
       // Get all of the announcements into the appropriate array
       let announcement: GoogleAppsScript.Classroom.Schema.Announcement;
       if (theseClassroomAnnouncements != undefined) {
         for (announcement of theseClassroomAnnouncements) {
           if (announcement == null || announcement.text == null) {
-            throw new Error(
-                'Cannot call announcements.forEach on an empty ' +
-              'announcement in ClassGS()',
-            );
+            throw new Error('Cannot call announcements.forEach on an empty ' + 'announcement in ClassGS()');
           }
           this._announcements.push(announcement.text);
         }
@@ -316,7 +300,7 @@ export class ClassGS {
     }
 
     const theseClassroomTopics =
-    // @ts-ignore
+      // @ts-ignore
       theseClassroomCourses.Topics.list(course.id).topic;
 
     // Get all of the topics into the appropriate Map
@@ -338,9 +322,7 @@ export class ClassGS {
     if (args == undefined) args = {} as DateParams;
 
     // Get the lists of classwork, announcements, and topics
-    const thisClassroomWork =
-      theseClassroomCourses.CourseWork.list(
-          course.id, {orderBy: 'dueDate asc'}).courseWork;
+    const thisClassroomWork = theseClassroomCourses.CourseWork.list(course.id, { orderBy: 'dueDate asc' }).courseWork;
 
     if (thisClassroomWork != undefined) {
       // Loop through each task and add to coursework
@@ -382,16 +364,13 @@ export class ClassGS {
    * @param {Work} objWork the work object to put the materials into
    * @return {Work} the object for chaining
    */
-  private _addCourseMaterials(
-      materials: Array<GoogleAppsScript.Classroom.Schema.Material>,
-      objWork: Work): Work {
+  private _addCourseMaterials(materials: Array<GoogleAppsScript.Classroom.Schema.Material>, objWork: Work): Work {
     objWork.materials = [];
     let material: GoogleAppsScript.Classroom.Schema.Material;
     for (material of materials) {
       const thisMaterial = material;
       if (thisMaterial == null) {
-        throw new Error('Could not find material in ' +
-          'ClassGS._addCourseMaterials()');
+        throw new Error('Could not find material in ' + 'ClassGS._addCourseMaterials()');
       }
       objWork.materials.push(this._getMaterials(thisMaterial));
     }
@@ -413,7 +392,7 @@ export class ClassGS {
    * @return {Array<string>} the topic names
    */
   getTopicNames(): Array<string> {
-    return this._topics.values().map((a) => a.name);
+    return this._topics.values().map(a => a.name);
   }
 
   /**
@@ -426,8 +405,7 @@ export class ClassGS {
   getTopicName(topicId: string): string {
     const thisTopic = this._topics.get(topicId);
     if (thisTopic == undefined) {
-      throw new Error('Topic ' + topicId +
-        ' not defined in ClassGS.getTopicName()');
+      throw new Error('Topic ' + topicId + ' not defined in ClassGS.getTopicName()');
     }
     return thisTopic.name;
   }
@@ -450,14 +428,12 @@ export class ClassGS {
    */
   getTopicInfo(topicId: string): TopicInfo {
     if (topicId == undefined) {
-      throw new Error('Topic name ' + topicId +
-        ' undefined in Topic.getTopicInfo()');
+      throw new Error('Topic name ' + topicId + ' undefined in Topic.getTopicInfo()');
     }
     const thisTopicInfo = this._topics.get(topicId);
 
     if (thisTopicInfo == undefined) {
-      throw new Error('Could not find course work in ' + topicId +
-        ' in ClassGS.getTopicInfo()');
+      throw new Error('Could not find course work in ' + topicId + ' in ClassGS.getTopicInfo()');
     }
     return thisTopicInfo;
   }
@@ -481,8 +457,7 @@ export class ClassGS {
   getCalendarId(): string {
     const thisCalId = this._course.calendarId;
     if (thisCalId == undefined) {
-      throw new Error('Calendar id undefined ' +
-        'for course in ClassGS.getCalendarId()');
+      throw new Error('Calendar id undefined ' + 'for course in ClassGS.getCalendarId()');
     }
     return thisCalId;
   }
@@ -496,15 +471,12 @@ export class ClassGS {
    * @return {CourseMaterial} the material associated with the current task
    *  in a Material object
    */
-  private _getMaterials(
-      thisMaterial: GoogleAppsScript.Classroom.Schema.Material):
-      CourseMaterial {
+  private _getMaterials(thisMaterial: GoogleAppsScript.Classroom.Schema.Material): CourseMaterial {
     const objMaterials: CourseMaterial = {} as CourseMaterial;
 
     // If it's a drive file, get the title and file link
     if (thisMaterial.driveFile != null) {
-      if (thisMaterial.driveFile != null &&
-        thisMaterial.driveFile.driveFile != null) {
+      if (thisMaterial.driveFile != null && thisMaterial.driveFile.driveFile != null) {
         const thisFile = thisMaterial.driveFile.driveFile;
         if (thisFile != null) {
           const thisTitle = thisFile.title;
@@ -524,13 +496,11 @@ export class ClassGS {
 
       objMaterials.title = thisMaterial.youtubeVideo.title;
       objMaterials.video = thisMaterial.youtubeVideo.alternateLink;
-    } else if (thisMaterial.link != null && thisMaterial.link.url != null &&
-      thisMaterial.link.title != null) {
+    } else if (thisMaterial.link != null && thisMaterial.link.url != null && thisMaterial.link.title != null) {
       // If it's a link, get the url and the title
       objMaterials.link = thisMaterial.link.url;
       objMaterials.title = thisMaterial.link.title;
-    } else if (thisMaterial.form != null && thisMaterial.form.title != null &&
-      thisMaterial.form.formUrl != null) {
+    } else if (thisMaterial.form != null && thisMaterial.form.title != null && thisMaterial.form.formUrl != null) {
       // If it's a form, get the url and the title
       objMaterials.form = thisMaterial.form.formUrl;
       objMaterials.title = thisMaterial.form.title;
@@ -544,13 +514,13 @@ export class ClassGS {
    * var myClassroom = new gsetools.ClassroomGS();
    * var myClass = myClassroom.getClass('izg4qrh');
    * var myStudents = myClass.getStudents();
-   * 
+   *
    * // Get the list of student IDs as an array
    * var studentIDs = myStudents.keys();
-   * 
+   *
    * // Get the list of student names as an array
    * var studentNames = myStudents.values();
-   * 
+   *
    * // Get student names for their IDs
    * while (myStudents.hasNext()) {
    *  var studentID = myStudents.next();
@@ -564,9 +534,12 @@ export class ClassGS {
     const studentList: MapGS<string, string> = new MapGS<string, string>();
     const thisStudentList = this._getStudentProfiles();
     for (const s of thisStudentList) {
-      if ((s.userId != undefined) && (s.profile != undefined) &&
-      (s.profile.name != undefined) &&
-      (s.profile.name.fullName != undefined)) {
+      if (
+        s.userId != undefined &&
+        s.profile != undefined &&
+        s.profile.name != undefined &&
+        s.profile.name.fullName != undefined
+      ) {
         studentList.set(s.userId, s.profile.name.fullName);
       }
     }
@@ -579,12 +552,10 @@ export class ClassGS {
    *  which can be empty if there are no students found
    */
   private _getStudentProfiles(): GoogleAppsScript.Classroom.Schema.Student[] {
-    if ((Classroom.Courses != undefined) &&
-      (Classroom.Courses.Students != undefined)) {
+    if (Classroom.Courses != undefined && Classroom.Courses.Students != undefined) {
       const thisStudentList = Classroom.Courses.Students.list(this._id);
-      if ((thisStudentList != undefined) &&
-        (thisStudentList.students != undefined)) {
-          return thisStudentList.students;
+      if (thisStudentList != undefined && thisStudentList.students != undefined) {
+        return thisStudentList.students;
       }
     }
     return [];
@@ -648,12 +619,12 @@ export class ClassGS {
     const parentList = this._getParentProfiles(studentID);
     for (let studentID of parentList.keys()) {
       const parentListForStudent = parentList.get(studentID);
-      if ((parentListForStudent != undefined) && (parentListForStudent != null)) {
+      if (parentListForStudent != undefined && parentListForStudent != null) {
         for (let parentProfile of parentListForStudent) {
           const guardianProfile = parentProfile.guardianProfile;
-          if ((guardianProfile != undefined) && (guardianProfile != null)) {
+          if (guardianProfile != undefined && guardianProfile != null) {
             const emailAddress = guardianProfile.emailAddress;
-            if ((emailAddress != undefined) && (emailAddress != null)) {
+            if (emailAddress != undefined && emailAddress != null) {
               parentEmails.push(emailAddress);
             }
           }
@@ -680,9 +651,9 @@ export class ClassGS {
     parentList.values().every(function(pList) {
       pList.every(function(parent) {
         const parentProfile = parent.guardianProfile;
-        if ((parentProfile != undefined) && (parentProfile != null)) {
+        if (parentProfile != undefined && parentProfile != null) {
           const parentName = parentProfile.name?.fullName;
-          if ((parentName != undefined) && (parentName != null)) {
+          if (parentName != undefined && parentName != null) {
             parentNames.push(parentName);
           }
         }
@@ -692,10 +663,10 @@ export class ClassGS {
   }
 
   /**
-   * Get the list of parents associated with the class (or a particular 
+   * Get the list of parents associated with the class (or a particular
    *  student)
    * @param {string} studentID the optional studentID to get parents for
-   * @return {MapGS<string, GoogleAppsScript.Classroom.Schema.Guardian[]>} a 
+   * @return {MapGS<string, GoogleAppsScript.Classroom.Schema.Guardian[]>} a
    * list of the parent profiles
    */
   private _getParentProfiles(studentID?: string): MapGS<string, GoogleAppsScript.Classroom.Schema.Guardian[]> {
@@ -704,31 +675,31 @@ export class ClassGS {
     else theseStudentIDs = this.getStudentIDs();
 
     const userProfiles = Classroom.UserProfiles;
-    if ((userProfiles == undefined) || (userProfiles == null)) {
-      throw new Error("Could not retrieve user profiles in " + 
-      "ClassGS.getParents(). Make sure you have access to the class.");
+    if (userProfiles == undefined || userProfiles == null) {
+      throw new Error(
+        'Could not retrieve user profiles in ' + 'ClassGS.getParents(). Make sure you have access to the class.',
+      );
     }
 
     const theseGuardians = userProfiles.Guardians;
-    if ((theseGuardians == undefined) || (theseGuardians == null)) {
-      throw new Error("Could not retrieve guardians in " + 
-      "ClassGS.getParents(). Make sure you have access to the guardians.");
+    if (theseGuardians == undefined || theseGuardians == null) {
+      throw new Error(
+        'Could not retrieve guardians in ' + 'ClassGS.getParents(). Make sure you have access to the guardians.',
+      );
     }
 
-    let parentProfiles: 
-      MapGS<string, GoogleAppsScript.Classroom.Schema.Guardian[]> = 
-      new MapGS<string, GoogleAppsScript.Classroom.Schema.Guardian[]>();
+    let parentProfiles: MapGS<string, GoogleAppsScript.Classroom.Schema.Guardian[]> = new MapGS<
+      string,
+      GoogleAppsScript.Classroom.Schema.Guardian[]
+    >();
     for (let thisStudentID of theseStudentIDs) {
       const guardiansForStudent = theseGuardians.list(thisStudentID).guardians;
-      if ((guardiansForStudent !== undefined) &&
-        (guardiansForStudent !== null)) {
-          parentProfiles.set(thisStudentID, guardiansForStudent);
+      if (guardiansForStudent !== undefined && guardiansForStudent !== null) {
+        parentProfiles.set(thisStudentID, guardiansForStudent);
       }
     }
     return parentProfiles;
   }
-
-
 
   /**
    * Adds course work to the object
@@ -739,12 +710,10 @@ export class ClassGS {
    */
   addCourseWork(work: CourseWorkGS): ClassGS {
     if (Classroom.Courses == undefined) {
-      throw new Error('Could not find ' +
-    'Courses in Classroom');
+      throw new Error('Could not find ' + 'Courses in Classroom');
     }
     if (Classroom.Courses.CourseWork == undefined) {
-      throw new Error('Could ' +
-    'not find Classwork in Classroom.Courses');
+      throw new Error('Could ' + 'not find Classwork in Classroom.Courses');
     }
     Classroom.Courses.CourseWork.create(work.getResource(), this._id);
     return this;
@@ -761,7 +730,7 @@ export class ClassGS {
    */
   addTopic(topic: string): ClassGS {
     if (this.getTopicNames().indexOf(topic) > -1) {
-      console.log('WARNING: Topic \'' + topic + '\' already exists.');
+      console.log("WARNING: Topic '" + topic + "' already exists.");
       return this;
     }
 
@@ -783,8 +752,7 @@ export class ClassGS {
    * @return {ClassGS} the object for chaining
    */
   addAnnouncement(announcement: CourseAnnouncementGS): ClassGS {
-    Classroom.Courses?.Announcements?.
-      create(announcement.getResource(), this._id);
+    Classroom.Courses?.Announcements?.create(announcement.getResource(), this._id);
     return this;
   }
 }

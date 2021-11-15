@@ -1,9 +1,9 @@
-import {ClassroomDocsGS} from 'ClassroomDocsGS';
-import {Test} from '../test/Test';
-import {DriveGS} from '../drive/DriveGS';
-import {MapGS} from '../map/MapGS';
-import {ClassroomGS} from '../classroom/ClassroomGS';
-import {WriteDocsParams} from './WriteDocsParams';
+import { ClassroomDocsGS } from 'ClassroomDocsGS';
+import { Test } from '../test/Test';
+import { DriveGS } from '../drive/DriveGS';
+import { MapGS } from '../map/MapGS';
+import { ClassroomGS } from '../classroom/ClassroomGS';
+import { WriteDocsParams } from './WriteDocsParams';
 
 function test() {
   // @ts-ignore

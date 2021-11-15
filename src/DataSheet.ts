@@ -1,5 +1,5 @@
-import {SpreadsheetGS} from './sheets/SpreadsheetGS';
-import {DriveGS} from './drive/DriveGS';
+import { SpreadsheetGS } from './sheets/SpreadsheetGS';
+import { DriveGS } from './drive/DriveGS';
 
 /**
  * Gets the data sheet for the current script. Uses the script ID to name
@@ -11,10 +11,7 @@ import {DriveGS} from './drive/DriveGS';
  * @param {string} sheetName if only one sheet is desired, specify it here
  * @return {SpreadsheetGS} the data sheet
  */
-export function getDataSheet(name: string = 'gse-tools Settings',
-    sheetName?: string):
-  SpreadsheetGS {
+export function getDataSheet(name: string = 'gse-tools Settings', sheetName?: string): SpreadsheetGS {
   if (name == 'id') name = ScriptApp.getScriptId();
-  return new SpreadsheetGS(new DriveGS().getOrCreateFileByName(name).getId(),
-      sheetName);
+  return new SpreadsheetGS(new DriveGS().getOrCreateFileByName(name).getId(), sheetName);
 }

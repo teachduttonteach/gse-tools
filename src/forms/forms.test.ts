@@ -1,9 +1,9 @@
-import {FormEventGS} from './FormEventGS';
-import {FormEventOptions} from './FormEventOptions';
-import {FormsGS} from './FormsGS';
-import {Test} from '../test/Test';
-import {DriveGS} from '../drive/DriveGS';
-import {QuestionType} from '../enums/QuestionType';
+import { FormEventGS } from './FormEventGS';
+import { FormEventOptions } from './FormEventOptions';
+import { FormsGS } from './FormsGS';
+import { Test } from '../test/Test';
+import { DriveGS } from '../drive/DriveGS';
+import { QuestionType } from '../enums/QuestionType';
 import { DateParams } from '../DateParams';
 
 function onSubmit(e: GoogleAppsScript.Events.FormsOnFormSubmit) {
@@ -64,7 +64,6 @@ function test() {
   testForms.addMultipleChoice('Test MChoice item', ['Choice1', 'Choice2', 'Choice3']);
   testForms.addMultipleGridCheck('Test MCheck Grid item', ['Column1', 'Column2', 'Column3'], ['Row1', 'Row2', 'Row3']);
   testForms.addMultipleGridChoice('Test MCheck Grid item', ['Column1', 'Column2', 'Column3'], ['Row1', 'Row2', 'Row3']);
-
 
   // testForms.convertLinebreaksToList
 

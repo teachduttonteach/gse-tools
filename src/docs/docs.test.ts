@@ -1,5 +1,5 @@
-import {DocsGS} from './DocsGS';
-import {Test} from '../test/Test';
+import { DocsGS } from './DocsGS';
+import { Test } from '../test/Test';
 
 function test() {
   const testDoc = new DocsGS('1coYlKYwsvN3MuHIo1hU6zoSQaZCYCc8Sp-Fd6RI1neo');
@@ -21,7 +21,11 @@ function test() {
   testSuite.testMethod(testDoc.addText.bind(testDoc), ['This is header 2 text', 2], 'addText');
 
   // appendItem
-  testSuite.testMethod(testDoc.appendItem.bind(testDoc), ['Text to append', 'Title of append', 'https://google.com'], 'appendItem');
+  testSuite.testMethod(
+    testDoc.appendItem.bind(testDoc),
+    ['Text to append', 'Title of append', 'https://google.com'],
+    'appendItem',
+  );
 
   // changeTitleDelim
   testSuite.testMethod(testDoc.changeTitleDelim.bind(testDoc), [' xxx '], 'changeTitleDelim');

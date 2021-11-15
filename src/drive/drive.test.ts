@@ -1,5 +1,5 @@
-import {DriveGS} from './DriveGS';
-import {Test} from '../test/Test';
+import { DriveGS } from './DriveGS';
+import { Test } from '../test/Test';
 
 function test() {
   const testDrive = new DriveGS();
@@ -11,10 +11,12 @@ function test() {
   const testBlob = testDrive.getImageBlob('1avOU-o7D06eXqb2W-iv6OdUHgcaESebb');
   const testFileById = testDrive.getOrCreateFileById('bogus_id');
   const testFileByName = testDrive.getOrCreateFileByName('Test for ' + Date());
-  const testFileFromTemplateById =
-        testDrive.getOrCreateFileFromTemplateById('bogus_id',
-            '1avOU-o7D06eXqb2W-iv6OdUHgcaESebb');
-  const testFileFromTemplateByName =
-        testDrive.getOrCreateFileFromTemplateByName('Test2 for ' + Date(),
-            'Using Google Apps Script');
+  const testFileFromTemplateById = testDrive.getOrCreateFileFromTemplateById(
+    'bogus_id',
+    '1avOU-o7D06eXqb2W-iv6OdUHgcaESebb',
+  );
+  const testFileFromTemplateByName = testDrive.getOrCreateFileFromTemplateByName(
+    'Test2 for ' + Date(),
+    'Using Google Apps Script',
+  );
 }

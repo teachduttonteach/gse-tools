@@ -9,17 +9,18 @@ export class Test {
   _recipient: string;
   _clearDoc: boolean;
 
-  constructor(mode: 'email' | 'doc' | 'log' = 'log', recipient: string | boolean = 'john.dutton@campusinternationalschool.org') {
+  constructor(
+    mode: 'email' | 'doc' | 'log' = 'log',
+    recipient: string | boolean = 'john.dutton@campusinternationalschool.org',
+  ) {
     if (mode.toLowerCase() == 'email') {
       this._mode = 'email';
-      if (typeof recipient === "string") this._recipient = recipient;
-    }
-    else if (mode.toLowerCase() == 'doc') {
+      if (typeof recipient === 'string') this._recipient = recipient;
+    } else if (mode.toLowerCase() == 'doc') {
       this._mode = 'doc';
-      if (typeof recipient === "boolean") this._clearDoc = recipient;
+      if (typeof recipient === 'boolean') this._clearDoc = recipient;
       else this._clearDoc = false;
-    }
-    else this._mode = 'log';
+    } else this._mode = 'log';
     this._fn = '';
     this._toPrint = '';
   }
@@ -63,7 +64,7 @@ export class Test {
     let results: string = '';
     try {
       results = functionToCall(...functionArguments);
-      if (typeof results === "object") results = JSON.stringify(results);
+      if (typeof results === 'object') results = JSON.stringify(results);
     } catch (e) {
       this._print(functionToCall.name, functionArguments.toString(), 'Failed with ' + e);
     }
@@ -71,55 +72,50 @@ export class Test {
     this._print(functionToCall.name, functionArguments.toString(), results);
   }
 
-  testEquals(testName: string, functionResult: any, desiredResult: any, 
-    parameters: string = "") {
-    this._print(testName, parameters, 
-      functionResult == desiredResult ? "Yes" : "No");
+  testEquals(testName: string, functionResult: any, desiredResult: any, parameters: string = '') {
+    this._print(testName, parameters, functionResult == desiredResult ? 'Yes' : 'No');
   }
 
   testObject(objectToTest: any) {
-    if (typeof objectToTest.getObject() === "object") {
-      this._print(objectToTest.constructor.name, "", "Has object");
+    if (typeof objectToTest.getObject() === 'object') {
+      this._print(objectToTest.constructor.name, '', 'Has object');
     } else {
-      this._print(objectToTest.constructor.name, "", "Does not have object")
+      this._print(objectToTest.constructor.name, '', 'Does not have object');
     }
   }
 
-  private _executeTestMethod(methodToCall: CallableFunction, 
-    methodArguments: Array<any>, methodName: string) {
-
+  private _executeTestMethod(methodToCall: CallableFunction, methodArguments: Array<any>, methodName: string) {
     let results: string = '';
     try {
       results = methodToCall(...methodArguments);
-      if (typeof results === "object") results = JSON.stringify(results);
+      if (typeof results === 'object') results = JSON.stringify(results);
     } catch (e) {
-      this._print(methodName, methodArguments.toString(), 
-        'Failed with ' + e);
+      this._print(methodName, methodArguments.toString(), 'Failed with ' + e);
     }
 
-    this._print(methodName, methodArguments.toString(), results);  
+    this._print(methodName, methodArguments.toString(), results);
   }
 
-  private _executeTestMethodWithCall(methodToCall: CallableFunction, 
-    methodArguments: Array<any>, methodName: string, callMethod: string, 
-    onFirst: boolean = false) {
-
+  private _executeTestMethodWithCall(
+    methodToCall: CallableFunction,
+    methodArguments: Array<any>,
+    methodName: string,
+    callMethod: string,
+    onFirst: boolean = false,
+  ) {
     let results: string = '';
     try {
       if (onFirst) results = methodToCall(...methodArguments)[0][callMethod]();
       else results = methodToCall(...methodArguments)[callMethod]();
-      if (typeof results === "object") results = JSON.stringify(results);
+      if (typeof results === 'object') results = JSON.stringify(results);
     } catch (e) {
-      this._print(methodName, methodArguments.toString(), 
-        'Failed with ' + e);
+      this._print(methodName, methodArguments.toString(), 'Failed with ' + e);
     }
 
-    this._print(methodName, methodArguments.toString(), results);  
+    this._print(methodName, methodArguments.toString(), results);
   }
 
-  testMethod(methodToCall: CallableFunction, methodArguments: Array<any> = [],
-    methodName: string) 
-  {
+  testMethod(methodToCall: CallableFunction, methodArguments: Array<any> = [], methodName: string) {
     if (methodArguments[0] instanceof Array) {
       for (const argumentSet of methodArguments) {
         this._executeTestMethod(methodToCall, argumentSet, methodName);
@@ -129,9 +125,13 @@ export class Test {
     }
   }
 
-  testMethodThenCall(methodToCall: CallableFunction, methodArguments: Array<any> = [],
-    callMethod: string, methodName: string, onFirst: boolean = false) 
-  {
+  testMethodThenCall(
+    methodToCall: CallableFunction,
+    methodArguments: Array<any> = [],
+    callMethod: string,
+    methodName: string,
+    onFirst: boolean = false,
+  ) {
     if (methodArguments[0] instanceof Array) {
       for (const argumentSet of methodArguments) {
         this._executeTestMethodWithCall(methodToCall, argumentSet, methodName, callMethod, onFirst);
@@ -145,9 +145,9 @@ export class Test {
     objectArguments: MapGS<string, Array<string>>,
     methodToCall: CallableFunction,
     methodArguments: Array<any>,
-    methodName: string
+    methodName: string,
   ) {
-    let objectToTest: {[index: string]:any} = {};
+    let objectToTest: { [index: string]: any } = {};
     for (let i = 0; i < methodArguments.length; i++) {
       if (methodArguments[i] == 'objectToTest') methodArguments[i] = objectToTest;
     }
@@ -161,25 +161,23 @@ export class Test {
         objectToTest[name] = val;
 
         if (val != undefined) {
-          if (typeof val === "object") {
-            nameValPairs += name + "='" + JSON.stringify(val) + "', ";            
+          if (typeof val === 'object') {
+            nameValPairs += name + "='" + JSON.stringify(val) + "', ";
           } else {
             nameValPairs += name + "='" + val.toString() + "', ";
           }
-  
         }
       }
 
       let results: string = '';
       try {
         results = methodToCall(...methodArguments);
-        if (typeof results === "object") results = JSON.stringify(results);
+        if (typeof results === 'object') results = JSON.stringify(results);
       } catch (e) {
         this._print(methodName, nameValPairs, 'Failed with ' + e);
         return;
-      } 
+      }
       this._print(methodName, nameValPairs, results);
-
     }
   }
 
@@ -187,10 +185,12 @@ export class Test {
     if (this._mode == 'log') console.log(this._toPrint);
     else if (this._mode == 'email') MailApp.sendEmail(this._recipient, 'Testing gse-tools', this._toPrint);
     else {
-      const testDocId = new DriveGS().getOrCreateFileByName('Testing gse-tools ' + new Date().toLocaleDateString()).getId();
+      const testDocId = new DriveGS()
+        .getOrCreateFileByName('Testing gse-tools ' + new Date().toLocaleDateString())
+        .getId();
       let doc = new DocsGS(testDocId);
-        if (this._clearDoc) doc.clearBody();
-        doc.addText(this._toPrint);
+      if (this._clearDoc) doc.clearBody();
+      doc.addText(this._toPrint);
     }
   }
 }

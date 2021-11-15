@@ -1,5 +1,5 @@
-import {QuestionType} from '../enums/QuestionType';
-import {Dimensions} from './Dimensions';
+import { QuestionType } from '../enums/QuestionType';
+import { Dimensions } from './Dimensions';
 
 /**
  * Class to access methods and properties of individual Slides of Google
@@ -89,10 +89,9 @@ export function setSlideBody(obj: SlideGS, body: string): SlideGS {
  * @return {SlideGS} the object for chaining
  */
 export function setSlideList(
-    obj: SlideGS,
-    text: string,
-    bulletType: GoogleAppsScript.Slides.ListPreset =
-    SlidesApp.ListPreset.DISC_CIRCLE_SQUARE,
+  obj: SlideGS,
+  text: string,
+  bulletType: GoogleAppsScript.Slides.ListPreset = SlidesApp.ListPreset.DISC_CIRCLE_SQUARE,
 ): SlideGS {
   return obj.setList(text, bulletType);
 }
@@ -109,10 +108,9 @@ export function setSlideList(
  * @return {SlideGS} the object for chaining
  */
 export function addSlideItems(
-    obj: SlideGS,
-    questionOptions: string | Array<string>,
-    bulletType: GoogleAppsScript.Slides.ListPreset =
-    SlidesApp.ListPreset.DISC_CIRCLE_SQUARE,
+  obj: SlideGS,
+  questionOptions: string | Array<string>,
+  bulletType: GoogleAppsScript.Slides.ListPreset = SlidesApp.ListPreset.DISC_CIRCLE_SQUARE,
 ): SlideGS {
   return obj.addItems(questionOptions, bulletType);
 }
@@ -121,9 +119,9 @@ export function addSlideItems(
  * Adds the item to the slide of a particular type
  *
  * @param {SlideGS} obj the Slide object
-   * @param {QuestionType} type the type of item to add to the slide:
-   *  QuestionType.TRUE_FALSE, QuestionType.MULTIPLE_CHOICE,
-   *  QuestionType.MULTIPLE_SELECT
+ * @param {QuestionType} type the type of item to add to the slide:
+ *  QuestionType.TRUE_FALSE, QuestionType.MULTIPLE_CHOICE,
+ *  QuestionType.MULTIPLE_SELECT
  * @param {string | Array<string>} itemsToAdd the string or array of
  *  strings that holds the item data
  * @param {GoogleAppsScript.Slides.ListPreset} bulletType the optional
@@ -132,11 +130,10 @@ export function addSlideItems(
  * @return {SlideGS} the object for chaining
  */
 export function addSlideItem(
-    obj: SlideGS,
-    type: QuestionType,
-    itemsToAdd: string | Array<string>,
-    bulletType: GoogleAppsScript.Slides.ListPreset =
-    SlidesApp.ListPreset.DISC_CIRCLE_SQUARE,
+  obj: SlideGS,
+  type: QuestionType,
+  itemsToAdd: string | Array<string>,
+  bulletType: GoogleAppsScript.Slides.ListPreset = SlidesApp.ListPreset.DISC_CIRCLE_SQUARE,
 ): SlideGS {
   return obj.addItem(type, itemsToAdd, bulletType);
 }
@@ -152,9 +149,9 @@ export function addSlideItem(
  * @return {number} the number of the replaced page element
  */
 export function changeSlidePicture(
-    obj: SlideGS,
-    chosenPictureBlob: GoogleAppsScript.Base.BlobSource,
-    pictureNumber: number = 0,
+  obj: SlideGS,
+  chosenPictureBlob: GoogleAppsScript.Base.BlobSource,
+  pictureNumber: number = 0,
 ): number {
   return obj.changePicture(chosenPictureBlob, pictureNumber);
 }
@@ -169,8 +166,7 @@ export function changeSlidePicture(
  *
  * @return {SlideGS} the object for chaining
  */
-export function setSlideDimensions(obj: SlideGS, dimensions: Dimensions):
-  SlideGS {
+export function setSlideDimensions(obj: SlideGS, dimensions: Dimensions): SlideGS {
   return obj.setDimensions(dimensions);
 }
 
@@ -185,8 +181,7 @@ export function setSlideDimensions(obj: SlideGS, dimensions: Dimensions):
  *  the right (default true = right)
  * @return {SlideGS} the object for chaining
  */
-export function positionSlidePicture(obj: SlideGS, id: number,
-    bottom: boolean = true, right: boolean = true): SlideGS {
+export function positionSlidePicture(obj: SlideGS, id: number, bottom: boolean = true, right: boolean = true): SlideGS {
   return obj.positionPicture(id, bottom, right);
 }
 
@@ -196,8 +191,7 @@ export function positionSlidePicture(obj: SlideGS, id: number,
  * @param {SlideGS} obj the Slide object
  * @return {Array<GoogleAppsScript.Slides.PageElement>} the page elements
  */
-export function getSlidePageElements(obj: SlideGS):
-  Array<GoogleAppsScript.Slides.PageElement> {
+export function getSlidePageElements(obj: SlideGS): Array<GoogleAppsScript.Slides.PageElement> {
   return obj.getPageElements();
 }
 
@@ -249,11 +243,9 @@ export class SlideGS {
    *
    * @return {number} the number of the replaced page element
    */
-  changePicture(chosenPictureBlob: GoogleAppsScript.Base.BlobSource,
-      pictureNumber: number = 0): number {
+  changePicture(chosenPictureBlob: GoogleAppsScript.Base.BlobSource, pictureNumber: number = 0): number {
     if (chosenPictureBlob == null) {
-      throw new Error('Slide and blob of chosen picture need to be ' +
-        'defined in Slides.changePicture');
+      throw new Error('Slide and blob of chosen picture need to be ' + 'defined in Slides.changePicture');
     }
 
     const pictureId = this._findPicture(pictureNumber);
@@ -274,10 +266,8 @@ export class SlideGS {
    */
   private _findPicture(pictureNumber: number): number {
     let countPictures: number = 0;
-    for (let pictureId = 0; pictureId < this._pageElements.length;
-      pictureId++) {
-      if (this._pageElements[pictureId].getPageElementType() ==
-        SlidesApp.PageElementType.IMAGE) {
+    for (let pictureId = 0; pictureId < this._pageElements.length; pictureId++) {
+      if (this._pageElements[pictureId].getPageElementType() == SlidesApp.PageElementType.IMAGE) {
         if (countPictures == pictureNumber) {
           return pictureId;
         }
@@ -287,23 +277,17 @@ export class SlideGS {
     return -1;
   }
 
-
   /**
    * Get the title of the current slide
    *
    * @return {string} the title
    */
   getTitle(): string {
-    const thisTitle = this._slide
-      .getPlaceholder(SlidesApp.PlaceholderType.TITLE);
-    if (thisTitle == null) throw new Error("Could not find Title element in " +
-        "SlideGS.getTitle()");
+    const thisTitle = this._slide.getPlaceholder(SlidesApp.PlaceholderType.TITLE);
+    if (thisTitle == null) throw new Error('Could not find Title element in ' + 'SlideGS.getTitle()');
     const thisShape = thisTitle.asShape();
-    if (thisShape == null) throw new Error("Could not find Text element in " +
-        "SlideGS.getTitle()");
-    return thisShape
-        .getText()
-        .asString();
+    if (thisShape == null) throw new Error('Could not find Text element in ' + 'SlideGS.getTitle()');
+    return thisShape.getText().asString();
   }
 
   /**
@@ -312,16 +296,11 @@ export class SlideGS {
    * @return {string} the speaker notes
    */
   getNotes(): string {
-    const thisTitle = this._slide
-      .getNotesPage();
-    if (thisTitle == null) throw new Error("Could not find Notes page in " +
-        "SlideGS.getNotes()");
+    const thisTitle = this._slide.getNotesPage();
+    if (thisTitle == null) throw new Error('Could not find Notes page in ' + 'SlideGS.getNotes()');
     const thisShape = thisTitle.getSpeakerNotesShape();
-    if (thisShape == null) throw new Error("Could not find Text element in " +
-        "SlideGS.getNotes()");
-    return thisShape
-        .getText()
-        .asString();
+    if (thisShape == null) throw new Error('Could not find Text element in ' + 'SlideGS.getNotes()');
+    return thisShape.getText().asString();
   }
 
   /**
@@ -335,16 +314,11 @@ export class SlideGS {
     if (text == null) {
       throw new Error('Notes text cannot be blank in SlideGS.setNotes()');
     }
-    const thisTitle = this._slide
-      .getNotesPage();
-    if (thisTitle == null) throw new Error("Could not find Notes page in " +
-        "SlideGS.setNotes()");
+    const thisTitle = this._slide.getNotesPage();
+    if (thisTitle == null) throw new Error('Could not find Notes page in ' + 'SlideGS.setNotes()');
     const thisShape = thisTitle.getSpeakerNotesShape();
-    if (thisShape == null) throw new Error("Could not find Text element in " +
-        "SlideGS.setNotes()");
-    thisShape
-        .getText()
-        .setText(text);
+    if (thisShape == null) throw new Error('Could not find Text element in ' + 'SlideGS.setNotes()');
+    thisShape.getText().setText(text);
     return this;
   }
 
@@ -359,16 +333,11 @@ export class SlideGS {
     if (title == null) {
       throw new Error('Slide title cannot be blank in SlideGS.setTitle()');
     }
-    const thisTitle = this._slide
-      .getPlaceholder(SlidesApp.PlaceholderType.TITLE);
-    if (thisTitle == null) throw new Error("Could not find Title element in " +
-        "SlideGS.setTitle()");
+    const thisTitle = this._slide.getPlaceholder(SlidesApp.PlaceholderType.TITLE);
+    if (thisTitle == null) throw new Error('Could not find Title element in ' + 'SlideGS.setTitle()');
     const thisShape = thisTitle.asShape();
-    if (thisShape == null) throw new Error("Could not find Text element in " +
-        "SlideGS.setTitle()");
-    thisShape
-        .getText()
-        .setText(title);
+    if (thisShape == null) throw new Error('Could not find Text element in ' + 'SlideGS.setTitle()');
+    thisShape.getText().setText(title);
     return this;
   }
 
@@ -383,16 +352,11 @@ export class SlideGS {
     if (body == null) {
       throw new Error('Body text cannot be blank in SlideGS.setBody()');
     }
-    const thisBody = 
-      this._slide.getPlaceholder(SlidesApp.PlaceholderType.BODY);
-    if (thisBody == null) throw new Error("Could not find Body element in " +
-      "SlideGS.setBody()");
+    const thisBody = this._slide.getPlaceholder(SlidesApp.PlaceholderType.BODY);
+    if (thisBody == null) throw new Error('Could not find Body element in ' + 'SlideGS.setBody()');
     const thisShape = thisBody.asShape();
-    if (thisShape == null) throw new Error("Could not find Text element in " +
-      "SlideGS.setBody()");
-    thisShape
-        .getText()
-        .setText(body);
+    if (thisShape == null) throw new Error('Could not find Text element in ' + 'SlideGS.setBody()');
+    thisShape.getText().setText(body);
     return this;
   }
 
@@ -407,28 +371,19 @@ export class SlideGS {
    * @return {SlideGS} the object for chaining
    */
   setList(
-      text: string,
-      bulletType: GoogleAppsScript.Slides.ListPreset =
-      SlidesApp.ListPreset.DISC_CIRCLE_SQUARE,
+    text: string,
+    bulletType: GoogleAppsScript.Slides.ListPreset = SlidesApp.ListPreset.DISC_CIRCLE_SQUARE,
   ): SlideGS {
     if (text == null) {
       throw new Error('Text cannot be blank in SlideGS.setList()');
     }
-    const thisTitle = this._slide
-      .getPlaceholder(SlidesApp.PlaceholderType.BODY);
-    if (thisTitle == null) throw new Error("Could not find Body element in " +
-        "SlideGS.setList()");
+    const thisTitle = this._slide.getPlaceholder(SlidesApp.PlaceholderType.BODY);
+    if (thisTitle == null) throw new Error('Could not find Body element in ' + 'SlideGS.setList()');
     const thisShape = thisTitle.asShape();
-    if (thisShape == null) throw new Error("Could not find Text element in " +
-        "SlideGS.setList()");
-    const thisText = thisShape
-        .getText()
-        .setText(text);
-    if (thisText == null) throw new Error("Could not find text in " + 
-        "SlideGS.setList()");
-    thisText
-        .getListStyle()
-        .applyListPreset(bulletType);
+    if (thisShape == null) throw new Error('Could not find Text element in ' + 'SlideGS.setList()');
+    const thisText = thisShape.getText().setText(text);
+    if (thisText == null) throw new Error('Could not find text in ' + 'SlideGS.setList()');
+    thisText.getListStyle().applyListPreset(bulletType);
     return this;
   }
 
@@ -443,9 +398,8 @@ export class SlideGS {
    * @return {SlideGS} the object for chaining
    */
   addItems(
-      questionOptions: string | Array<string>,
-      bulletType: GoogleAppsScript.Slides.ListPreset =
-      SlidesApp.ListPreset.DISC_CIRCLE_SQUARE,
+    questionOptions: string | Array<string>,
+    bulletType: GoogleAppsScript.Slides.ListPreset = SlidesApp.ListPreset.DISC_CIRCLE_SQUARE,
   ): SlideGS {
     let choices: Array<string> = [];
     if (typeof questionOptions !== 'string') choices = questionOptions;
@@ -472,17 +426,16 @@ export class SlideGS {
    * @return {SlideGS} the object for chaining
    */
   addItem(
-      type: QuestionType,
-      itemsToAdd: string | Array<string>,
-      bulletType: GoogleAppsScript.Slides.ListPreset =
-      SlidesApp.ListPreset.DISC_CIRCLE_SQUARE,
+    type: QuestionType,
+    itemsToAdd: string | Array<string>,
+    bulletType: GoogleAppsScript.Slides.ListPreset = SlidesApp.ListPreset.DISC_CIRCLE_SQUARE,
   ): SlideGS {
     switch (type) {
-      case QuestionType["True / False"]:
+      case QuestionType['True / False']:
         this.setBody('True or False?');
         break;
-      case QuestionType["Multiple Choice"]:
-      case QuestionType["Multiple Select"]:
+      case QuestionType['Multiple Choice']:
+      case QuestionType['Multiple Select']:
         this.addItems(itemsToAdd, bulletType);
         break;
     }
@@ -500,8 +453,7 @@ export class SlideGS {
    */
   setDimensions(dimensions: Dimensions): SlideGS {
     if (dimensions == undefined) {
-      throw new Error('Height and width of dimensions need to all be ' +
-        'integers in Slides.setDimensions');
+      throw new Error('Height and width of dimensions need to all be ' + 'integers in Slides.setDimensions');
     }
     this._dimensions = dimensions;
     return this;
@@ -517,34 +469,27 @@ export class SlideGS {
    *  the right (default true = right)
    * @return {SlideGS} the object for chaining
    */
-  positionPicture(id: number, bottom: boolean = true, right: boolean = true):
-    SlideGS {
+  positionPicture(id: number, bottom: boolean = true, right: boolean = true): SlideGS {
     if (id == null) {
-      throw new Error('ID and Slide need to be defined in ' +
-      'SlidesGS.positionPicture()');
+      throw new Error('ID and Slide need to be defined in ' + 'SlidesGS.positionPicture()');
     }
 
     if (id == -1) {
-      throw new Error('Could not find picture on current slide' +
-      ' in SlidesGS.positionPicture()');
+      throw new Error('Could not find picture on current slide' + ' in SlidesGS.positionPicture()');
     }
 
     if (this._pageElements == null) {
-      throw new Error('Could not get slide ' +
-      'specified by Slide object in SlidesGS.positionPicture()');
+      throw new Error('Could not get slide ' + 'specified by Slide object in SlidesGS.positionPicture()');
     }
 
     if (this._pageElements[id] == null) {
-      throw new Error('Could not get ' +
-      'element id (' + id +
-      ') off of Slide object in SlidesGS.positionPicture');
+      throw new Error('Could not get ' + 'element id (' + id + ') off of Slide object in SlidesGS.positionPicture');
     }
 
     const height = this._pageElements[id].getHeight();
     const width = this._pageElements[id].getWidth();
 
-    const {maxHeight = 300, maxWidth = 250, totalHeight = 400,
-      totalWidth = 720, margin = 10} = this._dimensions;
+    const { maxHeight = 300, maxWidth = 250, totalHeight = 400, totalWidth = 720, margin = 10 } = this._dimensions;
 
     if (height > width) {
       const newWidth = (maxHeight / height) * width;

@@ -1,6 +1,6 @@
-import {AnnouncementResource} from './AnnouncementResource';
-import {CourseMaterial, addCourseMaterials} from './CourseMaterial';
-import {AssigneeMode, AnnouncementState} from './Enums';
+import { AnnouncementResource } from './AnnouncementResource';
+import { CourseMaterial, addCourseMaterials } from './CourseMaterial';
+import { AssigneeMode, AnnouncementState } from './Enums';
 
 /**
  * Create a new announcement for the course
@@ -21,8 +21,9 @@ export function newCourseAnnouncement(text: string): CourseAnnouncementGS {
  * @return {CourseAnnouncementGS} the object for chaining
  */
 export function addCourseAnnouncementMaterials(
-    obj: CourseAnnouncementGS, materials: Array<CourseMaterial>):
-  CourseAnnouncementGS {
+  obj: CourseAnnouncementGS,
+  materials: Array<CourseMaterial>,
+): CourseAnnouncementGS {
   return obj.addMaterials(materials);
 }
 
@@ -33,8 +34,7 @@ export function addCourseAnnouncementMaterials(
  * @param {Date} time the scheduled time to post the announcement
  * @return {CourseAnnouncementGS} the object for chaining
  */
-export function scheduleCourseAnnouncement(obj: CourseAnnouncementGS,
-    time: Date): CourseAnnouncementGS {
+export function scheduleCourseAnnouncement(obj: CourseAnnouncementGS, time: Date): CourseAnnouncementGS {
   return obj.schedule(time);
 }
 
@@ -47,8 +47,7 @@ export function scheduleCourseAnnouncement(obj: CourseAnnouncementGS,
  *  this announcement
  * @return {CourseAnnouncementGS} the object for chaining
  */
-export function assignCourseAnnouncement(obj: CourseAnnouncementGS,
-    studentIds: Array<string>): CourseAnnouncementGS {
+export function assignCourseAnnouncement(obj: CourseAnnouncementGS, studentIds: Array<string>): CourseAnnouncementGS {
   return obj.assign(studentIds);
 }
 
@@ -58,8 +57,7 @@ export function assignCourseAnnouncement(obj: CourseAnnouncementGS,
  * @param {CourseAnnouncementGS} obj the CourseAnnouncement object
  * @return {AnnouncementResource} the underlying resource object
  */
-export function getCourseAnnouncementResource(obj: CourseAnnouncementGS):
-  AnnouncementResource {
+export function getCourseAnnouncementResource(obj: CourseAnnouncementGS): AnnouncementResource {
   return obj.getResource();
 }
 
@@ -113,12 +111,9 @@ export class CourseAnnouncementGS {
    * @return {CourseAnnouncementGS} the object for chaining
    */
   assign(studentIds: Array<string>): CourseAnnouncementGS {
-    this._announcementResource.assigneeMode =
-      AssigneeMode.IndividualStudents;
-    this._announcementResource.individualStudentsOptions =
-      {} as GoogleAppsScript.Classroom.Schema.IndividualStudentsOptions;
-    this._announcementResource.individualStudentsOptions.studentIds =
-      studentIds;
+    this._announcementResource.assigneeMode = AssigneeMode.IndividualStudents;
+    this._announcementResource.individualStudentsOptions = {} as GoogleAppsScript.Classroom.Schema.IndividualStudentsOptions;
+    this._announcementResource.individualStudentsOptions.studentIds = studentIds;
     return this;
   }
 
