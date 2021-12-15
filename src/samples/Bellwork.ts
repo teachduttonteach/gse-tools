@@ -1,8 +1,8 @@
 import { SpreadsheetGS } from '../sheets/SpreadsheetGS';
 import { ClassroomGS } from '../classroom/ClassroomGS';
 import { DriveGS } from '../drive/DriveGS';
-import { getDataSheet } from '../DataSheet';
-import { areDatesEqual, getTodaysDate } from '../utils/Utilities';
+import { DataSheet } from '../DataSheet';
+import { Utilities } from '../utils/Utilities';
 import { SheetGS } from '../sheets/SheetGS';
 import { SlideshowGS } from '../slides/SlideshowGS';
 import { FormsGS } from '../forms/FormsGS';
@@ -84,6 +84,12 @@ type BellworkArgs = {
    *  default is "Bellwork Title"
    */
   bellworkTitleColumnName?: string;
+  /**
+   * Column name for the gse-tools Settings sheet column that contains the
+   *  bellwork slide notes string to look for in the slide that has the 
+   *  bellwork; default is 'Bellwork Slide Notes'
+   */
+   bellworkSlideNotesColumnName?: string;
   /**
    * Column name for the gse-tools Settings sheet column that contains the
    *  bellwork form ID; default is 'Bellwork Form ID'
@@ -384,7 +390,9 @@ export function updateBellwork(args: BellworkArgs): void {
     dataSheet,
   } = args;
 
-  const settings: SpreadsheetGS = getDataSheet(dataSheet, settingsName);
+  const dataSheetInterface = new DataSheet();
+
+  const settings: SpreadsheetGS = dataSheetInterface.getDataSheet(dataSheet, settingsName);
   const bellworkSettings: MapGS<string | Date, MapGS<string | Date, string | Date>> = settings.getDataAsMap(
     settingsName,
   );
@@ -439,7 +447,9 @@ function updateTodaysQuestion(args: BellworkArgs, row: MapGS<string | Date, stri
     timezoneOffset = -5,
   } = args;
 
-  const dateToday: Date = getTodaysDate(timezoneOffset);
+  const utilitiesInterface = new Utilities();
+
+  const dateToday: Date = utilitiesInterface.getTodaysDate(timezoneOffset);
 
   const thisSpreadsheetID = row.get(bellworkSpreadsheetIDColumnName);
   if (thisSpreadsheetID == null || typeof thisSpreadsheetID !== 'string') {
@@ -468,7 +478,7 @@ function updateTodaysQuestion(args: BellworkArgs, row: MapGS<string | Date, stri
   ) {
     const dateInCell: Date = new Date(questionSheet.getValue(questionRow, +thisBellworkDateColumnName));
 
-    if (areDatesEqual(dateToday, dateInCell, 'month')) {
+    if (utilitiesInterface.areDatesEqual(dateToday, dateInCell, 'month')) {
       const thisBellworkColumnName = row.get(bellworkColumnName);
       if (thisBellworkColumnName == null) {
         throw new Error('Could not find bellwork column name in ' + 'Bellwork.updateTodaysQuestion()');
@@ -543,6 +553,7 @@ function showBellworkOnSlide(
 ): void {
   const {
     bellworkSlideNotes = 'Bellwork',
+    bellworkSlideNotesColumnName = 'Bellwork Slide Notes',
     dailyPicturesColumnName = 'Daily Pictures Folder ID',
     dailyPicturesNotes = 'Daily Pictures',
     daysToLookAheadColumnName = 'Days to Look Ahead',
@@ -578,7 +589,16 @@ function showBellworkOnSlide(
 
   if (displayBellworkOnSlide || displayExitQuestionOnSlide || displayUpcomingDueDates) {
     if (displayBellworkOnSlide) {
-      const bellworkSlide = slideShow.getSlideByNotes(bellworkSlideNotes);
+
+      // Finds the slide with the Bellwork on it
+      let bellworkSlide = slideShow.getSlideByNotes(bellworkSlideNotes);
+
+      // If there is a more specific slide to get, grab it based on the notes
+      const theseSlideNotes = settingsRow.get(bellworkSlideNotesColumnName);
+      if (theseSlideNotes != null) {
+        bellworkSlide = slideShow.getSlideByNotes(theseSlideNotes.toString());
+      }
+
       if (bellworkSlide != null) {
         if (displayBellworkOptions) {
           const theseOptionsColumnName = settingsRow.get(optionsColumnName);
@@ -589,11 +609,14 @@ function showBellworkOnSlide(
             }
           }
         }
+        console.log("Display Bellwork as Title: " + displayBellworkAsTitle);
         if (displayBellworkAsTitle) bellworkSlide.setTitle(questionTitle);
         else {
           bellworkSlide.getPageElements().forEach(function(pageElement) {
             const thisDescription = pageElement.getDescription();
-            if (thisDescription != null && thisDescription.indexOf(bellworkDescription)) {
+            if (thisDescription != null && 
+              thisDescription.indexOf(bellworkDescription) != -1) {
+              
               const thisShape = pageElement.asShape();
               if (thisShape != null) {
                 thisShape.getText().setText(questionTitle);
@@ -680,8 +703,9 @@ function showBellworkOnForm(
   } = args;
 
   const { dateOrder = 'MD', dateDelim = '/' } = dueDateParams;
+  const utilitiesInterface = new Utilities();
 
-  const dateToday: Date = getTodaysDate(timezoneOffset);
+  const dateToday: Date = utilitiesInterface.getTodaysDate(timezoneOffset);
 
   let thisBellworkTitleColumnName = row.get(bellworkTitleColumnName);
   if (thisBellworkTitleColumnName == null || typeof thisBellworkTitleColumnName !== 'string') {
@@ -813,7 +837,9 @@ export function tabulateBellwork(event: GoogleAppsScript.Events.FormsOnFormSubmi
     throw new Error('Could not get name from email' + ' in tabulateBellwork()');
   }
 
-  const allClasses = getDataSheet(dataSheet, sheetName).getDataAsMap(sheetName);
+  const dataSheetInterface = new DataSheet();
+
+  const allClasses = dataSheetInterface.getDataSheet(dataSheet, sheetName).getDataAsMap(sheetName);
 
   let destinationSheetName: string = '';
   let bellworkSheetID: string = '';
