@@ -2,6 +2,14 @@ import { SpreadsheetGS } from './sheets/SpreadsheetGS';
 import { DriveGS } from './drive/DriveGS';
 
 /**
+ * Class to hold the Data Sheet interface
+ *
+ * ```javascript
+ * 
+ * ```
+ */
+export class DataSheet {
+/**
  * Gets the data sheet for the current script. Uses the script ID to name
  *  the data sheet if it has not been created already.
  *
@@ -11,7 +19,10 @@ import { DriveGS } from './drive/DriveGS';
  * @param {string} sheetName if only one sheet is desired, specify it here
  * @return {SpreadsheetGS} the data sheet
  */
-export function getDataSheet(name: string = 'gse-tools Settings', sheetName?: string): SpreadsheetGS {
-  if (name == 'id') name = ScriptApp.getScriptId();
-  return new SpreadsheetGS(new DriveGS().getOrCreateFileByName(name).getId(), sheetName);
+  getDataSheet(name: string = 'gse-tools Settings', sheetName?: string): SpreadsheetGS {
+    if (name == 'id') name = ScriptApp.getScriptId();
+    return new SpreadsheetGS(new DriveGS().getOrCreateFileByName(name).getId(), sheetName);
+  }
+  
 }
+

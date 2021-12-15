@@ -10,6 +10,8 @@ cd ../drive
 bash ./update.sh
 cd ../forms
 bash ./update.sh
+cd ../samples
+bash ./update.sh
 cd ../sheets
 bash ./update.sh
 cd ../slides

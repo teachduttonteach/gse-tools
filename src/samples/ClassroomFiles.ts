@@ -1,7 +1,7 @@
 import { SpreadsheetGS } from '../sheets/SpreadsheetGS';
 import { ClassroomGS } from '../classroom/ClassroomGS';
 import { DriveGS } from '../drive/DriveGS';
-import { getDataSheet } from '../DataSheet';
+import { DataSheet } from '../DataSheet';
 import { ClassGS } from '../classroom/ClassGS';
 import { ClassroomDocsGS } from '../classroom-docs/ClassroomDocsGS';
 import { MapGS } from '../map/MapGS';
@@ -72,7 +72,9 @@ export function updateClassroomFiles(args: ClassroomArgs): void {
     dataSheet = 'gse-tools Settings',
   } = args;
 
-  const settings: SpreadsheetGS = getDataSheet(dataSheet, settingsName);
+  const dataSheetInterface = new DataSheet();
+
+  const settings: SpreadsheetGS = dataSheetInterface.getDataSheet(dataSheet, settingsName);
   const classworkSettings: MapGS<string | Date, MapGS<string | Date, string | Date>> = settings.getDataAsMap(
     settingsName,
   );

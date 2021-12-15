@@ -8,11 +8,11 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "typescript",
+    "build": "tsc",
     "format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\"",
     "lint": "tslint -p tsconfig.json",
     "clasp": "clasp push",
-    "update": "update-all.sh",
+    "update": "bash update-all.sh",
     "documentation": "typedoc --categorizeByGroup --name gse-tools --readme README.md --out docs"
   },
   "repository": {

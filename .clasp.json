@@ -1,4 +1,4 @@
 {
     "scriptId":"1SRl5DGs_tVG42joBNHBFhPvivWtX07XRmIo533wfxzXgkM4ahPT8E5JA",
-    "filePushOrder": ["src/map/MapGS.ts", "src/UiGS.ts", "src/docs/DocsGS.ts"]
+    "filePushOrder": ["src/UiGS.ts", "src/docs/DocsGS.ts"]
 }

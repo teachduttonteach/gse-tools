@@ -2,13 +2,13 @@ import { SpreadsheetGS } from '../sheets/SpreadsheetGS';
 import { SheetGS } from '../sheets/SheetGS';
 import { ClassroomGS } from '../classroom/ClassroomGS';
 import { DriveGS } from '../drive/DriveGS';
-import { getDataSheet } from '../DataSheet';
+import { DataSheet } from '../DataSheet';
 import { ClassGS } from '../classroom/ClassGS';
 import { Work } from '../classroom/Work';
 import { DateParams } from '../DateParams';
 import { MapGS } from '../map/MapGS';
 import { SlideshowGS } from '../slides/SlideshowGS';
-import { getTodaysDate, getOneDay, compareDates, checkNull } from '../utils/Utilities';
+import { Utilities } from '../utils/Utilities';
 import { DocsGS } from '../docs/DocsGS';
 import { BirthdayParams, sendBirthdayEmail } from './Birthday';
 
@@ -296,7 +296,9 @@ export function updateDailyAgenda(args?: AgendaParams): true {
     dataSheet = 'gse-tools Settings',
   } = args;
 
-  const settings: SpreadsheetGS = getDataSheet(dataSheet);
+  const dataSheetInterface = new DataSheet();  
+
+  const settings: SpreadsheetGS = dataSheetInterface.getDataSheet(dataSheet);
   const classworkSettings: MapGS<string | Date, MapGS<string | Date, string | Date>> = settings.getDataAsMap(
     settingsName,
   );
@@ -351,9 +353,11 @@ function updateClassAgenda(
     timezoneOffset = -5,
   } = args;
 
-  const dateToday: Date = getTodaysDate(timezoneOffset);
+  const utilitiesInterface = new Utilities();
+
+  const dateToday: Date = utilitiesInterface.getTodaysDate(timezoneOffset);
   const futureDate: Date = new Date(dateToday);
-  futureDate.setMilliseconds(futureDate.getMilliseconds() + getOneDay() * daysToLookAhead);
+  futureDate.setMilliseconds(futureDate.getMilliseconds() + utilitiesInterface.getOneDay() * daysToLookAhead);
 
   const thisAgendaSpreadsheetID = row.get(agendaSpreadsheetIDColumnName);
   if (thisAgendaSpreadsheetID == null || typeof thisAgendaSpreadsheetID !== 'string') {
@@ -369,7 +373,7 @@ function updateClassAgenda(
   const agendaSpreadsheet: SpreadsheetGS = new SpreadsheetGS(thisAgendaSpreadsheetID, thisSheetName);
   const agendaSheet: SheetGS = agendaSpreadsheet.getSheet(thisSheetName);
 
-  const thisAgendaDateColumnName = checkNull(
+  const thisAgendaDateColumnName = utilitiesInterface.checkNull(
     row.get(agendaDateColumnName),
     'Bellwork date column number',
     'updateClassAgenda()',
@@ -385,8 +389,8 @@ function updateClassAgenda(
     if (dateValue != null) {
       const dateInCell: Date = dateValue;
 
-      if (compareDates(dateInCell, dateToday, true, true) && compareDates(futureDate, dateInCell, true, true)) {
-        const thisLessonColumnNumber = checkNull(
+      if (utilitiesInterface.compareDates(dateInCell, dateToday, true, true) && utilitiesInterface.compareDates(futureDate, dateInCell, true, true)) {
+        const thisLessonColumnNumber = utilitiesInterface.checkNull(
           row.get(lessonColumnName),
           'Lesson column number',
           'updateClassAgenda()',

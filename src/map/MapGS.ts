@@ -1,4 +1,4 @@
-import { areDatesEqual } from '../utils/Utilities';
+import { Utilities } from '../utils/Utilities';
 
 /**
  * A reworking of the Map data type for ES3. Since there is no Iterator type
@@ -120,10 +120,11 @@ export class MapGS<A, B> {
    *  wasn't found
    */
   _getMember(key: A): number | null {
+    const utilitiesInterface = new Utilities();
     for (let k = 0; k < this.size; k++) {
       const currentKey = this._keys[k];
       if (key instanceof Date && currentKey instanceof Date) {
-        if (areDatesEqual(key, currentKey)) return k;
+        if (utilitiesInterface.areDatesEqual(key, currentKey)) return k;
       } else if (key == currentKey) return k;
     }
     return null;
@@ -177,11 +178,13 @@ export class MapGS<A, B> {
    *  or null if the key was not found
    */
   _getAllMembers(key: A): Array<number> | null {
+    const utilitiesInterface = new Utilities();
+
     const returnValues: Array<number> = [];
     for (let k = 0; k < this.size; k++) {
       const currentKey = this._keys[k];
       if (key instanceof Date && currentKey instanceof Date) {
-        if (areDatesEqual(key, currentKey)) {
+        if (utilitiesInterface.areDatesEqual(key, currentKey)) {
           returnValues.push(k);
         }
       } else if (key == currentKey) returnValues.push(k);

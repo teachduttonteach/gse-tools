@@ -17,7 +17,9 @@ done
 
 mv .local.claspignore .claspignore
 mv .local.clasp.json .clasp.json
+cp ../DataSheet.ts .
 clasp push
+rm ./DataSheet.ts
 mv .clasp.json .local.clasp.json
 mv .claspignore .local.claspignore
 if [ "$TESTING" = true ] 

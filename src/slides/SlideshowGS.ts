@@ -366,7 +366,7 @@ export class SlideshowGS extends UiGS {
         return this._allSlides[j];
       }
     }
-    console.log('WARNING: Slide id ' + notes + ' not found in ' + 'SlideshowGS.getSlideByNotes()');
+    console.log('WARNING: Slide with note ' + notes + ' not found in ' + 'SlideshowGS.getSlideByNotes()');
     return null;
   }
 

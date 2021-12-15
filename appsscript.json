@@ -41,5 +41,6 @@
     "access": "ANYONE",
     "executeAs": "USER_DEPLOYING"
   },
+  "runtimeVersion": "V8",
   "exceptionLogging": "STACKDRIVER"
 }
