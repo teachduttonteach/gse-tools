@@ -1,4 +1,3 @@
-import { MapGS } from '../map/MapGS';
 import { DocsGS } from '../docs/DocsGS';
 import { DriveGS } from '../drive/DriveGS';
 
@@ -33,13 +32,13 @@ export class Test {
     this._toPrint += '*** Conditions for ' + fn + ' (' + conditions + '): ' + resultsOfTest + ' ***\n\n';
   }
 
-  private _combinations(objectArguments: MapGS<string, Array<string>>): Array<MapGS<string, string>> {
-    let combinationArray: Array<MapGS<string, string>> = [];
+  private _combinations(objectArguments: Map<string, Array<string>>): Array<Map<string, string>> {
+    let combinationArray: Array<Map<string, string>> = [];
     let argumentArray: number[] = [];
     let totalCombinations: number = 1;
 
-    let keys = objectArguments.keys();
-    let values = objectArguments.values();
+    let keys = Array.from(objectArguments.keys());
+    let values = Array.from(objectArguments.values());
 
     for (let i = 0; i < keys.length; i++) {
       let vals: number = values[i].length;
@@ -48,11 +47,11 @@ export class Test {
     }
 
     for (let i = 0; i < totalCombinations; i++) {
-      let theseCombinations: MapGS<string, string> = new MapGS<string, string>();
+      let theseCombinations: Map<string, string> = new Map<string, string>();
       let divisor = totalCombinations;
       for (let a = 0; a < argumentArray.length; a++) {
         divisor /= argumentArray[a];
-        theseCombinations.set(keys[a], values[a][Math.floor(i / divisor) % argumentArray[a]]);
+        theseCombinations.set(Array.from(keys)[a], Array.from(values)[a][Math.floor(i / divisor) % argumentArray[a]]);
       }
       combinationArray.push(theseCombinations);
     }
@@ -142,7 +141,7 @@ export class Test {
   }
 
   testEachArgumentOfMethod(
-    objectArguments: MapGS<string, Array<string>>,
+    objectArguments: Map<string, Array<string>>,
     methodToCall: CallableFunction,
     methodArguments: Array<any>,
     methodName: string,

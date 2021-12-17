@@ -6,7 +6,6 @@ import { DataSheet } from '../DataSheet';
 import { ClassGS } from '../classroom/ClassGS';
 import { Work } from '../classroom/Work';
 import { DateParams } from '../DateParams';
-import { MapGS } from '../map/MapGS';
 import { SlideshowGS } from '../slides/SlideshowGS';
 import { Utilities } from '../utils/Utilities';
 import { DocsGS } from '../docs/DocsGS';
@@ -288,8 +287,7 @@ type AgendaParams = {
  * @param {AgendaParams} args the parameters to use
  * @return {true} returns true if successful
  */
-export function updateDailyAgenda(args?: AgendaParams): true {
-  if (args == null) args = {} as AgendaParams;
+export function updateDailyAgenda(args: AgendaParams = {}): true {
   const {
     settingsName = 'Agenda',
     classroomCodeColumnName = 'Classroom Code',
@@ -299,15 +297,12 @@ export function updateDailyAgenda(args?: AgendaParams): true {
   const dataSheetInterface = new DataSheet();  
 
   const settings: SpreadsheetGS = dataSheetInterface.getDataSheet(dataSheet);
-  const classworkSettings: MapGS<string | Date, MapGS<string | Date, string | Date>> = settings.getDataAsMap(
+  const classworkSettings: Map<string | Date, Map<string | Date, string | Date>> = settings.getDataAsMap(
     settingsName,
   );
   const allClasses: ClassroomGS = new ClassroomGS();
 
-  classworkSettings.reset();
-  while (classworkSettings.hasNext()) {
-    const row = classworkSettings.next();
-    const thisRow = classworkSettings.get(row);
+  classworkSettings.forEach(function(thisRow, row) {
     if (thisRow == undefined || classroomCodeColumnName == undefined) {
       throw new Error('Could not find row in classworkSettings in ' + 'updateDailyAgenda()');
     }
@@ -321,7 +316,7 @@ export function updateDailyAgenda(args?: AgendaParams): true {
       const currentClass = allClasses.getClass(thisClassroomCode);
       updateClassAgenda(args, thisRow, currentClass);
     }
-  }
+  });
 
   return true;
 }
@@ -332,13 +327,13 @@ export function updateDailyAgenda(args?: AgendaParams): true {
  * Classroom
  *
  * @param {ClassroomArgs} args the agenda parameters
- * @param {MapGS<string | Date, string | Date>} row the classroom information
+ * @param {Map<string | Date, string | Date>} row the classroom information
  * @param {ClassGS} currentClass the current Google class
  * @return {boolean} returns true if successful
  */
 function updateClassAgenda(
   args: AgendaParams,
-  row: MapGS<string | Date, string | Date>,
+  row: Map<string | Date, string | Date>,
   currentClass: ClassGS,
 ): boolean {
   const {
@@ -427,7 +422,7 @@ function updateClassAgenda(
  */
 function writeAgendaToDoc(
   args: AgendaParams,
-  row: MapGS<string | Date, string | Date>,
+  row: Map<string | Date, string | Date>,
   lessonInfo: Array<LessonInfo>,
   currentClass: ClassGS,
 ): true {
@@ -518,14 +513,14 @@ function writeAgendaToDoc(
  * Displays the agenda on a slide in Google Slides
  *
  * @param {AgendaParams} args the agenda parameters
- * @param {MapGS<string | Date, string | Date>} row the current row of info
+ * @param {Map<string | Date, string | Date>} row the current row of info
  *  from the Google Sheet
  * @param {Array<LessonInfo>} lessonInfo the information for each lesson
  * @return {true} returns true if successful
  */
 function displayAgendaOnSlide(
   args: AgendaParams,
-  row: MapGS<string | Date, string | Date>,
+  row: Map<string | Date, string | Date>,
   lessonInfo: Array<LessonInfo>,
 ): true {
   const { agendaSlideshowIDColumnName = 'Agenda Slides ID', agendaSlideNotes = 'Agenda' } = args;

@@ -1,7 +1,6 @@
 import { SpreadsheetGS } from '../sheets/SpreadsheetGS';
-import { MapGS } from '../map/MapGS';
 import { SheetEventGS } from '../sheets/SheetEventGS';
-import { getDataSheet } from '../DataSheet';
+import { DataSheet } from '../DataSheet';
 
 /**
  * Parameters to run attendance
@@ -184,15 +183,15 @@ function updateDateCodes() {
   let sheet = spreadsheet.getSheet('Daily Schedule');
   const dailySchedule: Array<Array<Date | string>> =
     sheet.getValues(1, 1, sheet.getLastRow(), sheet.getLastColumn());
-  const daysOfWeek: MapGS<string | Date, MapGS<string | Date, string | Date>>
-    = new MapGS();
+  const daysOfWeek: Map<string | Date, Map<string | Date, string | Date>>
+    = new Map();
   for (let j: number = 1; j < dailySchedule.length; j++) {
     const weeklySchedule: boolean[] = [];
     for (let i = 1; i < 6; i++) {
       if (dailySchedule[j][i] == 'X') weeklySchedule.push(true);
       else weeklySchedule.push(false);
     }
-    daysOfWeek.set(dailySchedule[j][0], new MapGS());
+    daysOfWeek.set(dailySchedule[j][0], new Map());
   }
 
   sheet = new SpreadsheetGS().getSheet('Student Info');

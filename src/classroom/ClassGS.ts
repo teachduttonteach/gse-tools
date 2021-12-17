@@ -2,7 +2,6 @@ import { DateParams } from '../DateParams';
 import { Work } from 'Work';
 import { CourseMaterial } from './CourseMaterial';
 import { TopicInfo } from './TopicInfo';
-import { MapGS } from '../map/MapGS';
 import { TopicResource } from './TopicResource';
 import { CourseWorkGS } from './CourseWorkGS';
 import { CourseAnnouncementGS } from './CourseAnnouncementGS';
@@ -38,9 +37,9 @@ export function newClass(course: GoogleAppsScript.Classroom.Schema.Course): Clas
  * ```
  *
  * @param {ClassGS} obj the Class object
- * @return {MapGS<string, string>} a map of the student ID to the full name
+ * @return {Map<string, string>} a map of the student ID to the full name
  */
-export function getStudents(obj: ClassGS): MapGS<string, string> {
+export function getStudents(obj: ClassGS): Map<string, string> {
   return obj.getStudents();
 }
 
@@ -233,7 +232,7 @@ export function getClassCalendarId(obj: ClassGS): string {
  */
 export class ClassGS {
   private _course: GoogleAppsScript.Classroom.Schema.Course;
-  private _topics: MapGS<string, TopicInfo>;
+  private _topics: Map<string, TopicInfo>;
   private _announcements: Array<string>;
   private _id: string;
 
@@ -299,23 +298,24 @@ export class ClassGS {
       }
     }
 
-    const theseClassroomTopics =
-      // @ts-ignore
+    if (theseClassroomCourses.Topics !== undefined) {
+      const theseClassroomTopics =
       theseClassroomCourses.Topics.list(course.id).topic;
 
-    // Get all of the topics into the appropriate Map
-    this._topics = new MapGS<string, TopicInfo>();
-    if (theseClassroomTopics != undefined) {
-      // Add each topic
-      // @ts-ignore
-      let topic: GoogleAppsScript.Classroom.Schema.Topic;
-      for (topic of theseClassroomTopics) {
-        this._topics.set(topic.topicId, {
-          level: 2,
-          // @ts-ignore
-          name: topic.name,
-          work: [],
-        });
+      // Get all of the topics into the appropriate Map
+      this._topics = new Map<string, TopicInfo>();
+      if (theseClassroomTopics != undefined) {
+        // Add each topic
+        let topic: GoogleAppsScript.Classroom.Schema.Topic;
+        for (topic of theseClassroomTopics) {
+          if ((topic.topicId !== undefined) && (topic.name !== undefined)) {
+            this._topics.set(topic.topicId, {
+              level: 2,
+              name: topic.name,
+              work: [],
+            });
+          }
+        }
       }
     }
 
@@ -383,7 +383,7 @@ export class ClassGS {
    * @return {Array<string>} the topic ids
    */
   getTopics(): Array<string> {
-    return this._topics.keys();
+    return Array.from(this._topics.keys());
   }
 
   /**
@@ -392,7 +392,7 @@ export class ClassGS {
    * @return {Array<string>} the topic names
    */
   getTopicNames(): Array<string> {
-    return this._topics.values().map(a => a.name);
+    return Array.from(this._topics.values()).map(a => a.name);
   }
 
   /**
@@ -528,10 +528,10 @@ export class ClassGS {
    * }
    * ```
    *
-   * @return {MapGS<string, string>} a map of the student ID to the full name
+   * @return {Map<string, string>} a map of the student ID to the full name
    */
-  getStudents(): MapGS<string, string> {
-    const studentList: MapGS<string, string> = new MapGS<string, string>();
+  getStudents(): Map<string, string> {
+    const studentList: Map<string, string> = new Map<string, string>();
     const thisStudentList = this._getStudentProfiles();
     for (const s of thisStudentList) {
       if (
@@ -572,7 +572,7 @@ export class ClassGS {
    * @return {Array<string>} a list of the student names
    */
   getStudentNames(): Array<string> {
-    return this.getStudents().values();
+    return Array.from(this.getStudents().values());
   }
 
   /**
@@ -586,7 +586,7 @@ export class ClassGS {
    * @return {Array<string>} a list of the student IDs
    */
   getStudentIDs(): Array<string> {
-    return this.getStudents().keys();
+    return Array.from(this.getStudents().keys());
   }
 
   /**
@@ -600,7 +600,8 @@ export class ClassGS {
    * @return {string | null} the student name, or null if not found
    */
   getStudentName(id: string): string | null {
-    return this.getStudents().get(id);
+    const studentName = this.getStudents().get(id);
+    return studentName === undefined ? null : studentName;
   }
 
   /**
@@ -648,7 +649,7 @@ export class ClassGS {
   getParentNames(studentID?: string): Array<string> {
     let parentNames: Array<string> = [];
     const parentList = this._getParentProfiles(studentID);
-    parentList.values().every(function(pList) {
+    Array.from(parentList.values()).every(function(pList) {
       pList.every(function(parent) {
         const parentProfile = parent.guardianProfile;
         if (parentProfile != undefined && parentProfile != null) {
@@ -666,10 +667,10 @@ export class ClassGS {
    * Get the list of parents associated with the class (or a particular
    *  student)
    * @param {string} studentID the optional studentID to get parents for
-   * @return {MapGS<string, GoogleAppsScript.Classroom.Schema.Guardian[]>} a
+   * @return {Map<string, GoogleAppsScript.Classroom.Schema.Guardian[]>} a
    * list of the parent profiles
    */
-  private _getParentProfiles(studentID?: string): MapGS<string, GoogleAppsScript.Classroom.Schema.Guardian[]> {
+  private _getParentProfiles(studentID?: string): Map<string, GoogleAppsScript.Classroom.Schema.Guardian[]> {
     let theseStudentIDs: string[];
     if (studentID != undefined) theseStudentIDs = [studentID];
     else theseStudentIDs = this.getStudentIDs();
@@ -688,7 +689,7 @@ export class ClassGS {
       );
     }
 
-    let parentProfiles: MapGS<string, GoogleAppsScript.Classroom.Schema.Guardian[]> = new MapGS<
+    let parentProfiles: Map<string, GoogleAppsScript.Classroom.Schema.Guardian[]> = new Map<
       string,
       GoogleAppsScript.Classroom.Schema.Guardian[]
     >();

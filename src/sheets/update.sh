@@ -17,14 +17,12 @@ done
 
 mv .local.claspignore .claspignore
 mv .local.clasp.json .clasp.json
-cp ../map/MapGS.ts .
 cp ../DataSheet.ts .
 cp ../Cache.ts .
 cp ../SidebarButton.ts .
 cp ../utils/Utilities.ts .
 cp ../UiGS.ts .
 clasp push
-rm ./MapGS.ts
 rm ./UiGS.ts
 rm ./DataSheet.ts
 rm ./Cache.ts

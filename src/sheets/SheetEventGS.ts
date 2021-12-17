@@ -1,7 +1,6 @@
 import { SpreadsheetGS } from './SpreadsheetGS';
 import { SheetGS } from './SheetGS';
 import { TriggerRanges } from './TriggerRanges';
-import { MapGS } from '../map/MapGS';
 
 /**
  * Class to process Spreadsheet events (like onEdit, onChange)
@@ -335,10 +334,10 @@ export class SheetEventGS {
   /**
    * Get the SheetEvent values as a Map object
    *
-   * @return {MapGS<string, Array<string>>} the Map object of values
+   * @return {Map<string, Array<string>>} the Map object of values
    */
-  getValuesAsMap(): MapGS<string, Array<string>> {
-    const thisValues = new MapGS<string, Array<string>>();
+  getValuesAsMap(): Map<string, Array<string>> {
+    const thisValues = new Map<string, Array<string>>();
     for (const key in this._namedValues) {
       if (typeof key === 'string') {
         thisValues.set(key, this._namedValues[key]);

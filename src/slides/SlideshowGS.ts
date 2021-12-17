@@ -129,6 +129,19 @@ export function getSlideByNotes(obj: SlideshowGS, notes: string): SlideGS | null
 }
 
 /**
+ * Sets the textbox text in the presentation from the title of the textbox
+ *
+ * @param {SlideshowGS} obj the Slideshow object
+ * @param {string} title the title of the textbox
+ * @param {string} text the text in the textbox
+ *
+ * @return {SlideGS} the slide object
+ */
+ export function setSlideTextByTitle(obj: SlideshowGS, title: string, text: string): SlideshowGS {
+  return obj.setSlideTextByTitle(title, text);
+}
+
+/**
  * Removes a slide from the presentation
  *
  * @param {SlideshowGS} obj the Slideshow object
@@ -370,6 +383,38 @@ export class SlideshowGS extends UiGS {
     return null;
   }
 
+  /**
+   * Sets the text of the chosen text box in the presentation from the title of the alt text
+   *
+   * @param {string} title the alt text title on the slide
+   * @param {string} text the text to set
+   *
+   * @return {SlideGS} the slide object
+   */
+     setSlideTextByTitle(title: string, text: string): SlideshowGS {
+      if (title == null) {
+        throw new Error('Title for element is not defined to change in ' + 'SlideshowGS.getSlideByNotes()');
+      }
+      for (let j = 0; j < this._allSlides.length; j++) {
+        this._allSlides[j].getPageElements().forEach(function(pageElement) {
+          const thisTitle = pageElement.getTitle();
+          if (thisTitle != null && thisTitle.indexOf(title) != -1) {
+            const thisShape = pageElement.asShape();
+            if (thisShape != null) {
+              thisShape.getText().setText(text);
+              return this;
+            } else {
+              throw new Error(
+                'Could not find text box on slide with title "' + title + '"',
+              );
+            }
+          }
+        });
+      }
+      console.log('WARNING: Slide with title ' + title + ' not found in ' + 'SlideshowGS.getSlideByNotes()');
+      return this;
+    }
+  
   /**
    * Removes a slide from the presentation
    *

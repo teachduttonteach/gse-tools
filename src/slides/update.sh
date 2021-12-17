@@ -20,9 +20,7 @@ mv .local.clasp.json .clasp.json
 cp ../drive/DriveGS.ts .
 cp ../enums/QuestionType.ts .
 cp ../UiGS.ts .
-cp ../map/MapGS.ts .
 clasp push
-rm ./MapGS.ts
 rm ./DriveGS.ts
 rm ./UiGS.ts
 rm ./QuestionType.ts

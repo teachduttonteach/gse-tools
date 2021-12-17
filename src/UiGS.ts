@@ -1,4 +1,3 @@
-import { MapGS } from './map/MapGS';
 import { SidebarButton } from './SidebarButton';
 
 /**
@@ -11,13 +10,13 @@ import { SidebarButton } from './SidebarButton';
  */
 export class UiGS {
   protected _ui: GoogleAppsScript.Base.Ui;
-  protected _menus: MapGS<string, GoogleAppsScript.Base.Menu>;
+  protected _menus: Map<string, GoogleAppsScript.Base.Menu>;
 
   /**
    * Makes a new menu
    */
   constructor() {
-    this._menus = new MapGS();
+    this._menus = new Map();
   }
 
   /**

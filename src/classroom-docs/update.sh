@@ -14,7 +14,6 @@ do
 done
 
 mv .local.clasp.json .clasp.json
-cp ../map/MapGS.ts .
 cp ../UiGS.ts .
 cp ../classroom/ClassroomGS.ts .
 cp ../classroom/ClassGS.ts .
@@ -30,7 +29,6 @@ then
 fi
 rm ./DriveGS.ts
 rm ./UiGS.ts
-rm ./MapGS.ts
 rm ./ClassroomGS.ts
 rm ./ClassGS.ts
 rm ./DocsGS.ts

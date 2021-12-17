@@ -14,12 +14,10 @@ do
 done
 
 mv .local.clasp.json .clasp.json
-cp ../map/MapGS.ts .
 clasp push
 if [ "$TESTING" = true ] 
 then
     mv appsscript.json appsscript.test.json
     mv appsscript.notest.json appsscript.json
 fi
-rm ./MapGS.ts
 mv .clasp.json .local.clasp.json

@@ -1,7 +1,5 @@
-import { getDataSheet } from '../DataSheet';
-import { getOneDay, compareDates, getTodaysDate } from '../utils/Utilities';
+import { Utilities } from '../utils/Utilities';
 import { SpreadsheetGS } from '../sheets/SpreadsheetGS';
-import { MapGS } from '../map/MapGS';
 
 /**
  * Parameters to run birthday e-mails
@@ -74,12 +72,13 @@ export function sendBirthdayEmail(lookAheadDays: number, emailToSend: string, bi
   } = birthdayParams;
 
   const spreadsheet: SpreadsheetGS = new SpreadsheetGS();
-  const studentInfo: MapGS<string | Date, MapGS<string | Date, string | Date>> = spreadsheet
+  const studentInfo: Map<string | Date, Map<string | Date, string | Date>> = spreadsheet
     .getSheet(studentInfoSheet)
     .getDataAsMap();
 
-  const today: Date = getTodaysDate(timezoneOffset);
-  const studentBirthdays: MapGS<string, string> = new MapGS<string, string>();
+  const utilitiesInterface = new Utilities();
+  const today: Date = utilitiesInterface.getTodaysDate(timezoneOffset);
+  const studentBirthdays: Map<string, string> = new Map<string, string>();
 
   for (const row of studentInfo.entries()) {
     const studentName = row[1].get(studentNameColumn);
@@ -97,12 +96,13 @@ export function sendBirthdayEmail(lookAheadDays: number, emailToSend: string, bi
     }
     const studentDate: Date = new Date(thisBirthday);
 
-    const lookAheadDate: Date = getTodaysDate(timezoneOffset);
-    lookAheadDate.setTime(today.getTime() + lookAheadDays * getOneDay());
+    const utilitiesInterface = new Utilities();
+    const lookAheadDate: Date = utilitiesInterface.getTodaysDate(timezoneOffset);
+    lookAheadDate.setTime(today.getTime() + lookAheadDays * utilitiesInterface.getOneDay());
 
     if (
-      compareDates(studentDate, today, true, true, 'MONTH') &&
-      compareDates(studentDate, lookAheadDate, false, true, 'MONTH')
+      utilitiesInterface.compareDates(studentDate, today, true, true, 'MONTH') &&
+      utilitiesInterface.compareDates(studentDate, lookAheadDate, false, true, 'MONTH')
     ) {
       let displayDate = studentDate.getMonth() + 1 + '/' + studentDate.getDate();
       if (dateOrder == 'DM') {
@@ -120,6 +120,6 @@ export function sendBirthdayEmail(lookAheadDays: number, emailToSend: string, bi
     emailToSend,
     emailToSend,
     "Today's Birthdays (plus the next " + lookAheadDays + ' days)!',
-    studentBirthdays.values().join('\n'),
+    Array.from(studentBirthdays.values()).join('\n'),
   );
 }

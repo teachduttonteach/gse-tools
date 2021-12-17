@@ -17,11 +17,9 @@ done
 
 mv .local.claspignore .claspignore
 mv .local.clasp.json .clasp.json
-cp ../map/MapGS.ts .
 cp ../UiGS.ts .
 clasp push
 rm ./UiGS.ts
-rm ./MapGS.ts
 mv .clasp.json .local.clasp.json
 mv .claspignore .local.claspignore
 if [ "$TESTING" = true ] 

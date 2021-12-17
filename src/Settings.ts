@@ -1,12 +1,10 @@
-import { MapGS } from './map/MapGS';
-
 /**
  * Class to hold settings in the PropertiesService
  */
 export class Settings {
   private _name: string;
   private _scriptProperties: boolean;
-  private _settings: MapGS<string, string>;
+  private _settings: Map<string, string>;
 
   /**
    *
@@ -17,7 +15,7 @@ export class Settings {
     this._name = 'SETTINGS';
     if (name as string) this._name = name;
     this._scriptProperties = true;
-    this._settings = new MapGS();
+    this._settings = new Map();
     if (docProperties) {
       this._scriptProperties = false;
       const thisProp = PropertiesService.getDocumentProperties().getProperty(this._name);
@@ -38,12 +36,12 @@ export class Settings {
    * Gets the value for a particular key
    *
    * @param {string | Array<string>} key the key to retrieve
-   * @return {string | MapGS<string, string>} the value
+   * @return {string | Map<string, string>} the value
    */
-  get(key: string | Array<string>): string | MapGS<string, string> {
+  get(key: string | Array<string>): string | Map<string, string> {
     if (key != null) {
       if (typeof key != 'string') {
-        const settingsMap: MapGS<string, string> = new MapGS<string, string>();
+        const settingsMap: Map<string, string> = new Map<string, string>();
         for (const i of key) {
           const thisValue = this._settings.get(i);
           if (thisValue == undefined) {

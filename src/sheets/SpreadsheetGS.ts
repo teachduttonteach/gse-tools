@@ -1,6 +1,5 @@
 import { UiGS } from '../UiGS';
 import { SheetGS } from './SheetGS';
-import { MapGS } from '../map/MapGS';
 
 /**
  * Gets the data from a Google Sheet and provides an interface to it in an
@@ -47,14 +46,14 @@ export function getSpreadsheetObject(obj: SpreadsheetGS): GoogleAppsScript.Sprea
  * @param {boolean} rowFirst if true, rows will be the keys and columns
  *  will be in the values along with the value found at that cell
  *
- * @return {MapGS<string | Date, MapGS<string | Date, string | Date>>} the
+ * @return {Map<string | Date, Map<string | Date, string | Date>>} the
  *  data object
  */
 export function getSpreadsheetDataAsMap(
   obj: SpreadsheetGS,
   sheetName: string,
   rowFirst: boolean = true,
-): MapGS<string | Date, MapGS<string | Date, string | Date>> {
+): Map<string | Date, Map<string | Date, string | Date>> {
   return obj.getDataAsMap(sheetName, rowFirst);
 }
 
@@ -228,10 +227,10 @@ export class SpreadsheetGS extends UiGS {
    * @param {boolean} rowFirst if true, rows will be the keys and columns
    *  will be in the values along with the value found at that cell
    *
-   * @return {MapGS<string | Date, MapGS<string | Date, string | Date>>} the
+   * @return {Map<string | Date, Map<string | Date, string | Date>>} the
    *  data object
    */
-  getDataAsMap(sheetName: string, rowFirst: boolean = true): MapGS<string | Date, MapGS<string | Date, string | Date>> {
+  getDataAsMap(sheetName: string, rowFirst: boolean = true): Map<string | Date, Map<string | Date, string | Date>> {
     return this.getOrCreateSheet(sheetName).getDataAsMap(rowFirst);
   }
 

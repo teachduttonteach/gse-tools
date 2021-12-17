@@ -4,7 +4,6 @@ import { DriveGS } from '../drive/DriveGS';
 import { DataSheet } from '../DataSheet';
 import { ClassGS } from '../classroom/ClassGS';
 import { ClassroomDocsGS } from '../classroom-docs/ClassroomDocsGS';
-import { MapGS } from '../map/MapGS';
 
 /**
  * All of the arguments and other variables used by the Bellwork script
@@ -75,15 +74,12 @@ export function updateClassroomFiles(args: ClassroomArgs): void {
   const dataSheetInterface = new DataSheet();
 
   const settings: SpreadsheetGS = dataSheetInterface.getDataSheet(dataSheet, settingsName);
-  const classworkSettings: MapGS<string | Date, MapGS<string | Date, string | Date>> = settings.getDataAsMap(
+  const classworkSettings: Map<string | Date, Map<string | Date, string | Date>> = settings.getDataAsMap(
     settingsName,
   );
   const allClasses: ClassroomGS = new ClassroomGS();
 
-  classworkSettings.reset();
-  while (classworkSettings.hasNext()) {
-    const row = classworkSettings.next();
-    const thisRow = classworkSettings.get(row);
+  classworkSettings.forEach(function(thisRow, row) {
     if (thisRow == undefined || classroomCodeColumnName == undefined) {
       throw new Error('Could not find row in classworkSettings in ' + 'updateClassroomFiles()');
     }
@@ -97,7 +93,7 @@ export function updateClassroomFiles(args: ClassroomArgs): void {
       const currentClass = allClasses.getClass(thisClassroomCode);
       updateGoogleClassroom(args, currentClass);
     }
-  }
+  });
 }
 
 /**

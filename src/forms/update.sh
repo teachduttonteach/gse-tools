@@ -19,12 +19,10 @@ mv .local.claspignore .claspignore
 mv .local.clasp.json .clasp.json
 cp ../enums/QuestionType.ts .
 cp ../UiGS.ts .
-cp ../map/MapGS.ts .
 cp ../SidebarButton.ts .
 cp ../drive/DriveGS.ts .
 clasp push
 rm ./DriveGS.ts
-rm ./MapGS.ts
 rm ./SidebarButton.ts
 rm ./QuestionType.ts
 rm ./UiGS.ts
