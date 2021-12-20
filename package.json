@@ -39,6 +39,7 @@
     "lib/**/*"
   ],
   "dependencies": {
+    "@types/google-apps-script": "^1.0.41",
     "babel": "^6.23.0",
     "lint": "^1.1.2",
     "lodash": "^4.17.21",

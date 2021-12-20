@@ -1,6 +1,46 @@
 import { UiGS } from '../UiGS';
 import { DriveGS } from '../drive/DriveGS';
 import { SlideGS } from './SlideGS';
+import { QuestionType } from '../enums/QuestionType';
+import { LessonInfo } from '../samples/LessonInfo';
+
+export type SlideDisplayParams = {
+  /**
+   * A string in the Notes part of the slide to determine the one slide in the slideshow
+   */
+  findByGlobalSlideNotes?: string;
+  /**
+   * A string to find the column that contains specific Notes that determines the right slide for this class
+   */
+  findBySpecificSlideNotes?: string;
+  /**
+   * A string to find the column that contains specific info to determine where the text should be displayed, by the title of the alt text
+   */
+  findByAltText?: string;
+  /**
+   * String to display if there is no text available
+   */
+  noTitleText?: string;
+  /**
+   * Whether or not to display the linked text as the title of the slide
+   */
+  displayTextAsTitle?: boolean;
+}
+
+export type TextBoxSlideParams = {
+  /**
+   * Link to the image to display
+   */
+  imageLink?: string;
+  /**
+   * Options to display for a question
+   */
+  optionsToDisplay?: string;
+  /**
+   * Type of options to display (like multiple choice)
+   */
+  optionsType?: QuestionType;
+}
 
 /**
  * Class to access methods and properties of Google Presentations
@@ -134,11 +174,12 @@ export function getSlideByNotes(obj: SlideshowGS, notes: string): SlideGS | null
  * @param {SlideshowGS} obj the Slideshow object
  * @param {string} title the title of the textbox
  * @param {string} text the text in the textbox
+ * @param {boolean} multiple whether to display in multiple text boxes
  *
  * @return {SlideGS} the slide object
  */
- export function setSlideTextByTitle(obj: SlideshowGS, title: string, text: string): SlideshowGS {
-  return obj.setSlideTextByTitle(title, text);
+ export function setSlideTextByTitle(obj: SlideshowGS, title: string, text: string, multiple: boolean = false): Array<SlideGS> {
+  return obj.setSlideTextByTitle(title, text, multiple);
 }
 
 /**
@@ -388,31 +429,39 @@ export class SlideshowGS extends UiGS {
    *
    * @param {string} title the alt text title on the slide
    * @param {string} text the text to set
+   * @param {boolean} multiple allow multiple text boxes to be set
    *
    * @return {SlideGS} the slide object
    */
-     setSlideTextByTitle(title: string, text: string): SlideshowGS {
+     setSlideTextByTitle(title: string, text: string, multiple: boolean = false): Array<SlideGS> {
+       let slidesChanged: Array<SlideGS> = [];
       if (title == null) {
         throw new Error('Title for element is not defined to change in ' + 'SlideshowGS.getSlideByNotes()');
       }
-      for (let j = 0; j < this._allSlides.length; j++) {
-        this._allSlides[j].getPageElements().forEach(function(pageElement) {
-          const thisTitle = pageElement.getTitle();
+      let checkMultiple: number = multiple ? 1 : 0;
+      for (let slide of this._allSlides) {
+        const pageElements: GoogleAppsScript.Slides.PageElement[] = slide.getPageElements();
+        for (let pageElement of pageElements) {
+          const thisTitle: string = pageElement.getTitle();
           if (thisTitle != null && thisTitle.indexOf(title) != -1) {
             const thisShape = pageElement.asShape();
             if (thisShape != null) {
               thisShape.getText().setText(text);
-              return this;
+              // TODO: thisShape.getAutoFit() - as of 12/21 is not in npm @types/google-apps-script
+              if (checkMultiple == 0) return [slide];
+              checkMultiple++;
+              slidesChanged.push(slide);
             } else {
               throw new Error(
                 'Could not find text box on slide with title "' + title + '"',
               );
             }
           }
-        });
+        }
       }
-      console.log('WARNING: Slide with title ' + title + ' not found in ' + 'SlideshowGS.getSlideByNotes()');
-      return this;
+      if (checkMultiple < 2)
+        console.log('WARNING: Slide with title ' + title + ' not found in ' + 'SlideshowGS.setSlideTextByTitle()');
+      return slidesChanged;
     }
   
   /**
@@ -475,5 +524,88 @@ export class SlideshowGS extends UiGS {
     const thisSlide = this.getSlideByNotes(slideNotes);
     if (thisSlide != null) thisSlide.setTitle(title);
     return this;
+  }
+
+  setTextBoxOrTitleOnSlide(args: SlideDisplayParams,
+    textBoxSlideParams: TextBoxSlideParams,
+    settingsRow: Map<string | Date, string | Date>,
+    textToSet: string | Array<LessonInfo>,
+    ) {
+    const {
+      findByGlobalSlideNotes,
+      findBySpecificSlideNotes = 'Slide Notes',
+      findByAltText,
+      noTitleText = 'No Question Today',
+      displayTextAsTitle = false,
+    } = args;
+
+    const {
+      imageLink,
+      optionsToDisplay,
+      optionsType
+    } = textBoxSlideParams;
+
+    let currentSlide: SlideGS | undefined = undefined;
+
+    // Turn a list into a title if necessary
+    if (typeof textToSet === 'object') {
+      textToSet = textToSet.map(a => a.title).join('\n');;
+    }    
+
+    // If alt text is defined and present in the slideshow
+    if (findByAltText !== undefined) {
+      const thisAltText = settingsRow.get(findByAltText);
+      if (thisAltText == null || typeof thisAltText !== 'string') {
+        throw new Error(
+          'Could not find alt text column name (' + thisAltText + ') in Question.updateTodaysQuestion()',
+        );
+      }
+
+      // Get the current slide
+      currentSlide = this.setSlideTextByTitle(thisAltText, textToSet == "" ? noTitleText : textToSet)[0];
+    } else {
+      // If specific slide notes are defined and present in the slideshow
+      const theseSlideNotes = settingsRow.get(findBySpecificSlideNotes);
+      if (theseSlideNotes != null) {
+        const thisSlide = this.getSlideByNotes(theseSlideNotes.toString());
+        // Get the current slide
+        if (thisSlide !== null) 
+          currentSlide = thisSlide;
+      }
+
+      // If generic slide notes are defined and present in the slideshow
+      if (currentSlide === undefined) {
+        if (findByGlobalSlideNotes !== undefined) {
+          const thisSlide = this.getSlideByNotes(findByGlobalSlideNotes);
+          // Get the current slide
+          if (thisSlide !== null) 
+            currentSlide = thisSlide;
+        }
+      }
+
+      if (currentSlide !== undefined) {
+        // Display as title if displayTextAsTitle is set
+        if (displayTextAsTitle) 
+        currentSlide.setTitle(textToSet == "" ? noTitleText : textToSet);
+      // Otherwise, display in body
+      else
+        currentSlide.setBody(textToSet == "" ? noTitleText : textToSet);
+      }
+    }
+
+    if (currentSlide !== undefined) {
+      // If there is an image to display
+      if ((imageLink != null) && (imageLink != "")) {
+        // Set image on current slide
+        this.changeSlidePicture(imageLink, currentSlide);  
+      }
+
+      // If there are options to display
+      if (optionsType !== undefined) {
+        if (optionsToDisplay !== undefined && optionsToDisplay !== null && optionsToDisplay != '') {
+          currentSlide.addItem(optionsType, optionsToDisplay);
+        }
+      }
+    }
   }
 }

@@ -935,21 +935,21 @@ export class SheetGS {
     column: string | Date | Array<string | Date>,
     reset: boolean = true,
   ): SheetGS {
-    const utilitiesInterface = new Utilities();
-
     if (value === undefined || row === undefined || column === undefined) {
       throw new Error('Value, row name, and column ' + 'name must all be defined in SheetGS.setValueAsMap()');
     }
+    const utils = new Utilities();
+
     for (let r: number = 2; r <= this._lastRow; r++) {
       if (
         (row instanceof Array && this._checkRow(row, r)) ||
-        (row instanceof Date && utilitiesInterface.areDatesEqual(this.getDateValue(r, 1), row)) ||
+        (row instanceof Date && utils.areDatesEqual(this.getDateValue(r, 1), row)) ||
         this.getValue(r, 1) == row
       ) {
         for (let c: number = 2; c <= this._lastCol; c++) {
           if (
             (column instanceof Array && this._checkCol(column, c)) ||
-            (column instanceof Date && utilitiesInterface.areDatesEqual(this.getDateValue(1, c), column)) ||
+            (column instanceof Date && utils.areDatesEqual(this.getDateValue(1, c), column)) ||
             this.getValue(1, c) == column
           ) {
             this.setValue(value, r, c, reset);
@@ -968,10 +968,11 @@ export class SheetGS {
    * @return {boolean} whether or not the values are equal
    */
   private _checkRow(rowArray: Array<string | Date>, rowNumber: number): boolean {
-    const utilitiesInterface = new Utilities();
+    const utils = new Utilities();
+
     for (let i = 1; i <= rowArray.length; i++) {
       if (rowArray[i - 1] instanceof Date) {
-        if (!utilitiesInterface.areDatesEqual(this.getDateValue(rowNumber, i), rowArray[i - 1])) {
+        if (!utils.areDatesEqual(this.getDateValue(rowNumber, i), rowArray[i - 1])) {
           return false;
         }
       } else if (rowArray[i - 1] != this._data[rowNumber - 1][i - 1]) {
@@ -989,10 +990,11 @@ export class SheetGS {
    * @return {boolean} whether or not the values are equal
    */
   private _checkCol(colArray: Array<string | Date>, colNumber: number): boolean {
-    const utilitiesInterface = new Utilities();
+    const utils = new Utilities();
+
     for (let i = 1; i <= colArray.length; i++) {
       if (colArray[i - 1] instanceof Date) {
-        if (!utilitiesInterface.areDatesEqual(this.getDateValue(i, colNumber), colArray[i - 1])) {
+        if (!utils.areDatesEqual(this.getDateValue(i, colNumber), colArray[i - 1])) {
           return false;
         }
       } else if (colArray[i - 1] != this._data[i - 1][colNumber - 1]) {
@@ -1098,10 +1100,10 @@ export class SheetGS {
    * @return {boolean} whether or not they are equal
    */
   areSheetValuesEqual(value: Date | string, cell: [number, number], level: string = 'YEAR'): boolean {
-    const utilitiesInterface = new Utilities();
+    const utils = new Utilities();
 
     if (
-      (value instanceof Date && utilitiesInterface.areDatesEqual(value, this.getDateValue(cell[0], cell[1]), level)) ||
+      (value instanceof Date && utils.areDatesEqual(value, this.getDateValue(cell[0], cell[1]), level)) ||
       value == this.getValue(cell[0], cell[1])
     ) {
       return true;
@@ -1120,12 +1122,12 @@ export class SheetGS {
    * @return {boolean} whether or not they are equal
    */
   areValuesEqualAsMap(value1: Date | string | undefined, value2: Date | string, level: string = 'YEAR'): boolean {
-    const utilitiesInstance = new Utilities();
     if ((value1 === undefined) || (value1 == null)) {
       throw new Error('Could not find map value in ' + 'SheetGS.areMapValuesEqual()');
     }
+    const utils = new Utilities();
 
-    if ((value1 instanceof Date && utilitiesInstance.areDatesEqual(value1, value2, level)) || value1 == value2) return true;
+    if ((value1 instanceof Date && utils.areDatesEqual(value1, value2, level)) || value1 == value2) return true;
     return false;
   }
 

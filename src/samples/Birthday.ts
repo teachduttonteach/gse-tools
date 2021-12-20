@@ -1,4 +1,4 @@
-import { Utilities } from '../utils/Utilities';
+import { Utilities} from '../utils/Utilities';
 import { SpreadsheetGS } from '../sheets/SpreadsheetGS';
 
 /**
@@ -76,8 +76,9 @@ export function sendBirthdayEmail(lookAheadDays: number, emailToSend: string, bi
     .getSheet(studentInfoSheet)
     .getDataAsMap();
 
-  const utilitiesInterface = new Utilities();
-  const today: Date = utilitiesInterface.getTodaysDate(timezoneOffset);
+  const utils = new Utilities();
+
+  const today: Date = utils.getTodaysDate(timezoneOffset);
   const studentBirthdays: Map<string, string> = new Map<string, string>();
 
   for (const row of studentInfo.entries()) {
@@ -96,13 +97,14 @@ export function sendBirthdayEmail(lookAheadDays: number, emailToSend: string, bi
     }
     const studentDate: Date = new Date(thisBirthday);
 
-    const utilitiesInterface = new Utilities();
-    const lookAheadDate: Date = utilitiesInterface.getTodaysDate(timezoneOffset);
-    lookAheadDate.setTime(today.getTime() + lookAheadDays * utilitiesInterface.getOneDay());
+    const utils = new Utilities();
+
+    const lookAheadDate: Date = utils.getTodaysDate(timezoneOffset);
+    lookAheadDate.setTime(today.getTime() + lookAheadDays * utils.getOneDay());
 
     if (
-      utilitiesInterface.compareDates(studentDate, today, true, true, 'MONTH') &&
-      utilitiesInterface.compareDates(studentDate, lookAheadDate, false, true, 'MONTH')
+      utils.compareDates(studentDate, today, true, true, 'MONTH') &&
+      utils.compareDates(studentDate, lookAheadDate, false, true, 'MONTH')
     ) {
       let displayDate = studentDate.getMonth() + 1 + '/' + studentDate.getDate();
       if (dateOrder == 'DM') {

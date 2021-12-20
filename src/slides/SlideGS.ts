@@ -58,6 +58,7 @@ export function setSlideNotes(obj: SlideGS, text: string): SlideGS {
  *
  * @param {SlideGS} obj the Slide object
  * @param {string} title the title of the slide
+ * @param {string} defaultText the default text to display
  *
  * @return {SlideGS} the object for chaining
  */

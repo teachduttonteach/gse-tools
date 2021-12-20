@@ -2,7 +2,7 @@ import { ClassGS } from '../classroom/ClassGS';
 import { Work } from '../classroom/Work';
 import { CourseMaterial } from '../classroom/CourseMaterial';
 import { DocsGS } from '../docs/DocsGS';
-import { getDocLevels } from '../docs/DocLevels';
+import { DocLevels } from '../docs/DocLevels';
 import { WriteDocsParams } from 'WriteDocsParams';
 
 /**
@@ -57,7 +57,8 @@ export class ClassroomDocsGS {
     // Clear the body and get the doc title
     this._doc.clearBody();
     if (docTitle == undefined) docTitle = classData.getTopicName(topicId);
-    const thisLevel = getDocLevels('T');
+    const docLevelsInstance = new DocLevels();
+    const thisLevel = docLevelsInstance.getDocLevels('T');
     if (docTitle == undefined || thisLevel == undefined) {
       throw new Error(
         'Title (' + docTitle + ') or level (' + thisLevel + ') not defined' + ' in DocsGS.writeClassroomDocuments()',
@@ -65,6 +66,7 @@ export class ClassroomDocsGS {
     }
 
     // Display the title by removing the first child if necessary
+    // TODO: Get DocsGS to do this heavy lifting
     const thisBody = this._doc.getBody();
     const thisChild = thisBody.getChild(0);
     if (thisChild.getType() == DocumentApp.ElementType.LIST_ITEM) {

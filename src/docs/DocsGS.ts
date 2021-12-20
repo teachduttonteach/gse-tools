@@ -1,5 +1,5 @@
 import { UiGS } from '../UiGS';
-import { getDocLevels } from './DocLevels';
+import { DocLevels } from './DocLevels';
 
 /**
  * Class to write a Google Document
@@ -30,6 +30,16 @@ export function activateDocsUi(obj: DocsGS): DocsGS {
  */
 export function getDocsObject(obj: DocsGS): GoogleAppsScript.Document.Document {
   return obj.getObject();
+}
+
+/**
+ * Publishes the Doc by saving and closing.
+ * 
+ * @param {DocsGS} obj the Docs object
+ * @returns {DocsGS} the Docs object for chaining
+ */
+export function publishDoc(obj: DocsGS): DocsGS {
+  return obj.publish();
 }
 
 /**
@@ -77,11 +87,12 @@ export function appendDocsItem(obj: DocsGS, text: string, title: string, link: s
  * @param {DocsGS} obj the Docs object
  * @param {string} text the text to add
  * @param {string | number} level the level of the text
+ * @param {boolean} firstParagraph if this should be the first paragraph of the document
  *
  * @return {DocsGS} the object for chaining
  */
-export function addDocsText(obj: DocsGS, text: string, level: string | number): DocsGS {
-  return obj.addText(text, level);
+export function addDocsText(obj: DocsGS, text: string, level: string | number, firstParagraph: boolean = false): DocsGS {
+  return obj.addText(text, level, firstParagraph);
 }
 
 /**
@@ -198,14 +209,25 @@ export class DocsGS extends UiGS {
   }
 
   /**
+   * Publishes the document by saving and closing.
+   * 
+   * @returns {DocsGS} the object for chaining
+   */
+  publish(): DocsGS {
+    this._docObject.saveAndClose();
+    return this;
+  }
+
+  /**
    * Adds text to the document
    *
    * @param {string} text the text to add
    * @param {string | number} level the level of the text
+   * @param {boolean} firstParagraph if this is the first paragraph of the document
    *
    * @return {DocsGS} the object for chaining
    */
-  addText(text: string, level: string | number = 'N'): DocsGS {
+  addText(text: string, level: string | number = 'N', firstParagraph: boolean = false): DocsGS {
     if (text == undefined) {
       throw new Error('Text needs to be defined for the' + ' heading in DocsGS.addText()');
     }
@@ -215,15 +237,24 @@ export class DocsGS extends UiGS {
     }
     if (typeof level === 'string') level = level.substr(0, 1).toUpperCase();
 
-    const thisLevel = getDocLevels(level);
+    const docLevelsInstance = new DocLevels();
+    const thisLevel = docLevelsInstance.getDocLevels(level);
     if (thisLevel == null) {
       throw new Error('Level (' + level + ') needs to ' + 'be a ParagraphHeading type in DocsGS.addText()');
     }
 
-    this._docObject
+    if (firstParagraph) {
+      this._docObject
+      .getBody()
+      .getParagraphs()[0]
+      .setHeading(thisLevel)
+      .setText(text)
+    } else {
+      this._docObject
       .getBody()
       .appendParagraph(text)
       .setHeading(thisLevel);
+    }
     return this;
   }
 

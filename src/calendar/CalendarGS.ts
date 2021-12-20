@@ -1,6 +1,6 @@
 import { CalendarEventGS } from './CalendarEventGS';
 import { DateParams } from '../DateParams';
-import { getTodaysDate } from '../utils/Utilities';
+import { Utilities } from '../utils/Utilities';
 
 /**
  * Class to hold properties and methods to manipulate the Google Calendar
@@ -212,8 +212,9 @@ export class CalendarGS {
     this._upcomingEventObjects = [];
     this._id = id;
     this._timezoneOffset = timezoneOffset;
+    const utils = new Utilities();
 
-    this._dateToday = getTodaysDate(this._timezoneOffset);
+    this._dateToday = utils.getTodaysDate(this._timezoneOffset);
 
     this._calendar = CalendarApp.getCalendarById(id);
     if (this._calendar == null) {
@@ -245,7 +246,9 @@ export class CalendarGS {
    * @return {Array<CalendarEventGS>} the list of calendar events
    */
   getUpcomingEvents(daysToLookAhead: number): Array<CalendarEventGS> {
-    this._endDate = getTodaysDate(this._timezoneOffset);
+    const utils = new Utilities();
+
+    this._endDate = utils.getTodaysDate(this._timezoneOffset);
     this._endDate.setMilliseconds(this._dateToday.getMilliseconds() + daysToLookAhead * this._oneDay);
     this._upcomingEventObjects = [];
     for (const event of this._calendar.getEvents(this._dateToday, this._endDate)) {
