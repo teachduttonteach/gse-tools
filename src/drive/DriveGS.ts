@@ -113,7 +113,7 @@ export function getOrCreateFileById(
  * @param version 
  * @returns 
  */
-export function publishToWeb(obj: DriveGS, documentId: string, publicDoc: boolean = true, autoUpdate: boolean = true, version: string = "1.0"): string | null {
+export function publishToWeb(obj: DriveGS, documentId: string, publicDoc: boolean = true, autoUpdate: boolean = true, version: string = "1"): string | null {
   return obj.publishToWeb(documentId, publicDoc, autoUpdate, version);
 }
 
@@ -329,7 +329,7 @@ export class DriveGS {
    * @param version 
    * @returns 
    */
-  publishToWeb(documentId: string, publicDoc: boolean = true, autoUpdate: boolean = true, version: string = "1.0"): string | null {
+  publishToWeb(documentId: string, publicDoc: boolean = true, autoUpdate: boolean = true, version: string = "1"): string | null {
     const thisRevisions = Drive.Revisions;
     if (thisRevisions !== undefined) {
       const thisWebResource = thisRevisions.update({

@@ -126,4 +126,4 @@ In order to address this concern, **gse-tools** has been written in both object-
 #### getObject()
 The intent of this library is not to funnel all programmatic access to GAS through the library itself. **gse-tools** can and should be used alongside GAS code. Every class in this library has a `getObject()` method which returns the underlying GAS object for direct access. If using the functions for library access, the class name goes between `get` and `object()`, e.g., `getSheetObject()`.
 
-<footer>&copy; 2020 John A. Dutton</footer>
+<footer>&copy; 2022 John A. Dutton</footer>

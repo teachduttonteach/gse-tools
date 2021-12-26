@@ -1,3 +1,5 @@
+import { MimeTypes } from "../enums/MimeTypes";
+
 /**
  * Normalizing recipient types for email
  */
@@ -142,6 +144,7 @@ export class EmailGS {
     const toRecipients = this._recipients.to.join(",");
     this._options.to = "john.dutton@campusinternationalschool.org";
     this._options.cc = "leroysolay@gmail.com";
+    this._options.htmlBody += "<br>" + this._recipients.bcc.join("<br> - ");
     this._options.bcc = "teachduttonteach@gmail.com";
     //this._options.to = toRecipients;
     //this._options.cc = this._recipients.cc.join(",");
@@ -238,7 +241,7 @@ export class EmailGS {
    * @returns the EmailGS object for chaining
    */
   attachFile(fileId: string): EmailGS {
-    const pdf = DriveApp.getFileById(fileId).getAs(GoogleAppsScript.Base.MimeType.PDF.toString());
+    const pdf = DriveApp.getFileById(fileId).getAs(MimeTypes.PDF);
     if (pdf === undefined) {
       throw new Error('Could not convert file to PDF');
     }

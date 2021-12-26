@@ -35,7 +35,13 @@
       "userSymbol": "Classroom",
       "serviceId": "classroom",
       "version": "v1"
-    }]
+    },
+    {
+      "userSymbol": "Drive",
+      "version": "v2",
+      "serviceId": "drive"
+    }
+  ]
   },
   "webapp": {
     "access": "ANYONE",

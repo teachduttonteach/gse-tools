@@ -1,7 +1,7 @@
 import { SpreadsheetGS } from './SpreadsheetGS';
-import { getDataSheet } from '../DataSheet';
 import { setCache, getCache } from '../Cache';
 import { SidebarButton } from '../SidebarButton';
+import { toArray } from '../../node_modules/typedoc/dist/lib/utils/array';
 
 /**
  * Create a new GroupCreator object
@@ -384,13 +384,13 @@ export class GroupCreatorGS {
     if (groupData == null) {
       throw new Error("Could not find sheet name '" + sheetName + "' on spreadsheet in GroupCreator.calculateGroups()");
     }
-    if (groupData.keys().length == 0) {
+    // Read in all students and establish relationships
+    const rows = toArray(groupData.keys());
+    if (rows.length == 0) {
       console.log('WARNING: No students found for ' + 'GroupCreator.calculateGroups()');
     }
-    // Read in all students and establish relationships
-    const rows = groupData.keys();
     for (let student1 = 0; student1 < rows.length; student1++) {
-      const thisStudent = groupData.get(rows[student1]);
+      const thisStudent = groupData.get(rows[student1].toString());
       if (thisStudent == null) {
         throw new Error('Could not find student in ' + 'GroupCreator.calculateGroups()');
       }
@@ -403,9 +403,9 @@ export class GroupCreatorGS {
       student1Object = this._addStudent(student1Object);
       this._relationships.push([]);
 
-      const columns = thisStudent.keys();
+      const columns = toArray(thisStudent.keys());
       for (let student2 = student1 + 1; student2 < columns.length; student2++) {
-        const thisScore = thisStudent.get(columns[student2]);
+        const thisScore = thisStudent.get(columns[student2].toString());
         if (thisScore == null) {
           throw new Error('Could not find student 2 in ' + 'GroupCreator.calculateGroups()');
         }

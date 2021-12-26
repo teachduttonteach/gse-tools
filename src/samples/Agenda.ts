@@ -295,14 +295,16 @@ export function updateDailyAgenda(args: AgendaParams = {}, slideDisplayArgs: Sli
 
     if (writeAgenda) {
       const agendaDoc: DocsGS = writeAgendaToDoc(args, lessonTitles, currentClass);
-      if (publishAgenda)
+      if (publishAgenda) {
         new DriveGS().publishToWeb(agendaDoc.getId());
-      if (emailToParents !== undefined)
+      }
+      if (emailToParents !== undefined) {
         emailAgendaToParents(emailToParents, thisRow, agendaDoc, currentClass, sitesLinkColumnName);
+      }
     }
-    if (displayAgenda && slideShow !== undefined)
+    if (displayAgenda && slideShow !== undefined) {
       displayAgendaOnSlide(slideDisplayArgs, thisRow, lessonTitles, slideShow);
-
+    }
   });
 
   return true;
@@ -441,25 +443,25 @@ function emailAgendaToParents(emailToParents: ParentEmailInfo, row: Map<string |
     const parentEmails = currentClass.getParentEmails();
     for (let email of parentEmails) {
       sendMail.addRecipient(email, RecipientType.BCC);
-      let mailBody = "";
-      if (sendInBody)
-        mailBody = agendaDoc
-          .getBody()
-          .asBody()
-          .getText()
-          .toString();
-      if (sendAsPDF) 
-        sendMail.attachFile(agendaDoc.getId());
-      if (sendDocLink) mailBody += '<br><a href="' + agendaDoc.getObject().getUrl() + '">' + docsLinkText + '</a>';
-      if (sendWebLink) mailBody += '<br><a href="' + new DriveGS().publishToWeb(agendaDoc.getId()) + '">' + webLinkText + '</a>';
-      if (sendSitesLink) {
-        const sitesLink = row.get(sitesLinkColumnName);
-        if (sitesLink != undefined && sitesLink != null && sitesLink != '')
-          mailBody += '<br><a href="' + sitesLink.toString() + '">' + sitesLinkText + '</a>';
-      }
-      sendMail.setBody(mailBody, true);
-      sendMail.send();
     }
+    let mailBody = "";
+    if (sendInBody)
+      mailBody = agendaDoc
+        .getBody()
+        .asBody()
+        .getText()
+        .toString();
+    if (sendAsPDF) 
+      sendMail.attachFile(agendaDoc.getId());
+    if (sendDocLink) mailBody += '<br><a href="' + agendaDoc.getObject().getUrl() + '">' + docsLinkText + '</a>';
+    if (sendWebLink) mailBody += '<br><a href="' + new DriveGS().publishToWeb(agendaDoc.getId()) + '">' + webLinkText + '</a>';
+    if (sendSitesLink) {
+      const sitesLink = row.get(sitesLinkColumnName);
+      if (sitesLink != undefined && sitesLink != null && sitesLink != '')
+        mailBody += '<br><a href="' + sitesLink.toString() + '">' + sitesLinkText + '</a>';
+    }
+    sendMail.setBody(mailBody, true);
+    sendMail.send();
   }
 
 }

@@ -1,1056 +1,166 @@
-<!doctype html>
-<html class="default no-js">
-<head>
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>gse-tools</title>
-	<meta name="description" content="">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" href="assets/css/main.css">
-</head>
-<body>
-<header>
-	<div class="tsd-page-toolbar">
-		<div class="container">
-			<div class="table-wrap">
-				<div class="table-cell" id="tsd-search" data-index="assets/js/search.js" data-base=".">
-					<div class="field">
-						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
-						<input id="tsd-search-field" type="text" />
-					</div>
-					<ul class="results">
-						<li class="state loading">Preparing search index...</li>
-						<li class="state failure">The search index is not available</li>
-					</ul>
-					<a href="index.html" class="title">gse-tools</a>
-				</div>
-				<div class="table-cell" id="tsd-widgets">
-					<div id="tsd-filter">
-						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
-						<div class="tsd-filter-group">
-							<div class="tsd-select" id="tsd-filter-visibility">
-								<span class="tsd-select-label">All</span>
-								<ul class="tsd-select-list">
-									<li data-value="public">Public</li>
-									<li data-value="protected">Public/Protected</li>
-									<li data-value="private" class="selected">All</li>
-								</ul>
-							</div>
-							<input type="checkbox" id="tsd-filter-inherited" checked />
-							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
-							<input type="checkbox" id="tsd-filter-externals" checked />
-							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
-							<input type="checkbox" id="tsd-filter-only-exported" />
-							<label class="tsd-widget" for="tsd-filter-only-exported">Only exported</label>
-						</div>
-					</div>
-					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
-				</div>
-			</div>
-		</div>
-	</div>
-	<div class="tsd-page-title">
-		<div class="container">
-			<ul class="tsd-breadcrumb">
-				<li>
-					<a href="globals.html">Globals</a>
-				</li>
-			</ul>
-			<h1> gse-tools</h1>
-		</div>
-	</div>
-</header>
-<div class="container container-main">
-	<div class="row">
-		<div class="col-8 col-content">
-			<div class="tsd-panel tsd-typography">
-				<a href="#gse-tools" id="gse-tools" style="color: inherit; text-decoration: none;">
-					<h1>gse-tools</h1>
-				</a>
-				<p>A library specifically built to more easily write <a href="https://developers.google.com/apps-script">Google Apps Script</a> code in an educational context.</p>
-				<a href="#usage" id="usage" style="color: inherit; text-decoration: none;">
-					<h2>Usage</h2>
-				</a>
-				<a href="#apps-script-libraries" id="apps-script-libraries" style="color: inherit; text-decoration: none;">
-					<h2>Apps Script Libraries</h2>
-				</a>
-				<p>The following is a list of all of the libraries you can import into Google Apps Script, by clicking on Resources &gt; Libraries ... &gt; Add a Library. Once you import a library, you will have autocomplete access to functions and objects by typing the library name (without dashes): </p>
-				<pre><code><span class="hljs-keyword">var</span> mySpreadsheet = <span class="hljs-keyword">new</span> <span class="hljs-type">gsetools</span>.SpreadsheetGS()</code></pre><p>Unfortunately, the Google Apps Script interface does not allow autocomplete access to object methods. You can use all of the libraries in either function-based or object-oriented ways. See &quot;TypeScript &amp; Modules&quot; and &quot;Accessing from Apps Script&quot; below for more information.</p>
-				<a href="#gse-tools-1" id="gse-tools-1" style="color: inherit; text-decoration: none;">
-					<h3>gse-tools</h3>
-				</a>
-				<p>Project key: <code>1SRl5DGs_tVG42joBNHBFhPvivWtX07XRmIo533wfxzXgkM4ahPT8E5JA</code></p>
-				<p>Provides access to <a href="https://teachduttonteach.github.io/gse-tools/globals.html">all modules</a>.</p>
-				<a href="#gse-tools-calendar" id="gse-tools-calendar" style="color: inherit; text-decoration: none;">
-					<h3>gse-tools-calendar</h3>
-				</a>
-				<p>Project key: <code>1BIyKATbtLvr3qIoeXWcN9G4r14CycOEY3J1i9YPYnaJbDpAHiE12jDhM</code></p>
-				<p>Files: <a href="https://teachduttonteach.github.io/gse-tools/classes/calendargs.html">CalendarGS</a>, <a href="https://teachduttonteach.github.io/gse-tools/classes/calendareventgs.html">CalendarEventGS</a>, <a href="https://teachduttonteach.github.io/gse-tools/classes/mapgs.html">MapGS</a></p>
-				<a href="#gse-tools-classroom" id="gse-tools-classroom" style="color: inherit; text-decoration: none;">
-					<h3>gse-tools-classroom</h3>
-				</a>
-				<p>Project key: <code>1m0hA-zfY5a-k1tV78D0KKjbIIWvQ0lQV8TndN7AsJghK8etQSi5MZ4MT</code></p>
-				<p>Files: <a href="https://teachduttonteach.github.io/gse-tools/classes/classroomgs.html">ClassroomGS</a>, <a href="https://teachduttonteach.github.io/gse-tools/classes/classgs.html">ClassGS</a>, <a href="https://teachduttonteach.github.io/gse-tools/classes/courseannouncementgs.html">CourseAnnouncementGS</a>, <a href="https://teachduttonteach.github.io/gse-tools/classes/courseworkgs.html">CourseWorkGS</a>, <a href="https://teachduttonteach.github.io/gse-tools/classes/mapgs.html">MapGS</a></p>
-				<a href="#gse-tools-classroom-docs" id="gse-tools-classroom-docs" style="color: inherit; text-decoration: none;">
-					<h3>gse-tools-classroom-docs</h3>
-				</a>
-				<p>Project key: <code>1ZSjCQUyZZpEESUSAd_7DEN3-kg8SDAiE-yjx8zlIlHwTFK6OO0uAlmpq</code></p>
-				<p>Files: <a href="https://teachduttonteach.github.io/gse-tools/classes/classroomdocsgs.html">ClassroomDocsGS</a>, <a href="https://teachduttonteach.github.io/gse-tools/classes/classgs.html">ClassGS</a>, <a href="https://teachduttonteach.github.io/gse-tools/classes/docsgs.html">DocsGS</a>, <a href="https://teachduttonteach.github.io/gse-tools/classes/mapgs.html">MapGS</a>, <a href="https://teachduttonteach.github.io/gse-tools/classes/uigs.html">UiGS</a></p>
-				<a href="#gse-tools-docs" id="gse-tools-docs" style="color: inherit; text-decoration: none;">
-					<h3>gse-tools-docs</h3>
-				</a>
-				<p>Project key: <code>1nxNF1z8ZVH83OdBfJLqLEgW04Sd4bQZn4q5Ryx-0WVcrK6qHkcM1yhnP</code></p>
-				<p>Files: <a href="https://teachduttonteach.github.io/gse-tools/classes/docsgs.html">DocsGS</a>, <a href="https://teachduttonteach.github.io/gse-tools/classes/mapgs.html">MapGS</a>, <a href="https://teachduttonteach.github.io/gse-tools/classes/uigs.html">UiGS</a></p>
-				<a href="#gse-tools-drive" id="gse-tools-drive" style="color: inherit; text-decoration: none;">
-					<h3>gse-tools-drive</h3>
-				</a>
-				<p>Project key: <code>1PlSc90WZcf1Jah-VrmsdECaavaRP18FHnyCWe4HRuw7bX09c2e9aFDvV</code></p>
-				<p>Files: <a href="https://teachduttonteach.github.io/gse-tools/classes/drivegs.html">DriveGS</a></p>
-				<a href="#gse-tools-forms" id="gse-tools-forms" style="color: inherit; text-decoration: none;">
-					<h3>gse-tools-forms</h3>
-				</a>
-				<p>Project key: <code>1oyfsFWcowJSVKND18FrPkDklCVMyhEEOW05EJ_eo-QoZDhxD85QnfFSL</code></p>
-				<p>Files: <a href="https://teachduttonteach.github.io/gse-tools/classes/formsgs.html">FormsGS</a>, <a href="https://teachduttonteach.github.io/gse-tools/classes/formeventgs.html">FormEventGS</a>, <a href="https://teachduttonteach.github.io/gse-tools/classes/mapgs.html">MapGS</a>, <a href="https://teachduttonteach.github.io/gse-tools/classes/uigs.html">UiGS</a></p>
-				<a href="#gse-tools-sheets" id="gse-tools-sheets" style="color: inherit; text-decoration: none;">
-					<h3>gse-tools-sheets</h3>
-				</a>
-				<p>Project key: <code>11-VQGNfjMaZaW_8DgTSwVXEPdZSMAZVOhEHZsLCkeLkJppGRmJyOYsFe</code></p>
-				<p>Files: <a href="https://teachduttonteach.github.io/gse-tools/classes/spreadsheetgs.html">SpreadsheetGS</a>, <a href="https://teachduttonteach.github.io/gse-tools/classes/sheetgs.html">SheetGS</a>, <a href="https://teachduttonteach.github.io/gse-tools/classes/mapgs.html">MapGS</a>, <a href="https://teachduttonteach.github.io/gse-tools/classes/uigs.html">UiGS</a></p>
-				<a href="#gse-tools-slides" id="gse-tools-slides" style="color: inherit; text-decoration: none;">
-					<h3>gse-tools-slides</h3>
-				</a>
-				<p>Project key: <code>1wn-OnB6Yzt_2BMSCqxsnTZ3Q7gCARLK18eTjWcakluqDip3TXizfCwRa</code></p>
-				<p>Files: <a href="https://teachduttonteach.github.io/gse-tools/classes/slideshowgs.html">SlideshowGS</a>, <a href="https://teachduttonteach.github.io/gse-tools/classes/slidegs.html">SlideGS</a>, <a href="https://teachduttonteach.github.io/gse-tools/classes/mapgs.html">MapGS</a>, <a href="https://teachduttonteach.github.io/gse-tools/classes/uigs.html">UiGS</a></p>
-				<a href="#samples" id="samples" style="color: inherit; text-decoration: none;">
-					<h3>Samples</h3>
-				</a>
-				<p>Agenda: <a href="https://teachduttonteach.github.io/gse-tools/globals.html#updatedailyagenda">updateDailyAgenda()</a></p>
-				<ul>
-					<li>Creates an agenda as a Google Doc from the information in Google Classroom and a Google Sheet containing lesson information (<a href="https://docs.google.com/spreadsheets/d/1_CwCHD1QqwM-5Mw458Uu4nzTBGJ40Ffx7LPKk5peq4Y/edit?usp=sharing">sample lesson info</a>). Also can send e-mails to parents as defined in Google Classroom. Gets settings from a Google Sheet (<a href="https://docs.google.com/spreadsheets/d/1mJCt77JaMPrV-bqU62PVK7DT6BPF-eDCsDpLLvVJlgk">sample settings sheet</a>).</li>
-				</ul>
-				<p>Attendance: <a href="https://teachduttonteach.github.io/gse-tools/globals.html#changeattendance">changeAttendance()</a></p>
-				<ul>
-					<li>Acts on a Google Sheet when the Sheet is updated to reflect saved student attendance in another sheet (<a href="https://docs.google.com/spreadsheets/d/1ml1J53j9h63g-6Qe_-WJq3g3gaVs_IrVDJpTiCTla40/edit?usp=sharing">sample attendance sheet</a>).</li>
-				</ul>
-				<p>Bellwork: <a href="https://teachduttonteach.github.io/gse-tools/globals.html#updatebellwork">updateBellwork()</a></p>
-				<ul>
-					<li>Updates the Bellwork from a Google Sheet (<a href="https://docs.google.com/spreadsheets/d/1_CwCHD1QqwM-5Mw458Uu4nzTBGJ40Ffx7LPKk5peq4Y/">sample lesson info</a>) to a Google Form (<a href="https://docs.google.com/forms/d/1dR4vnuy2xVpnumrtLacN8-4jTgtsftS_6swIjMuo6d8/edit?usp=sharing">sample form</a>) and a Google Slides (<a href="https://docs.google.com/presentation/d/1RZvg-ldOQRJQNvRx-H5YmwWez0AwElif8gO28UZlQAU/edit?usp=sharing">sample slides</a>) document. When students complete the Bellwork, then it writes the answer and name back to a Google Sheet. Settings are stored in a Google Sheet (<a href="https://docs.google.com/spreadsheets/d/1mJCt77JaMPrV-bqU62PVK7DT6BPF-eDCsDpLLvVJlgk">sample sheet</a>)</li>
-				</ul>
-				<p>Birthday: <a href="https://teachduttonteach.github.io/gse-tools/globals.html#sendbirthdayemail">sendBirthdayEmail()</a></p>
-				<ul>
-					<li>Can be used as a trigger to send an automatic email about student birthdays. Links to a Google Sheet with the student data (<a href="https://docs.google.com/spreadsheets/d/1ml1J53j9h63g-6Qe_-WJq3g3gaVs_IrVDJpTiCTla40/edit?usp=sharing">sample sheet</a>).</li>
-				</ul>
-				<p>ClassroomFiles: <a href="https://teachduttonteach.github.io/gse-tools/globals.html#updateclassroomfiles">updateClassroomFiles()</a></p>
-				<ul>
-					<li>Creates Google Docs for each topic within the specified Google Classes on a data sheet (<a href="https://docs.google.com/spreadsheets/d/1mJCt77JaMPrV-bqU62PVK7DT6BPF-eDCsDpLLvVJlgk">sample sheet</a>).</li>
-				</ul>
-				<a href="#purpose-amp-g-suite-for-education" id="purpose-amp-g-suite-for-education" style="color: inherit; text-decoration: none;">
-					<h2>Purpose &amp; G Suite for Education</h2>
-				</a>
-				<p>Google Apps Script (GAS) offers a flexible, comprehensive library that has been harnessed by professionals and hobbyists across the world. Since <a href="https://edu.google.com/products/gsuite-for-education/?modal_active=none">G Suite for Education</a> has proliferated in school districts, more educators and technology officers have taken advantage of the GAS library to improve their workflow and student experience. But there are still three main problems:</p>
-				<ul>
-					<li>Most educators don&#39;t know how to code</li>
-					<li>There are idiosyncrasies in the GAS library that require digging through documentation and discussion boards in order to solve</li>
-					<li>Some apps, like Sheets, require high numbers of API calls to do simple tasks, slowing scripts down</li>
-				</ul>
-				<p>While this project cannot magically impart basic coding skills to teachers, the <strong>aims</strong> of the project can help bridge the gap between professional programmer and the average educator:</p>
-				<ul>
-					<li>Provide a library that reduces common complex education-focused tasks to one function or method<ul>
-							<li>In GAS, to add a list to a slide, you could call <code>slide.getPlaceholder(SlidesApp.PlaceholderType.BODY).asShape().getText().setText(text).getListStyle().applyListPreset(bulletType);</code></li>
-							<li>In <strong>gse-tools</strong>, the code is simplified: <code>slide.setList(listText);</code></li>
-						</ul>
-					</li>
-					<li>Hide GAS idiosyncrasies in modules, improving coding efficiency at the expense of code flexibility</li>
-					<li>Reduce API calls where possible<ul>
-							<li>In GAS, searching for the value of a cell in a Sheet can require an API call to the Sheet for every single cell searched</li>
-							<li>In <strong>gse-tools</strong>, all of the cell values are held in a variable and can be searched multiple times with no expensive API calls</li>
-						</ul>
-					</li>
-					<li>Allow for programmers with a wider variety of experience levels to use the library</li>
-				</ul>
-				<a href="#javascript-typescript-amp-classes" id="javascript-typescript-amp-classes" style="color: inherit; text-decoration: none;">
-					<h2>JavaScript, TypeScript &amp; Classes</h2>
-				</a>
-				<a href="#the-gas-editor" id="the-gas-editor" style="color: inherit; text-decoration: none;">
-					<h4>The GAS Editor</h4>
-				</a>
-				<p>The <a href="https://script.google.com">Google Apps Script Editor</a> uses JavaScript as its programming language. A variety of libraries are available automatically (e.g., <code>DocumentApp</code> to access Google Docs), through <a href="https://developers.google.com/apps-script/guides/services/advanced">Advanced Google Services</a> (e.g., <code>Classroom</code> for the <a href="https://developers.google.com/classroom">Google Classroom API</a>), or by entering the library project key just as this library is used. </p>
-				<a href="#attachment-points" id="attachment-points" style="color: inherit; text-decoration: none;">
-					<h4>Attachment Points</h4>
-				</a>
-				<p>Scripts can be created and run within the context of a <a href="https://docs.google.com">Google Document</a>, <a href="https://sheets.google.com">Sheet</a>, <a href="https://forms.google.com">Form</a> or <a href="https://slides.google.com">Slide</a>. These scripts can be triggered to run when certain events occur, such as when submitting a form. Scripts can also be created independently of any particular App, and can be triggered to run on a regular basis (e.g., daily). </p>
-				<a href="#manifestations" id="manifestations" style="color: inherit; text-decoration: none;">
-					<h4>Manifestations</h4>
-				</a>
-				<p>Scripts can be written to be standalone and be executed in the background when triggered, or the <a href="https://developers.google.com/apps-script/guides/menus">App UI can be manipulated</a> to create an option to run or use a particular script. Scripts can also be converted to <a href="https://developers.google.com/apps-script/guides/web">web apps</a>, <a href="https://developers.google.com/gsuite/add-ons/overview">add-ons</a> or <a href="https://developers.google.com/apps-script/api/how-tos/execute">API executables</a>. </p>
-				<a href="#typescript-amp-codeclaspcode" id="typescript-amp-codeclaspcode" style="color: inherit; text-decoration: none;">
-					<h4>TypeScript &amp; <code>clasp</code></h4>
-				</a>
-				<p><a href="https://www.typescriptlang.org/index.html">TypeScript</a> is &quot;a typed superset of JavaScript that compiles to plain JavaScript.&quot; You can use TypeScript to write better code, and then use the <a href="https://developers.google.com/apps-script/guides/clasp"><code>clasp</code></a> command-line tool to interact between your IDE where you are developing TypeScript and Google Apps Script. When <code>clasp</code> runs, it converts TypeScript to the version of JavaScript that is used by Google Apps Script, ES3. Since TypeScript files converted to GAS files, quite a bit of meaningful code is lost in the conversion. TypeScript files should be maintained in a separate repository (like GitHub). <a href="https://developers.google.com/apps-script/guides/typescript">Refer to this page</a> to see how to write using TypeScript &amp; <code>clasp</code>. The primary IDE used to develop this library was <a href="https://code.visualstudio.com/">Visual Studio Code</a>, a free tool.</p>
-				<a href="#classes" id="classes" style="color: inherit; text-decoration: none;">
-					<h4>Classes</h4>
-				</a>
-				<p>JavaScript supports <a href="https://en.wikipedia.org/wiki/Object-oriented_programming">object-oriented code</a>. Google Apps Script libraries are written as object-oriented libraries, and the autocomplete tool in the script editor helps programmers write code more efficiently. However, when using external libraries, the script editor does not autocomplete object methods (e.g. <code>SpreadsheetGS.getSheet()</code>) only global functions and objects themselves. <a href="https://developers.google.com/apps-script/guides/libraries">Read more about developing and using external libraries here.</a> An example of object-oriented behavior in <strong>gse-tools</strong>:</p>
-				<pre><code><span class="hljs-comment">// Get completed tasks (with percentage and comments) for a student</span>
-<span class="hljs-keyword">var</span> sheets = <span class="hljs-keyword">new</span> <span class="hljs-type">gsetools</span>.SpreadsheetGS();
-<span class="hljs-keyword">var</span> studentGrades = sheets.getSheet(<span class="hljs-string">"Grades"</span>).getRecordsMatchingColumnValue(<span class="hljs-string">"Name"</span>, <span class="hljs-string">"John Joe"</span>, [<span class="hljs-string">"Task"</span>, <span class="hljs-string">"%"</span>, <span class="hljs-string">"Comments"</span>]);</code></pre><p>Since autocomplete is a critical aspect of efficient programming, many programmers are discouraged from using external libraries in GAS that are object-oriented.</p>
-				<a href="#functions" id="functions" style="color: inherit; text-decoration: none;">
-					<h4>Functions</h4>
-				</a>
-				<p>In order to address this concern, <strong>gse-tools</strong> has been written in both object-oriented and procedural (function) styles. Global functions are included in GAS autocomplete, so all object methods in <strong>gse-tools</strong> have been wrapped in functions that take as their first argument the object to be acted upon. Constructors are written in the format <code>newObjectName()</code> and return the requested object. For example:</p>
-				<pre><code><span class="hljs-comment">// Get completed tasks (with percentage and comments) for a student</span>
-<span class="hljs-keyword">var</span> sheets = <span class="hljs-keyword">new</span> <span class="hljs-type">gsetools</span>.<span class="hljs-keyword">new</span><span class="hljs-type">Spreadsheet</span>();
-<span class="hljs-keyword">var</span> gradeSheet = gsetools.getSheet(sheets, <span class="hljs-string">"Grades"</span>);
-<span class="hljs-keyword">var</span> studentGrades = gsetools.getSheetRecordsMatchingColumnValue(gradeSheet, <span class="hljs-string">"Name"</span>, <span class="hljs-string">"John Joe"</span>, [<span class="hljs-string">"Task"</span>, <span class="hljs-string">"%"</span>, <span class="hljs-string">"Comments]);</span></code></pre>
-				<a href="#getobject" id="getobject" style="color: inherit; text-decoration: none;">
-					<h4>getObject()</h4>
-				</a>
-				<p>The intent of this library is not to funnel all programmatic access to GAS through the library itself. <strong>gse-tools</strong> can and should be used alongside GAS code. Every class in this library has a <code>getObject()</code> method which returns the underlying GAS object for direct access. If using the functions for library access, the class name goes between <code>get</code> and <code>object()</code>, e.g., <code>getSheetObject()</code>.</p>
-				<footer>&copy; 2020 John A. Dutton</footer>
-			</div>
-		</div>
-		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
-			<nav class="tsd-navigation primary">
-				<ul>
-					<li class="globals  ">
-						<a href="globals.html"><em>Globals</em></a>
-					</li>
-				</ul>
-			</nav>
-			<nav class="tsd-navigation secondary menu-sticky">
-				<ul class="before-current">
-					<li class=" tsd-kind-enum">
-						<a href="enums/announcementstate.html" class="tsd-kind-icon">Announcement<wbr>State</a>
-					</li>
-					<li class=" tsd-kind-enum">
-						<a href="enums/assigneemode.html" class="tsd-kind-icon">Assignee<wbr>Mode</a>
-					</li>
-					<li class=" tsd-kind-enum">
-						<a href="enums/courseworkstate.html" class="tsd-kind-icon">Course<wbr>Work<wbr>State</a>
-					</li>
-					<li class=" tsd-kind-enum">
-						<a href="enums/courseworktype.html" class="tsd-kind-icon">Course<wbr>Work<wbr>Type</a>
-					</li>
-					<li class=" tsd-kind-enum">
-						<a href="enums/features.html" class="tsd-kind-icon">Features</a>
-					</li>
-					<li class=" tsd-kind-enum">
-						<a href="enums/mimetypes.html" class="tsd-kind-icon">Mime<wbr>Types</a>
-					</li>
-					<li class=" tsd-kind-enum">
-						<a href="enums/questiontype.html" class="tsd-kind-icon">Question<wbr>Type</a>
-					</li>
-					<li class=" tsd-kind-enum">
-						<a href="enums/submissionmodificationmode.html" class="tsd-kind-icon">Submission<wbr>Modification<wbr>Mode</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="classes/calendareventgs.html" class="tsd-kind-icon">Calendar<wbr>EventGS</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="classes/calendargs.html" class="tsd-kind-icon">CalendarGS</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="classes/classgs.html" class="tsd-kind-icon">ClassGS</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="classes/classroomdocsgs.html" class="tsd-kind-icon">Classroom<wbr>DocsGS</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="classes/classroomgs.html" class="tsd-kind-icon">ClassroomGS</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="classes/courseannouncementgs.html" class="tsd-kind-icon">Course<wbr>AnnouncementGS</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="classes/courseworkgs.html" class="tsd-kind-icon">Course<wbr>WorkGS</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="classes/docsgs.html" class="tsd-kind-icon">DocsGS</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="classes/drivegs.html" class="tsd-kind-icon">DriveGS</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="classes/formeventgs.html" class="tsd-kind-icon">Form<wbr>EventGS</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="classes/formsgs.html" class="tsd-kind-icon">FormsGS</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="classes/groupcreatorgs.html" class="tsd-kind-icon">Group<wbr>CreatorGS</a>
-					</li>
-					<li class=" tsd-kind-class tsd-is-not-exported">
-						<a href="classes/groupofstudents.html" class="tsd-kind-icon">Group<wbr>OfStudents</a>
-					</li>
-					<li class=" tsd-kind-class tsd-is-not-exported">
-						<a href="classes/groupset.html" class="tsd-kind-icon">Group<wbr>Set</a>
-					</li>
-					<li class=" tsd-kind-class tsd-has-type-parameter">
-						<a href="classes/mapgs.html" class="tsd-kind-icon">MapGS</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="classes/settings.html" class="tsd-kind-icon">Settings</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="classes/sheeteventgs.html" class="tsd-kind-icon">Sheet<wbr>EventGS</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="classes/sheetgs.html" class="tsd-kind-icon">SheetGS</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="classes/slidegs.html" class="tsd-kind-icon">SlideGS</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="classes/slideshowgs.html" class="tsd-kind-icon">SlideshowGS</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="classes/spreadsheetgs.html" class="tsd-kind-icon">SpreadsheetGS</a>
-					</li>
-					<li class=" tsd-kind-class tsd-is-not-exported">
-						<a href="classes/studentforgroups.html" class="tsd-kind-icon">Student<wbr>For<wbr>Groups</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="classes/test.html" class="tsd-kind-icon">Test</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="classes/uigs.html" class="tsd-kind-icon">UiGS</a>
-					</li>
-					<li class=" tsd-kind-type-alias tsd-is-not-exported">
-						<a href="globals.html#agendaparams" class="tsd-kind-icon">Agenda<wbr>Params</a>
-					</li>
-					<li class=" tsd-kind-type-alias">
-						<a href="globals.html#announcementresource" class="tsd-kind-icon">Announcement<wbr>Resource</a>
-					</li>
-					<li class=" tsd-kind-type-alias">
-						<a href="globals.html#attendanceparams" class="tsd-kind-icon">Attendance<wbr>Params</a>
-					</li>
-					<li class=" tsd-kind-type-alias tsd-is-not-exported">
-						<a href="globals.html#bellworkargs" class="tsd-kind-icon">Bellwork<wbr>Args</a>
-					</li>
-					<li class=" tsd-kind-type-alias">
-						<a href="globals.html#birthdayparams" class="tsd-kind-icon">Birthday<wbr>Params</a>
-					</li>
-					<li class=" tsd-kind-type-alias">
-						<a href="globals.html#cellrange" class="tsd-kind-icon">Cell<wbr>Range</a>
-					</li>
-					<li class=" tsd-kind-type-alias tsd-is-not-exported">
-						<a href="globals.html#classroomargs" class="tsd-kind-icon">Classroom<wbr>Args</a>
-					</li>
-					<li class=" tsd-kind-type-alias">
-						<a href="globals.html#coursematerial" class="tsd-kind-icon">Course<wbr>Material</a>
-					</li>
-					<li class=" tsd-kind-type-alias">
-						<a href="globals.html#courseworkresource" class="tsd-kind-icon">Course<wbr>Work<wbr>Resource</a>
-					</li>
-					<li class=" tsd-kind-type-alias">
-						<a href="globals.html#dateparams" class="tsd-kind-icon">Date<wbr>Params</a>
-					</li>
-					<li class=" tsd-kind-type-alias">
-						<a href="globals.html#dimensions" class="tsd-kind-icon">Dimensions</a>
-					</li>
-					<li class=" tsd-kind-type-alias">
-						<a href="globals.html#formeventoptions" class="tsd-kind-icon">Form<wbr>Event<wbr>Options</a>
-					</li>
-					<li class=" tsd-kind-type-alias">
-						<a href="globals.html#groupparams" class="tsd-kind-icon">Group<wbr>Params</a>
-					</li>
-					<li class=" tsd-kind-type-alias tsd-is-not-exported">
-						<a href="globals.html#lessoninfo" class="tsd-kind-icon">Lesson<wbr>Info</a>
-					</li>
-					<li class=" tsd-kind-type-alias tsd-is-not-exported">
-						<a href="globals.html#parentemailinfo" class="tsd-kind-icon">Parent<wbr>Email<wbr>Info</a>
-					</li>
-					<li class=" tsd-kind-type-alias">
-						<a href="globals.html#sidebarbutton" class="tsd-kind-icon">Sidebar<wbr>Button</a>
-					</li>
-					<li class=" tsd-kind-type-alias tsd-is-not-exported">
-						<a href="globals.html#tabulateparams" class="tsd-kind-icon">Tabulate<wbr>Params</a>
-					</li>
-					<li class=" tsd-kind-type-alias">
-						<a href="globals.html#timeofday" class="tsd-kind-icon">Time<wbr>OfDay</a>
-					</li>
-					<li class=" tsd-kind-type-alias">
-						<a href="globals.html#topicinfo" class="tsd-kind-icon">Topic<wbr>Info</a>
-					</li>
-					<li class=" tsd-kind-type-alias">
-						<a href="globals.html#topicresource" class="tsd-kind-icon">Topic<wbr>Resource</a>
-					</li>
-					<li class=" tsd-kind-type-alias">
-						<a href="globals.html#triggerranges" class="tsd-kind-icon">Trigger<wbr>Ranges</a>
-					</li>
-					<li class=" tsd-kind-type-alias">
-						<a href="globals.html#work" class="tsd-kind-icon">Work</a>
-					</li>
-					<li class=" tsd-kind-type-alias">
-						<a href="globals.html#writedocsparams" class="tsd-kind-icon">Write<wbr>Docs<wbr>Params</a>
-					</li>
-					<li class=" tsd-kind-variable tsd-is-not-exported">
-						<a href="globals.html#validimagetypes" class="tsd-kind-icon">Valid<wbr>Image<wbr>Types</a>
-					</li>
-					<li class=" tsd-kind-function tsd-is-not-exported">
-						<a href="globals.html#acceptgroups" class="tsd-kind-icon">accept<wbr>Groups</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#activatedocsui" class="tsd-kind-icon">activate<wbr>Docs<wbr>Ui</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#activateformui" class="tsd-kind-icon">activate<wbr>Form<wbr>Ui</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#activateslideshowui" class="tsd-kind-icon">activate<wbr>Slideshow<wbr>Ui</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#activatespreadsheetui" class="tsd-kind-icon">activate<wbr>Spreadsheet<wbr>Ui</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#addclassannouncement" class="tsd-kind-icon">add<wbr>Class<wbr>Announcement</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#addclasstopic" class="tsd-kind-icon">add<wbr>Class<wbr>Topic</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#addcourseannouncementmaterials" class="tsd-kind-icon">add<wbr>Course<wbr>Announcement<wbr>Materials</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#addcoursematerials" class="tsd-kind-icon">add<wbr>Course<wbr>Materials</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#addcoursework" class="tsd-kind-icon">add<wbr>Course<wbr>Work</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#addcourseworkmaterials" class="tsd-kind-icon">add<wbr>Course<wbr>Work<wbr>Materials</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#adddocstext" class="tsd-kind-icon">add<wbr>Docs<wbr>Text</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#addformimage" class="tsd-kind-icon">add<wbr>Form<wbr>Image</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#addformitem" class="tsd-kind-icon">add<wbr>Form<wbr>Item</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#addformmultiplecheck" class="tsd-kind-icon">add<wbr>Form<wbr>Multiple<wbr>Check</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#addformmultiplechoice" class="tsd-kind-icon">add<wbr>Form<wbr>Multiple<wbr>Choice</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#addformmultiplegridcheck" class="tsd-kind-icon">add<wbr>Form<wbr>Multiple<wbr>Grid<wbr>Check</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#addformmultiplegridchoice" class="tsd-kind-icon">add<wbr>Form<wbr>Multiple<wbr>Grid<wbr>Choice</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#addformparagraph" class="tsd-kind-icon">add<wbr>Form<wbr>Paragraph</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#addformtrigger" class="tsd-kind-icon">add<wbr>Form<wbr>Trigger</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#addformtruefalse" class="tsd-kind-icon">add<wbr>Form<wbr>True<wbr>False</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#addsheeteventtriggercolumnrange" class="tsd-kind-icon">add<wbr>Sheet<wbr>Event<wbr>Trigger<wbr>Column<wbr>Range</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#addsheeteventtriggerrange" class="tsd-kind-icon">add<wbr>Sheet<wbr>Event<wbr>Trigger<wbr>Range</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#addsheeteventtriggerrowrange" class="tsd-kind-icon">add<wbr>Sheet<wbr>Event<wbr>Trigger<wbr>Row<wbr>Range</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#addsheeteventtriggersheetname" class="tsd-kind-icon">add<wbr>Sheet<wbr>Event<wbr>Trigger<wbr>Sheet<wbr>Name</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#addslide" class="tsd-kind-icon">add<wbr>Slide</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#addslideitem" class="tsd-kind-icon">add<wbr>Slide<wbr>Item</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#addslideitems" class="tsd-kind-icon">add<wbr>Slide<wbr>Items</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#addspreadsheettrigger" class="tsd-kind-icon">add<wbr>Spreadsheet<wbr>Trigger</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#appenddocsitem" class="tsd-kind-icon">append<wbr>Docs<wbr>Item</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#aredatesequal" class="tsd-kind-icon">are<wbr>Dates<wbr>Equal</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#aresheetvaluesequal" class="tsd-kind-icon">are<wbr>Sheet<wbr>Values<wbr>Equal</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#aresheetvaluesequalasmap" class="tsd-kind-icon">are<wbr>Sheet<wbr>Values<wbr>Equal<wbr>AsMap</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#assigncourseannouncement" class="tsd-kind-icon">assign<wbr>Course<wbr>Announcement</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#assigncoursework" class="tsd-kind-icon">assign<wbr>Course<wbr>Work</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#benchmark" class="tsd-kind-icon">benchmark</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#calculategroups" class="tsd-kind-icon">calculate<wbr>Groups</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#changeattendance" class="tsd-kind-icon">change<wbr>Attendance</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#changecourseworktype" class="tsd-kind-icon">change<wbr>Course<wbr>Work<wbr>Type</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#changedocsseparator" class="tsd-kind-icon">change<wbr>Docs<wbr>Separator</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#changedocstitledelim" class="tsd-kind-icon">change<wbr>Docs<wbr>Title<wbr>Delim</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#changeslidepicture" class="tsd-kind-icon">change<wbr>Slide<wbr>Picture</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#changeslideshowpicture" class="tsd-kind-icon">change<wbr>Slideshow<wbr>Picture</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#changeslideshowpicturefromfolder" class="tsd-kind-icon">change<wbr>Slideshow<wbr>Picture<wbr>From<wbr>Folder</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#changeworkingstatus" class="tsd-kind-icon">change<wbr>Working<wbr>Status</a>
-					</li>
-					<li class=" tsd-kind-function tsd-has-type-parameter">
-						<a href="globals.html#checknull" class="tsd-kind-icon">check<wbr>Null</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#checksheeteventcell" class="tsd-kind-icon">check<wbr>Sheet<wbr>Event<wbr>Cell</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#cleardocsbody" class="tsd-kind-icon">clear<wbr>Docs<wbr>Body</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#clearsheet" class="tsd-kind-icon">clear<wbr>Sheet</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#clearslideshow" class="tsd-kind-icon">clear<wbr>Slideshow</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#comparedates" class="tsd-kind-icon">compare<wbr>Dates</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#convertformlinebreakstolist" class="tsd-kind-icon">convert<wbr>Form<wbr>Linebreaks<wbr>ToList</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#convertsheetlinebreakstolist" class="tsd-kind-icon">convert<wbr>Sheet<wbr>Linebreaks<wbr>ToList</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#createsheet" class="tsd-kind-icon">create<wbr>Sheet</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#deletecol" class="tsd-kind-icon">delete<wbr>Col</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#deleteformitems" class="tsd-kind-icon">delete<wbr>Form<wbr>Items</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#deleteformtriggers" class="tsd-kind-icon">delete<wbr>Form<wbr>Triggers</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#deleterow" class="tsd-kind-icon">delete<wbr>Row</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#deletespreadsheettriggers" class="tsd-kind-icon">delete<wbr>Spreadsheet<wbr>Triggers</a>
-					</li>
-					<li class=" tsd-kind-function tsd-is-not-exported">
-						<a href="globals.html#displayagendaonslide" class="tsd-kind-icon">display<wbr>Agenda<wbr>OnSlide</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#displaygroupset" class="tsd-kind-icon">display<wbr>Group<wbr>Set</a>
-					</li>
-					<li class=" tsd-kind-function tsd-has-type-parameter">
-						<a href="globals.html#getcache" class="tsd-kind-icon">get<wbr>Cache</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#getcalendareventdate" class="tsd-kind-icon">get<wbr>Calendar<wbr>Event<wbr>Date</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#getcalendareventobject" class="tsd-kind-icon">get<wbr>Calendar<wbr>Event<wbr>Object</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#getcalendarid" class="tsd-kind-icon">get<wbr>Calendar<wbr>Id</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#getcalendarobject" class="tsd-kind-icon">get<wbr>Calendar<wbr>Object</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#getcellfromfind" class="tsd-kind-icon">get<wbr>Cell<wbr>From<wbr>Find</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#getclassannouncements" class="tsd-kind-icon">get<wbr>Class<wbr>Announcements</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#getclasscalendarid" class="tsd-kind-icon">get<wbr>Class<wbr>Calendar<wbr>Id</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#getclassname" class="tsd-kind-icon">get<wbr>Class<wbr>Name</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#getclasstopicinfo" class="tsd-kind-icon">get<wbr>Class<wbr>Topic<wbr>Info</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#getclasstopicname" class="tsd-kind-icon">get<wbr>Class<wbr>Topic<wbr>Name</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#getclasstopics" class="tsd-kind-icon">get<wbr>Class<wbr>Topics</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#getclassroomobject" class="tsd-kind-icon">get<wbr>Classroom<wbr>Object</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#getcolumnfromfind" class="tsd-kind-icon">get<wbr>Column<wbr>From<wbr>Find</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#getcourseannouncementresource" class="tsd-kind-icon">get<wbr>Course<wbr>Announcement<wbr>Resource</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#getcourseworkresource" class="tsd-kind-icon">get<wbr>Course<wbr>Work<wbr>Resource</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#getdatasheet" class="tsd-kind-icon">get<wbr>Data<wbr>Sheet</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#getdoclevels" class="tsd-kind-icon">get<wbr>Doc<wbr>Levels</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#getdocsobject" class="tsd-kind-icon">get<wbr>Docs<wbr>Object</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#getformeventemail" class="tsd-kind-icon">get<wbr>Form<wbr>Event<wbr>Email</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#getformeventobject" class="tsd-kind-icon">get<wbr>Form<wbr>Event<wbr>Object</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#getformeventtitle" class="tsd-kind-icon">get<wbr>Form<wbr>Event<wbr>Title</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#getformitem" class="tsd-kind-icon">get<wbr>Form<wbr>Item</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#getformitemresponse" class="tsd-kind-icon">get<wbr>Form<wbr>Item<wbr>Response</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#getformitemtitle" class="tsd-kind-icon">get<wbr>Form<wbr>Item<wbr>Title</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#getformobject" class="tsd-kind-icon">get<wbr>Form<wbr>Object</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#getfullformeventdate" class="tsd-kind-icon">get<wbr>Full<wbr>Form<wbr>Event<wbr>Date</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#getgoogleclass" class="tsd-kind-icon">get<wbr>Google<wbr>Class</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#getimageblob" class="tsd-kind-icon">get<wbr>Image<wbr>Blob</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#getlastcolumn" class="tsd-kind-icon">get<wbr>Last<wbr>Column</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#getlastrow" class="tsd-kind-icon">get<wbr>Last<wbr>Row</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#getnamefromemail" class="tsd-kind-icon">get<wbr>Name<wbr>From<wbr>Email</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#getnumformitems" class="tsd-kind-icon">get<wbr>Num<wbr>Form<wbr>Items</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#getoauthtoken" class="tsd-kind-icon">getOAuth<wbr>Token</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#getoneday" class="tsd-kind-icon">get<wbr>One<wbr>Day</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#getorcreatefilebyid" class="tsd-kind-icon">get<wbr>OrCreate<wbr>File<wbr>ById</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#getorcreatefilebyname" class="tsd-kind-icon">get<wbr>OrCreate<wbr>File<wbr>ByName</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#getorcreatefilefromtemplatebyid" class="tsd-kind-icon">get<wbr>OrCreate<wbr>File<wbr>From<wbr>Template<wbr>ById</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#getorcreatefilefromtemplatebyname" class="tsd-kind-icon">get<wbr>OrCreate<wbr>File<wbr>From<wbr>Template<wbr>ByName</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#getorcreatesheet" class="tsd-kind-icon">get<wbr>OrCreate<wbr>Sheet</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#getparentemails" class="tsd-kind-icon">get<wbr>Parent<wbr>Emails</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#getparentnames" class="tsd-kind-icon">get<wbr>Parent<wbr>Names</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#getrandompicture" class="tsd-kind-icon">get<wbr>Random<wbr>Picture</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#getrecordsmatchingcolumnvalue" class="tsd-kind-icon">get<wbr>Records<wbr>Matching<wbr>Column<wbr>Value</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#getrecordsmatchingcolumnvalueasmap" class="tsd-kind-icon">get<wbr>Records<wbr>Matching<wbr>Column<wbr>Value<wbr>AsMap</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#getrow" class="tsd-kind-icon">get<wbr>Row</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#getrowasmap" class="tsd-kind-icon">get<wbr>Row<wbr>AsMap</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#getrowfromfind" class="tsd-kind-icon">get<wbr>Row<wbr>From<wbr>Find</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#getsheet" class="tsd-kind-icon">get<wbr>Sheet</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#getsheetcolumn" class="tsd-kind-icon">get<wbr>Sheet<wbr>Column</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#getsheetcolumnasmap" class="tsd-kind-icon">get<wbr>Sheet<wbr>Column<wbr>AsMap</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#getsheetdataasmap" class="tsd-kind-icon">get<wbr>Sheet<wbr>Data<wbr>AsMap</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#getsheetdatevalue" class="tsd-kind-icon">get<wbr>Sheet<wbr>Date<wbr>Value</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#getsheeteventactivesheet" class="tsd-kind-icon">get<wbr>Sheet<wbr>Event<wbr>Active<wbr>Sheet</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#getsheeteventcolumn" class="tsd-kind-icon">get<wbr>Sheet<wbr>Event<wbr>Column</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#getsheeteventeditedvalue" class="tsd-kind-icon">get<wbr>Sheet<wbr>Event<wbr>Edited<wbr>Value</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#getsheeteventobject" class="tsd-kind-icon">get<wbr>Sheet<wbr>Event<wbr>Object</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#getsheeteventrow" class="tsd-kind-icon">get<wbr>Sheet<wbr>Event<wbr>Row</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#getsheeteventsheet" class="tsd-kind-icon">get<wbr>Sheet<wbr>Event<wbr>Sheet</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#getsheeteventsheetname" class="tsd-kind-icon">get<wbr>Sheet<wbr>Event<wbr>Sheet<wbr>Name</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#getsheeteventvalue" class="tsd-kind-icon">get<wbr>Sheet<wbr>Event<wbr>Value</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#getsheetobject" class="tsd-kind-icon">get<wbr>Sheet<wbr>Object</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#getsheetvalue" class="tsd-kind-icon">get<wbr>Sheet<wbr>Value</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#getsheetvalues" class="tsd-kind-icon">get<wbr>Sheet<wbr>Values</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#getsheetvaluesasmap" class="tsd-kind-icon">get<wbr>Sheet<wbr>Values<wbr>AsMap</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#getslide" class="tsd-kind-icon">get<wbr>Slide</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#getslidebynotes" class="tsd-kind-icon">get<wbr>Slide<wbr>ByNotes</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#getslidenotes" class="tsd-kind-icon">get<wbr>Slide<wbr>Notes</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#getslideobject" class="tsd-kind-icon">get<wbr>Slide<wbr>Object</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#getslidepageelements" class="tsd-kind-icon">get<wbr>Slide<wbr>Page<wbr>Elements</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#getslidetitle" class="tsd-kind-icon">get<wbr>Slide<wbr>Title</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#getslideshowobject" class="tsd-kind-icon">get<wbr>Slideshow<wbr>Object</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#getslideshowtemplateslideused" class="tsd-kind-icon">get<wbr>Slideshow<wbr>Template<wbr>Slide<wbr>Used</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#getspreadsheetdataasmap" class="tsd-kind-icon">get<wbr>Spreadsheet<wbr>Data<wbr>AsMap</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#getspreadsheetobject" class="tsd-kind-icon">get<wbr>Spreadsheet<wbr>Object</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#getstudentids" class="tsd-kind-icon">get<wbr>StudentIDs</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#getstudentname" class="tsd-kind-icon">get<wbr>Student<wbr>Name</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#getstudentnames" class="tsd-kind-icon">get<wbr>Student<wbr>Names</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#getstudents" class="tsd-kind-icon">get<wbr>Students</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#gettodaysdate" class="tsd-kind-icon">get<wbr>Todays<wbr>Date</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#getupcomingduedates" class="tsd-kind-icon">get<wbr>Upcoming<wbr>Due<wbr>Dates</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#getupcomingduedateslist" class="tsd-kind-icon">get<wbr>Upcoming<wbr>Due<wbr>Dates<wbr>List</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#getupcomingevents" class="tsd-kind-icon">get<wbr>Upcoming<wbr>Events</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#hassheet" class="tsd-kind-icon">has<wbr>Sheet</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#insertcol" class="tsd-kind-icon">insert<wbr>Col</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#newcalendar" class="tsd-kind-icon">new<wbr>Calendar</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#newclass" class="tsd-kind-icon">new<wbr>Class</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#newclassroom" class="tsd-kind-icon">new<wbr>Classroom</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#newcourseannouncement" class="tsd-kind-icon">new<wbr>Course<wbr>Announcement</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#newcoursework" class="tsd-kind-icon">new<wbr>Course<wbr>Work</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#newdocs" class="tsd-kind-icon">new<wbr>Docs</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#newformevent" class="tsd-kind-icon">new<wbr>Form<wbr>Event</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#newforms" class="tsd-kind-icon">new<wbr>Forms</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#newgroupcreator" class="tsd-kind-icon">new<wbr>Group<wbr>Creator</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#newsheet" class="tsd-kind-icon">new<wbr>Sheet</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#newsheetevent" class="tsd-kind-icon">new<wbr>Sheet<wbr>Event</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#newslide" class="tsd-kind-icon">new<wbr>Slide</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#newslideshow" class="tsd-kind-icon">new<wbr>Slideshow</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#newspreadsheet" class="tsd-kind-icon">new<wbr>Spreadsheet</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#positionslidepicture" class="tsd-kind-icon">position<wbr>Slide<wbr>Picture</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#removeslide" class="tsd-kind-icon">remove<wbr>Slide</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#replaceformtrigger" class="tsd-kind-icon">replace<wbr>Form<wbr>Trigger</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#replacespreadsheettrigger" class="tsd-kind-icon">replace<wbr>Spreadsheet<wbr>Trigger</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#resetsheetdata" class="tsd-kind-icon">reset<wbr>Sheet<wbr>Data</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#schedulecourseannouncement" class="tsd-kind-icon">schedule<wbr>Course<wbr>Announcement</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#schedulecoursework" class="tsd-kind-icon">schedule<wbr>Course<wbr>Work</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#sendbirthdayemail" class="tsd-kind-icon">send<wbr>Birthday<wbr>Email</a>
-					</li>
-					<li class=" tsd-kind-function tsd-has-type-parameter">
-						<a href="globals.html#setcache" class="tsd-kind-icon">set<wbr>Cache</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#setcourseworkduedateandtime" class="tsd-kind-icon">set<wbr>Course<wbr>Work<wbr>Due<wbr>Date<wbr>And<wbr>Time</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#setformtitle" class="tsd-kind-icon">set<wbr>Form<wbr>Title</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#setformvaluesfromlist" class="tsd-kind-icon">set<wbr>Form<wbr>Values<wbr>From<wbr>List</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#setsheetbackground" class="tsd-kind-icon">set<wbr>Sheet<wbr>Background</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#setsheetvalue" class="tsd-kind-icon">set<wbr>Sheet<wbr>Value</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#setsheetvalueasmap" class="tsd-kind-icon">set<wbr>Sheet<wbr>Value<wbr>AsMap</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#setsheetvalues" class="tsd-kind-icon">set<wbr>Sheet<wbr>Values</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#setslidebody" class="tsd-kind-icon">set<wbr>Slide<wbr>Body</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#setslidebodybytype" class="tsd-kind-icon">set<wbr>Slide<wbr>Body<wbr>ByType</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#setslidedimensions" class="tsd-kind-icon">set<wbr>Slide<wbr>Dimensions</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#setslidelist" class="tsd-kind-icon">set<wbr>Slide<wbr>List</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#setslidenotes" class="tsd-kind-icon">set<wbr>Slide<wbr>Notes</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#setslidetitle" class="tsd-kind-icon">set<wbr>Slide<wbr>Title</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#setslidetitlebytype" class="tsd-kind-icon">set<wbr>Slide<wbr>Title<wbr>ByType</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#setslideshowtemplate" class="tsd-kind-icon">set<wbr>Slideshow<wbr>Template</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#setvaluewithmatchingcolumns" class="tsd-kind-icon">set<wbr>Value<wbr>With<wbr>Matching<wbr>Columns</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#setvaluewithmatchingrows" class="tsd-kind-icon">set<wbr>Value<wbr>With<wbr>Matching<wbr>Rows</a>
-					</li>
-					<li class=" tsd-kind-function tsd-is-not-exported">
-						<a href="globals.html#showbellworkonform" class="tsd-kind-icon">show<wbr>Bellwork<wbr>OnForm</a>
-					</li>
-					<li class=" tsd-kind-function tsd-is-not-exported">
-						<a href="globals.html#showbellworkonslide" class="tsd-kind-icon">show<wbr>Bellwork<wbr>OnSlide</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#skipblankrows" class="tsd-kind-icon">skip<wbr>Blank<wbr>Rows</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#tabulatebellwork" class="tsd-kind-icon">tabulate<wbr>Bellwork</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#updatebellwork" class="tsd-kind-icon">update<wbr>Bellwork</a>
-					</li>
-					<li class=" tsd-kind-function tsd-is-not-exported">
-						<a href="globals.html#updateclassagenda" class="tsd-kind-icon">update<wbr>Class<wbr>Agenda</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#updateclassroomfiles" class="tsd-kind-icon">update<wbr>Classroom<wbr>Files</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#updatedailyagenda" class="tsd-kind-icon">update<wbr>Daily<wbr>Agenda</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#updategoogleclassroom" class="tsd-kind-icon">update<wbr>Google<wbr>Classroom</a>
-					</li>
-					<li class=" tsd-kind-function tsd-is-not-exported">
-						<a href="globals.html#updatetodaysquestion" class="tsd-kind-icon">update<wbr>Todays<wbr>Question</a>
-					</li>
-					<li class=" tsd-kind-function tsd-is-not-exported">
-						<a href="globals.html#writeagendatodoc" class="tsd-kind-icon">write<wbr>Agenda<wbr>ToDoc</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="globals.html#writeclassroomdocuments" class="tsd-kind-icon">write<wbr>Classroom<wbr>Documents</a>
-					</li>
-				</ul>
-			</nav>
-		</div>
-	</div>
-</div>
-<footer class="with-border-bottom">
-	<div class="container">
-		<h2>Legend</h2>
-		<div class="tsd-legend-group">
-			<ul class="tsd-legend">
-				<li class="tsd-kind-module"><span class="tsd-kind-icon">Module</span></li>
-				<li class="tsd-kind-object-literal"><span class="tsd-kind-icon">Object literal</span></li>
-				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
-				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
-				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
-				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
-				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
-				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
-				<li class="tsd-kind-enum-member"><span class="tsd-kind-icon">Enumeration member</span></li>
-				<li class="tsd-kind-property tsd-parent-kind-enum"><span class="tsd-kind-icon">Property</span></li>
-				<li class="tsd-kind-method tsd-parent-kind-enum"><span class="tsd-kind-icon">Method</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
-				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
-				<li class="tsd-kind-constructor tsd-parent-kind-interface"><span class="tsd-kind-icon">Constructor</span></li>
-				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
-				<li class="tsd-kind-method tsd-parent-kind-interface"><span class="tsd-kind-icon">Method</span></li>
-				<li class="tsd-kind-index-signature tsd-parent-kind-interface"><span class="tsd-kind-icon">Index signature</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
-				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
-				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
-				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
-				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
-				<li class="tsd-kind-accessor tsd-parent-kind-class"><span class="tsd-kind-icon">Accessor</span></li>
-				<li class="tsd-kind-index-signature tsd-parent-kind-class"><span class="tsd-kind-icon">Index signature</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-constructor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited constructor</span></li>
-				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited property</span></li>
-				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
-				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited accessor</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected property</span></li>
-				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected method</span></li>
-				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-protected"><span class="tsd-kind-icon">Protected accessor</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private property</span></li>
-				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private method</span></li>
-				<li class="tsd-kind-accessor tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private accessor</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static property</span></li>
-				<li class="tsd-kind-call-signature tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li>
-			</ul>
-		</div>
-	</div>
-</footer>
-<div class="container tsd-generator">
-	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
-</div>
-<div class="overlay"></div>
-<script src="assets/js/main.js"></script>
-<script>if (location.protocol == 'file:') document.write('<script src="assets/js/search.js"><' + '/script>');</script>
-</body>
-</html>
+<!DOCTYPE html><html class="default"><head><meta charSet="utf-8"/><meta http-equiv="x-ua-compatible" content="IE=edge"/><title>gse-tools</title><meta name="description" content="Documentation for gse-tools"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="assets/style.css"/><link rel="stylesheet" href="assets/highlight.css"/><script async src="assets/search.js" id="search-script"></script></head><body><script>document.body.classList.add(localStorage.getItem("tsd-theme") || "os")</script><header><div class="tsd-page-toolbar"><div class="container"><div class="table-wrap"><div class="table-cell" id="tsd-search" data-base="."><div class="field"><label for="tsd-search-field" class="tsd-widget search no-caption">Search</label><input type="text" id="tsd-search-field"/></div><ul class="results"><li class="state loading">Preparing search index...</li><li class="state failure">The search index is not available</li></ul><a href="index.html" class="title">gse-tools</a></div><div class="table-cell" id="tsd-widgets"><div id="tsd-filter"><a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a><div class="tsd-filter-group"><div class="tsd-select" id="tsd-filter-visibility"><span class="tsd-select-label">All</span><ul class="tsd-select-list"><li data-value="public">Public</li><li data-value="protected">Public/Protected</li><li data-value="private" class="selected">All</li></ul></div> <input type="checkbox" id="tsd-filter-inherited" checked/><label class="tsd-widget" for="tsd-filter-inherited">Inherited</label><input type="checkbox" id="tsd-filter-externals" checked/><label class="tsd-widget" for="tsd-filter-externals">Externals</label></div></div><a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a></div></div></div></div><div class="tsd-page-title"><div class="container"><h1> gse-tools</h1></div></div></header><div class="container container-main"><div class="row"><div class="col-8 col-content"><div class="tsd-panel tsd-typography">
+<a href="#gse-tools" id="gse-tools" style="color: inherit; text-decoration: none;">
+  <h1>gse-tools</h1>
+</a>
+<p>A library specifically built to more easily write <a href="https://developers.google.com/apps-script">Google Apps Script</a> code in an educational context.</p>
+
+<a href="#usage" id="usage" style="color: inherit; text-decoration: none;">
+  <h2>Usage</h2>
+</a>
+
+<a href="#apps-script-libraries" id="apps-script-libraries" style="color: inherit; text-decoration: none;">
+  <h2>Apps Script Libraries</h2>
+</a>
+<p>The following is a list of all of the libraries you can import into Google Apps Script, by clicking on Resources &gt; Libraries ... &gt; Add a Library. Once you import a library, you will have autocomplete access to functions and objects by typing the library name (without dashes): </p>
+<pre><code><span class="hl-0">var</span><span class="hl-1"> </span><span class="hl-2">mySpreadsheet</span><span class="hl-1"> = </span><span class="hl-0">new</span><span class="hl-1"> </span><span class="hl-2">gsetools</span><span class="hl-1">.</span><span class="hl-3">SpreadsheetGS</span><span class="hl-1">()</span>
+</code></pre>
+<p>Unfortunately, the Google Apps Script interface does not allow autocomplete access to object methods. You can use all of the libraries in either function-based or object-oriented ways. See &quot;TypeScript &amp; Modules&quot; and &quot;Accessing from Apps Script&quot; below for more information.</p>
+
+<a href="#gse-tools-1" id="gse-tools-1" style="color: inherit; text-decoration: none;">
+  <h3>gse-tools</h3>
+</a>
+<p>Project key: <code>1SRl5DGs_tVG42joBNHBFhPvivWtX07XRmIo533wfxzXgkM4ahPT8E5JA</code></p>
+<p>Provides access to <a href="https://teachduttonteach.github.io/gse-tools/globals.html">all modules</a>.</p>
+
+<a href="#gse-tools-calendar" id="gse-tools-calendar" style="color: inherit; text-decoration: none;">
+  <h3>gse-tools-calendar</h3>
+</a>
+<p>Project key: <code>1BIyKATbtLvr3qIoeXWcN9G4r14CycOEY3J1i9YPYnaJbDpAHiE12jDhM</code></p>
+<p>Files: <a href="https://teachduttonteach.github.io/gse-tools/classes/calendargs.html">CalendarGS</a>, <a href="https://teachduttonteach.github.io/gse-tools/classes/calendareventgs.html">CalendarEventGS</a>, <a href="https://teachduttonteach.github.io/gse-tools/classes/mapgs.html">MapGS</a></p>
+
+<a href="#gse-tools-classroom" id="gse-tools-classroom" style="color: inherit; text-decoration: none;">
+  <h3>gse-tools-classroom</h3>
+</a>
+<p>Project key: <code>1m0hA-zfY5a-k1tV78D0KKjbIIWvQ0lQV8TndN7AsJghK8etQSi5MZ4MT</code></p>
+<p>Files: <a href="https://teachduttonteach.github.io/gse-tools/classes/classroomgs.html">ClassroomGS</a>, <a href="https://teachduttonteach.github.io/gse-tools/classes/classgs.html">ClassGS</a>, <a href="https://teachduttonteach.github.io/gse-tools/classes/courseannouncementgs.html">CourseAnnouncementGS</a>, <a href="https://teachduttonteach.github.io/gse-tools/classes/courseworkgs.html">CourseWorkGS</a>, <a href="https://teachduttonteach.github.io/gse-tools/classes/mapgs.html">MapGS</a></p>
+
+<a href="#gse-tools-classroom-docs" id="gse-tools-classroom-docs" style="color: inherit; text-decoration: none;">
+  <h3>gse-tools-classroom-docs</h3>
+</a>
+<p>Project key: <code>1ZSjCQUyZZpEESUSAd_7DEN3-kg8SDAiE-yjx8zlIlHwTFK6OO0uAlmpq</code></p>
+<p>Files: <a href="https://teachduttonteach.github.io/gse-tools/classes/classroomdocsgs.html">ClassroomDocsGS</a>, <a href="https://teachduttonteach.github.io/gse-tools/classes/classgs.html">ClassGS</a>, <a href="https://teachduttonteach.github.io/gse-tools/classes/docsgs.html">DocsGS</a>, <a href="https://teachduttonteach.github.io/gse-tools/classes/mapgs.html">MapGS</a>, <a href="https://teachduttonteach.github.io/gse-tools/classes/uigs.html">UiGS</a></p>
+
+<a href="#gse-tools-docs" id="gse-tools-docs" style="color: inherit; text-decoration: none;">
+  <h3>gse-tools-docs</h3>
+</a>
+<p>Project key: <code>1nxNF1z8ZVH83OdBfJLqLEgW04Sd4bQZn4q5Ryx-0WVcrK6qHkcM1yhnP</code></p>
+<p>Files: <a href="https://teachduttonteach.github.io/gse-tools/classes/docsgs.html">DocsGS</a>, <a href="https://teachduttonteach.github.io/gse-tools/classes/mapgs.html">MapGS</a>, <a href="https://teachduttonteach.github.io/gse-tools/classes/uigs.html">UiGS</a></p>
+
+<a href="#gse-tools-drive" id="gse-tools-drive" style="color: inherit; text-decoration: none;">
+  <h3>gse-tools-drive</h3>
+</a>
+<p>Project key: <code>1PlSc90WZcf1Jah-VrmsdECaavaRP18FHnyCWe4HRuw7bX09c2e9aFDvV</code></p>
+<p>Files: <a href="https://teachduttonteach.github.io/gse-tools/classes/drivegs.html">DriveGS</a></p>
+
+<a href="#gse-tools-forms" id="gse-tools-forms" style="color: inherit; text-decoration: none;">
+  <h3>gse-tools-forms</h3>
+</a>
+<p>Project key: <code>1oyfsFWcowJSVKND18FrPkDklCVMyhEEOW05EJ_eo-QoZDhxD85QnfFSL</code></p>
+<p>Files: <a href="https://teachduttonteach.github.io/gse-tools/classes/formsgs.html">FormsGS</a>, <a href="https://teachduttonteach.github.io/gse-tools/classes/formeventgs.html">FormEventGS</a>, <a href="https://teachduttonteach.github.io/gse-tools/classes/mapgs.html">MapGS</a>, <a href="https://teachduttonteach.github.io/gse-tools/classes/uigs.html">UiGS</a></p>
+
+<a href="#gse-tools-sheets" id="gse-tools-sheets" style="color: inherit; text-decoration: none;">
+  <h3>gse-tools-sheets</h3>
+</a>
+<p>Project key: <code>11-VQGNfjMaZaW_8DgTSwVXEPdZSMAZVOhEHZsLCkeLkJppGRmJyOYsFe</code></p>
+<p>Files: <a href="https://teachduttonteach.github.io/gse-tools/classes/spreadsheetgs.html">SpreadsheetGS</a>, <a href="https://teachduttonteach.github.io/gse-tools/classes/sheetgs.html">SheetGS</a>, <a href="https://teachduttonteach.github.io/gse-tools/classes/mapgs.html">MapGS</a>, <a href="https://teachduttonteach.github.io/gse-tools/classes/uigs.html">UiGS</a></p>
+
+<a href="#gse-tools-slides" id="gse-tools-slides" style="color: inherit; text-decoration: none;">
+  <h3>gse-tools-slides</h3>
+</a>
+<p>Project key: <code>1wn-OnB6Yzt_2BMSCqxsnTZ3Q7gCARLK18eTjWcakluqDip3TXizfCwRa</code></p>
+<p>Files: <a href="https://teachduttonteach.github.io/gse-tools/classes/slideshowgs.html">SlideshowGS</a>, <a href="https://teachduttonteach.github.io/gse-tools/classes/slidegs.html">SlideGS</a>, <a href="https://teachduttonteach.github.io/gse-tools/classes/mapgs.html">MapGS</a>, <a href="https://teachduttonteach.github.io/gse-tools/classes/uigs.html">UiGS</a></p>
+
+<a href="#samples" id="samples" style="color: inherit; text-decoration: none;">
+  <h3>Samples</h3>
+</a>
+<p>Agenda: <a href="https://teachduttonteach.github.io/gse-tools/globals.html#updatedailyagenda">updateDailyAgenda()</a></p>
+<ul>
+<li>Creates an agenda as a Google Doc from the information in Google Classroom and a Google Sheet containing lesson information (<a href="https://docs.google.com/spreadsheets/d/1_CwCHD1QqwM-5Mw458Uu4nzTBGJ40Ffx7LPKk5peq4Y/edit?usp=sharing">sample lesson info</a>). Also can send e-mails to parents as defined in Google Classroom. Gets settings from a Google Sheet (<a href="https://docs.google.com/spreadsheets/d/1mJCt77JaMPrV-bqU62PVK7DT6BPF-eDCsDpLLvVJlgk">sample settings sheet</a>).</li>
+</ul>
+<p>Attendance: <a href="https://teachduttonteach.github.io/gse-tools/globals.html#changeattendance">changeAttendance()</a></p>
+<ul>
+<li>Acts on a Google Sheet when the Sheet is updated to reflect saved student attendance in another sheet (<a href="https://docs.google.com/spreadsheets/d/1ml1J53j9h63g-6Qe_-WJq3g3gaVs_IrVDJpTiCTla40/edit?usp=sharing">sample attendance sheet</a>).</li>
+</ul>
+<p>Bellwork: <a href="https://teachduttonteach.github.io/gse-tools/globals.html#updatebellwork">updateBellwork()</a></p>
+<ul>
+<li>Updates the Bellwork from a Google Sheet (<a href="https://docs.google.com/spreadsheets/d/1_CwCHD1QqwM-5Mw458Uu4nzTBGJ40Ffx7LPKk5peq4Y/">sample lesson info</a>) to a Google Form (<a href="https://docs.google.com/forms/d/1dR4vnuy2xVpnumrtLacN8-4jTgtsftS_6swIjMuo6d8/edit?usp=sharing">sample form</a>) and a Google Slides (<a href="https://docs.google.com/presentation/d/1RZvg-ldOQRJQNvRx-H5YmwWez0AwElif8gO28UZlQAU/edit?usp=sharing">sample slides</a>) document. When students complete the Bellwork, then it writes the answer and name back to a Google Sheet. Settings are stored in a Google Sheet (<a href="https://docs.google.com/spreadsheets/d/1mJCt77JaMPrV-bqU62PVK7DT6BPF-eDCsDpLLvVJlgk">sample sheet</a>)</li>
+</ul>
+<p>Birthday: <a href="https://teachduttonteach.github.io/gse-tools/globals.html#sendbirthdayemail">sendBirthdayEmail()</a></p>
+<ul>
+<li>Can be used as a trigger to send an automatic email about student birthdays. Links to a Google Sheet with the student data (<a href="https://docs.google.com/spreadsheets/d/1ml1J53j9h63g-6Qe_-WJq3g3gaVs_IrVDJpTiCTla40/edit?usp=sharing">sample sheet</a>).</li>
+</ul>
+<p>ClassroomFiles: <a href="https://teachduttonteach.github.io/gse-tools/globals.html#updateclassroomfiles">updateClassroomFiles()</a></p>
+<ul>
+<li>Creates Google Docs for each topic within the specified Google Classes on a data sheet (<a href="https://docs.google.com/spreadsheets/d/1mJCt77JaMPrV-bqU62PVK7DT6BPF-eDCsDpLLvVJlgk">sample sheet</a>).</li>
+</ul>
+
+<a href="#purpose-amp-g-suite-for-education" id="purpose-amp-g-suite-for-education" style="color: inherit; text-decoration: none;">
+  <h2>Purpose &amp; G Suite for Education</h2>
+</a>
+<p>Google Apps Script (GAS) offers a flexible, comprehensive library that has been harnessed by professionals and hobbyists across the world. Since <a href="https://edu.google.com/products/gsuite-for-education/?modal_active=none">G Suite for Education</a> has proliferated in school districts, more educators and technology officers have taken advantage of the GAS library to improve their workflow and student experience. But there are still three main problems:</p>
+<ul>
+<li>Most educators don&#39;t know how to code</li>
+<li>There are idiosyncrasies in the GAS library that require digging through documentation and discussion boards in order to solve</li>
+<li>Some apps, like Sheets, require high numbers of API calls to do simple tasks, slowing scripts down</li>
+</ul>
+<p>While this project cannot magically impart basic coding skills to teachers, the <strong>aims</strong> of the project can help bridge the gap between professional programmer and the average educator:</p>
+<ul>
+<li>Provide a library that reduces common complex education-focused tasks to one function or method<ul>
+<li>In GAS, to add a list to a slide, you could call <code>slide.getPlaceholder(SlidesApp.PlaceholderType.BODY).asShape().getText().setText(text).getListStyle().applyListPreset(bulletType);</code></li>
+<li>In <strong>gse-tools</strong>, the code is simplified: <code>slide.setList(listText);</code></li>
+</ul>
+</li>
+<li>Hide GAS idiosyncrasies in modules, improving coding efficiency at the expense of code flexibility</li>
+<li>Reduce API calls where possible<ul>
+<li>In GAS, searching for the value of a cell in a Sheet can require an API call to the Sheet for every single cell searched</li>
+<li>In <strong>gse-tools</strong>, all of the cell values are held in a variable and can be searched multiple times with no expensive API calls</li>
+</ul>
+</li>
+<li>Allow for programmers with a wider variety of experience levels to use the library</li>
+</ul>
+
+<a href="#javascript-typescript-amp-classes" id="javascript-typescript-amp-classes" style="color: inherit; text-decoration: none;">
+  <h2>JavaScript, TypeScript &amp; Classes</h2>
+</a>
+
+<a href="#the-gas-editor" id="the-gas-editor" style="color: inherit; text-decoration: none;">
+  <h4>The GAS Editor</h4>
+</a>
+<p>The <a href="https://script.google.com">Google Apps Script Editor</a> uses JavaScript as its programming language. A variety of libraries are available automatically (e.g., <code>DocumentApp</code> to access Google Docs), through <a href="https://developers.google.com/apps-script/guides/services/advanced">Advanced Google Services</a> (e.g., <code>Classroom</code> for the <a href="https://developers.google.com/classroom">Google Classroom API</a>), or by entering the library project key just as this library is used. </p>
+
+<a href="#attachment-points" id="attachment-points" style="color: inherit; text-decoration: none;">
+  <h4>Attachment Points</h4>
+</a>
+<p>Scripts can be created and run within the context of a <a href="https://docs.google.com">Google Document</a>, <a href="https://sheets.google.com">Sheet</a>, <a href="https://forms.google.com">Form</a> or <a href="https://slides.google.com">Slide</a>. These scripts can be triggered to run when certain events occur, such as when submitting a form. Scripts can also be created independently of any particular App, and can be triggered to run on a regular basis (e.g., daily). </p>
+
+<a href="#manifestations" id="manifestations" style="color: inherit; text-decoration: none;">
+  <h4>Manifestations</h4>
+</a>
+<p>Scripts can be written to be standalone and be executed in the background when triggered, or the <a href="https://developers.google.com/apps-script/guides/menus">App UI can be manipulated</a> to create an option to run or use a particular script. Scripts can also be converted to <a href="https://developers.google.com/apps-script/guides/web">web apps</a>, <a href="https://developers.google.com/gsuite/add-ons/overview">add-ons</a> or <a href="https://developers.google.com/apps-script/api/how-tos/execute">API executables</a>. </p>
+
+<a href="#typescript-amp-clasp" id="typescript-amp-clasp" style="color: inherit; text-decoration: none;">
+  <h4>TypeScript &amp; <code>clasp</code></h4>
+</a>
+<p><a href="https://www.typescriptlang.org/index.html">TypeScript</a> is &quot;a typed superset of JavaScript that compiles to plain JavaScript.&quot; You can use TypeScript to write better code, and then use the <a href="https://developers.google.com/apps-script/guides/clasp"><code>clasp</code></a> command-line tool to interact between your IDE where you are developing TypeScript and Google Apps Script. When <code>clasp</code> runs, it converts TypeScript to the version of JavaScript that is used by Google Apps Script, ES3. Since TypeScript files converted to GAS files, quite a bit of meaningful code is lost in the conversion. TypeScript files should be maintained in a separate repository (like GitHub). <a href="https://developers.google.com/apps-script/guides/typescript">Refer to this page</a> to see how to write using TypeScript &amp; <code>clasp</code>. The primary IDE used to develop this library was <a href="https://code.visualstudio.com/">Visual Studio Code</a>, a free tool.</p>
+
+<a href="#classes" id="classes" style="color: inherit; text-decoration: none;">
+  <h4>Classes</h4>
+</a>
+<p>JavaScript supports <a href="https://en.wikipedia.org/wiki/Object-oriented_programming">object-oriented code</a>. Google Apps Script libraries are written as object-oriented libraries, and the autocomplete tool in the script editor helps programmers write code more efficiently. However, when using external libraries, the script editor does not autocomplete object methods (e.g. <code>SpreadsheetGS.getSheet()</code>) only global functions and objects themselves. <a href="https://developers.google.com/apps-script/guides/libraries">Read more about developing and using external libraries here.</a> An example of object-oriented behavior in <strong>gse-tools</strong>:</p>
+<pre><code><span class="hl-4">// Get completed tasks (with percentage and comments) for a student</span><br/><span class="hl-0">var</span><span class="hl-1"> </span><span class="hl-2">sheets</span><span class="hl-1"> = </span><span class="hl-0">new</span><span class="hl-1"> </span><span class="hl-2">gsetools</span><span class="hl-1">.</span><span class="hl-3">SpreadsheetGS</span><span class="hl-1">();</span><br/><span class="hl-0">var</span><span class="hl-1"> </span><span class="hl-2">studentGrades</span><span class="hl-1"> = </span><span class="hl-2">sheets</span><span class="hl-1">.</span><span class="hl-3">getSheet</span><span class="hl-1">(</span><span class="hl-5">&quot;Grades&quot;</span><span class="hl-1">).</span><span class="hl-3">getRecordsMatchingColumnValue</span><span class="hl-1">(</span><span class="hl-5">&quot;Name&quot;</span><span class="hl-1">, </span><span class="hl-5">&quot;John Joe&quot;</span><span class="hl-1">, [</span><span class="hl-5">&quot;Task&quot;</span><span class="hl-1">, </span><span class="hl-5">&quot;%&quot;</span><span class="hl-1">, </span><span class="hl-5">&quot;Comments&quot;</span><span class="hl-1">]);</span>
+</code></pre>
+<p>Since autocomplete is a critical aspect of efficient programming, many programmers are discouraged from using external libraries in GAS that are object-oriented.</p>
+
+<a href="#functions" id="functions" style="color: inherit; text-decoration: none;">
+  <h4>Functions</h4>
+</a>
+<p>In order to address this concern, <strong>gse-tools</strong> has been written in both object-oriented and procedural (function) styles. Global functions are included in GAS autocomplete, so all object methods in <strong>gse-tools</strong> have been wrapped in functions that take as their first argument the object to be acted upon. Constructors are written in the format <code>newObjectName()</code> and return the requested object. For example:</p>
+<pre><code><span class="hl-4">// Get completed tasks (with percentage and comments) for a student</span><br/><span class="hl-0">var</span><span class="hl-1"> </span><span class="hl-2">sheets</span><span class="hl-1"> = </span><span class="hl-0">new</span><span class="hl-1"> </span><span class="hl-2">gsetools</span><span class="hl-1">.</span><span class="hl-3">newSpreadsheet</span><span class="hl-1">();</span><br/><span class="hl-0">var</span><span class="hl-1"> </span><span class="hl-2">gradeSheet</span><span class="hl-1"> = </span><span class="hl-2">gsetools</span><span class="hl-1">.</span><span class="hl-3">getSheet</span><span class="hl-1">(</span><span class="hl-2">sheets</span><span class="hl-1">, </span><span class="hl-5">&quot;Grades&quot;</span><span class="hl-1">);</span><br/><span class="hl-0">var</span><span class="hl-1"> </span><span class="hl-2">studentGrades</span><span class="hl-1"> = </span><span class="hl-2">gsetools</span><span class="hl-1">.</span><span class="hl-3">getSheetRecordsMatchingColumnValue</span><span class="hl-1">(</span><span class="hl-2">gradeSheet</span><span class="hl-1">, </span><span class="hl-5">&quot;Name&quot;</span><span class="hl-1">, </span><span class="hl-5">&quot;John Joe&quot;</span><span class="hl-1">, [</span><span class="hl-5">&quot;Task&quot;</span><span class="hl-1">, </span><span class="hl-5">&quot;%&quot;</span><span class="hl-1">, </span><span class="hl-5">&quot;Comments])</span><span class="hl-6">;</span>
+</code></pre>
+
+<a href="#getobject" id="getobject" style="color: inherit; text-decoration: none;">
+  <h4>getObject()</h4>
+</a>
+<p>The intent of this library is not to funnel all programmatic access to GAS through the library itself. <strong>gse-tools</strong> can and should be used alongside GAS code. Every class in this library has a <code>getObject()</code> method which returns the underlying GAS object for direct access. If using the functions for library access, the class name goes between <code>get</code> and <code>object()</code>, e.g., <code>getSheetObject()</code>.</p>
+<footer>&copy; 2022 John A. Dutton</footer>
+</div></div><div class="col-4 col-menu menu-sticky-wrap menu-highlight"><nav class="tsd-navigation primary"><ul><li class="current"><a href="modules.html">Modules</a></li><li class=" tsd-kind-module"><a href="modules/Cache.html">Cache</a></li><li class=" tsd-kind-module"><a href="modules/DataSheet.html">Data<wbr/>Sheet</a></li><li class=" tsd-kind-module"><a href="modules/DateParams.html">Date<wbr/>Params</a></li><li class=" tsd-kind-module"><a href="modules/Settings.html">Settings</a></li><li class=" tsd-kind-module"><a href="modules/SidebarButton.html">Sidebar<wbr/>Button</a></li><li class=" tsd-kind-module"><a href="modules/UiGS.html">UiGS</a></li><li class=" tsd-kind-module"><a href="modules/calendar_CalendarEventGS.html">calendar/<wbr/>Calendar<wbr/>EventGS</a></li><li class=" tsd-kind-module"><a href="modules/calendar_CalendarGS.html">calendar/<wbr/>CalendarGS</a></li><li class=" tsd-kind-module"><a href="modules/classroom_docs_ClassroomDocsGS.html">classroom-<wbr/>docs/<wbr/>Classroom<wbr/>DocsGS</a></li><li class=" tsd-kind-module"><a href="modules/classroom_docs_WriteDocsParams.html">classroom-<wbr/>docs/<wbr/>Write<wbr/>Docs<wbr/>Params</a></li><li class=" tsd-kind-module"><a href="modules/classroom_AnnouncementResource.html">classroom/<wbr/>Announcement<wbr/>Resource</a></li><li class=" tsd-kind-module"><a href="modules/classroom_ClassGS.html">classroom/<wbr/>ClassGS</a></li><li class=" tsd-kind-module"><a href="modules/classroom_ClassroomGS.html">classroom/<wbr/>ClassroomGS</a></li><li class=" tsd-kind-module"><a href="modules/classroom_CourseAnnouncementGS.html">classroom/<wbr/>Course<wbr/>AnnouncementGS</a></li><li class=" tsd-kind-module"><a href="modules/classroom_CourseMaterial.html">classroom/<wbr/>Course<wbr/>Material</a></li><li class=" tsd-kind-module"><a href="modules/classroom_CourseWorkGS.html">classroom/<wbr/>Course<wbr/>WorkGS</a></li><li class=" tsd-kind-module"><a href="modules/classroom_CourseWorkResource.html">classroom/<wbr/>Course<wbr/>Work<wbr/>Resource</a></li><li class=" tsd-kind-module"><a href="modules/classroom_Enums.html">classroom/<wbr/>Enums</a></li><li class=" tsd-kind-module"><a href="modules/classroom_TimeOfDay.html">classroom/<wbr/>Time<wbr/>Of<wbr/>Day</a></li><li class=" tsd-kind-module"><a href="modules/classroom_TopicInfo.html">classroom/<wbr/>Topic<wbr/>Info</a></li><li class=" tsd-kind-module"><a href="modules/classroom_TopicResource.html">classroom/<wbr/>Topic<wbr/>Resource</a></li><li class=" tsd-kind-module"><a href="modules/classroom_Work.html">classroom/<wbr/>Work</a></li><li class=" tsd-kind-module"><a href="modules/docs_DocLevels.html">docs/<wbr/>Doc<wbr/>Levels</a></li><li class=" tsd-kind-module"><a href="modules/docs_DocsGS.html">docs/<wbr/>DocsGS</a></li><li class=" tsd-kind-module"><a href="modules/drive_DriveGS.html">drive/<wbr/>DriveGS</a></li><li class=" tsd-kind-module"><a href="modules/email_EmailGS.html">email/<wbr/>EmailGS</a></li><li class=" tsd-kind-module"><a href="modules/enums_Features.html">enums/<wbr/>Features</a></li><li class=" tsd-kind-module"><a href="modules/enums_MimeTypes.html">enums/<wbr/>Mime<wbr/>Types</a></li><li class=" tsd-kind-module"><a href="modules/enums_QuestionType.html">enums/<wbr/>Question<wbr/>Type</a></li><li class=" tsd-kind-module"><a href="modules/forms_FormEventGS.html">forms/<wbr/>Form<wbr/>EventGS</a></li><li class=" tsd-kind-module"><a href="modules/forms_FormEventOptions.html">forms/<wbr/>Form<wbr/>Event<wbr/>Options</a></li><li class=" tsd-kind-module"><a href="modules/forms_FormsGS.html">forms/<wbr/>FormsGS</a></li><li class=" tsd-kind-module"><a href="modules/mail_MailGS.html">mail/<wbr/>MailGS</a></li><li class=" tsd-kind-module"><a href="modules/samples_Agenda.html">samples/<wbr/>Agenda</a></li><li class=" tsd-kind-module"><a href="modules/samples_Attendance.html">samples/<wbr/>Attendance</a></li><li class=" tsd-kind-module"><a href="modules/samples_Bellwork.html">samples/<wbr/>Bellwork</a></li><li class=" tsd-kind-module"><a href="modules/samples_Birthday.html">samples/<wbr/>Birthday</a></li><li class=" tsd-kind-module"><a href="modules/samples_ClassroomFiles.html">samples/<wbr/>Classroom<wbr/>Files</a></li><li class=" tsd-kind-module"><a href="modules/samples_LessonInfo.html">samples/<wbr/>Lesson<wbr/>Info</a></li><li class=" tsd-kind-module"><a href="modules/samples_SampleUtilities.html">samples/<wbr/>Sample<wbr/>Utilities</a></li><li class=" tsd-kind-module"><a href="modules/sheets_CellRange.html">sheets/<wbr/>Cell<wbr/>Range</a></li><li class=" tsd-kind-module"><a href="modules/sheets_GroupCreatorGS.html">sheets/<wbr/>Group<wbr/>CreatorGS</a></li><li class=" tsd-kind-module"><a href="modules/sheets_SheetEventGS.html">sheets/<wbr/>Sheet<wbr/>EventGS</a></li><li class=" tsd-kind-module"><a href="modules/sheets_SheetGS.html">sheets/<wbr/>SheetGS</a></li><li class=" tsd-kind-module"><a href="modules/sheets_SpreadsheetGS.html">sheets/<wbr/>SpreadsheetGS</a></li><li class=" tsd-kind-module"><a href="modules/sheets_TriggerRanges.html">sheets/<wbr/>Trigger<wbr/>Ranges</a></li><li class=" tsd-kind-module"><a href="modules/slides_Dimensions.html">slides/<wbr/>Dimensions</a></li><li class=" tsd-kind-module"><a href="modules/slides_SlideGS.html">slides/<wbr/>SlideGS</a></li><li class=" tsd-kind-module"><a href="modules/slides_SlideshowGS.html">slides/<wbr/>SlideshowGS</a></li><li class=" tsd-kind-module"><a href="modules/test_Test.html">test/<wbr/>Test</a></li><li class=" tsd-kind-module"><a href="modules/utils_Utilities.html">utils/<wbr/>Utilities</a></li></ul></nav></div></div></div><footer class="with-border-bottom"><div class="container"><h2>Legend</h2><div class="tsd-legend-group"><ul class="tsd-legend"><li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li><li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li><li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li></ul><ul class="tsd-legend"><li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li></ul><ul class="tsd-legend"><li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li></ul></div><h2>Settings</h2><p>Theme <select id="theme"><option value="os">OS</option><option value="light">Light</option><option value="dark">Dark</option></select></p></div></footer><div class="container tsd-generator"><p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p></div><div class="overlay"></div><script src="assets/main.js"></script></body></html>

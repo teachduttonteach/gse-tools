@@ -15,4 +15,5 @@ export enum MimeTypes {
   UNKNOWN = 'application/vnd.google-apps.unknown',
   VIDEO = 'application/vnd.google-apps.video',
   DRIVE_SDK = 'application/vnd.google-apps.drive-sdk',
+  PDF = 'application/pdf'
 }
