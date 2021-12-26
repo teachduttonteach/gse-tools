@@ -21,10 +21,14 @@ export type ParentEmailInfo = {
      */
     sendInBody?: boolean;
     /**
-     * Send the link to the Google Document with the agenda; default is true
+     * Send the link to the Google Document with the agenda; default is false
      */
     sendDocLink?: boolean;
     /**
+     * Send the link to the Google Document website with the agenda; default is true
+     */
+     sendWebLink?: boolean;
+     /**
      * Send the link to the associated Google Sites page; default is false
      */
     sendSitesLink?: boolean;
@@ -34,6 +38,11 @@ export type ParentEmailInfo = {
      */
     docsLinkText?: string;
     /**
+     * The text to display for the Google Docs website link; default is "Click here to
+     *  see the agenda on the web."
+     */
+     webLinkText?: string;
+     /**
      * The text to display for the Google Sites link; default is "Click here to
      *  see the Google Site for this class."
      */

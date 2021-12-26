@@ -104,6 +104,20 @@ export function getOrCreateFileById(
 }
 
 /**
+ * Publish document to the web
+ * 
+ * @param obj 
+ * @param documentId 
+ * @param publicDoc 
+ * @param autoUpdate 
+ * @param version 
+ * @returns 
+ */
+export function publishToWeb(obj: DriveGS, documentId: string, publicDoc: boolean = true, autoUpdate: boolean = true, version: string = "1.0"): string | null {
+  return obj.publishToWeb(documentId, publicDoc, autoUpdate, version);
+}
+
+/**
  * Class to provide access and functions to Google Drive
  */
 export class DriveGS {
@@ -304,5 +318,29 @@ export class DriveGS {
       return DriveApp.getFileById(this._createFile(newFileName, mimeType));
     }
     return fileObject;
+  }
+
+  /**
+   * Publish document to the web
+   * 
+   * @param documentId 
+   * @param publicDoc 
+   * @param autoUpdate 
+   * @param version 
+   * @returns 
+   */
+  publishToWeb(documentId: string, publicDoc: boolean = true, autoUpdate: boolean = true, version: string = "1.0"): string | null {
+    const thisRevisions = Drive.Revisions;
+    if (thisRevisions !== undefined) {
+      const thisWebResource = thisRevisions.update({
+        published: true, 
+        publishedOutsideDomain: publicDoc, 
+        publishAuto: autoUpdate}, 
+        documentId, 
+        version).publishedLink;
+      if (thisWebResource !== undefined) 
+        return thisWebResource;
+    }
+    return null;
   }
 }

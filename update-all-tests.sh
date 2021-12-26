@@ -8,6 +8,8 @@ cd ../docs
 ./update.sh -t
 cd ../drive
 ./update.sh -t
+cd ../email
+./update.sh -t
 cd ../forms
 ./update.sh -t
 cd ../sheets

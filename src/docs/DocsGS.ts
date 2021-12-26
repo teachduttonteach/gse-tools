@@ -33,6 +33,16 @@ export function getDocsObject(obj: DocsGS): GoogleAppsScript.Document.Document {
 }
 
 /**
+ * Gets the ID of the document
+ * 
+ * @param obj the Docs object
+ * @returns the ID of the document
+ */
+export function getDocId(obj: DocsGS): string {
+  return obj.getId();
+}
+
+/**
  * Publishes the Doc by saving and closing.
  * 
  * @param {DocsGS} obj the Docs object
@@ -145,6 +155,15 @@ export class DocsGS extends UiGS {
    */
   getObject(): GoogleAppsScript.Document.Document {
     return this._docObject;
+  }
+
+  /**
+   * Gets the ID of the document object
+   * 
+   * @returns the ID of the document object
+   */
+  getId(): string {
+    return this._docObject.getId();
   }
 
   /**

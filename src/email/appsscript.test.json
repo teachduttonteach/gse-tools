@@ -1,0 +1,15 @@
+{
+  "timeZone": "America/New_York",
+  "oauthScopes": [
+    "https://www.googleapis.com/auth/gmail.compose"
+  ],
+  "dependencies": {
+    "libraries": [{
+      "userSymbol": "gsetoolstest",
+      "libraryId": "1lQ63IAN9mpZSO-75uBJG5WBgpF-hnp_akAlJ1WHtzF8o7ej33TljlLqV",
+      "version": "4",
+      "developmentMode": true
+    }]
+  },
+  "exceptionLogging": "STACKDRIVER"
+}

@@ -11,6 +11,7 @@ import { Utilities } from '../utils/Utilities';
 import { DocsGS } from '../docs/DocsGS';
 import { LessonInfo } from './LessonInfo';
 import { ParentEmailInfo, SampleUtilities } from './SampleUtilities';
+import { EmailGS, RecipientType } from '../email/EmailGS';
 
 
 /**
@@ -91,6 +92,10 @@ type AgendaParams = {
    */
   writeAgenda?: boolean;
   /**
+   * Whether or not to publish the agenda to the web; default is true
+   */
+   publishAgenda?: boolean;
+   /**
    * Whether or not to display the agenda on a Google Slides; default is true
    */
   displayAgenda?: boolean;
@@ -254,6 +259,7 @@ export function updateDailyAgenda(args: AgendaParams = {}, slideDisplayArgs: Sli
     getAgendaFromSheet = false,
     sitesLinkColumnName = 'Google Sites', 
     writeAgenda = false,
+    publishAgenda = true,
     displayAgenda = false   
   } = args;
 
@@ -288,7 +294,9 @@ export function updateDailyAgenda(args: AgendaParams = {}, slideDisplayArgs: Sli
       lessonTitles = getAgendaFromClass(dateToday, futureDate, currentClass);
 
     if (writeAgenda) {
-      const agendaDoc: DocsGS = writeAgendaToDoc(args, thisRow, lessonTitles, currentClass);
+      const agendaDoc: DocsGS = writeAgendaToDoc(args, lessonTitles, currentClass);
+      if (publishAgenda)
+        new DriveGS().publishToWeb(agendaDoc.getId());
       if (emailToParents !== undefined)
         emailAgendaToParents(emailToParents, thisRow, agendaDoc, currentClass, sitesLinkColumnName);
     }
@@ -376,7 +384,6 @@ function getAgendaFromSpreadsheet(
  */
 function writeAgendaToDoc(
   args: AgendaParams,
-  row: Map<string | Date, string | Date>,
   lessonInfo: Array<LessonInfo>,
   currentClass: ClassGS,
 ): DocsGS {
@@ -420,32 +427,38 @@ function emailAgendaToParents(emailToParents: ParentEmailInfo, row: Map<string |
       subject = "This Week's Agenda",
       sendAsPDF = false,
       sendInBody = true,
-      sendDocLink = true,
+      sendDocLink = false,
+      sendWebLink = true,
       sendSitesLink = false,
-      docsLinkText = 'Click here to see the agenda in Google Docs',
+      docsLinkText = 'Click here to see the agenda on Google Docs',
+      webLinkText = 'Click here to see the agenda on the web',
       sitesLinkText = 'Click here to see the Google Site for this class',
     } = emailToParents;
+
+    let sendMail = new EmailGS();
+    sendMail.setSubject(subject);
+
     const parentEmails = currentClass.getParentEmails();
     for (let email of parentEmails) {
-      let sendEMail: GoogleAppsScript.Mail.MailAdvancedParameters = {
-        to: email,
-        subject: subject,
-        body: '',
-      };
+      sendMail.addRecipient(email, RecipientType.BCC);
+      let mailBody = "";
       if (sendInBody)
-        sendEMail.body = agendaDoc
+        mailBody = agendaDoc
           .getBody()
           .asBody()
           .getText()
           .toString();
-      if (sendAsPDF) sendEMail.attachments = [agendaDoc.getObject().getAs('application/pdf')];
-      if (sendDocLink) sendEMail.body += '\n' + docsLinkText + ': ' + agendaDoc.getObject().getUrl();
+      if (sendAsPDF) 
+        sendMail.attachFile(agendaDoc.getId());
+      if (sendDocLink) mailBody += '<br><a href="' + agendaDoc.getObject().getUrl() + '">' + docsLinkText + '</a>';
+      if (sendWebLink) mailBody += '<br><a href="' + new DriveGS().publishToWeb(agendaDoc.getId()) + '">' + webLinkText + '</a>';
       if (sendSitesLink) {
         const sitesLink = row.get(sitesLinkColumnName);
         if (sitesLink != undefined && sitesLink != null && sitesLink != '')
-          sendEMail.body += '\n' + sitesLinkText + ': ' + sitesLink.toString();
+          mailBody += '<br><a href="' + sitesLink.toString() + '">' + sitesLinkText + '</a>';
       }
-      MailApp.sendEmail(sendEMail);
+      sendMail.setBody(mailBody, true);
+      sendMail.send();
     }
   }
 

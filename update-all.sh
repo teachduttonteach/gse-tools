@@ -8,6 +8,8 @@ cd ../docs
 bash ./update.sh
 cd ../drive
 bash ./update.sh
+cd ../email
+bash ./update.sh
 cd ../forms
 bash ./update.sh
 cd ../samples

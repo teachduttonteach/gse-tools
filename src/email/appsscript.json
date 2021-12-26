@@ -1,0 +1,9 @@
+{
+  "timeZone": "America/New_York",
+  "oauthScopes": [
+    "https://www.googleapis.com/auth/gmail.compose"
+  ],
+  "dependencies": {
+  },
+  "exceptionLogging": "STACKDRIVER"
+}
