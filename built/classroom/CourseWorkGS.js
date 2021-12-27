@@ -165,8 +165,7 @@ export class CourseWorkGS {
      */
     assign(studentIds) {
         this._courseWorkResource.assigneeMode = AssigneeMode.IndividualStudents;
-        this._courseWorkResource.individualStudentsOptions.studentIds =
-            studentIds;
+        this._courseWorkResource.individualStudentsOptions.studentIds = studentIds;
         return this;
     }
     /**

@@ -141,9 +141,12 @@ export class FormEventGS {
      */
     getItem(num) {
         const thisItem = this._response.getItemResponses()[num];
-        if ((thisItem == null) || (thisItem == undefined)) {
-            throw new Error('Could not find item #' + num + ' in form item responses having' +
-                ' length of ' + this.getNumItems() +
+        if (thisItem == null || thisItem == undefined) {
+            throw new Error('Could not find item #' +
+                num +
+                ' in form item responses having' +
+                ' length of ' +
+                this.getNumItems() +
                 ' in FormEventGS.getItemResponse()');
         }
         return thisItem;
@@ -154,7 +157,9 @@ export class FormEventGS {
      * @return {string} the item title
      */
     getItemTitle(num) {
-        return this.getItem(num).getItem().getTitle();
+        return this.getItem(num)
+            .getItem()
+            .getTitle();
     }
     /**
      * Gets the title of the form
@@ -177,15 +182,12 @@ export class FormEventGS {
      * @return {[string, string]} the first and last name
      */
     getNameFromEmail() {
-        if ((this._email == null) || (this._email == undefined)) {
-            throw new Error('Email not found on form response in ' +
-                'FormEventGS.getNameFromEmail()');
+        if (this._email == null || this._email == undefined) {
+            throw new Error('Email not found on form response in ' + 'FormEventGS.getNameFromEmail()');
         }
         const email = this._email.split('@')[0].split('.');
         if (!(email instanceof Array)) {
-            throw new Error('Could not find name in ' +
-                'email address \'' + this._email +
-                '\' in FormEventGS.getNameFromEmail()');
+            throw new Error('Could not find name in ' + "email address '" + this._email + "' in FormEventGS.getNameFromEmail()");
         }
         const firstName = email[0].charAt(0).toUpperCase() + email[0].slice(1);
         const lastName = email[1].charAt(0).toUpperCase() + email[1].slice(1);
@@ -200,11 +202,10 @@ export class FormEventGS {
     getFullDate(dateParams) {
         if (dateParams == null)
             dateParams = {};
-        const { dateOrder = 'MD', dateDelim = '/', } = dateParams;
+        const { dateOrder = 'MD', dateDelim = '/' } = dateParams;
         let [firstDate, secondDate] = [this._date.getMonth() + 1, this._date.getDate()];
         if (dateOrder == 'DM') {
-            [firstDate, secondDate] =
-                [this._date.getDate(), this._date.getMonth() + 1];
+            [firstDate, secondDate] = [this._date.getDate(), this._date.getMonth() + 1];
         }
         return firstDate + dateDelim + secondDate;
     }

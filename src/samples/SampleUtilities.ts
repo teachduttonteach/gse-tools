@@ -27,7 +27,7 @@ export type ParentEmailInfo = {
     /**
      * Send the link to the Google Document website with the agenda; default is true
      */
-     sendWebLink?: boolean;
+    sendAsHTML?: boolean;
      /**
      * Send the link to the associated Google Sites page; default is false
      */
@@ -37,11 +37,6 @@ export type ParentEmailInfo = {
      *  see the agenda in Google Docs."
      */
     docsLinkText?: string;
-    /**
-     * The text to display for the Google Docs website link; default is "Click here to
-     *  see the agenda on the web."
-     */
-     webLinkText?: string;
      /**
      * The text to display for the Google Sites link; default is "Click here to
      *  see the Google Site for this class."
@@ -86,12 +81,12 @@ export type ParentEmailInfo = {
 
     _getClass(row: Map<string | Date, string | Date>, classroomCodeColumnName: string, allClasses: ClassroomGS): ClassGS {
       if (row == undefined || classroomCodeColumnName == undefined) {
-        throw new Error('Could not find row in classworkSettings in ' + 'updateDailyAgenda()');
+        throw new Error('Could not find row in classworkSettings in _getClass()');
       }
     
       const thisClassroomCode = row.get(classroomCodeColumnName);
       if (thisClassroomCode == undefined || typeof thisClassroomCode !== 'string' || thisClassroomCode == "") {
-        throw new Error('Classroom code not found in updateDailyAgenda()');
+        throw new Error('Classroom code not found in _getClass()');
       }
     
       return allClasses.getClass(thisClassroomCode);

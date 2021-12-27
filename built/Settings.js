@@ -1,4 +1,3 @@
-import { MapGS } from './map/MapGS';
 /**
  * Class to hold settings in the PropertiesService
  */
@@ -13,19 +12,17 @@ export class Settings {
         if (name)
             this._name = name;
         this._scriptProperties = true;
-        this._settings = new MapGS();
+        this._settings = new Map();
         if (docProperties) {
             this._scriptProperties = false;
-            const thisProp = PropertiesService.getDocumentProperties()
-                .getProperty(this._name);
+            const thisProp = PropertiesService.getDocumentProperties().getProperty(this._name);
             if (thisProp == null) {
                 throw new Error('Could not find property in Settings()');
             }
             this._settings = JSON.parse(thisProp);
         }
         else {
-            const thisProp = PropertiesService.getScriptProperties()
-                .getProperty(this._name);
+            const thisProp = PropertiesService.getScriptProperties().getProperty(this._name);
             if (thisProp == null) {
                 throw new Error('Could not find property in Settings()');
             }
@@ -36,12 +33,12 @@ export class Settings {
      * Gets the value for a particular key
      *
      * @param {string | Array<string>} key the key to retrieve
-     * @return {string | MapGS<string, string>} the value
+     * @return {string | Map<string, string>} the value
      */
     get(key) {
         if (key != null) {
             if (typeof key != 'string') {
-                const settingsMap = new MapGS();
+                const settingsMap = new Map();
                 for (const i of key) {
                     const thisValue = this._settings.get(i);
                     if (thisValue == undefined) {
@@ -81,12 +78,10 @@ export class Settings {
     updateProperties() {
         const stringifiedValues = JSON.stringify(this._settings);
         if (this._scriptProperties) {
-            PropertiesService.getScriptProperties()
-                .setProperty(this._name, stringifiedValues);
+            PropertiesService.getScriptProperties().setProperty(this._name, stringifiedValues);
         }
         else {
-            PropertiesService.getDocumentProperties()
-                .setProperty(this._name, stringifiedValues);
+            PropertiesService.getDocumentProperties().setProperty(this._name, stringifiedValues);
         }
     }
 }

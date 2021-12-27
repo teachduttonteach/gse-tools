@@ -43,6 +43,7 @@ export declare function setSlideNotes(obj: SlideGS, text: string): SlideGS;
  *
  * @param {SlideGS} obj the Slide object
  * @param {string} title the title of the slide
+ * @param {string} defaultText the default text to display
  *
  * @return {SlideGS} the object for chaining
  */
@@ -84,9 +85,9 @@ export declare function addSlideItems(obj: SlideGS, questionOptions: string | Ar
  * Adds the item to the slide of a particular type
  *
  * @param {SlideGS} obj the Slide object
-   * @param {QuestionType} type the type of item to add to the slide:
-   *  QuestionType.TRUE_FALSE, QuestionType.MULTIPLE_CHOICE,
-   *  QuestionType.MULTIPLE_SELECT
+ * @param {QuestionType} type the type of item to add to the slide:
+ *  QuestionType.TRUE_FALSE, QuestionType.MULTIPLE_CHOICE,
+ *  QuestionType.MULTIPLE_SELECT
  * @param {string | Array<string>} itemsToAdd the string or array of
  *  strings that holds the item data
  * @param {GoogleAppsScript.Slides.ListPreset} bulletType the optional

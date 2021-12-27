@@ -1,3 +1,4 @@
+import { DateUtilities } from '../DateParams';
 /**
  * Get the underlying object
  *
@@ -35,8 +36,8 @@ export function getCalendarEventObject(obj) {
  *
  * @return {string} the string containing the date
  */
-export function getCalendarEventDate(obj, firstParam, titlePrefix, dateDelim) {
-    return obj.getDate(firstParam, titlePrefix, dateDelim);
+export function getCalendarEventDate(obj, dateParams) {
+    return obj.getDate(dateParams);
 }
 /**
  * Gets the data from a Calendar Event and provides an interface to it in an
@@ -57,11 +58,10 @@ export class CalendarEventGS {
      */
     constructor(event, timezoneOffset = -5) {
         const startTime = event.getStartTime();
-        Logger.log(startTime);
         startTime.setUTCHours(startTime.getUTCHours() + timezoneOffset);
-        Logger.log(startTime);
         this._date = startTime.getUTCDate();
         this._month = startTime.getUTCMonth() + 1;
+        this._year = startTime.getUTCFullYear();
         this._title = event.getTitle();
         this._event = event;
     }
@@ -100,34 +100,8 @@ export class CalendarEventGS {
      *
      * @return {string} the string containing the date
      */
-    getDate(firstParam, titlePrefix, dateDelim) {
-        // Get values out of array
-        let dateOrder = 'DM';
-        if (typeof firstParam === 'object') {
-            if (titlePrefix == undefined)
-                titlePrefix = firstParam.titlePrefix;
-            if (dateDelim == undefined)
-                dateDelim = firstParam.dateDelim;
-            if (firstParam.dateOrder != undefined)
-                dateOrder = firstParam.dateOrder;
-        }
-        else if (typeof firstParam === 'string') {
-            dateOrder = firstParam;
-        }
-        // Set default values
-        if (titlePrefix == undefined)
-            titlePrefix = ' ';
-        if (dateDelim == undefined)
-            dateDelim = '/';
-        if (dateOrder == undefined)
-            dateOrder = 'MD';
-        // Create and return the date
-        const dateString = titlePrefix + this._title;
-        if (dateOrder == 'MD') {
-            return this._month + dateDelim + this._date + dateString;
-        }
-        else {
-            return this._date + dateDelim + this._month + dateString;
-        }
+    getDate(dateParams = {}) {
+        const dateUtilitiesInterface = new DateUtilities();
+        return dateUtilitiesInterface.formatTodaysDate(dateParams, new Date(this._year, this._month, this._date));
     }
 }

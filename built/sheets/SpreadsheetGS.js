@@ -39,7 +39,7 @@ export function getSpreadsheetObject(obj) {
  * @param {boolean} rowFirst if true, rows will be the keys and columns
  *  will be in the values along with the value found at that cell
  *
- * @return {MapGS<string | Date, MapGS<string | Date, string | Date>>} the
+ * @return {Map<string | Date, Map<string | Date, string | Date>>} the
  *  data object
  */
 export function getSpreadsheetDataAsMap(obj, sheetName, rowFirst = true) {
@@ -91,11 +91,11 @@ export function getSheet(obj, sheetName) {
  * Adds a trigger for this Spreadsheet
  *
  * @param {SpreadsheetGS} obj the Spreadsheet object
-  * @param {string} sheetName the name of the sheet
-  * @param {GoogleAppsScript.Script.EventType | string} triggerType the type
-  *  of trigger to add, from Script.EventType; or, 'Edit', 'Change'
-  *  or 'Submit'
-  * @param {string} functionName the name of the function to call on trigger
+ * @param {string} sheetName the name of the sheet
+ * @param {GoogleAppsScript.Script.EventType | string} triggerType the type
+ *  of trigger to add, from Script.EventType; or, 'Edit', 'Change'
+ *  or 'Submit'
+ * @param {string} functionName the name of the function to call on trigger
  *
  * @return {SpreadsheetGS} the Spreadsheet object for chaining
  */
@@ -107,10 +107,10 @@ export function addSpreadsheetTrigger(obj, sheetName, triggerType, functionName)
  *
  * @param {SpreadsheetGS} obj the Forms object
  * @param {string} sheetName the name of the sheet
-  * @param {GoogleAppsScript.Script.EventType | string} triggerType the type
-  *  of trigger to add, from Script.EventType; or, 'Edit', 'Change'
-  *  or 'Submit'
-  * @param {string} functionName the name of the function to call on trigger
+ * @param {GoogleAppsScript.Script.EventType | string} triggerType the type
+ *  of trigger to add, from Script.EventType; or, 'Edit', 'Change'
+ *  or 'Submit'
+ * @param {string} functionName the name of the function to call on trigger
  * @return {SpreadsheetGS} the object for chaining
  */
 export function replaceSpreadsheetTrigger(obj, sheetName, triggerType, functionName) {
@@ -155,11 +155,9 @@ export class SpreadsheetGS extends UiGS {
         if (sheetName !== undefined) {
             const thisSheet = this._spreadsheet.getSheetByName(sheetName);
             if (thisSheet === null) {
-                throw new Error('Sheet "' + sheetName +
-                    '" not defined in SpreadsheetGS()');
+                throw new Error('Sheet "' + sheetName + '" not defined in SpreadsheetGS()');
             }
-            this._sheets[sheetName] =
-                new SheetGS(thisSheet);
+            this._sheets[sheetName] = new SheetGS(thisSheet);
         }
         else {
             for (const thisSheet of this._spreadsheet.getSheets()) {
@@ -167,8 +165,7 @@ export class SpreadsheetGS extends UiGS {
                 if (sheetName == undefined) {
                     throw new Error('Sheet not defined in SpreadsheetGS()');
                 }
-                this._sheets[sheetName] =
-                    new SheetGS(thisSheet);
+                this._sheets[sheetName] = new SheetGS(thisSheet);
             }
         }
         if (typeof id === 'number')
@@ -199,7 +196,7 @@ export class SpreadsheetGS extends UiGS {
      * @param {boolean} rowFirst if true, rows will be the keys and columns
      *  will be in the values along with the value found at that cell
      *
-     * @return {MapGS<string | Date, MapGS<string | Date, string | Date>>} the
+     * @return {Map<string | Date, Map<string | Date, string | Date>>} the
      *  data object
      */
     getDataAsMap(sheetName, rowFirst = true) {
@@ -214,8 +211,7 @@ export class SpreadsheetGS extends UiGS {
      */
     getOrCreateSheet(sheetName) {
         if (sheetName == null) {
-            throw new Error('Sheet name not defined in ' +
-                'Spreadsheet.getOrCreateSheet');
+            throw new Error('Sheet name not defined in ' + 'Spreadsheet.getOrCreateSheet');
         }
         if (!this.hasSheet(sheetName))
             this.createSheet(sheetName);
@@ -232,8 +228,7 @@ export class SpreadsheetGS extends UiGS {
         if (sheetName == null) {
             throw new Error('Sheet name not defined in ' + 'Spreadsheet.createSheet');
         }
-        this._sheets[sheetName] =
-            new SheetGS(this._spreadsheet.insertSheet(sheetName));
+        this._sheets[sheetName] = new SheetGS(this._spreadsheet.insertSheet(sheetName));
         return this._sheets[sheetName];
     }
     /**
@@ -265,8 +260,7 @@ export class SpreadsheetGS extends UiGS {
         }
         const sheet = this._sheets[sheetName];
         if (sheet == null) {
-            throw new Error('Could not find sheet named ' + sheetName +
-                ' in SpreadsheetGS.getSheet()');
+            throw new Error('Could not find sheet named ' + sheetName + ' in SpreadsheetGS.getSheet()');
         }
         return sheet;
     }
@@ -346,8 +340,7 @@ export class SpreadsheetGS extends UiGS {
     deleteTriggers(functionName) {
         for (const t of ScriptApp.getProjectTriggers()) {
             if (t.getTriggerSourceId() == this._spreadsheet.getId()) {
-                if ((functionName === undefined) ||
-                    (t.getHandlerFunction() == functionName))
+                if (functionName === undefined || t.getHandlerFunction() == functionName)
                     ScriptApp.deleteTrigger(t);
             }
         }

@@ -168,6 +168,7 @@ export declare class CalendarGS {
     private _upcomingEventObjects;
     private _id;
     private _calendar;
+    private _timezoneOffset;
     /**
      * ```javascript
      * var gseCalendar = new gseTools.CalendarGS(calendarId);
@@ -194,11 +195,10 @@ export declare class CalendarGS {
      *
      * @param {number} daysToLookAhead the number of days ahead to find
      *  events on the calendar
-     * @param {number} timezoneOffset the timezone shift
      *
      * @return {Array<CalendarEventGS>} the list of calendar events
      */
-    getUpcomingEvents(daysToLookAhead: number, timezoneOffset: number): Array<CalendarEventGS>;
+    getUpcomingEvents(daysToLookAhead: number): Array<CalendarEventGS>;
     /**
      * Gets the upcoming due dates for events on the calendar as a string
      * ```javascript
@@ -215,11 +215,10 @@ export declare class CalendarGS {
      * events on the calendar
      * @param {DateParams} eventOptions options for displaying that there are
      *  no events and how to display the date; see above for defaults
-     * @param {number} timezoneOffset the timezone
      *
      * @return {string} the list of due dates as a string for use in Slides
      */
-    getUpcomingDueDates(daysToLookAhead: number, eventOptions: DateParams, timezoneOffset: number): string;
+    getUpcomingDueDates(daysToLookAhead: number, eventOptions: DateParams): string;
     /**
      * Gets the upcoming due dates for events on the calendar as an array
      * ```javascript
@@ -236,10 +235,9 @@ export declare class CalendarGS {
      *  on the calendar
      * @param {DateParams} eventOptions options for displaying that there are
      *  no events and how to display the date; see above for defaults
-     * @param {number} timezoneOffset the timezone
      * @return {Array<string>} the list of due dates as an array
      */
-    getUpcomingDueDatesList(daysToLookAhead: number, eventOptions: DateParams, timezoneOffset: number): Array<string>;
+    getUpcomingDueDatesList(daysToLookAhead: number, eventOptions: DateParams): Array<string>;
     /**
      * Get the id of the Google Calendar
      *

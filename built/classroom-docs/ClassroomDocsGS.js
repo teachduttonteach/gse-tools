@@ -1,5 +1,5 @@
 import { DocsGS } from '../docs/DocsGS';
-import { getDocLevels } from '../docs/DocLevels';
+import { DocLevels } from '../docs/DocLevels';
 /**
  * Writes a document from the Classroom info
  *
@@ -46,12 +46,13 @@ export class ClassroomDocsGS {
         this._doc.clearBody();
         if (docTitle == undefined)
             docTitle = classData.getTopicName(topicId);
-        const thisLevel = getDocLevels('T');
+        const docLevelsInstance = new DocLevels();
+        const thisLevel = docLevelsInstance.getDocLevels('T');
         if (docTitle == undefined || thisLevel == undefined) {
-            throw new Error('Title (' + docTitle + ') or level (' + thisLevel + ') not defined' +
-                ' in DocsGS.writeClassroomDocuments()');
+            throw new Error('Title (' + docTitle + ') or level (' + thisLevel + ') not defined' + ' in DocsGS.writeClassroomDocuments()');
         }
         // Display the title by removing the first child if necessary
+        // TODO: Get DocsGS to do this heavy lifting
         const thisBody = this._doc.getBody();
         const thisChild = thisBody.getChild(0);
         if (thisChild.getType() == DocumentApp.ElementType.LIST_ITEM) {
@@ -68,8 +69,7 @@ export class ClassroomDocsGS {
         if (displayAnnouncements) {
             const thisAnnouncements = classData.getAnnouncements();
             if (thisAnnouncements == undefined) {
-                throw new Error('Announcement titles undefined in ' +
-                    'DocsGS.writeClassroomDocuments()');
+                throw new Error('Announcement titles undefined in ' + 'DocsGS.writeClassroomDocuments()');
             }
             for (let a = 0; a < displayAnnouncements; a++) {
                 this._doc.addText(thisAnnouncements[a], 'Normal');
@@ -82,8 +82,7 @@ export class ClassroomDocsGS {
             const thisTitles = thisCoursework.work;
             const thisLevel = thisCoursework.level;
             if (thisLevel == undefined || thisTitles == undefined) {
-                throw new Error('Coursework titles undefined in ' +
-                    'DocsGS.writeClassroomDocuments()');
+                throw new Error('Coursework titles undefined in ' + 'DocsGS.writeClassroomDocuments()');
             }
             // For each of the pieces of course work ...
             for (const courseWork of thisTitles) {
@@ -110,8 +109,7 @@ export class ClassroomDocsGS {
             this._doc.addText(courseWork.description, 'Normal');
         }
         // Display the materials if they exist
-        if (displayMaterials && courseWork.materials != null &&
-            courseWork.materials.length > 0) {
+        if (displayMaterials && courseWork.materials != null && courseWork.materials.length > 0) {
             this._displayMaterial(courseWork.materials, options);
         }
     }

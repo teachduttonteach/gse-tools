@@ -1,5 +1,4 @@
 /// <reference types="google-apps-script" />
-import { MapGS } from './map/MapGS';
 import { SidebarButton } from './SidebarButton';
 /**
  * Class to hold the Google Apps User Interface
@@ -11,7 +10,7 @@ import { SidebarButton } from './SidebarButton';
  */
 export declare class UiGS {
     protected _ui: GoogleAppsScript.Base.Ui;
-    protected _menus: MapGS<string, GoogleAppsScript.Base.Menu>;
+    protected _menus: Map<string, GoogleAppsScript.Base.Menu>;
     /**
      * Makes a new menu
      */

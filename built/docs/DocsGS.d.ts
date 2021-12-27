@@ -23,6 +23,20 @@ export declare function activateDocsUi(obj: DocsGS): DocsGS;
  */
 export declare function getDocsObject(obj: DocsGS): GoogleAppsScript.Document.Document;
 /**
+ * Gets the ID of the document
+ *
+ * @param obj the Docs object
+ * @returns the ID of the document
+ */
+export declare function getDocId(obj: DocsGS): string;
+/**
+ * Publishes the Doc by saving and closing.
+ *
+ * @param {DocsGS} obj the Docs object
+ * @returns {DocsGS} the Docs object for chaining
+ */
+export declare function publishDoc(obj: DocsGS): DocsGS;
+/**
  * Change the delimiter to go between the text before the title and the
  *  title itself
  *
@@ -58,10 +72,11 @@ export declare function appendDocsItem(obj: DocsGS, text: string, title: string,
  * @param {DocsGS} obj the Docs object
  * @param {string} text the text to add
  * @param {string | number} level the level of the text
+ * @param {boolean} firstParagraph if this should be the first paragraph of the document
  *
  * @return {DocsGS} the object for chaining
  */
-export declare function addDocsText(obj: DocsGS, text: string, level: string | number): DocsGS;
+export declare function addDocsText(obj: DocsGS, text: string, level: string | number, firstParagraph?: boolean): DocsGS;
 /**
  * Clears the body of text
  *
@@ -94,6 +109,12 @@ export declare class DocsGS extends UiGS {
      * @return {GoogleAppsScript.Document.Document} the Google Document object
      */
     getObject(): GoogleAppsScript.Document.Document;
+    /**
+     * Gets the ID of the document object
+     *
+     * @returns the ID of the document object
+     */
+    getId(): string;
     /**
      * Return the body of the document
      *
@@ -128,14 +149,21 @@ export declare class DocsGS extends UiGS {
      */
     appendItem(text: string, title: string, link: string): DocsGS;
     /**
+     * Publishes the document by saving and closing.
+     *
+     * @returns {DocsGS} the object for chaining
+     */
+    publish(): DocsGS;
+    /**
      * Adds text to the document
      *
      * @param {string} text the text to add
      * @param {string | number} level the level of the text
+     * @param {boolean} firstParagraph if this is the first paragraph of the document
      *
      * @return {DocsGS} the object for chaining
      */
-    addText(text: string, level?: string | number): DocsGS;
+    addText(text: string, level?: string | number, firstParagraph?: boolean): DocsGS;
     /**
      * Clears the body of text
      *

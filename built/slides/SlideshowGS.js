@@ -117,6 +117,19 @@ export function getSlideByNotes(obj, notes) {
     return obj.getSlideByNotes(notes);
 }
 /**
+ * Sets the textbox text in the presentation from the title of the textbox
+ *
+ * @param {SlideshowGS} obj the Slideshow object
+ * @param {string} title the title of the textbox
+ * @param {string} text the text in the textbox
+ * @param {boolean} multiple whether to display in multiple text boxes
+ *
+ * @return {SlideGS} the slide object
+ */
+export function setSlideTextByTitle(obj, title, text, multiple = false) {
+    return obj.setSlideTextByTitle(title, text, multiple);
+}
+/**
  * Removes a slide from the presentation
  *
  * @param {SlideshowGS} obj the Slideshow object
@@ -175,8 +188,7 @@ export class SlideshowGS extends UiGS {
         super();
         this._presentation = SlidesApp.openById(id);
         if (this._presentation == null) {
-            throw new Error('Slideshow not found with id ' + id +
-                ' in SlideshowGS()');
+            throw new Error('Slideshow not found with id ' + id + ' in SlideshowGS()');
         }
         this._getAllSlides();
         this._templateSlideUsed = -1;
@@ -235,8 +247,7 @@ export class SlideshowGS extends UiGS {
         }
         this._template = SlidesApp.openById(id);
         if (this._template == null) {
-            throw new Error('Could not find requested Google Slides template in ' +
-                'Slides.setTemplate');
+            throw new Error('Could not find requested Google Slides template in ' + 'Slides.setTemplate');
         }
         return this;
     }
@@ -252,8 +263,7 @@ export class SlideshowGS extends UiGS {
         if (imageId != null) {
             const chosenPicture = new DriveGS().getImageBlob(imageId);
             if (chosenPicture) {
-                slide
-                    .positionPicture(slide.changePicture(chosenPicture));
+                slide.positionPicture(slide.changePicture(chosenPicture));
             }
         }
         return this;
@@ -283,8 +293,7 @@ export class SlideshowGS extends UiGS {
     getSlide(num) {
         if (typeof num === 'number')
             return this._allSlides[num - 1];
-        throw new Error('Could not get slide #' + num +
-            ' from slideshow in Slides.getSlide');
+        throw new Error('Could not get slide #' + num + ' from slideshow in Slides.getSlide');
     }
     /**
      * Gets the number of the slide in the slideshow template
@@ -308,20 +317,16 @@ export class SlideshowGS extends UiGS {
         let slideAdded;
         if (this._template != null) {
             if (this._template.getSlides().length > 0) {
-                const slideToGet = this._allSlides.length %
-                    this._template.getSlides().length;
-                slideAdded = this._presentation
-                    .appendSlide(this._template.getSlides()[slideToGet]);
+                const slideToGet = this._allSlides.length % this._template.getSlides().length;
+                slideAdded = this._presentation.appendSlide(this._template.getSlides()[slideToGet]);
                 this._templateSlideUsed = slideToGet;
             }
             else {
-                slideAdded = this._presentation
-                    .appendSlide(this._template.getSlides()[0]);
+                slideAdded = this._presentation.appendSlide(this._template.getSlides()[0]);
             }
         }
         else {
-            slideAdded = this._presentation
-                .appendSlide(SlidesApp.PredefinedLayout.TITLE_AND_BODY);
+            slideAdded = this._presentation.appendSlide(SlidesApp.PredefinedLayout.TITLE_AND_BODY);
         }
         this._getAllSlides();
         return new SlideGS(slideAdded)
@@ -338,17 +343,54 @@ export class SlideshowGS extends UiGS {
      */
     getSlideByNotes(notes) {
         if (notes == null) {
-            throw new Error('Notes are not defined to remove in ' +
-                'SlideshowGS.getSlideByNotes()');
+            throw new Error('Notes are not defined to remove in ' + 'SlideshowGS.getSlideByNotes()');
         }
         for (let j = 0; j < this._allSlides.length; j++) {
             if (this._allSlides[j].getNotes().indexOf(notes) == 0) {
                 return this._allSlides[j];
             }
         }
-        console.log('WARNING: Slide id ' + notes + ' not found in ' +
-            'SlideshowGS.getSlideByNotes()');
+        console.log('WARNING: Slide with note ' + notes + ' not found in ' + 'SlideshowGS.getSlideByNotes()');
         return null;
+    }
+    /**
+     * Sets the text of the chosen text box in the presentation from the title of the alt text
+     *
+     * @param {string} title the alt text title on the slide
+     * @param {string} text the text to set
+     * @param {boolean} multiple allow multiple text boxes to be set
+     *
+     * @return {SlideGS} the slide object
+     */
+    setSlideTextByTitle(title, text, multiple = false) {
+        let slidesChanged = [];
+        if (title == null) {
+            throw new Error('Title for element is not defined to change in ' + 'SlideshowGS.getSlideByNotes()');
+        }
+        let checkMultiple = multiple ? 1 : 0;
+        for (let slide of this._allSlides) {
+            const pageElements = slide.getPageElements();
+            for (let pageElement of pageElements) {
+                const thisTitle = pageElement.getTitle();
+                if (thisTitle != null && thisTitle.indexOf(title) != -1) {
+                    const thisShape = pageElement.asShape();
+                    if (thisShape != null) {
+                        thisShape.getText().setText(text);
+                        // TODO: thisShape.getAutoFit() - as of 12/21 is not in npm @types/google-apps-script
+                        if (checkMultiple == 0)
+                            return [slide];
+                        checkMultiple++;
+                        slidesChanged.push(slide);
+                    }
+                    else {
+                        throw new Error('Could not find text box on slide with title "' + title + '"');
+                    }
+                }
+            }
+        }
+        if (checkMultiple < 2)
+            console.log('WARNING: Slide with title ' + title + ' not found in ' + 'SlideshowGS.setSlideTextByTitle()');
+        return slidesChanged;
     }
     /**
      * Removes a slide from the presentation
@@ -410,5 +452,64 @@ export class SlideshowGS extends UiGS {
         if (thisSlide != null)
             thisSlide.setTitle(title);
         return this;
+    }
+    setTextBoxOrTitleOnSlide(args, textBoxSlideParams, settingsRow, textToSet) {
+        const { findByGlobalSlideNotes, findBySpecificSlideNotes = 'Slide Notes', findByAltText, noTitleText = 'No Question Today', displayTextAsTitle = false, } = args;
+        const { imageLink, optionsToDisplay, optionsType } = textBoxSlideParams;
+        let currentSlide = undefined;
+        // Turn a list into a title if necessary
+        if (typeof textToSet === 'object') {
+            textToSet = textToSet.map(a => a.title).join('\n');
+            ;
+        }
+        // If alt text is defined and present in the slideshow
+        if (findByAltText !== undefined) {
+            const thisAltText = settingsRow.get(findByAltText);
+            if (thisAltText == null || typeof thisAltText !== 'string') {
+                throw new Error('Could not find alt text column name (' + thisAltText + ') in Question.updateTodaysQuestion()');
+            }
+            // Get the current slide
+            currentSlide = this.setSlideTextByTitle(thisAltText, textToSet == "" ? noTitleText : textToSet)[0];
+        }
+        else {
+            // If specific slide notes are defined and present in the slideshow
+            const theseSlideNotes = settingsRow.get(findBySpecificSlideNotes);
+            if (theseSlideNotes != null) {
+                const thisSlide = this.getSlideByNotes(theseSlideNotes.toString());
+                // Get the current slide
+                if (thisSlide !== null)
+                    currentSlide = thisSlide;
+            }
+            // If generic slide notes are defined and present in the slideshow
+            if (currentSlide === undefined) {
+                if (findByGlobalSlideNotes !== undefined) {
+                    const thisSlide = this.getSlideByNotes(findByGlobalSlideNotes);
+                    // Get the current slide
+                    if (thisSlide !== null)
+                        currentSlide = thisSlide;
+                }
+            }
+            if (currentSlide !== undefined) {
+                // Display as title if displayTextAsTitle is set
+                if (displayTextAsTitle)
+                    currentSlide.setTitle(textToSet == "" ? noTitleText : textToSet);
+                // Otherwise, display in body
+                else
+                    currentSlide.setBody(textToSet == "" ? noTitleText : textToSet);
+            }
+        }
+        if (currentSlide !== undefined) {
+            // If there is an image to display
+            if ((imageLink != null) && (imageLink != "")) {
+                // Set image on current slide
+                this.changeSlidePicture(imageLink, currentSlide);
+            }
+            // If there are options to display
+            if (optionsType !== undefined) {
+                if (optionsToDisplay !== undefined && optionsToDisplay !== null && optionsToDisplay != '') {
+                    currentSlide.addItem(optionsType, optionsToDisplay);
+                }
+            }
+        }
     }
 }

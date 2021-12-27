@@ -1,5 +1,5 @@
 import { CalendarEventGS } from './CalendarEventGS';
-import { getTodaysDate } from '../utils/Utilities';
+import { Utilities } from '../utils/Utilities';
 /**
  * Class to hold properties and methods to manipulate the Google Calendar
  *
@@ -92,7 +92,7 @@ export function getCalendarId(obj) {
  * @return {string} the list of due dates as a string for use in Slides
  */
 export function getUpcomingDueDates(obj, daysToLookAhead, eventOptions, timezoneOffset = -5) {
-    return obj.getUpcomingDueDates(daysToLookAhead, eventOptions, timezoneOffset);
+    return obj.getUpcomingDueDates(daysToLookAhead, eventOptions);
 }
 /**
  * Gets the upcoming due dates for events on the calendar as an array
@@ -119,7 +119,7 @@ export function getUpcomingDueDates(obj, daysToLookAhead, eventOptions, timezone
  * @return {Array<string>} the list of due dates as an array
  */
 export function getUpcomingDueDatesList(obj, daysToLookAhead, eventOptions, timezoneOffset = -5) {
-    return obj.getUpcomingDueDatesList(daysToLookAhead, eventOptions, timezoneOffset);
+    return obj.getUpcomingDueDatesList(daysToLookAhead, eventOptions);
 }
 /**
  * Gets the upcoming events on the calendar
@@ -142,7 +142,7 @@ export function getUpcomingDueDatesList(obj, daysToLookAhead, eventOptions, time
  * @return {Array<CalendarEventGS>} the list of calendar events
  */
 export function getUpcomingEvents(obj, daysToLookAhead, timezoneOffset) {
-    return obj.getUpcomingEvents(daysToLookAhead, timezoneOffset);
+    return obj.getUpcomingEvents(daysToLookAhead);
 }
 /**
  * Class to hold properties and methods to manipulate the Google Calendar
@@ -186,11 +186,12 @@ export class CalendarGS {
         this._endDate = new Date();
         this._upcomingEventObjects = [];
         this._id = id;
-        this._dateToday = getTodaysDate(timezoneOffset);
+        this._timezoneOffset = timezoneOffset;
+        const utils = new Utilities();
+        this._dateToday = utils.getTodaysDate(this._timezoneOffset);
         this._calendar = CalendarApp.getCalendarById(id);
         if (this._calendar == null) {
-            throw new Error('Could not find Calendar ' + 'with id ' + id +
-                ' in CalendarGS()');
+            throw new Error('Could not find Calendar ' + 'with id ' + id + ' in CalendarGS()');
         }
     }
     /**
@@ -212,14 +213,13 @@ export class CalendarGS {
      *
      * @param {number} daysToLookAhead the number of days ahead to find
      *  events on the calendar
-     * @param {number} timezoneOffset the timezone shift
      *
      * @return {Array<CalendarEventGS>} the list of calendar events
      */
-    getUpcomingEvents(daysToLookAhead, timezoneOffset) {
-        this._endDate = getTodaysDate(timezoneOffset);
-        this._endDate.setMilliseconds(this._dateToday.getMilliseconds() +
-            daysToLookAhead * this._oneDay);
+    getUpcomingEvents(daysToLookAhead) {
+        const utils = new Utilities();
+        this._endDate = utils.getTodaysDate(this._timezoneOffset);
+        this._endDate.setMilliseconds(this._dateToday.getMilliseconds() + daysToLookAhead * this._oneDay);
         this._upcomingEventObjects = [];
         for (const event of this._calendar.getEvents(this._dateToday, this._endDate)) {
             this._upcomingEventObjects.push(new CalendarEventGS(event));
@@ -242,13 +242,12 @@ export class CalendarGS {
      * events on the calendar
      * @param {DateParams} eventOptions options for displaying that there are
      *  no events and how to display the date; see above for defaults
-     * @param {number} timezoneOffset the timezone
      *
      * @return {string} the list of due dates as a string for use in Slides
      */
-    getUpcomingDueDates(daysToLookAhead, eventOptions, timezoneOffset) {
+    getUpcomingDueDates(daysToLookAhead, eventOptions) {
         let dueDates = '';
-        for (const event of this.getUpcomingEvents(daysToLookAhead, timezoneOffset)) {
+        for (const event of this.getUpcomingEvents(daysToLookAhead)) {
             if (dueDates != '')
                 dueDates += '\n';
             dueDates += '\t' + event.getDate(eventOptions);
@@ -273,12 +272,11 @@ export class CalendarGS {
      *  on the calendar
      * @param {DateParams} eventOptions options for displaying that there are
      *  no events and how to display the date; see above for defaults
-     * @param {number} timezoneOffset the timezone
      * @return {Array<string>} the list of due dates as an array
      */
-    getUpcomingDueDatesList(daysToLookAhead, eventOptions, timezoneOffset) {
+    getUpcomingDueDatesList(daysToLookAhead, eventOptions) {
         const dueDates = [];
-        for (const event of this.getUpcomingEvents(daysToLookAhead, timezoneOffset)) {
+        for (const event of this.getUpcomingEvents(daysToLookAhead)) {
             dueDates.push(event.getDate(eventOptions));
         }
         return dueDates;

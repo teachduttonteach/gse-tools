@@ -79,14 +79,26 @@ export function getOrCreateFileById(obj, fileId, fileName, mimeType = MimeTypes.
     return obj.getOrCreateFileById(fileId, fileName, mimeType);
 }
 /**
+ * Publish document to the web
+ *
+ * @param obj
+ * @param documentId
+ * @param publicDoc
+ * @param autoUpdate
+ * @param version
+ * @returns
+ */
+export function publishToWeb(obj, documentId, publicDoc = true, autoUpdate = true, version = "1") {
+    return obj.publishToWeb(documentId, publicDoc, autoUpdate, version);
+}
+/**
  * Class to provide access and functions to Google Drive
  */
 export class DriveGS {
     /**
      * Empty constructor for code consistency
      */
-    constructor() {
-    }
+    constructor() { }
     /**
      * Gets a random picture from a specified folder
      *
@@ -117,8 +129,7 @@ export class DriveGS {
         if (allPictures.length == 0) {
             throw new Error('No pictures found in Drive.getRandomPicture');
         }
-        return allPictures[Math.floor(Math.random() *
-            Math.floor(allPictures.length))];
+        return allPictures[Math.floor(Math.random() * Math.floor(allPictures.length))];
     }
     /**
      * Get the data (blob) of a specified image
@@ -138,8 +149,7 @@ export class DriveGS {
             id = id.split('=')[1];
         const thisFile = DriveApp.getFileById(id);
         if (thisFile == null) {
-            throw new Error('Could not file of id ' + id +
-                ' in DriveGS.getImageBlob()');
+            throw new Error('Could not file of id ' + id + ' in DriveGS.getImageBlob()');
         }
         if (ValidImageTypes.indexOf(thisFile.getMimeType()) != -1) {
             return thisFile.getBlob();
@@ -157,8 +167,7 @@ export class DriveGS {
      */
     getOrCreateFileFromTemplateByName(fileName, templateName) {
         if (fileName == null || templateName == null) {
-            throw new Error('File name and template name need to be defined for ' +
-                'Drive.getOrCreateFile');
+            throw new Error('File name and template name need to be defined for ' + 'Drive.getOrCreateFile');
         }
         const fileObject = DriveApp.getFilesByName(fileName);
         if (fileObject.hasNext())
@@ -166,8 +175,7 @@ export class DriveGS {
         const templateFile = DriveApp.getFilesByName(templateName);
         if (templateFile.hasNext())
             return templateFile.next().makeCopy(fileName);
-        throw new Error('Could not find file or template in DriveGS.' +
-            'getOrCreateFileFromTemplateByName()');
+        throw new Error('Could not find file or template in DriveGS.' + 'getOrCreateFileFromTemplateByName()');
     }
     /**
      * Determines if a file (by id) exists; if it doesn't creates it from a
@@ -180,8 +188,7 @@ export class DriveGS {
      */
     getOrCreateFileFromTemplateById(fileId, templateId) {
         if (fileId == null || templateId == null) {
-            throw new Error('File id ' + 'and template id need to be defined for ' +
-                'DriveGS.getOrCreateFileFromTemplateById()');
+            throw new Error('File id ' + 'and template id need to be defined for ' + 'DriveGS.getOrCreateFileFromTemplateById()');
         }
         let fileObject;
         try {
@@ -190,8 +197,7 @@ export class DriveGS {
         catch (e) {
             const templateFile = DriveApp.getFileById(templateId);
             if (templateFile == null) {
-                throw new Error('Could not find template ' +
-                    'file in DriveGS.getOrCreateFileFromTemplateById()');
+                throw new Error('Could not find template ' + 'file in DriveGS.getOrCreateFileFromTemplateById()');
             }
             return templateFile.makeCopy();
         }
@@ -208,8 +214,7 @@ export class DriveGS {
      */
     getOrCreateFileByName(fileName, mimeType = MimeTypes.DOCS) {
         if (fileName == null) {
-            throw new Error('File name needs to be defined ' +
-                'for Drive.getOrCreateFileByName');
+            throw new Error('File name needs to be defined ' + 'for Drive.getOrCreateFileByName');
         }
         let fileObject = DriveApp.getFilesByName(fileName);
         if (!fileObject.hasNext()) {
@@ -237,8 +242,7 @@ export class DriveGS {
             case MimeTypes.PHOTO:
             case MimeTypes.SITES:
             case MimeTypes.VIDEO:
-                throw new Error('Cannot create file of type ' + mimeType +
-                    ' from DriveGS.getOrCreateFileByName()');
+                throw new Error('Cannot create file of type ' + mimeType + ' from DriveGS.getOrCreateFileByName()');
             case MimeTypes.DOCS:
                 return DocumentApp.create(fileName).getId();
             case MimeTypes.FORMS:
@@ -263,8 +267,7 @@ export class DriveGS {
      */
     getOrCreateFileById(fileId, newFileName = 'Untitled', mimeType = MimeTypes.DOCS) {
         if (fileId == null) {
-            throw new Error('File id and file name need to be defined for ' +
-                'Drive.getOrCreateFileById');
+            throw new Error('File id and file name need to be defined for ' + 'Drive.getOrCreateFileById');
         }
         let fileObject;
         try {
@@ -274,5 +277,27 @@ export class DriveGS {
             return DriveApp.getFileById(this._createFile(newFileName, mimeType));
         }
         return fileObject;
+    }
+    /**
+     * Publish document to the web
+     *
+     * @param documentId
+     * @param publicDoc
+     * @param autoUpdate
+     * @param version
+     * @returns
+     */
+    publishToWeb(documentId, publicDoc = true, autoUpdate = true, version = "1") {
+        const thisRevisions = Drive.Revisions;
+        if (thisRevisions !== undefined) {
+            const thisWebResource = thisRevisions.update({
+                published: true,
+                publishedOutsideDomain: publicDoc,
+                publishAuto: autoUpdate
+            }, documentId, version).publishedLink;
+            if (thisWebResource !== undefined)
+                return thisWebResource;
+        }
+        return null;
     }
 }

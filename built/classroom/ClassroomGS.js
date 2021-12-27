@@ -78,7 +78,6 @@ export class ClassroomGS {
             if (c.enrollmentCode == enrollmentCode)
                 return new ClassGS(c);
         }
-        throw new Error('Could not find class with code ' + enrollmentCode +
-            ' in ClassroomGS()');
+        throw new Error('Could not find class with code ' + enrollmentCode + ' in ClassroomGS()');
     }
 }

@@ -1,16 +1,15 @@
-import { MapGS } from '../map/MapGS';
 import { DocsGS } from '../docs/DocsGS';
 import { DriveGS } from '../drive/DriveGS';
 export class Test {
     constructor(mode = 'log', recipient = 'john.dutton@campusinternationalschool.org') {
         if (mode.toLowerCase() == 'email') {
             this._mode = 'email';
-            if (typeof recipient === "string")
+            if (typeof recipient === 'string')
                 this._recipient = recipient;
         }
         else if (mode.toLowerCase() == 'doc') {
             this._mode = 'doc';
-            if (typeof recipient === "boolean")
+            if (typeof recipient === 'boolean')
                 this._clearDoc = recipient;
             else
                 this._clearDoc = false;
@@ -31,19 +30,19 @@ export class Test {
         let combinationArray = [];
         let argumentArray = [];
         let totalCombinations = 1;
-        let keys = objectArguments.keys();
-        let values = objectArguments.values();
+        let keys = Array.from(objectArguments.keys());
+        let values = Array.from(objectArguments.values());
         for (let i = 0; i < keys.length; i++) {
             let vals = values[i].length;
             argumentArray.push(vals);
             totalCombinations *= vals;
         }
         for (let i = 0; i < totalCombinations; i++) {
-            let theseCombinations = new MapGS();
+            let theseCombinations = new Map();
             let divisor = totalCombinations;
             for (let a = 0; a < argumentArray.length; a++) {
                 divisor /= argumentArray[a];
-                theseCombinations.set(keys[a], values[a][Math.floor(i / divisor) % argumentArray[a]]);
+                theseCombinations.set(Array.from(keys)[a], Array.from(values)[a][Math.floor(i / divisor) % argumentArray[a]]);
             }
             combinationArray.push(theseCombinations);
         }
@@ -53,7 +52,7 @@ export class Test {
         let results = '';
         try {
             results = functionToCall(...functionArguments);
-            if (typeof results === "object")
+            if (typeof results === 'object')
                 results = JSON.stringify(results);
         }
         catch (e) {
@@ -61,22 +60,22 @@ export class Test {
         }
         this._print(functionToCall.name, functionArguments.toString(), results);
     }
-    testEquals(testName, functionResult, desiredResult, parameters = "") {
-        this._print(testName, parameters, functionResult == desiredResult ? "Yes" : "No");
+    testEquals(testName, functionResult, desiredResult, parameters = '') {
+        this._print(testName, parameters, functionResult == desiredResult ? 'Yes' : 'No');
     }
     testObject(objectToTest) {
-        if (typeof objectToTest.getObject() === "object") {
-            this._print(objectToTest.constructor.name, "", "Has object");
+        if (typeof objectToTest.getObject() === 'object') {
+            this._print(objectToTest.constructor.name, '', 'Has object');
         }
         else {
-            this._print(objectToTest.constructor.name, "", "Does not have object");
+            this._print(objectToTest.constructor.name, '', 'Does not have object');
         }
     }
     _executeTestMethod(methodToCall, methodArguments, methodName) {
         let results = '';
         try {
             results = methodToCall(...methodArguments);
-            if (typeof results === "object")
+            if (typeof results === 'object')
                 results = JSON.stringify(results);
         }
         catch (e) {
@@ -91,7 +90,7 @@ export class Test {
                 results = methodToCall(...methodArguments)[0][callMethod]();
             else
                 results = methodToCall(...methodArguments)[callMethod]();
-            if (typeof results === "object")
+            if (typeof results === 'object')
                 results = JSON.stringify(results);
         }
         catch (e) {
@@ -132,7 +131,7 @@ export class Test {
                 const val = combo.get(name);
                 objectToTest[name] = val;
                 if (val != undefined) {
-                    if (typeof val === "object") {
+                    if (typeof val === 'object') {
                         nameValPairs += name + "='" + JSON.stringify(val) + "', ";
                     }
                     else {
@@ -143,7 +142,7 @@ export class Test {
             let results = '';
             try {
                 results = methodToCall(...methodArguments);
-                if (typeof results === "object")
+                if (typeof results === 'object')
                     results = JSON.stringify(results);
             }
             catch (e) {
@@ -159,7 +158,9 @@ export class Test {
         else if (this._mode == 'email')
             MailApp.sendEmail(this._recipient, 'Testing gse-tools', this._toPrint);
         else {
-            const testDocId = new DriveGS().getOrCreateFileByName('Testing gse-tools ' + new Date().toLocaleDateString()).getId();
+            const testDocId = new DriveGS()
+                .getOrCreateFileByName('Testing gse-tools ' + new Date().toLocaleDateString())
+                .getId();
             let doc = new DocsGS(testDocId);
             if (this._clearDoc)
                 doc.clearBody();

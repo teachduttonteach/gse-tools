@@ -44,7 +44,7 @@ export class UiGS {
    */
   addMenu(menuName: string, itemName: string, functionName: string): UiGS {
     if (menuName == '' || itemName == '' || functionName == '') {
-      throw new Error('Name of menu, item and function must be defined in ' + 'UiGS.addMenu()');
+      throw new Error('Name of menu, item and function must be defined in addMenu()');
     }
     const thisMenu = this._menus.get(menuName);
     if (thisMenu != null) {
@@ -53,7 +53,7 @@ export class UiGS {
       this._menus.set(menuName, this._ui.createMenu(menuName).addItem(itemName, functionName));
       const thisMenu = this._menus.get(menuName);
       if (thisMenu == undefined) {
-        throw new Error('Could not find menu (' + menuName + ') in UiGS.addMenu()');
+        throw new Error('Could not find menu (' + menuName + ') in addMenu()');
       }
       thisMenu.addToUi();
     }

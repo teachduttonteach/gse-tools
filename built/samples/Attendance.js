@@ -3,17 +3,45 @@ import { SheetEventGS } from '../sheets/SheetEventGS';
  * Change the attendance value for the student and date
  *
  * ```javascript
- * var attendanceParams = {
- *  attendanceSheetName: 'Attendance',
- *  fullnameColumnName: 'Full Name',
- *  maximumLength: 40,
- *  normalStatusColor: '#DDDDDD',
- *  secondaryColumnsToCheck: [{name: 'Period', value: [1, 1]}],
- *  studentInfoSheetName: 'Student Info',
- *  workingStatusCell: [1, 1],
- *  workingStatusColor: '#DD0000'
- * };
- * gsetools.changeAttendance(e, attendanceParams);
+ * // When a cell is edited on the Sheet
+ * function onEdit(e) {
+ *
+ *   // Check to see if we're on the Attendance sheet
+ *   if (e.source.getActiveSheet().getName() == "Attendance") {
+ *     var attendanceParams = {
+ *
+ *       // The sheet that contains the attendance information
+ *       attendanceSheetName: 'Attendance',
+ *
+ *       // The sheet that contains the student information
+ *       studentInfoSheetName: 'Student Info',
+ *
+ *       // The column that contains the full student name
+ *       fullnameColumnName: 'Full Name',
+ *
+ *       // The maximum number of students to display attendance info
+ *       maximumLength: 40,
+ *
+ *       // The cell on the attendance sheet to change color in order
+ *       // to display whether or not it is working
+ *       workingStatusCell: [1, 1],
+ *
+ *       // The color to turn the working status cell when the script
+ *       // is working
+ *       workingStatusColor: '#DD0000',
+ *
+ *       // The background color of the working status cell when the
+ *       // script is not working
+ *       normalStatusColor: '#DDDDDD',
+ *
+ *       // Define the columns to check to get the students for
+ *       // attendance; name is the column name on the student info
+ *       // sheet, and value is the cell on the attendance sheet
+ *       secondaryColumnsToCheck: [{name: 'Period', value: [1, 1]}],
+ *     };
+ *     gsetools.changeAttendance(e, attendanceParams);
+ *   }
+ * }
  * ```
  * @param {SheetEventGS} _e the Google event from onEdit
  * @param {AttendanceParams} args the parameters for attendance
@@ -29,9 +57,11 @@ export function changeAttendance(_e, args) {
         const thisRow = e.getRow();
         const thisColumn = e.getColumn();
         const thisEditedValue = e.getEditedValue();
-        if ((attendanceSheet === undefined) || (thisActiveSheet === undefined) ||
-            (thisRow === undefined) || (thisColumn == undefined) ||
-            (thisEditedValue === undefined))
+        if (attendanceSheet === undefined ||
+            thisActiveSheet === undefined ||
+            thisRow === undefined ||
+            thisColumn == undefined ||
+            thisEditedValue === undefined)
             return;
         attendanceSheet.changeWorkingStatus(true, workingStatusCell, workingStatusColor);
         const studentInfoSheet = thisActiveSheet.getSheet(studentInfoSheetName);
@@ -82,15 +112,15 @@ function updateDateCodes() {
   let sheet = spreadsheet.getSheet('Daily Schedule');
   const dailySchedule: Array<Array<Date | string>> =
     sheet.getValues(1, 1, sheet.getLastRow(), sheet.getLastColumn());
-  const daysOfWeek: MapGS<string | Date, MapGS<string | Date, string | Date>>
-    = new MapGS();
+  const daysOfWeek: Map<string | Date, Map<string | Date, string | Date>>
+    = new Map();
   for (let j: number = 1; j < dailySchedule.length; j++) {
     const weeklySchedule: boolean[] = [];
     for (let i = 1; i < 6; i++) {
       if (dailySchedule[j][i] == 'X') weeklySchedule.push(true);
       else weeklySchedule.push(false);
     }
-    daysOfWeek.set(dailySchedule[j][0], new MapGS());
+    daysOfWeek.set(dailySchedule[j][0], new Map());
   }
 
   sheet = new SpreadsheetGS().getSheet('Student Info');

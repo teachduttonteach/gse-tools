@@ -270,7 +270,7 @@ export function areSheetValuesEqual(
   obj: SheetGS,
   value: Date | string,
   cell: [number, number],
-  level: string = 'YEAR',
+  level: string = DEFAULT_DATE_COMPARE_LEVEL,
 ): boolean {
   return obj.areSheetValuesEqual(value, cell, level);
 }
@@ -290,7 +290,7 @@ export function areSheetValuesEqualAsMap(
   obj: SheetGS,
   value1: Date | string | undefined,
   value2: Date | string,
-  level: string = 'YEAR',
+  level: string = DEFAULT_DATE_COMPARE_LEVEL,
 ): boolean {
   return obj.areValuesEqualAsMap(value1, value2, level);
 }
@@ -530,8 +530,8 @@ export function getLastColumn(obj: SheetGS): number {
 export function changeWorkingStatus(
   obj: SheetGS,
   working: boolean,
-  cell: [number, number] = [1, 1],
-  color: string = '#DD0000',
+  cell: [number, number] = CHANGE_WORKING_STATUS_CELL,
+  color: string = CHANGE_WORKING_STATUS_COLOR,
 ): SheetGS {
   return obj.changeWorkingStatus(working, cell, color);
 }
@@ -637,11 +637,11 @@ export class SheetGS {
    */
   getValue(row: number, col: number): string | Date {
     if (typeof row !== 'number' || typeof col !== 'number') {
-      throw new Error('Row and column values (' + row + ', ' + col + ') must be ' + 'numbers in SheetGS.getValue()');
+      throw new Error('Row and column values (' + row + ', ' + col + ') must be ' + 'numbers in getValue()');
     }
 
     if (row < 1 || col < 1) {
-      throw new Error('Row and column numbers (' + row + ',' + col + ') must be greater than 0 in SheetGS.getValue()');
+      throw new Error('Row and column numbers (' + row + ',' + col + ') must be greater than 0 in getValue()');
     }
 
     return this._data[row - 1][col - 1];
@@ -660,7 +660,7 @@ export class SheetGS {
     for (let r = 0; r < this._data.length; r++) {
       if (this._data[r][0] == row) return this._data[r][colNumber];
     }
-    throw new Error("Could not find value for row " + row + " and column " + col);
+    throw new Error("Could not find value for row " + row + " and column " + col + " in getValueFromHeaders()");
   }
 
   /**
@@ -674,7 +674,7 @@ export class SheetGS {
      try {
       return this._data[row][this._data[0].indexOf(col)];
      } catch(e) {
-      throw new Error("Could not find value for row " + row + " and column " + col + ": " + e);
+      throw new Error("Could not find value for row " + row + " and column " + col + ": " + e + " in getValueFromColumnHeader()");
      }
   }
 
@@ -689,11 +689,7 @@ export class SheetGS {
     const dateValue = this._data[row - 1][col - 1];
     if (dateValue instanceof Date) return dateValue;
     console.log(
-      "WARNING: Value '" +
-        dateValue +
-        "' at row, col '" +
-        [row, col].join(',') +
-        "' is not a date in SheetGS.getDateValue()",
+      "WARNING: Value '" + dateValue + "' at row, col '" + [row, col].join(',') + "' is not a date in getDateValue()",
     );
     return null;
   }
@@ -721,7 +717,7 @@ export class SheetGS {
         'Row, column, number of rows and columns (' +
           [row, col, numRows, numCols].join(',') +
           ') must all be numbers ' +
-          'in SheetGS.getValues()',
+          'in getValues()',
       );
     }
 
@@ -730,7 +726,7 @@ export class SheetGS {
         'Row, column, number of rows and columns (' +
           [row, col, numRows, numCols].join(',') +
           ') must all be greater ' +
-          'than or equal to 1 in SheetGS.getValues()',
+          'than or equal to 1 in getValues()',
       );
     }
 
@@ -739,7 +735,7 @@ export class SheetGS {
       for (let c = col; c < col + numCols; c++) {
         const thisValue = this._data[r - 1][c - 1];
         if (thisValue === undefined) {
-          throw new Error('Could not find value' + ' at (' + [r - 1, c - 1].join(',') + ') in SheetGS.getValues()');
+          throw new Error('Could not find value' + ' at (' + [r - 1, c - 1].join(',') + ') in getValues()');
         }
         columnsValues.push(thisValue);
       }
@@ -774,11 +770,11 @@ export class SheetGS {
 
     if (row < 1 || col < 1 || numRows < 1 || numCols < 1) {
       throw new Error(
-        'Row, column, number of rows and columns must all be greater ' + 'than or equal to 1 in SheetGS.getMapValues()',
+        'Row, column, number of rows and columns must all be greater than or equal to 1 in getValuesAsMap()',
       );
     }
     if (row + numRows > this._lastRow || col + numCols > this._lastCol) {
-      throw new Error('Rows and columns requested must not exceed size ' + 'of sheet in SheetGS.getValuesAsMap()');
+      throw new Error('Rows and columns requested must not exceed size of sheet in getValuesAsMap()');
     }
 
     for (let r = row; r < row + numRows; r++) {
@@ -799,11 +795,11 @@ export class SheetGS {
    */
   getColumn(colNumber: number): Array<string | Date> {
     if (typeof colNumber !== 'number') {
-      throw new Error("Column '" + colNumber + "' must be a number in SheetGS.getColumn()");
+      throw new Error("Column '" + colNumber + "' must be a number in getColumn()");
     }
 
     if (colNumber < 1) {
-      throw new Error("Column '" + colNumber + "' must be " + 'greater than 0 in SheetGS.getColumn()');
+      throw new Error("Column '" + colNumber + "' must be " + 'greater than 0 in getColumn()');
     }
 
     const returnArray: Array<string | Date> = [];
@@ -871,10 +867,10 @@ export class SheetGS {
    */
   getColumnAsMap(numColumn: number): Map<string | Date, string | Date> {
     if (typeof numColumn !== 'number') {
-      throw new Error('Column number must be ' + 'a number in SheetGS.getColumnAsMap()');
+      throw new Error('Column number must be a number in getColumnAsMap()');
     }
     if (numColumn < 1) {
-      throw new Error('Column number must be greater than ' + '0 in SheetGS.getColumnAsMap()');
+      throw new Error('Column number must be greater than 0 in getColumnAsMap()');
     }
     const returnArray: Map<string | Date, string | Date> = new Map();
     for (const r of this._data) {
@@ -910,7 +906,7 @@ export class SheetGS {
    */
   setValue(value: string | Date, row: number, col: number, reset: boolean = true): SheetGS {
     if (row < 1 || col < 1) {
-      throw new Error('Row and column numbers need to be greater than 0 in ' + 'SheetGS.setValue()');
+      throw new Error('Row and column numbers need to be greater than 0 in setValue()');
     }
     this._sheet.getRange(row, col).setValue(value);
     if (reset) this.resetData();
@@ -936,7 +932,7 @@ export class SheetGS {
     reset: boolean = true,
   ): SheetGS {
     if (value === undefined || row === undefined || column === undefined) {
-      throw new Error('Value, row name, and column ' + 'name must all be defined in SheetGS.setValueAsMap()');
+      throw new Error('Value, row name, and column name must all be defined in setValueAsMap()');
     }
     const utils = new Utilities();
 
@@ -1046,17 +1042,13 @@ export class SheetGS {
 
     if (startRow < 1 || startCol < 1) {
       throw new Error(
-        'The start row (' +
-          startRow +
-          ') and start column (' +
-          startCol +
-          ') must be greater or equal to one in SheetGS.setValues',
+        'The start row (' + startRow + ') and start column (' + startCol + ') must be greater or equal to one in setValues()',
       );
     }
 
     if (numRows < 1 || numCols < 1) {
       throw new Error(
-        'The number of rows (' + numRows + ') and columns (' + numCols + ') must be greater or equal to one',
+        'The number of rows (' + numRows + ') and columns (' + numCols + ') must be greater or equal to one in setValues()',
       );
     }
 
@@ -1099,7 +1091,7 @@ export class SheetGS {
    *
    * @return {boolean} whether or not they are equal
    */
-  areSheetValuesEqual(value: Date | string, cell: [number, number], level: string = 'YEAR'): boolean {
+  areSheetValuesEqual(value: Date | string, cell: [number, number], level: string = DEFAULT_DATE_COMPARE_LEVEL): boolean {
     const utils = new Utilities();
 
     if (
@@ -1121,9 +1113,9 @@ export class SheetGS {
    *
    * @return {boolean} whether or not they are equal
    */
-  areValuesEqualAsMap(value1: Date | string | undefined, value2: Date | string, level: string = 'YEAR'): boolean {
+  areValuesEqualAsMap(value1: Date | string | undefined, value2: Date | string, level: string = DEFAULT_DATE_COMPARE_LEVEL): boolean {
     if ((value1 === undefined) || (value1 == null)) {
-      throw new Error('Could not find map value in ' + 'SheetGS.areMapValuesEqual()');
+      throw new Error('Could not find map value in areValuesEqualAsMap()');
     }
     const utils = new Utilities();
 
@@ -1365,10 +1357,10 @@ export class SheetGS {
    */
   skipBlankRows(startRow: number = 1, col: number = 1): number {
     if (col < 1) {
-      throw new Error('Column (' + col + ') must be greater or equal to 1 ' + 'in skipBlankRows');
+      throw new Error('Column (' + col + ') must be greater or equal to 1 in skipBlankRows()');
     }
     if (startRow < 1) {
-      throw new Error('Start row (' + startRow + ') must be greater or ' + 'equal to 1 in skipBlankRows');
+      throw new Error('Start row (' + startRow + ') must be greater or equal to 1 in skipBlankRows()');
     }
     while (startRow < this._lastRow && this.getValue(startRow, col) == '') {
       startRow++;
@@ -1386,11 +1378,7 @@ export class SheetGS {
   deleteRow(row: number): SheetGS {
     if (row < 1 || row > this._lastRow) {
       throw new Error(
-        'The specified row (' +
-          row +
-          ') must be greater ' +
-          ' than or equal to 1 and less than or equal to the last row in ' +
-          'SheetGS.deleteRow()',
+        'The specified row (' + row + ') must be greater than or equal to 1 and less than or equal to the last row in deleteRow()',
       );
     }
     this._sheet.deleteRow(row);
@@ -1408,10 +1396,7 @@ export class SheetGS {
     if (col < 1 || col > this._lastCol) {
       throw new Error(
         'The specified column (' +
-          col +
-          ') must be greater ' +
-          'than or equal to 1 and less than or equal to the last column in ' +
-          'SheetGS.deleteCol()',
+          col + ') must be greater than or equal to 1 and less than or equal to the last column in deleteCol()',
       );
     }
     this._sheet.deleteColumn(col);
@@ -1427,7 +1412,7 @@ export class SheetGS {
    */
   insertCol(col: number): SheetGS {
     if (col < 1) {
-      throw new Error('The specified column (' + col + ') must be greater' + ' than or equal to 1');
+      throw new Error('The specified column (' + col + ') must be greater than or equal to 1 in insertCol()');
     }
     this._sheet.insertColumns(col);
     return this.resetData();
@@ -1444,7 +1429,7 @@ export class SheetGS {
    */
   getCellFromFind(findText: string, findNumber: number = 1): GoogleAppsScript.Spreadsheet.Range | false {
     if (findText == '') {
-      throw new Error('Text must be defined in SheetGS.getRowFromFind()');
+      throw new Error('Text must be defined in getCellFromFind()');
     }
 
     // Make a new TextFinder object if one doesn't already exist for finding
@@ -1456,14 +1441,14 @@ export class SheetGS {
     // Get the TextFinder object or say that it can't be found
     const currentTextFinder = this._textFinder.get(findText);
     if (currentTextFinder == undefined) {
-      throw new Error('Could not create textFinder in ' + 'SheetGS.getCellFromFind()');
+      throw new Error('Could not create textFinder in getCellFromFind()');
     }
 
     // If we're looking for greater than the 1st instance of the text, look
     //  for it that many times decrementing the findNumber each time
     while (findNumber > 1) {
       if (currentTextFinder.findNext() == null) {
-        throw new Error('Could not find ' + findText + ', ' + findNumber + ' times ' + 'in SheetGS.getCellFromFind()');
+        throw new Error('Could not find ' + findText + ', ' + findNumber + ' times in getCellFromFind()');
       }
       findNumber--;
     }
@@ -1471,7 +1456,7 @@ export class SheetGS {
     // Find the instance we want to return
     const currentRange = currentTextFinder.findNext();
     if (currentRange == null) {
-      console.log('WARNING: Could not find instance of ' + findText + ' in SheetGS.getCellFromFind()');
+      console.log('WARNING: Could not find instance of ' + findText + ' in getCellFromFind()');
       return false;
     }
     return currentRange;
@@ -1503,16 +1488,16 @@ export class SheetGS {
    */
   getRow(rowNumber: number): Array<string | Date> {
     if (typeof rowNumber !== 'number') {
-      throw new Error("Row '" + rowNumber + "' must be a number in SheetGS.getRow()");
+      throw new Error("Row '" + rowNumber + "' must be a number in getRow()");
     }
 
     if (rowNumber < 1) {
-      throw new Error("Row '" + rowNumber + "' must be " + 'greater than 0 in SheetGS.getRow()');
+      throw new Error("Row '" + rowNumber + "' must be greater than 0 in getRow()");
     }
 
     const thisRow = this._data[rowNumber - 1];
     if (thisRow === undefined) {
-      throw new Error("Row '" + rowNumber + "' undefined in SheetGS.getRow()");
+      throw new Error("Row '" + rowNumber + "' undefined in getRow()");
     }
 
     return thisRow;
@@ -1526,10 +1511,10 @@ export class SheetGS {
    */
   getRowAsMap(rowNumber: number): Map<string | Date, string | Date> {
     if (typeof rowNumber !== 'number') {
-      throw new Error('Row number must be ' + 'a number in SheetGS.getRowAsMap()');
+      throw new Error('Row number must be a number in SheetGS.getRowAsMap()');
     }
     if (rowNumber < 1) {
-      throw new Error('Row number must be greater than ' + '0 in SheetGS.getRowAsMap()');
+      throw new Error('Row number must be greater than 0 in getRowAsMap()');
     }
     const returnValue: Map<string | Date, string | Date> = new Map();
     for (let c = 0; c < this.getLastColumn(); c++) {
@@ -1549,7 +1534,7 @@ export class SheetGS {
    */
   getColumnFromFind(findText: string, findNumber: number = 1): number {
     if (findText == '') {
-      throw new Error('Text to find must be defined in ' + 'SheetGS.getColumnFromFind()');
+      throw new Error('Text to find must be defined in getColumnFromFind()');
     }
     const thisRange = this.getCellFromFind(findText, findNumber);
     if (!thisRange) return -1;
@@ -1584,12 +1569,11 @@ export class SheetGS {
    *
    * @return {SheetGS} the object for chaining
    */
-  changeWorkingStatus(working: boolean, cell: [number, number] = [1, 1], color: string = '#DD0000'): SheetGS {
+  changeWorkingStatus(working: boolean, cell: [number, number] = CHANGE_WORKING_STATUS_CELL, color: string = CHANGE_WORKING_STATUS_COLOR): SheetGS {
     if (working) this._sheet.protect().setDomainEdit(false);
     else this._sheet.protect().remove();
 
-    this.setBackground(cell[0], cell[1], color);
-    return this;
+    return this.setBackground(cell[0], cell[1], color);
   }
 
   /**

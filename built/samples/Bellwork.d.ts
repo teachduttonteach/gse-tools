@@ -1,26 +1,27 @@
 /// <reference types="google-apps-script" />
+import { SlideDisplayParams } from '../slides/SlideshowGS';
 import { DateParams } from '../DateParams';
 /**
- * All of the arguments used by the tabulateBellwork function
+ * All of the arguments used by the tabulateQuestion function
  */
 declare type TabulateParams = {
     /**
      * The column name in the 'gse-tools Settings' sheet that contains the
-     *  sheet for the bellwork results; default is 'Bellwork Results Sheet'
+     *  sheet for the question results; default is 'Bellwork Results Sheet'
      */
-    bellworkResultsColumn?: string;
+    questionResultsColumn?: string;
     /**
      * The column name in the 'gse-tools Settings' sheet that contains the
-     *  title for the associated bellwork form; default is 'Bellwork Title'
+     *  title for the associated question form; default is 'Bellwork Title'
      */
-    bellworkTitleColumn?: string;
+    questionTitleColumn?: string;
     /**
      * The name of the data settings sheet to use; defaults to
      *  'gse-tools Settings'
      */
     dataSheet?: string;
     /**
-     * The name of the sheet on the data settings sheet for the bellwork;
+     * The name of the sheet on the data settings sheet for the question;
      *  default is 'Bellwork'
      */
     sheetName?: string;
@@ -36,14 +37,14 @@ declare type TabulateParams = {
     columnDateParams?: DateParams;
 };
 /**
- * All of the arguments and other variables used by the Bellwork script
+ * All of the arguments and other variables used by the question script
  */
-declare type BellworkArgs = {
+declare type QuestionArgs = {
     /**
-     * Sheet name for the bellwork settings, contained on the gse-tools Settings
+     * Sheet name for the question settings, contained on the gse-tools Settings
      *  spreadsheet; default is "Bellwork"
      */
-    bellworkSettingsSheetName?: string;
+    settingsName?: string;
     /**
      * Column name for the gse-tools Settings sheet column that contains the
      *  classroom enrollment code; default is "Classroom Code"
@@ -51,41 +52,52 @@ declare type BellworkArgs = {
     classroomCodeColumnName?: string;
     /**
      * Column name for the gse-tools Settings sheet column number that contains
-     *  the bellwork question; default is "Bellwork Column"
+     *  the question; default is "Bellwork Column"
      */
-    bellworkColumnName?: string;
+    questionColumnName?: string;
     /**
      * Column name for the gse-tools Settings sheet column that contains the
-     *  bellwork date column number; default is "Bellwork Date Column Number"
+     *  question date column number; default is "Bellwork Date Column Number"
      */
-    bellworkDateColumnName?: string;
+    questionDateColumnName?: string;
+    /**
+     * String to look for in the alt text of the slide text boxes for this class;
+     *  default is "Bellwork Alt Text"
+     */
+    altText?: string;
     /**
      * Column name for the gse-tools Settings sheet column that contains the
-     *  bellwork title to display before the current date on the form;
+     *  question title to display before the current date on the form;
      *  default is "Bellwork Title"
      */
-    bellworkTitleColumnName?: string;
+    questionTitleColumnName?: string;
     /**
      * Column name for the gse-tools Settings sheet column that contains the
-     *  bellwork form ID; default is 'Bellwork Form ID'
+     *  question slide notes string to look for in the slide that has the
+     *  question; default is 'Bellwork Slide Notes'
      */
-    bellworkFormIDColumnName?: string;
+    questionSlideNotesColumnName?: string;
     /**
      * Column name for the gse-tools Settings sheet column that contains the
-     *  bellwork slideshow ID; default is 'Bellwork Slides ID'
+     *  question form ID; default is 'Bellwork Form ID'
      */
-    bellworkSlideshowIDColumnName?: string;
+    questionFormIDColumnName?: string;
     /**
      * Column name for the gse-tools Settings sheet column that contains the
-     *  bellwork spreadsheet ID; default is 'Bellwork Spreadsheet ID'
+     *  question slideshow ID; default is 'Bellwork Slides ID'
      */
-    bellworkSpreadsheetIDColumnName?: string;
+    questionSlideshowIDColumnName?: string;
     /**
      * Column name for the gse-tools Settings sheet column that contains the
-     *  sheet name containing bellwork on the spreadsheet specified by
-     *  bellworkSpreadsheetIDColumnName; default is 'Sheet Name'
+     *  question spreadsheet ID; default is 'Bellwork Spreadsheet ID'
      */
-    bellworkSheetNameColumnName?: string;
+    questionSpreadsheetIDColumnName?: string;
+    /**
+     * Column name for the gse-tools Settings sheet column that contains the
+     *  sheet name containing question on the spreadsheet specified by
+     *  questionSpreadsheetIDColumnName; default is 'Sheet Name'
+     */
+    questionSheetNameColumnName?: string;
     /**
      * Optional column name for the gse-tools Setting sheet column that contains
      *  daily pictures to display on the slideshow; default is "Daily Pictures"
@@ -116,51 +128,65 @@ declare type BellworkArgs = {
     gridRowsColumnName?: string;
     /**
      * Column name for the gse-tools Settings sheet column that contains the
-     *  images to display for the bellwork form; default is "Bellwork Form
+     *  images to display for the question form; default is "Bellwork Form
      *  Image Column"
      */
     imageColumnName?: string;
     /**
-     * The notes on the slide that contains the bellwork on the slideshow;
+     * The notes on the slide that contains the question on the slideshow;
      *  default is "Bellwork"
      */
-    bellworkSlideNotes?: string;
+    questionSlideNotes?: string;
     /**
-     * Whether or not the date should be in the bellwork title; default is true
+     * Whether or not the date should be in the question title; default is true
      */
-    dateInBellworkTitle?: boolean;
+    dateInQuestionTitle?: boolean;
     /**
-     * The function to call after the bellwork has been submitted; default is
+     * The function to call after the question has been submitted; default is
      *  "onSubmitBellwork"
      */
-    onSubmitBellworkFunctionName?: string;
+    onSubmitQuestionFunctionName?: string;
     /**
      * String to look for in the date column of the sheet to know that it's the
-     *  last entry to look for bellwork; will not go past the end of the sheet;
+     *  last entry to look for question; will not go past the end of the sheet;
      *  default is 'END'
      */
-    bellworkSheetDateColumnEnd?: string;
+    questionSheetDateColumnEnd?: string;
     /**
-     * Whether or not to display bellwork on form (default: true)
+     * Whether or not to display question on form (default: true)
      */
-    displayBellworkOnForm?: boolean;
+    displayQuestionOnForm?: boolean;
     /**
-     * Whether or not to display bellwork on slide (default: true)
+     * Whether or not to display question on slide (default: true)
      */
-    displayBellworkOnSlide?: boolean;
+    displayQuestionOnSlide?: boolean;
     /**
-     * Column name for the sheet column that contains the exit question; default
-     *  is "Exit Question Column Number"
+     * The default text to display if there is no question
      */
-    exitQuestionColumnName?: string;
+    noQuestionText?: string;
     /**
-     * Notes on the slide to hold the exit question; default is "Exit Question"
+     * Whether to update the current date on the slide, works with
+     *  slideDateTitle (default: false)
      */
-    exitQuestionSlideNotes?: string;
+    updateSlideDate?: boolean;
+    /**
+     * The title of the slide date alt text, works with updateSlideDate
+     */
+    slideDateTitle?: string;
     /**
      * Whether or not to display the exit ticket on slide; default is true
      */
     displayExitQuestionOnSlide?: boolean;
+    /**
+     * Whether or not to display the question response options on the slide;
+     *  default is false
+     */
+    displayQuestionOptions?: boolean;
+    /**
+     * Whether or not to display the question question as the title of the slide;
+     *  default is false
+     */
+    displayQuestionAsTitle?: boolean;
     /**
      * Column name for the sheet column that contains the number of days to
      *  look ahead for upcoming events; default is "Days to Look Ahead"
@@ -180,6 +206,10 @@ declare type BellworkArgs = {
      */
     dueDateParams?: DateParams;
     /**
+     * Parameters for displaying the current date; default is empty
+     */
+    displayDateParams?: DateParams;
+    /**
      * Whether or not to display the upcoming due dates on slide; default is true
      */
     displayUpcomingDueDates?: boolean;
@@ -195,62 +225,204 @@ declare type BellworkArgs = {
     dataSheet?: string;
 };
 /**
- * Update the bellwork with the associated parameters
+ * Update the question with the associated parameters
  *
  * ```javascript
+ * // Object to hold all of the date settings (all have default
+ * // settings)
  * var dateParams = {
- *  titlePrefix: ' - ',
- *  dateDelim: '/',
- *  dateOrder: 'MD',
- *  noEventString: 'NONE'
+ *
+ *   // String that will go between the date and the title
+ *   titlePrefix: ' - ',
+ *
+ *   // Delimiter to go between the month and day of the date
+ *   dateDelim: '/',
+ *
+ *   // The order to display the date; can be MD or DM
+ *   dateOrder: 'MD',
+ *
+ *   // What to display if there are no events
+ *   noEventString: 'NONE',
  * };
  *
- * var bellworkParams = {
- *  bellworkSettingsSheetName: 'Bellwork',
- *  classroomCodeColumnName: 'Class Code',
- *  bellworkColumnName: 'Bellwork Column Number',
- *  bellworkDateColumnName: 'Date Column',
- *  bellworkFormIDColumnName: 'Form ID',
- *  bellworkSlideshowIDColumnName: 'Slideshow ID',
- *  bellworkSpreadsheetIDColumnName: 'Spreadsheet ID',
- *  bellworkTitleColumnName: 'Bellwork Title',
- *  bellworkSlideNotes: 'Bellwork',
- *  dateInBellworkTitle: true,
- *  onSubmitBellworkFunctionName: 'onSubmitBellwork',
- *  bellworkSheetNameColumnName: 'Sheet Name',
- *  bellworkSheetDateColumnEnd: 'END',
- *  dailyPicturesColumnName: 'Daily Picture Folder',
- *  dailyPicturesNotes: 'Agenda',
- *  daysToLookAheadColumnName: '# of Days to Look',
- *  upcomingDueDatesSlideName: 'Upcoming Due Dates',
- *  dateDelimiter: '/',
- *  exitQuestionColumnName: 'Exit Question Column Number',
- *  exitQuestionSlideNotes: 'Exit Question',
- *  questionTypeColumnName: 'Question Type Column Number',
- *  optionsColumnName: 'Question Options Column Number',
- *  gridRowsColumnName: 'Grid Rows Column Number',
- *  imageColumnName: 'Bellwork Form Image Column',
- *  dueDateParams: dateParams,
- *  displayBellworkOnForm: true,
- *  displayBellworkOnSlide: true,
- *  displayExitQuestionOnSlide: true,
- *  displayUpcomingDueDates: true,
- *  timezoneOffset: -5,
- *  dataSheet: 'GSE Settings'
+ * // These are all optional arguments - all have default values
+ * // (see documentation)
+ * var questionParams = {
+ *   // The Settings Spreadsheet name
+ *   dataSheet: 'gse-tools Settings',
+ *
+ *   // The sheet name within the Settings Spreadsheet that has
+ *   // settings for each class
+ *   settingsName: 'Bellwork',
+ *
+ *   // Column in the Settings sheet that has the classroom code
+ *   // for the class
+ *   classroomCodeColumnName: 'Classroom Code',
+ *
+ *   // Column in the Settings sheet that defines which column in the
+ *   // question sheet to look for the question
+ *   questionColumnName: 'Bellwork Column Number',
+ *
+ *   // Column in the Settings sheet that defines which column in the
+ *   // question sheet to look for the date
+ *   questionDateColumnName: 'Date Column',
+ *
+ *   // Object that defines how to display the date
+ *   dueDateParams: dateParams,
+ *
+ *   // Whether or not to display the question on a Form
+ *   displayQuestionOnForm: true,
+ *
+ *   // Column in the Settings sheet that has the question form
+ *   // ID for the class
+ *   questionFormIDColumnName: 'Form ID',
+ *
+ *   // Whether or not to display the question on a Slide
+ *   displayQuestionOnSlide: true,
+ *
+ *   // Column in the Settings sheet that has the question slideshow
+ *   // ID for the class
+ *   questionSlideshowIDColumnName: 'Slideshow ID',
+ *
+ *   // When displaying the question on a Google Slide, put this string
+ *   // in the slide notes and the script will put the question on that
+ *   // slide
+ *   questionSlideNotes: 'Bellwork',
+ *
+ *   // Column in the Settings sheet that has the question spreadsheet
+ *   // ID for the class
+ *   questionSpreadsheetIDColumnName: 'Spreadsheet ID',
+ *
+ *   // Column in the Settings sheet that defines the question title
+ *   // for each class
+ *   questionTitleColumnName: 'Bellwork Title',
+ *
+ *   // Whether or not to display the date in the question title
+ *   dateInQuestionTitle: true,
+ *
+ *   // The function to call when a student submits question
+ *   onSubmitQuestionFunctionName: 'onSubmitQuestion',
+ *
+ *   // Column in the Settings sheet that defines the sheet name to
+ *   // look for all of the question info
+ *   questionSheetNameColumnName: 'Sheet Name',
+ *
+ *   // Useful string to define when the question Spreadsheet no longer
+ *   // has valid entries (so the user can put other information in the
+ *   // sheet)
+ *   questionSheetDateColumnEnd: 'END',
+ *
+ *   // Column in the Settings sheet that defines the folder which has
+ *   // pictures that can be randomly chosen to be displayed on the
+ *   // Slide
+ *   dailyPicturesColumnName: 'Daily Picture Folder',
+ *
+ *   // When displaying a picture on a Slide, put this string in the
+ *   // slide notes and the script will put the agenda on that slide
+ *   dailyPicturesNotes: 'Agenda',
+ *
+ *   // Whether or not to display upcoming due dates
+ *   displayUpcomingDueDates: true,
+ *
+ *   // Column in the Settings sheet that defines the number of days
+ *   // to look ahead for due dates
+ *   daysToLookAheadColumnName: '# of Days to Look',
+ *
+ *   // When displaying upcoming due dates on a Slide, put this string
+ *   // in the slide notes and the script will put the due dates on
+ *   // that slide
+ *   upcomingDueDatesSlideNotes: 'Upcoming Due Dates',
+ *
+ *   // Whether or not to display the exit question on the slideshow
+ *   displayExitQuestionOnSlide: true,
+ *
+ *   // Column in the Settings sheet that defines the column number
+ *   // for the current exit question
+ *   exitQuestionColumnName: 'Exit Question Column Number',
+ *
+ *   // When displaying an exit question on a Slide, put this string
+ *   // in the slide notes and the script will put the exit question
+ *   // on that slide
+ *   exitQuestionSlideNotes: 'Exit Question',
+ *
+ *   // Column in the Settings sheet that defines the column number
+ *   // for the question type (Paragraph, Multiple Choice, etc.)
+ *   questionTypeColumnName: 'Question Type Column Number',
+ *
+ *   // Column in the Settings sheet that defines the column number
+ *   // for the question options (for Multiple Choice, Select, etc.)
+ *   optionsColumnName: 'Question Options Column Number',
+ *
+ *   // Column in the Settings sheet that defines the column number
+ *   // for the grid rows options (for MC Grid, MS Grid question
+ *   // types); the optionsColumnName will refer to the grid columns
+ *   gridRowsColumnName: 'Grid Rows Column Number',
+ *
+ *   // Column in the Settings sheet that defines the column number
+ *   // for the image to display with the question
+ *   imageColumnName: 'Question Form Image Column',
+ *
+ *   // Set the current timezone
+ *   timezoneOffset: -5,
  * };
- * gsetools.updateBellwork(bellworkParams);
+ * gsetools.updateQuestion(questionParams);
  * ```
  *
- * @param {BellworkArgs} args the parameters
+ * @param {QuestionArgs} args the parameters
  */
-export declare function updateBellwork(args: BellworkArgs): void;
+export declare function updateQuestion(args?: QuestionArgs, slideDisplayArgs?: SlideDisplayParams): void;
 /**
- * Take the submitted bellwork and adds it to an existing Sheet for the
+ * Take the submitted question and adds it to an existing Sheet for the
  *  submitting student and their response
+ * ```javascript
+ *  // Object to hold all of the date settings (all have default
+ *  // settings)
+ *  var dateParams = {
+ *
+ *   // String that will go between the date and the title
+ *   titlePrefix: ' - ',
+ *
+ *   // Delimiter to go between the month and day of the date
+ *   dateDelim: '/',
+ *
+ *   // The order to display the date; can be MD or DM
+ *   dateOrder: 'MD',
+ *
+ *   // What to display if there are no events
+ *   noEventString: 'NONE',
+ * };
+ *
+ * var tabulateArgs = {
+ *   // The name of the data settings sheet to use; defaults to
+ *   // 'gse-tools Settings'
+ *   dataSheet: 'gse-tools Settings',
+ *
+ *   // The name of the sheet on the data settings sheet for the question;
+ *   // default is 'Bellwork'
+ *   sheetName: 'Bellwork',
+ *
+ *   // The column name in the 'gse-tools Settings' sheet that contains the
+ *   // sheet for the question results; default is 'Bellwork Results Sheet'
+ *   questionResultsColumn: 'Bellwork Results Sheet',
+ *
+ *   // The column name in the 'gse-tools Settings' sheet that contains the
+ *   // title for the associated bellwork form; default is 'Bellwork Title'
+ *   questionTitleColumn: 'Bellwork Title',
+ *
+ *   // The column name in the 'gse-tools Settings' sheet that contains the
+ *   // id for the results spreadsheet; default is 'Spreadsheet ID'
+ *   spreadsheetIDColumn: 'Spreadsheet ID',
+ *
+ *   // Date parameters for constructing the date for the results sheet column
+ *   // header
+ *   columnDateParams: dateParams
+ * };
+ * gsetools.tabulateAnswers(e, tabulateArgs);
+ * ```
  * @param {GoogleAppsScript.Events.FormsOnFormSubmit} event the Google Form
  *  event
- * @param {TabulateParams} args the tabulate bellwork parameters
- * @return {boolean} returns true if the bellwork was tabulated
+ * @param {TabulateParams} args the tabulate answers parameters
+ * @return {boolean} returns true if the answers were tabulated
  */
-export declare function tabulateBellwork(event: GoogleAppsScript.Events.FormsOnFormSubmit, args?: TabulateParams): boolean;
+export declare function tabulateAnswers(event: GoogleAppsScript.Events.FormsOnFormSubmit, args?: TabulateParams): boolean;
 export {};

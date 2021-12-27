@@ -67,7 +67,7 @@ export function updateClassroomFiles(args: ClassroomArgs): void {
   if (args == null) args = {} as ClassroomArgs;
   const {
     settingsName = 'Classroom',
-    classroomCodeColumnName = 'Classroom Code',
+    classroomCodeColumnName = CLASSROOM_CODE_COLUMN,
     dataSheet = 'gse-tools Settings',
   } = args;
 

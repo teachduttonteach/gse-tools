@@ -1,5 +1,6 @@
 import { SpreadsheetGS } from './SpreadsheetGS';
 import { setCache, getCache } from '../Cache';
+import { toArray } from '../../node_modules/typedoc/dist/lib/utils/array';
 /**
  * Create a new GroupCreator object
  *
@@ -169,7 +170,7 @@ class GroupSet {
     convertToStringArrays() {
         const thisReturn = [];
         for (const g of this._groups) {
-            thisReturn.push(g.getStudents().map((x) => x.getName()));
+            thisReturn.push(g.getStudents().map(x => x.getName()));
         }
         return thisReturn;
     }
@@ -181,7 +182,7 @@ class GroupSet {
     convertToNumberArrays() {
         const thisReturn = [];
         for (const g of this._groups) {
-            thisReturn.push(g.getStudents().map((x) => x.getNumber()));
+            thisReturn.push(g.getStudents().map(x => x.getNumber()));
         }
         return thisReturn;
     }
@@ -272,10 +273,9 @@ export class GroupCreatorGS {
      * @return {GroupCreatorGS} the object for chaining
      */
     calculateGroups() {
-        let { sheetName = 'Student Groups', attemptedDepth = 1000, spreadsheetId, } = this._args;
+        let { sheetName = 'Student Groups', attemptedDepth = 1000, spreadsheetId } = this._args;
         let groupSpreadsheet;
-        if ((spreadsheetId === null) || (spreadsheetId === undefined) ||
-            (spreadsheetId == '')) {
+        if (spreadsheetId === null || spreadsheetId === undefined || spreadsheetId == '') {
             groupSpreadsheet = new SpreadsheetGS(true, sheetName);
             spreadsheetId = groupSpreadsheet.getObject().getId();
         }
@@ -283,47 +283,40 @@ export class GroupCreatorGS {
             groupSpreadsheet = new SpreadsheetGS(spreadsheetId, sheetName);
         }
         if (groupSpreadsheet == null) {
-            throw new Error('Could not create spreadsheet object in ' +
-                'GroupCreator.calculateGroups()');
+            throw new Error('Could not create spreadsheet object in ' + 'GroupCreator.calculateGroups()');
         }
         setCache('spreadsheetId', spreadsheetId);
         setCache('sheetName', sheetName);
         const groupData = groupSpreadsheet.getDataAsMap(sheetName);
         if (groupData == null) {
-            throw new Error('Could not find sheet name \'' + sheetName +
-                '\' on spreadsheet in GroupCreator.calculateGroups()');
-        }
-        if (groupData.keys().length == 0) {
-            console.log('WARNING: No students found for ' +
-                'GroupCreator.calculateGroups()');
+            throw new Error("Could not find sheet name '" + sheetName + "' on spreadsheet in GroupCreator.calculateGroups()");
         }
         // Read in all students and establish relationships
-        const rows = groupData.keys();
+        const rows = toArray(groupData.keys());
+        if (rows.length == 0) {
+            console.log('WARNING: No students found for ' + 'GroupCreator.calculateGroups()');
+        }
         for (let student1 = 0; student1 < rows.length; student1++) {
-            const thisStudent = groupData.get(rows[student1]);
+            const thisStudent = groupData.get(rows[student1].toString());
             if (thisStudent == null) {
-                throw new Error('Could not find student in ' +
-                    'GroupCreator.calculateGroups()');
+                throw new Error('Could not find student in ' + 'GroupCreator.calculateGroups()');
             }
             const student1Name = rows[student1];
             if (typeof student1Name !== 'string') {
-                throw new Error('Student name must be a string in ' +
-                    'GroupCreator.calculateGroups()');
+                throw new Error('Student name must be a string in ' + 'GroupCreator.calculateGroups()');
             }
             let student1Object = new StudentForGroups(student1Name, student1 + 2);
             student1Object = this._addStudent(student1Object);
             this._relationships.push([]);
-            const columns = thisStudent.keys();
+            const columns = toArray(thisStudent.keys());
             for (let student2 = student1 + 1; student2 < columns.length; student2++) {
-                const thisScore = thisStudent.get(columns[student2]);
+                const thisScore = thisStudent.get(columns[student2].toString());
                 if (thisScore == null) {
-                    throw new Error('Could not find student 2 in ' +
-                        'GroupCreator.calculateGroups()');
+                    throw new Error('Could not find student 2 in ' + 'GroupCreator.calculateGroups()');
                 }
                 const student2Name = columns[student2];
                 if (typeof student2Name !== 'string') {
-                    throw new Error('Student name must be a string in ' +
-                        'GroupCreator.calculateGroups()');
+                    throw new Error('Student name must be a string in ' + 'GroupCreator.calculateGroups()');
                 }
                 let student2Object = new StudentForGroups(student2Name, student2 + 2);
                 student2Object = this._addStudent(student2Object);
@@ -364,8 +357,7 @@ export class GroupCreatorGS {
         const currentSheet = new SpreadsheetGS();
         currentSheet.activateUi();
         if (this._minimumGroupSet == undefined) {
-            throw new Error('Could not get minimum group set in ' +
-                'GroupCreator.displayGroupSet()');
+            throw new Error('Could not get minimum group set in ' + 'GroupCreator.displayGroupSet()');
         }
         const studentGroups = this._minimumGroupSet.getGroups();
         // Display the best group set

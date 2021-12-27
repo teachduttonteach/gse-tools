@@ -1,7 +1,6 @@
 /// <reference types="google-apps-script" />
 import { UiGS } from '../UiGS';
 import { SheetGS } from './SheetGS';
-import { MapGS } from '../map/MapGS';
 /**
  * Gets the data from a Google Sheet and provides an interface to it in an
  *  efficient way.
@@ -35,10 +34,10 @@ export declare function getSpreadsheetObject(obj: SpreadsheetGS): GoogleAppsScri
  * @param {boolean} rowFirst if true, rows will be the keys and columns
  *  will be in the values along with the value found at that cell
  *
- * @return {MapGS<string | Date, MapGS<string | Date, string | Date>>} the
+ * @return {Map<string | Date, Map<string | Date, string | Date>>} the
  *  data object
  */
-export declare function getSpreadsheetDataAsMap(obj: SpreadsheetGS, sheetName: string, rowFirst?: boolean): MapGS<string | Date, MapGS<string | Date, string | Date>>;
+export declare function getSpreadsheetDataAsMap(obj: SpreadsheetGS, sheetName: string, rowFirst?: boolean): Map<string | Date, Map<string | Date, string | Date>>;
 /**
  * Gets the named sheet or creates it if it doesn't exist
  *
@@ -77,11 +76,11 @@ export declare function getSheet(obj: SpreadsheetGS, sheetName: string): SheetGS
  * Adds a trigger for this Spreadsheet
  *
  * @param {SpreadsheetGS} obj the Spreadsheet object
-  * @param {string} sheetName the name of the sheet
-  * @param {GoogleAppsScript.Script.EventType | string} triggerType the type
-  *  of trigger to add, from Script.EventType; or, 'Edit', 'Change'
-  *  or 'Submit'
-  * @param {string} functionName the name of the function to call on trigger
+ * @param {string} sheetName the name of the sheet
+ * @param {GoogleAppsScript.Script.EventType | string} triggerType the type
+ *  of trigger to add, from Script.EventType; or, 'Edit', 'Change'
+ *  or 'Submit'
+ * @param {string} functionName the name of the function to call on trigger
  *
  * @return {SpreadsheetGS} the Spreadsheet object for chaining
  */
@@ -91,10 +90,10 @@ export declare function addSpreadsheetTrigger(obj: SpreadsheetGS, sheetName: str
  *
  * @param {SpreadsheetGS} obj the Forms object
  * @param {string} sheetName the name of the sheet
-  * @param {GoogleAppsScript.Script.EventType | string} triggerType the type
-  *  of trigger to add, from Script.EventType; or, 'Edit', 'Change'
-  *  or 'Submit'
-  * @param {string} functionName the name of the function to call on trigger
+ * @param {GoogleAppsScript.Script.EventType | string} triggerType the type
+ *  of trigger to add, from Script.EventType; or, 'Edit', 'Change'
+ *  or 'Submit'
+ * @param {string} functionName the name of the function to call on trigger
  * @return {SpreadsheetGS} the object for chaining
  */
 export declare function replaceSpreadsheetTrigger(obj: SpreadsheetGS, sheetName: string, triggerType?: GoogleAppsScript.Script.EventType | string, functionName?: string): SpreadsheetGS;
@@ -141,10 +140,10 @@ export declare class SpreadsheetGS extends UiGS {
      * @param {boolean} rowFirst if true, rows will be the keys and columns
      *  will be in the values along with the value found at that cell
      *
-     * @return {MapGS<string | Date, MapGS<string | Date, string | Date>>} the
+     * @return {Map<string | Date, Map<string | Date, string | Date>>} the
      *  data object
      */
-    getDataAsMap(sheetName: string, rowFirst?: boolean): MapGS<string | Date, MapGS<string | Date, string | Date>>;
+    getDataAsMap(sheetName: string, rowFirst?: boolean): Map<string | Date, Map<string | Date, string | Date>>;
     /**
      * Gets the named sheet or creates it if it doesn't exist
      *

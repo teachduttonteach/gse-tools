@@ -694,9 +694,15 @@ export class ClassGS {
       GoogleAppsScript.Classroom.Schema.Guardian[]
     >();
     for (let thisStudentID of theseStudentIDs) {
-      const guardiansForStudent = theseGuardians.list(thisStudentID).guardians;
-      if (guardiansForStudent !== undefined && guardiansForStudent !== null) {
-        parentProfiles.set(thisStudentID, guardiansForStudent);
+      if (userProfiles.get(thisStudentID).permissions == undefined) {
+        if (!theseGuardians.list(thisStudentID).hasOwnProperty('guardians')) console.log("WARNING: Could not find guardians for student " + userProfiles.get(thisStudentID).name?.fullName);
+
+        const guardiansForStudent = theseGuardians.list(thisStudentID).guardians;
+        if (guardiansForStudent !== undefined && guardiansForStudent !== null) {
+          parentProfiles.set(thisStudentID, guardiansForStudent);
+        }
+      } else {
+        console.log("WARNING: Could not access info for user " + userProfiles.get(thisStudentID).name?.fullName);
       }
     }
     return parentProfiles;

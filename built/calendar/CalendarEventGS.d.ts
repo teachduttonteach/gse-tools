@@ -35,7 +35,7 @@ export declare function getCalendarEventObject(obj: CalendarEventGS): GoogleApps
  *
  * @return {string} the string containing the date
  */
-export declare function getCalendarEventDate(obj: CalendarEventGS, firstParam?: string | DateParams, titlePrefix?: string, dateDelim?: string): string;
+export declare function getCalendarEventDate(obj: CalendarEventGS, dateParams?: DateParams): string;
 /**
  * Gets the data from a Calendar Event and provides an interface to it in an
  *  efficient way.
@@ -49,6 +49,7 @@ export declare function getCalendarEventDate(obj: CalendarEventGS, firstParam?: 
 export declare class CalendarEventGS {
     private _date;
     private _month;
+    private _year;
     private _title;
     private _event;
     /**
@@ -91,5 +92,5 @@ export declare class CalendarEventGS {
      *
      * @return {string} the string containing the date
      */
-    getDate(firstParam?: string | DateParams, titlePrefix?: string, dateDelim?: string): string;
+    getDate(dateParams?: DateParams): string;
 }

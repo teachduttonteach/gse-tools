@@ -66,6 +66,17 @@ export declare function getOrCreateFileByName(obj: DriveGS, fileName: string, mi
  */
 export declare function getOrCreateFileById(obj: DriveGS, fileId: string, fileName: string, mimeType?: string): GoogleAppsScript.Drive.File;
 /**
+ * Publish document to the web
+ *
+ * @param obj
+ * @param documentId
+ * @param publicDoc
+ * @param autoUpdate
+ * @param version
+ * @returns
+ */
+export declare function publishToWeb(obj: DriveGS, documentId: string, publicDoc?: boolean, autoUpdate?: boolean, version?: string): string | null;
+/**
  * Class to provide access and functions to Google Drive
  */
 export declare class DriveGS {
@@ -141,4 +152,14 @@ export declare class DriveGS {
      * @return {GoogleAppsScript.Drive.File} the file as a Google object
      */
     getOrCreateFileById(fileId: string, newFileName?: string, mimeType?: string): GoogleAppsScript.Drive.File;
+    /**
+     * Publish document to the web
+     *
+     * @param documentId
+     * @param publicDoc
+     * @param autoUpdate
+     * @param version
+     * @returns
+     */
+    publishToWeb(documentId: string, publicDoc?: boolean, autoUpdate?: boolean, version?: string): string | null;
 }

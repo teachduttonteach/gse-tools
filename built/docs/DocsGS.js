@@ -1,5 +1,5 @@
 import { UiGS } from '../UiGS';
-import { getDocLevels } from './DocLevels';
+import { DocLevels } from './DocLevels';
 /**
  * Class to write a Google Document
  *
@@ -27,6 +27,24 @@ export function activateDocsUi(obj) {
  */
 export function getDocsObject(obj) {
     return obj.getObject();
+}
+/**
+ * Gets the ID of the document
+ *
+ * @param obj the Docs object
+ * @returns the ID of the document
+ */
+export function getDocId(obj) {
+    return obj.getId();
+}
+/**
+ * Publishes the Doc by saving and closing.
+ *
+ * @param {DocsGS} obj the Docs object
+ * @returns {DocsGS} the Docs object for chaining
+ */
+export function publishDoc(obj) {
+    return obj.publish();
 }
 /**
  * Change the delimiter to go between the text before the title and the
@@ -70,11 +88,12 @@ export function appendDocsItem(obj, text, title, link) {
  * @param {DocsGS} obj the Docs object
  * @param {string} text the text to add
  * @param {string | number} level the level of the text
+ * @param {boolean} firstParagraph if this should be the first paragraph of the document
  *
  * @return {DocsGS} the object for chaining
  */
-export function addDocsText(obj, text, level) {
-    return obj.addText(text, level);
+export function addDocsText(obj, text, level, firstParagraph = false) {
+    return obj.addText(text, level, firstParagraph);
 }
 /**
  * Clears the body of text
@@ -119,6 +138,14 @@ export class DocsGS extends UiGS {
      */
     getObject() {
         return this._docObject;
+    }
+    /**
+     * Gets the ID of the document object
+     *
+     * @returns the ID of the document object
+     */
+    getId() {
+        return this._docObject.getId();
     }
     /**
      * Return the body of the document
@@ -168,8 +195,7 @@ export class DocsGS extends UiGS {
      */
     appendItem(text, title, link) {
         if (text == null || title == null || link == null) {
-            throw new Error('Text, title and link need to be defined for ' +
-                'DocsGS.appendItem()');
+            throw new Error('Text, title and link need to be defined for ' + 'DocsGS.appendItem()');
         }
         this._docObject
             .getBody()
@@ -179,33 +205,50 @@ export class DocsGS extends UiGS {
         return this;
     }
     /**
+     * Publishes the document by saving and closing.
+     *
+     * @returns {DocsGS} the object for chaining
+     */
+    publish() {
+        this._docObject.saveAndClose();
+        return this;
+    }
+    /**
      * Adds text to the document
      *
      * @param {string} text the text to add
      * @param {string | number} level the level of the text
+     * @param {boolean} firstParagraph if this is the first paragraph of the document
      *
      * @return {DocsGS} the object for chaining
      */
-    addText(text, level = 'N') {
+    addText(text, level = 'N', firstParagraph = false) {
         if (text == undefined) {
-            throw new Error('Text needs to be defined for the' +
-                ' heading in DocsGS.addText()');
+            throw new Error('Text needs to be defined for the' + ' heading in DocsGS.addText()');
         }
         if (level == undefined) {
-            throw new Error('Level (' + level + ') needs to ' +
-                'be a ParagraphHeading type in DocsGS.addText()');
+            throw new Error('Level (' + level + ') needs to ' + 'be a ParagraphHeading type in DocsGS.addText()');
         }
         if (typeof level === 'string')
             level = level.substr(0, 1).toUpperCase();
-        const thisLevel = getDocLevels(level);
+        const docLevelsInstance = new DocLevels();
+        const thisLevel = docLevelsInstance.getDocLevels(level);
         if (thisLevel == null) {
-            throw new Error('Level (' + level + ') needs to ' +
-                'be a ParagraphHeading type in DocsGS.addText()');
+            throw new Error('Level (' + level + ') needs to ' + 'be a ParagraphHeading type in DocsGS.addText()');
         }
-        this._docObject
-            .getBody()
-            .appendParagraph(text)
-            .setHeading(thisLevel);
+        if (firstParagraph) {
+            this._docObject
+                .getBody()
+                .getParagraphs()[0]
+                .setHeading(thisLevel)
+                .setText(text);
+        }
+        else {
+            this._docObject
+                .getBody()
+                .appendParagraph(text)
+                .setHeading(thisLevel);
+        }
         return this;
     }
     /**

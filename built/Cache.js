@@ -7,8 +7,7 @@
 export function setCache(key, value) {
     const thisCache = CacheService.getScriptCache();
     if (thisCache == null) {
-        throw new Error('Could not create CacheService in ' +
-            'GroupCreator.displayGroupSet()');
+        throw new Error('Could not create CacheService in ' + 'GroupCreator.displayGroupSet()');
     }
     thisCache.put(key, JSON.stringify(value));
 }
@@ -25,8 +24,7 @@ export function getCache(key) {
     }
     const cachedInfo = thisCache.get(key);
     if (cachedInfo == null) {
-        throw new Error('Could not find CachedInfo for minimum group set in ' +
-            'acceptGroups()');
+        throw new Error('Could not find CachedInfo for minimum group set in ' + 'acceptGroups()');
     }
     return JSON.parse(cachedInfo);
 }

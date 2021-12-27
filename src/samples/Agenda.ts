@@ -248,16 +248,16 @@ type AgendaParams = {
  */
 export function updateDailyAgenda(args: AgendaParams = {}, slideDisplayArgs: SlideDisplayParams = {}): true {
   const {
-    settingsName = 'Agenda',
-    agendaSlideshowIDColumnName = 'Agenda Slideshow ID',
-    classroomCodeColumnName = 'Classroom Code',
-    dataSheet = 'gse-tools Settings',
-    daysToLookAheadDefault = 7,
+    settingsName = AGENDA_SETTINGS_NAME,
+    agendaSlideshowIDColumnName = AGENDA_SLIDESHOW_COLUMN,
+    classroomCodeColumnName = CLASSROOM_CODE_COLUMN,
+    dataSheet = DATA_SHEET_NAME,
+    daysToLookAheadDefault = DEFAULT_DAYS_TO_LOOK_AHEAD,
     daysToLookAheadColumnName,
-    timezoneOffset = -5,
+    timezoneOffset = DEFAULT_TIMEZONE_OFFSET,
     emailToParents = undefined,
     getAgendaFromSheet = false,
-    sitesLinkColumnName = 'Google Sites', 
+    sitesLinkColumnName = SITES_LINK_COLUMN, 
     writeAgenda = false,
     publishAgenda = true,
     displayAgenda = false   
@@ -299,7 +299,11 @@ export function updateDailyAgenda(args: AgendaParams = {}, slideDisplayArgs: Sli
         new DriveGS().publishToWeb(agendaDoc.getId());
       }
       if (emailToParents !== undefined) {
-        emailAgendaToParents(emailToParents, thisRow, agendaDoc, currentClass, sitesLinkColumnName);
+        let mailHTML = "";
+        if (emailToParents.sendInBody) {
+          mailHTML = writeAgendaToEmailHTML(args, lessonTitles, currentClass);
+        }
+        emailAgendaToParents(emailToParents, thisRow, agendaDoc, currentClass, sitesLinkColumnName, mailHTML);
       }
     }
     if (displayAgenda && slideShow !== undefined) {
@@ -310,6 +314,14 @@ export function updateDailyAgenda(args: AgendaParams = {}, slideDisplayArgs: Sli
   return true;
 }
 
+/**
+ * Gets the agenda for a particular class in the form of an array of lessons
+ * 
+ * @param dateToday today's date
+ * @param futureDate the last date to check
+ * @param currentClass the current Class in Classroom
+ * @returns the list of lessons
+ */
 function getAgendaFromClass(dateToday: Date, futureDate: Date, currentClass: ClassGS): Array<LessonInfo> {
   let lessonTitles: Array<LessonInfo> = [];
   const utils = new Utilities();
@@ -337,6 +349,15 @@ function getAgendaFromClass(dateToday: Date, futureDate: Date, currentClass: Cla
   return lessonTitles;
 }
 
+/**
+ * Gets the current class's lessons from a spreadsheet
+ * 
+ * @param args the AgendaParams arguments
+ * @param row the current row in the settings sheet
+ * @param dateToday today's date
+ * @param futureDate the last date to check
+ * @returns the list of lessons
+ */
 function getAgendaFromSpreadsheet(
   args: AgendaParams,
   row: Map<string | Date, string | Date>,
@@ -344,10 +365,10 @@ function getAgendaFromSpreadsheet(
   futureDate: Date
 ): Array<LessonInfo> {
   const {
-    agendaSheetNameColumnName = 'Class Name',
-    agendaDateColumnName = 'Date',
-    agendaSpreadsheetIDColumnName = 'Agenda Spreadsheet ID',
-    lessonColumnName = 'Lesson',
+    agendaSheetNameColumnName = AGENDA_SHEET_COLUMN,
+    agendaDateColumnName = DATE_COLUMN,
+    agendaSpreadsheetIDColumnName = AGENDA_SPREADSHEET_COLUMN,
+    lessonColumnName = LESSON_COLUMN,
   } = args;
   const sampleUtils = new SampleUtilities();
 
@@ -390,8 +411,8 @@ function writeAgendaToDoc(
   currentClass: ClassGS,
 ): DocsGS {
   const {
-    templateName = 'Agenda Document Template',
-    agendaFileName = 'Class Agenda',
+    templateName = AGENDA_TEMPLATE_NAME,
+    agendaFileName = AGENDA_FILE_NAME,
     agendaDateParams = {} as DateParams,
   } = args;
 
@@ -414,7 +435,7 @@ function writeAgendaToDoc(
 
     agendaDoc.addText(textToAdd, 2);
     if (dueDate !== undefined) {
-      agendaDoc.addText("Due: " + dueDate, 3);
+      agendaDoc.addText(AGENDA_DUE_PREFIX + dueDate, 3);
     }
     if (individualLesson.description !== undefined) {
       agendaDoc.addText(individualLesson.description, 5);
@@ -423,18 +444,60 @@ function writeAgendaToDoc(
   return agendaDoc.publish();
 }
 
-function emailAgendaToParents(emailToParents: ParentEmailInfo, row: Map<string | Date, string | Date>, agendaDoc: DocsGS, currentClass: ClassGS, sitesLinkColumnName: string) {
+/**
+ * Get the agenda taken from Sheets and Classroom to HTML format for emailing
+ *
+ * @param {AgendaParams} args the settings for the agenda
+ * @param {Array<LessonInfo>} lessonInfo the information for each lesson
+ * @param {ClassGS} currentClass the object that contains the current class
+ * @return {true} returns true if successful
+ */
+ function writeAgendaToEmailHTML(
+  args: AgendaParams,
+  lessonInfo: Array<LessonInfo>,
+  currentClass: ClassGS,
+): string {
+  const {
+    agendaFileName = AGENDA_FILE_NAME,
+    agendaDateParams = {} as DateParams,
+  } = args;
+
+  let agendaHTML: string = "<h1>" + agendaFileName + ' ' + currentClass.getName() + "</h1>";
+
+  const dateUtilitiesInterface = new DateUtilities();
+
+  for (const individualLesson of lessonInfo) {
+    let lessonDate: string = dateUtilitiesInterface.formatTodaysDate(agendaDateParams, individualLesson.lessonDate);
+
+    let dueDate: string = dateUtilitiesInterface.formatTodaysDate(agendaDateParams, individualLesson.dueDate);
+;
+
+    let textToAdd: string = agendaDateParams.titlePrefix + ' ' + individualLesson.title;
+    if (lessonDate != dueDate) 
+      textToAdd = lessonDate + ' ' + textToAdd;
+
+    agendaHTML += "<h2>" + textToAdd + "</h2>";
+    if (dueDate !== undefined) {
+      agendaHTML += "<h3>" + AGENDA_DUE_PREFIX + dueDate + "</h3>";
+    }
+    if (individualLesson.description !== undefined) {
+      agendaHTML += "<p>" + individualLesson.description + "</p>";
+    }
+  }
+  return agendaHTML;
+}
+
+function emailAgendaToParents(emailToParents: ParentEmailInfo, row: Map<string | Date, string | Date>, agendaDoc: DocsGS, currentClass: ClassGS, sitesLinkColumnName: string, mailHTML: string) {
   if (emailToParents != undefined) {
     const {
-      subject = "This Week's Agenda",
+      subject = AGENDA_SUBJECT,
       sendAsPDF = false,
+      sendAsHTML = false,
       sendInBody = true,
       sendDocLink = false,
-      sendWebLink = true,
       sendSitesLink = false,
-      docsLinkText = 'Click here to see the agenda on Google Docs',
-      webLinkText = 'Click here to see the agenda on the web',
-      sitesLinkText = 'Click here to see the Google Site for this class',
+      docsLinkText = AGENDA_DOCS_LINK,
+      sitesLinkText = AGENDA_SITES_LINK,
     } = emailToParents;
 
     let sendMail = new EmailGS();
@@ -446,15 +509,13 @@ function emailAgendaToParents(emailToParents: ParentEmailInfo, row: Map<string |
     }
     let mailBody = "";
     if (sendInBody)
-      mailBody = agendaDoc
-        .getBody()
-        .asBody()
-        .getText()
-        .toString();
+      mailBody = mailHTML;
     if (sendAsPDF) 
-      sendMail.attachFile(agendaDoc.getId());
+      sendMail.attachFileAsPDF(agendaDoc.getId());
+    if (sendAsHTML) 
+      sendMail.attachFile(agendaDoc.getAsHTML());
+
     if (sendDocLink) mailBody += '<br><a href="' + agendaDoc.getObject().getUrl() + '">' + docsLinkText + '</a>';
-    if (sendWebLink) mailBody += '<br><a href="' + new DriveGS().publishToWeb(agendaDoc.getId()) + '">' + webLinkText + '</a>';
     if (sendSitesLink) {
       const sitesLink = row.get(sitesLinkColumnName);
       if (sitesLink != undefined && sitesLink != null && sitesLink != '')

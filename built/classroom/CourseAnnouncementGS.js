@@ -96,12 +96,9 @@ export class CourseAnnouncementGS {
      * @return {CourseAnnouncementGS} the object for chaining
      */
     assign(studentIds) {
-        this._announcementResource.assigneeMode =
-            AssigneeMode.IndividualStudents;
-        this._announcementResource.individualStudentsOptions =
-            {};
-        this._announcementResource.individualStudentsOptions.studentIds =
-            studentIds;
+        this._announcementResource.assigneeMode = AssigneeMode.IndividualStudents;
+        this._announcementResource.individualStudentsOptions = {};
+        this._announcementResource.individualStudentsOptions.studentIds = studentIds;
         return this;
     }
     /**

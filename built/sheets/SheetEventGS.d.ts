@@ -1,7 +1,6 @@
 /// <reference types="google-apps-script" />
 import { SpreadsheetGS } from './SpreadsheetGS';
 import { SheetGS } from './SheetGS';
-import { MapGS } from '../map/MapGS';
 /**
  * Class to process Spreadsheet events (like onEdit, onChange)
  *
@@ -205,9 +204,9 @@ export declare class SheetEventGS {
     /**
      * Get the SheetEvent values as a Map object
      *
-     * @return {MapGS<string, Array<string>>} the Map object of values
+     * @return {Map<string, Array<string>>} the Map object of values
      */
-    getValuesAsMap(): MapGS<string, Array<string>>;
+    getValuesAsMap(): Map<string, Array<string>>;
     /**
      * Get the value that has been edited
      *

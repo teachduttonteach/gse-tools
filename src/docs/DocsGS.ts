@@ -149,6 +149,22 @@ export class DocsGS extends UiGS {
   }
 
   /**
+   * Get the HTML from the Google Doc
+   * 
+   * @returns the HTML form of the document
+   */
+  getAsHTML(): GoogleAppsScript.Base.BlobSource {
+    const url = "https://docs.google.com/document/d/" + this._docObject.getId() + "/export?format=html";
+    const param: GoogleAppsScript.URL_Fetch.URLFetchRequestOptions = 
+          {
+            method      : "get",
+            headers     : {"Authorization": "Bearer " + ScriptApp.getOAuthToken()},
+            muteHttpExceptions: true,
+          };
+    return UrlFetchApp.fetch(url,param).getBlob();
+  }
+
+  /**
    * Gets the underlying Google Apps Script object for direct access
    *
    * @return {GoogleAppsScript.Document.Document} the Google Document object
@@ -185,7 +201,7 @@ export class DocsGS extends UiGS {
    */
   changeTitleDelim(titleDelim: string): DocsGS {
     if (titleDelim == null) {
-      throw new Error('Invalid delimiter defined for DocsGS.changeTitleDelim');
+      throw new Error('Invalid delimiter defined for changeTitleDelim()');
     }
     this._titleDelim = titleDelim;
     return this;
@@ -201,7 +217,7 @@ export class DocsGS extends UiGS {
    */
   changeSeparator(separator: GoogleAppsScript.Document.GlyphType): DocsGS {
     if (DocumentApp.GlyphType[separator] == null) {
-      throw new Error('Invalid separator defined for Docs.changeSeparator');
+      throw new Error('Invalid separator defined for changeSeparator()');
     }
     this._separator = separator;
     return this;
@@ -217,7 +233,7 @@ export class DocsGS extends UiGS {
    */
   appendItem(text: string, title: string, link: string): DocsGS {
     if (text == null || title == null || link == null) {
-      throw new Error('Text, title and link need to be defined for ' + 'DocsGS.appendItem()');
+      throw new Error('Text, title and link need to be defined for appendItem()');
     }
     this._docObject
       .getBody()
@@ -248,18 +264,18 @@ export class DocsGS extends UiGS {
    */
   addText(text: string, level: string | number = 'N', firstParagraph: boolean = false): DocsGS {
     if (text == undefined) {
-      throw new Error('Text needs to be defined for the' + ' heading in DocsGS.addText()');
+      throw new Error('Text needs to be defined for the heading in addText()');
     }
 
     if (level == undefined) {
-      throw new Error('Level (' + level + ') needs to ' + 'be a ParagraphHeading type in DocsGS.addText()');
+      throw new Error('Level (' + level + ') needs to  be a ParagraphHeading type in addText()');
     }
     if (typeof level === 'string') level = level.substr(0, 1).toUpperCase();
 
     const docLevelsInstance = new DocLevels();
     const thisLevel = docLevelsInstance.getDocLevels(level);
     if (thisLevel == null) {
-      throw new Error('Level (' + level + ') needs to ' + 'be a ParagraphHeading type in DocsGS.addText()');
+      throw new Error('Level (' + level + ') needs to be a ParagraphHeading type in addText()');
     }
 
     if (firstParagraph) {

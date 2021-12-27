@@ -246,7 +246,7 @@ export class SlideGS {
    */
   changePicture(chosenPictureBlob: GoogleAppsScript.Base.BlobSource, pictureNumber: number = 0): number {
     if (chosenPictureBlob == null) {
-      throw new Error('Slide and blob of chosen picture need to be ' + 'defined in Slides.changePicture');
+      throw new Error('Slide and blob of chosen picture need to be defined in changePicture()');
     }
 
     const pictureId = this._findPicture(pictureNumber);
@@ -285,9 +285,9 @@ export class SlideGS {
    */
   getTitle(): string {
     const thisTitle = this._slide.getPlaceholder(SlidesApp.PlaceholderType.TITLE);
-    if (thisTitle == null) throw new Error('Could not find Title element in ' + 'SlideGS.getTitle()');
+    if (thisTitle == null) throw new Error('Could not find Title element in getTitle()');
     const thisShape = thisTitle.asShape();
-    if (thisShape == null) throw new Error('Could not find Text element in ' + 'SlideGS.getTitle()');
+    if (thisShape == null) throw new Error('Could not find Text element in getTitle()');
     return thisShape.getText().asString();
   }
 
@@ -298,9 +298,9 @@ export class SlideGS {
    */
   getNotes(): string {
     const thisTitle = this._slide.getNotesPage();
-    if (thisTitle == null) throw new Error('Could not find Notes page in ' + 'SlideGS.getNotes()');
+    if (thisTitle == null) throw new Error('Could not find Notes page in getNotes()');
     const thisShape = thisTitle.getSpeakerNotesShape();
-    if (thisShape == null) throw new Error('Could not find Text element in ' + 'SlideGS.getNotes()');
+    if (thisShape == null) throw new Error('Could not find Text element in getNotes()');
     return thisShape.getText().asString();
   }
 
@@ -313,12 +313,12 @@ export class SlideGS {
    */
   setNotes(text: string): SlideGS {
     if (text == null) {
-      throw new Error('Notes text cannot be blank in SlideGS.setNotes()');
+      throw new Error('Notes text cannot be blank in setNotes()');
     }
     const thisTitle = this._slide.getNotesPage();
-    if (thisTitle == null) throw new Error('Could not find Notes page in ' + 'SlideGS.setNotes()');
+    if (thisTitle == null) throw new Error('Could not find Notes page in setNotes()');
     const thisShape = thisTitle.getSpeakerNotesShape();
-    if (thisShape == null) throw new Error('Could not find Text element in ' + 'SlideGS.setNotes()');
+    if (thisShape == null) throw new Error('Could not find Text element in setNotes()');
     thisShape.getText().setText(text);
     return this;
   }
@@ -332,12 +332,12 @@ export class SlideGS {
    */
   setTitle(title: string): SlideGS {
     if (title == null) {
-      throw new Error('Slide title cannot be blank in SlideGS.setTitle()');
+      throw new Error('Slide title cannot be blank in setTitle()');
     }
     const thisTitle = this._slide.getPlaceholder(SlidesApp.PlaceholderType.TITLE);
-    if (thisTitle == null) throw new Error('Could not find Title element in ' + 'SlideGS.setTitle()');
+    if (thisTitle == null) throw new Error('Could not find Title element in setTitle()');
     const thisShape = thisTitle.asShape();
-    if (thisShape == null) throw new Error('Could not find Text element in ' + 'SlideGS.setTitle()');
+    if (thisShape == null) throw new Error('Could not find Text element in setTitle()');
     thisShape.getText().setText(title);
     return this;
   }
@@ -351,12 +351,12 @@ export class SlideGS {
    */
   setBody(body: string): SlideGS {
     if (body == null) {
-      throw new Error('Body text cannot be blank in SlideGS.setBody()');
+      throw new Error('Body text cannot be blank in setBody()');
     }
     const thisBody = this._slide.getPlaceholder(SlidesApp.PlaceholderType.BODY);
-    if (thisBody == null) throw new Error('Could not find Body element in ' + 'SlideGS.setBody()');
+    if (thisBody == null) throw new Error('Could not find Body element in setBody()');
     const thisShape = thisBody.asShape();
-    if (thisShape == null) throw new Error('Could not find Text element in ' + 'SlideGS.setBody()');
+    if (thisShape == null) throw new Error('Could not find Text element in setBody()');
     thisShape.getText().setText(body);
     return this;
   }
@@ -376,14 +376,14 @@ export class SlideGS {
     bulletType: GoogleAppsScript.Slides.ListPreset = SlidesApp.ListPreset.DISC_CIRCLE_SQUARE,
   ): SlideGS {
     if (text == null) {
-      throw new Error('Text cannot be blank in SlideGS.setList()');
+      throw new Error('Text cannot be blank in setList()');
     }
     const thisTitle = this._slide.getPlaceholder(SlidesApp.PlaceholderType.BODY);
-    if (thisTitle == null) throw new Error('Could not find Body element in ' + 'SlideGS.setList()');
+    if (thisTitle == null) throw new Error('Could not find Body element in setList()');
     const thisShape = thisTitle.asShape();
-    if (thisShape == null) throw new Error('Could not find Text element in ' + 'SlideGS.setList()');
+    if (thisShape == null) throw new Error('Could not find Text element in setList()');
     const thisText = thisShape.getText().setText(text);
-    if (thisText == null) throw new Error('Could not find text in ' + 'SlideGS.setList()');
+    if (thisText == null) throw new Error('Could not find text in setList()');
     thisText.getListStyle().applyListPreset(bulletType);
     return this;
   }
@@ -454,7 +454,7 @@ export class SlideGS {
    */
   setDimensions(dimensions: Dimensions): SlideGS {
     if (dimensions == undefined) {
-      throw new Error('Height and width of dimensions need to all be ' + 'integers in Slides.setDimensions');
+      throw new Error('Height and width of dimensions need to all be integers in setDimensions()');
     }
     this._dimensions = dimensions;
     return this;
@@ -472,19 +472,19 @@ export class SlideGS {
    */
   positionPicture(id: number, bottom: boolean = true, right: boolean = true): SlideGS {
     if (id == null) {
-      throw new Error('ID and Slide need to be defined in ' + 'SlidesGS.positionPicture()');
+      throw new Error('ID and Slide need to be defined in positionPicture()');
     }
 
     if (id == -1) {
-      throw new Error('Could not find picture on current slide' + ' in SlidesGS.positionPicture()');
+      throw new Error('Could not find picture on current slide positionPicture()');
     }
 
     if (this._pageElements == null) {
-      throw new Error('Could not get slide ' + 'specified by Slide object in SlidesGS.positionPicture()');
+      throw new Error('Could not get slide specified by Slide object in positionPicture()');
     }
 
     if (this._pageElements[id] == null) {
-      throw new Error('Could not get ' + 'element id (' + id + ') off of Slide object in SlidesGS.positionPicture');
+      throw new Error('Could not get element id (' + id + ') off of Slide object in positionPicture()');
     }
 
     const height = this._pageElements[id].getHeight();

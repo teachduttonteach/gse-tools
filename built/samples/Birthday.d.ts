@@ -32,13 +32,24 @@ export declare type BirthdayParams = {
  * Send birthday email to the requested recipient
  * ```javascript
  * var birthdayParams = {
- *  studentInfoSheet: 'Student Info',
- *  birthdayColumnName: 'Birthdate',
- *  studentNameColumn: 'Last',
- *  dateOrder: 'MD'
+ *
+ *   // The name of the sheet that has the student info
+ *   studentInfoSheet: 'Student Info',
+ *
+ *   // The column on the student info sheet that has the birthdays
+ *   birthdayColumnName: 'Birthdate',
+ *
+ *   // The column on the student info sheet to use for each student
+ *   studentNameColumn: 'Full Name',
+ *
+ *   // The date order, can be DM or MD
+ *   dateOrder: 'DM'
  * };
- * gsetools.sendBirthdayEmail(10, "teachduttonteach@gmail.com",
- *  birthdayParams);
+ *
+ * // The first parameter is how many days out to check for
+ * // birthdays
+ * gsetools.sendBirthdayEmail(10,
+ *    "teachduttonteach@gmail.com", birthdayParams);
  * ```
  *
  * @param {number} lookAheadDays how many days to look ahead

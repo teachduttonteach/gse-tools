@@ -1,4 +1,3 @@
-import { MapGS } from '../map/MapGS';
 /**
  * Class to access a single course in Google Classroom
  * @param {GoogleAppsScript.Classroom.Schema.Course} course the
@@ -10,12 +9,101 @@ export function newClass(course) {
 }
 /**
  * Get the list of students associated with the class
+ * ```javascript
+ * var myClassroom = new gsetools.newClassroom();
+ * var myClass = gsetools.getGoogleClass(myClassroom, 'izg4qrh');
+ * var myStudents = gsetools.getStudents(myClass);
+ *
+ * // Get the list of student IDs as an array
+ * var studentIDs = myStudents.keys();
+ *
+ * // Get the list of student names as an array
+ * var studentNames = myStudents.values();
+ *
+ * // Get student names for their IDs
+ * while (myStudents.hasNext()) {
+ *  var studentID = myStudents.next();
+ *  var studentName = myStudents.get(studentID);
+ * }
+ * ```
  *
  * @param {ClassGS} obj the Class object
- * @return {MapGS<string, string>} a map of the student ID to the full name
+ * @return {Map<string, string>} a map of the student ID to the full name
  */
-export function getClassStudents(obj) {
+export function getStudents(obj) {
     return obj.getStudents();
+}
+/**
+ * Get the list of student names associated with the class
+ * ```javascript
+ * var myClassroom = new gsetools.newClassroom();
+ * var myClass = gsetools.getGoogleClass(myClassroom, 'izg4qrh');
+ * var studentNames = gsetools.getStudentNames(myClass);
+ * ```
+ *
+ * @param {ClassGS} obj the Class object
+ * @return {Array<string>} a list of the student names
+ */
+export function getStudentNames(obj) {
+    return obj.getStudentNames();
+}
+/**
+ * Get the list of student IDs associated with the class
+ * ```javascript
+ * var myClassroom = new gsetools.newClassroom();
+ * var myClass = gsetools.getGoogleClass(myClassroom, 'izg4qrh');
+ * var studentIDs = gsetools.getStudentIDs(myClass);
+ * ```
+ *
+ * @param {ClassGS} obj the Class object
+ * @return {Array<string>} a list of the student IDs
+ */
+export function getStudentIDs(obj) {
+    return obj.getStudentIDs();
+}
+/**
+ * Get the list of student IDs associated with the class
+ * ```javascript
+ * var myClassroom = new gsetools.newClassroom();
+ * var myClass = gsetools.getGoogleClass(myClassroom, 'izg4qrh');
+ * var studentIDs = gsetools.getStudentIDs(myClass);
+ * ```
+ * @param {ClassGS} obj the Class object
+ * @param {string} id the student ID
+ * @return {string | null} the student name, or null if not found
+ */
+export function getStudentName(obj, id) {
+    return obj.getStudentName(id);
+}
+/**
+ * Get a list of the parent e-mails for the class (or for an individual
+ * student)
+ * ```javascript
+ * var myClassroom = new gsetools.newClassroom();
+ * var myClass = gsetools.getGoogleClass(myClassroom, 'izg4qrh');
+ * var parentEmails = gsetools.getParentEmails(myClass);
+ * ```
+ * @param {ClassGS} obj the Class object
+ * @param {string} studentID the optional student ID
+ * @return {Array<string>} the list of parent emails
+ */
+export function getParentEmails(obj, studentID) {
+    return obj.getParentEmails(studentID);
+}
+/**
+ * Get a list of the parent names for the class (or for an individual
+ * student)
+ * ```javascript
+ * var myClassroom = new gsetools.newClassroom();
+ * var myClass = gsetools.getGoogleClass(myClassroom, 'izg4qrh');
+ * var parentNames = gsetools.getParentNames(myClass);
+ * ```
+ * @param {ClassGS} obj the Class object
+ * @param {string} studentID the optional student ID
+ * @return {Array<string>} the list of parent emails
+ */
+export function getParentNames(obj, studentID) {
+    return obj.getParentNames(studentID);
 }
 /**
  * Adds course work to the object
@@ -127,6 +215,7 @@ export class ClassGS {
      *  classroom data object
      */
     constructor(course, args) {
+        var _a;
         if (course == undefined || course.id == undefined) {
             throw new Error('Course not defined in ClassGS');
         }
@@ -134,8 +223,7 @@ export class ClassGS {
         this._id = course.id;
         // Get the courses object
         const theseClassroomCourses = Classroom.Courses;
-        if (theseClassroomCourses == undefined ||
-            theseClassroomCourses.CourseWork == undefined) {
+        if (theseClassroomCourses == undefined || theseClassroomCourses.CourseWork == undefined) {
             throw new Error('Could not find courses in ClassGS');
         }
         this._announcements = [];
@@ -146,29 +234,28 @@ export class ClassGS {
             if (theseClassroomAnnouncements != undefined) {
                 for (announcement of theseClassroomAnnouncements) {
                     if (announcement == null || announcement.text == null) {
-                        throw new Error('Cannot call announcements.forEach on an empty ' +
-                            'announcement in ClassGS()');
+                        throw new Error('Cannot call announcements.forEach on an empty ' + 'announcement in ClassGS()');
                     }
                     this._announcements.push(announcement.text);
                 }
             }
         }
-        const theseClassroomTopics = 
-        // @ts-ignore
-        theseClassroomCourses.Topics.list(course.id).topic;
-        // Get all of the topics into the appropriate Map
-        this._topics = new MapGS();
-        if (theseClassroomTopics != undefined) {
-            // Add each topic
-            // @ts-ignore
-            let topic;
-            for (topic of theseClassroomTopics) {
-                this._topics.set(topic.topicId, {
-                    level: 2,
-                    // @ts-ignore
-                    name: topic.name,
-                    work: [],
-                });
+        if (theseClassroomCourses.Topics !== undefined) {
+            const theseClassroomTopics = theseClassroomCourses.Topics.list(course.id).topic;
+            // Get all of the topics into the appropriate Map
+            this._topics = new Map();
+            if (theseClassroomTopics != undefined) {
+                // Add each topic
+                let topic;
+                for (topic of theseClassroomTopics) {
+                    if ((topic.topicId !== undefined) && (topic.name !== undefined)) {
+                        this._topics.set(topic.topicId, {
+                            level: 2,
+                            name: topic.name,
+                            work: [],
+                        });
+                    }
+                }
             }
         }
         if (args == undefined)
@@ -196,7 +283,7 @@ export class ClassGS {
                 // @ts-ignore
                 const thisTopicId = courseWork.topicId;
                 if (thisTopicId != null) {
-                    this._topics.get(thisTopicId)?.work.push(objWork);
+                    (_a = this._topics.get(thisTopicId)) === null || _a === void 0 ? void 0 : _a.work.push(objWork);
                 }
             }
         }
@@ -243,8 +330,7 @@ export class ClassGS {
         for (material of materials) {
             const thisMaterial = material;
             if (thisMaterial == null) {
-                throw new Error('Could not find material in ' +
-                    'ClassGS._addCourseMaterials()');
+                throw new Error('Could not find material in ' + 'ClassGS._addCourseMaterials()');
             }
             objWork.materials.push(this._getMaterials(thisMaterial));
         }
@@ -256,7 +342,7 @@ export class ClassGS {
      * @return {Array<string>} the topic ids
      */
     getTopics() {
-        return this._topics.keys();
+        return Array.from(this._topics.keys());
     }
     /**
      * Get the topic names
@@ -264,7 +350,7 @@ export class ClassGS {
      * @return {Array<string>} the topic names
      */
     getTopicNames() {
-        return this._topics.values().map((a) => a.name);
+        return Array.from(this._topics.values()).map(a => a.name);
     }
     /**
      * Gets the name of a topic
@@ -276,8 +362,7 @@ export class ClassGS {
     getTopicName(topicId) {
         const thisTopic = this._topics.get(topicId);
         if (thisTopic == undefined) {
-            throw new Error('Topic ' + topicId +
-                ' not defined in ClassGS.getTopicName()');
+            throw new Error('Topic ' + topicId + ' not defined in ClassGS.getTopicName()');
         }
         return thisTopic.name;
     }
@@ -298,13 +383,11 @@ export class ClassGS {
      */
     getTopicInfo(topicId) {
         if (topicId == undefined) {
-            throw new Error('Topic name ' + topicId +
-                ' undefined in Topic.getTopicInfo()');
+            throw new Error('Topic name ' + topicId + ' undefined in Topic.getTopicInfo()');
         }
         const thisTopicInfo = this._topics.get(topicId);
         if (thisTopicInfo == undefined) {
-            throw new Error('Could not find course work in ' + topicId +
-                ' in ClassGS.getTopicInfo()');
+            throw new Error('Could not find course work in ' + topicId + ' in ClassGS.getTopicInfo()');
         }
         return thisTopicInfo;
     }
@@ -327,8 +410,7 @@ export class ClassGS {
     getCalendarId() {
         const thisCalId = this._course.calendarId;
         if (thisCalId == undefined) {
-            throw new Error('Calendar id undefined ' +
-                'for course in ClassGS.getCalendarId()');
+            throw new Error('Calendar id undefined ' + 'for course in ClassGS.getCalendarId()');
         }
         return thisCalId;
     }
@@ -345,8 +427,7 @@ export class ClassGS {
         const objMaterials = {};
         // If it's a drive file, get the title and file link
         if (thisMaterial.driveFile != null) {
-            if (thisMaterial.driveFile != null &&
-                thisMaterial.driveFile.driveFile != null) {
+            if (thisMaterial.driveFile != null && thisMaterial.driveFile.driveFile != null) {
                 const thisFile = thisMaterial.driveFile.driveFile;
                 if (thisFile != null) {
                     const thisTitle = thisFile.title;
@@ -365,14 +446,12 @@ export class ClassGS {
             objMaterials.title = thisMaterial.youtubeVideo.title;
             objMaterials.video = thisMaterial.youtubeVideo.alternateLink;
         }
-        else if (thisMaterial.link != null && thisMaterial.link.url != null &&
-            thisMaterial.link.title != null) {
+        else if (thisMaterial.link != null && thisMaterial.link.url != null && thisMaterial.link.title != null) {
             // If it's a link, get the url and the title
             objMaterials.link = thisMaterial.link.url;
             objMaterials.title = thisMaterial.link.title;
         }
-        else if (thisMaterial.form != null && thisMaterial.form.title != null &&
-            thisMaterial.form.formUrl != null) {
+        else if (thisMaterial.form != null && thisMaterial.form.title != null && thisMaterial.form.formUrl != null) {
             // If it's a form, get the url and the title
             objMaterials.form = thisMaterial.form.formUrl;
             objMaterials.title = thisMaterial.form.title;
@@ -381,26 +460,180 @@ export class ClassGS {
     }
     /**
      * Get the list of students associated with the class
+     * ```javascript
+     * var myClassroom = new gsetools.ClassroomGS();
+     * var myClass = myClassroom.getClass('izg4qrh');
+     * var myStudents = myClass.getStudents();
      *
-     * @return {MapGS<string, string>} a map of the student ID to the full name
+     * // Get the list of student IDs as an array
+     * var studentIDs = myStudents.keys();
+     *
+     * // Get the list of student names as an array
+     * var studentNames = myStudents.values();
+     *
+     * // Get student names for their IDs
+     * while (myStudents.hasNext()) {
+     *  var studentID = myStudents.next();
+     *  var studentName = myStudents.get(studentID);
+     * }
+     * ```
+     *
+     * @return {Map<string, string>} a map of the student ID to the full name
      */
     getStudents() {
-        const studentList = new MapGS();
-        if ((Classroom.Courses != undefined) &&
-            (Classroom.Courses.Students != undefined)) {
+        const studentList = new Map();
+        const thisStudentList = this._getStudentProfiles();
+        for (const s of thisStudentList) {
+            if (s.userId != undefined &&
+                s.profile != undefined &&
+                s.profile.name != undefined &&
+                s.profile.name.fullName != undefined) {
+                studentList.set(s.userId, s.profile.name.fullName);
+            }
+        }
+        return studentList;
+    }
+    /**
+     * Get the student profiles from Classroom for the current class
+     * @return {GoogleAppsScript.Classroom.Schema.Student[]} the list of students
+     *  which can be empty if there are no students found
+     */
+    _getStudentProfiles() {
+        if (Classroom.Courses != undefined && Classroom.Courses.Students != undefined) {
             const thisStudentList = Classroom.Courses.Students.list(this._id);
-            if ((thisStudentList != undefined) &&
-                (thisStudentList.students != undefined)) {
-                for (const s of thisStudentList.students) {
-                    if ((s.userId != undefined) && (s.profile != undefined) &&
-                        (s.profile.name != undefined) &&
-                        (s.profile.name.fullName != undefined)) {
-                        studentList.set(s.userId, s.profile.name.fullName);
+            if (thisStudentList != undefined && thisStudentList.students != undefined) {
+                return thisStudentList.students;
+            }
+        }
+        return [];
+    }
+    /**
+     * Get the list of student names associated with the class
+     * ```javascript
+     * var myClassroom = new gsetools.ClassroomGS();
+     * var myClass = myClassroom.getClass('izg4qrh');
+     * var studentNames = myClass.getStudentNames();
+     * ```
+     *
+     * @return {Array<string>} a list of the student names
+     */
+    getStudentNames() {
+        return Array.from(this.getStudents().values());
+    }
+    /**
+     * Get the list of student IDs associated with the class
+     * ```javascript
+     * var myClassroom = new gsetools.ClassroomGS();
+     * var myClass = myClassroom.getClass('izg4qrh');
+     * var studentIDs = myClass.getStudentIDs();
+     * ```
+     *
+     * @return {Array<string>} a list of the student IDs
+     */
+    getStudentIDs() {
+        return Array.from(this.getStudents().keys());
+    }
+    /**
+     * Get the list of student IDs associated with the class
+     * ```javascript
+     * var myClassroom = new gsetools.ClassroomGS();
+     * var myClass = myClassroom.getClass('izg4qrh');
+     * var studentIDs = myClass.getStudentIDs();
+     * ```
+     * @param {string} id the student ID
+     * @return {string | null} the student name, or null if not found
+     */
+    getStudentName(id) {
+        const studentName = this.getStudents().get(id);
+        return studentName === undefined ? null : studentName;
+    }
+    /**
+     * Get a list of the parent e-mails for the class (or for an individual
+     * student)
+     * ```javascript
+     * var myClassroom = new gsetools.ClassroomGS();
+     * var myClass = myClassroom.getClass('izg4qrh');
+     * var parentEmails = myClass.getParentEmails();
+     * ```
+     * @param {string} studentID the optional student ID
+     * @return {Array<string>} the list of parent emails
+     */
+    getParentEmails(studentID) {
+        let parentEmails = [];
+        const parentList = this._getParentProfiles(studentID);
+        for (let studentID of parentList.keys()) {
+            const parentListForStudent = parentList.get(studentID);
+            if (parentListForStudent != undefined && parentListForStudent != null) {
+                for (let parentProfile of parentListForStudent) {
+                    const guardianProfile = parentProfile.guardianProfile;
+                    if (guardianProfile != undefined && guardianProfile != null) {
+                        const emailAddress = guardianProfile.emailAddress;
+                        if (emailAddress != undefined && emailAddress != null) {
+                            parentEmails.push(emailAddress);
+                        }
                     }
                 }
             }
         }
-        return studentList;
+        return parentEmails;
+    }
+    /**
+     * Get a list of the parent names for the class (or for an individual
+     * student)
+     * ```javascript
+     * var myClassroom = new gsetools.ClassroomGS();
+     * var myClass = myClassroom.getClass('izg4qrh');
+     * var parentNames = myClass.getParentNames();
+     * ```
+     * @param {string} studentID the optional student ID
+     * @return {Array<string>} the list of parent emails
+     */
+    getParentNames(studentID) {
+        let parentNames = [];
+        const parentList = this._getParentProfiles(studentID);
+        Array.from(parentList.values()).every(function (pList) {
+            pList.every(function (parent) {
+                var _a;
+                const parentProfile = parent.guardianProfile;
+                if (parentProfile != undefined && parentProfile != null) {
+                    const parentName = (_a = parentProfile.name) === null || _a === void 0 ? void 0 : _a.fullName;
+                    if (parentName != undefined && parentName != null) {
+                        parentNames.push(parentName);
+                    }
+                }
+            });
+        });
+        return parentNames;
+    }
+    /**
+     * Get the list of parents associated with the class (or a particular
+     *  student)
+     * @param {string} studentID the optional studentID to get parents for
+     * @return {Map<string, GoogleAppsScript.Classroom.Schema.Guardian[]>} a
+     * list of the parent profiles
+     */
+    _getParentProfiles(studentID) {
+        let theseStudentIDs;
+        if (studentID != undefined)
+            theseStudentIDs = [studentID];
+        else
+            theseStudentIDs = this.getStudentIDs();
+        const userProfiles = Classroom.UserProfiles;
+        if (userProfiles == undefined || userProfiles == null) {
+            throw new Error('Could not retrieve user profiles in ' + 'ClassGS.getParents(). Make sure you have access to the class.');
+        }
+        const theseGuardians = userProfiles.Guardians;
+        if (theseGuardians == undefined || theseGuardians == null) {
+            throw new Error('Could not retrieve guardians in ' + 'ClassGS.getParents(). Make sure you have access to the guardians.');
+        }
+        let parentProfiles = new Map();
+        for (let thisStudentID of theseStudentIDs) {
+            const guardiansForStudent = theseGuardians.list(thisStudentID).guardians;
+            if (guardiansForStudent !== undefined && guardiansForStudent !== null) {
+                parentProfiles.set(thisStudentID, guardiansForStudent);
+            }
+        }
+        return parentProfiles;
     }
     /**
      * Adds course work to the object
@@ -411,12 +644,10 @@ export class ClassGS {
      */
     addCourseWork(work) {
         if (Classroom.Courses == undefined) {
-            throw new Error('Could not find ' +
-                'Courses in Classroom');
+            throw new Error('Could not find ' + 'Courses in Classroom');
         }
         if (Classroom.Courses.CourseWork == undefined) {
-            throw new Error('Could ' +
-                'not find Classwork in Classroom.Courses');
+            throw new Error('Could ' + 'not find Classwork in Classroom.Courses');
         }
         Classroom.Courses.CourseWork.create(work.getResource(), this._id);
         return this;
@@ -431,14 +662,15 @@ export class ClassGS {
      * @return {ClassGS} the object for chaining
      */
     addTopic(topic) {
+        var _a, _b;
         if (this.getTopicNames().indexOf(topic) > -1) {
-            console.log('WARNING: Topic \'' + topic + '\' already exists.');
+            console.log("WARNING: Topic '" + topic + "' already exists.");
             return this;
         }
         const newTopic = {};
         newTopic.name = topic;
         // @ts-ignore
-        Classroom.Courses?.Topics?.create(newTopic, this._id);
+        (_b = (_a = Classroom.Courses) === null || _a === void 0 ? void 0 : _a.Topics) === null || _b === void 0 ? void 0 : _b.create(newTopic, this._id);
         return this;
     }
     /**
@@ -451,8 +683,8 @@ export class ClassGS {
      * @return {ClassGS} the object for chaining
      */
     addAnnouncement(announcement) {
-        Classroom.Courses?.Announcements?.
-            create(announcement.getResource(), this._id);
+        var _a, _b;
+        (_b = (_a = Classroom.Courses) === null || _a === void 0 ? void 0 : _a.Announcements) === null || _b === void 0 ? void 0 : _b.create(announcement.getResource(), this._id);
         return this;
     }
 }

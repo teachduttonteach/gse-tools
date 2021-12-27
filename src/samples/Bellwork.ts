@@ -555,23 +555,23 @@ function showUpcomingDueDates(
   slideShow: SlideshowGS,
 ) {
   const {
-    daysToLookAheadColumnName = 'Days to Look Ahead',
-    upcomingDueDatesSlideNotes = 'Upcoming Due Dates',
+    daysToLookAheadColumnName = DAYS_TO_LOOK_AHEAD_COLUMN,
+    upcomingDueDatesSlideNotes = UPCOMING_DUE_DATES_SLIDE_NOTES,
     dueDateParams = {} as DateParams,
-    classroomCodeColumnName = 'Classroom Code',
+    classroomCodeColumnName = CLASSROOM_CODE_COLUMN,
     timezoneOffset = -5,
   } = args;
 
   const allClasses: ClassroomGS = new ClassroomGS();
   const thisClassroomCode = settingsRow.get(classroomCodeColumnName);
   if (thisClassroomCode === undefined || typeof thisClassroomCode !== 'string') {
-    throw new Error('Classroom code not found');
+    throw new Error('Classroom code not found in showUpcomingDueDates()');
   }
   const currentClass = allClasses.getClass(thisClassroomCode);
 
   const thisDaysToLookAhead = settingsRow.get(daysToLookAheadColumnName);
   if (thisDaysToLookAhead == null) {
-    throw new Error('Could not find days to look ahead in ' + 'Samples.doForBellwork()');
+    throw new Error('Could not find days to look ahead in showUpcomingDueDates()');
   }
   const upcomingEvents: string = new CalendarGS(currentClass.getCalendarId(), timezoneOffset).getUpcomingDueDates(
     +thisDaysToLookAhead,
@@ -606,8 +606,8 @@ function showQuestionOnSlide(
   slideDisplayParams: SlideDisplayParams,
 ) {
   const {
-    optionsColumnName = 'Options',
-    imageColumnName = 'Picture',
+    optionsColumnName = OPTIONS_COLUMN,
+    imageColumnName = PICTURE_COLUMN,
   } = args;
 
   const textBoxSlideParams: TextBoxSlideParams = {
@@ -642,23 +642,27 @@ function showQuestionOnForm(
   questionType: QuestionType,
 ) {
   const {
-    questionTitleColumnName = 'Bellwork Title',
+    questionTitleColumnName = QUESTION_TITLE_COLUMN,
     dateInQuestionTitle = true,
-    optionsColumnName = 'Options',
-    gridRowsColumnName = 'Grid Rows Column Number',
-    imageColumnName = 'Image Column',
+    optionsColumnName = OPTIONS_COLUMN,
+    gridRowsColumnName = GRID_ROWS_COLUMN,
+    imageColumnName = IMAGE_COLUMN,
     dueDateParams = {} as DateParams,
-    timezoneOffset = -5,
+    timezoneOffset = DEFAULT_TIMEZONE_OFFSET,
   } = args;
 
-  const { dateOrder = 'MD', dateDelim = '/' } = dueDateParams;
+  const { 
+    dateOrder = DEFAULT_DATE_ORDER, 
+    dateDelim = DEFAULT_DATE_DELIM 
+  } = dueDateParams;
+
   const utils = new Utilities();
 
   const dateToday: Date = utils.getTodaysDate(timezoneOffset);
 
   let thisQuestionTitleColumnName = row.get(questionTitleColumnName);
   if (thisQuestionTitleColumnName == null || typeof thisQuestionTitleColumnName !== 'string') {
-    thisQuestionTitleColumnName = 'Bellwork';
+    thisQuestionTitleColumnName = QUESTION_TITLE_COLUMN_NAME;
   }
 
   if (dateInQuestionTitle) {
@@ -764,23 +768,23 @@ export function tabulateAnswers(event: GoogleAppsScript.Events.FormsOnFormSubmit
   const formEvent: FormEventGS = new FormEventGS(event);
   if (args == undefined) args = {} as TabulateParams;
   const {
-    questionResultsColumn = 'Bellwork Results Sheet',
-    dataSheet = 'gse-tools Settings',
-    sheetName = 'Bellwork',
-    questionTitleColumn = 'Bellwork Title',
-    spreadsheetIDColumn = 'Spreadsheet ID',
+    questionResultsColumn = QUESTION_RESULTS_COLUMN,
+    dataSheet = DATA_SHEET_NAME,
+    sheetName = QUESTION_SHEET_NAME,
+    questionTitleColumn = QUESTION_TITLE_COLUMN,
+    spreadsheetIDColumn = SPREADSHEET_COLUMN,
     columnDateParams = {} as DateParams,
   } = args;
 
   const formTitle = formEvent.getTitle();
   const response = formEvent.getItemResponse(0);
   if (response instanceof Array) {
-    throw new Error('Bellwork form response ' + 'needs to have single values only in tabulateBellwork()');
+    throw new Error('Bellwork form response needs to have single values only in tabulateBellwork()');
   }
   const title = formEvent.getFullDate(columnDateParams) + '\n' + formEvent.getItemTitle(0);
   const fullName: [string, string] = formEvent.getNameFromEmail();
   if (fullName.length != 2) {
-    throw new Error('Could not get name from email' + ' in tabulateAnswers()');
+    throw new Error('Could not get name from email in tabulateAnswers()');
   }
 
   const dataSheetInterface = new DataSheet();
@@ -801,35 +805,21 @@ export function tabulateAnswers(event: GoogleAppsScript.Events.FormsOnFormSubmit
             destinationSheetName = questionResultsSheetName.toString();
           } else {
             throw new Error(
-              'Could not find bellwork results sheet for ' +
-                ' class "' +
-                className +
-                '" in column "' +
-                questionResultsColumn +
-                '" for tabulateAnswers()',
+              'Could not find bellwork results sheet for class "' + className + '" in column "' + questionResultsColumn + '" for tabulateAnswers()',
             );
           }
 
           const spreadsheetID = classData.get(spreadsheetIDColumn);
           if (spreadsheetID == null || spreadsheetID == undefined) {
             throw new Error(
-              'Could not find bellwork results sheet ID for ' +
-                ' class "' +
-                className +
-                '" in column "' +
-                spreadsheetIDColumn +
-                '" for tabulateAnswers()',
+              'Could not find bellwork results sheet ID for class "' + className + '" in column "' + spreadsheetIDColumn + '" for tabulateAnswers()',
             );
           }
           questionSheetID = spreadsheetID.toString();
         }
       } else {
         throw new Error(
-          'Could not find question title for class "' +
-            className +
-            '" in column "' +
-            questionTitleColumn +
-            '" in tabulateAnswers()',
+          'Could not find question title for class "' + className + '" in column "' + questionTitleColumn + '" in tabulateAnswers()',
         );
       }
     } else {

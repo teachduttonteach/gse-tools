@@ -10,10 +10,8 @@ export function addCourseMaterials(materials) {
     for (const m of materials) {
         const newMaterial = {};
         if (m.file != undefined) {
-            newMaterial.driveFile =
-                {};
-            newMaterial.driveFile.driveFile =
-                {};
+            newMaterial.driveFile = {};
+            newMaterial.driveFile.driveFile = {};
             newMaterial.driveFile.driveFile.title = m.title;
             newMaterial.driveFile.driveFile.id = m.file;
         }
@@ -28,8 +26,7 @@ export function addCourseMaterials(materials) {
             newMaterial.link.url = m.link;
         }
         else if (m.video != undefined) {
-            newMaterial.youtubeVideo =
-                {};
+            newMaterial.youtubeVideo = {};
             newMaterial.youtubeVideo.title = m.title;
             newMaterial.youtubeVideo.alternateLink = m.video;
         }

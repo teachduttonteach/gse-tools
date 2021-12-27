@@ -1,4 +1,6 @@
 import { DateParams } from '../DateParams';
+import { SlideDisplayParams } from '../slides/SlideshowGS';
+import { ParentEmailInfo } from './SampleUtilities';
 /**
  * All of the arguments and other variables used by the Agenda script
  */
@@ -26,14 +28,14 @@ declare type AgendaParams = {
     agendaSpreadsheetIDColumnName?: string;
     /**
      * Column name for the gse-tools Settings sheet column that contains the
-     *  lesson date column number; default is "Lesson Date Column Number"
-     */
-    lessonDateColumnName?: string;
-    /**
-     * Column name for the gse-tools Settings sheet column that contains the
      *  classroom enrollment code; default is 'Classroom Code'
      */
     classroomCodeColumnName?: string;
+    /**
+     * Column name for the gse-tools Settings sheet column that contains the
+     *  Google Sites link; default is 'Google Sites'
+     */
+    sitesLinkColumnName?: string;
     /**
      * Name to use for files that are created holding class info; default is
      *  'Daily Class Agenda'
@@ -77,17 +79,34 @@ declare type AgendaParams = {
      */
     writeAgenda?: boolean;
     /**
-     * Whether or not to display the agenda on a Google Slides; default is true
+     * Whether or not to publish the agenda to the web; default is true
      */
+    publishAgenda?: boolean;
+    /**
+    * Whether or not to display the agenda on a Google Slides; default is true
+    */
     displayAgenda?: boolean;
+    /**
+     * Whether or not to use a spreadsheet to get the agenda
+     */
+    getAgendaFromSheet?: boolean;
+    /**
+     * Specify parameters if you want to send an email to parents; writeAgenda
+     *  must also be set to true; default is empty
+     */
+    emailToParents?: ParentEmailInfo;
     /**
      * How many days ahead to include in the agenda; default is 7
      */
-    daysToLookAhead?: number;
+    daysToLookAheadDefault?: number;
     /**
-     * What to look for in the slide notes if the current slide is the agenda;
-     * default is 'Agenda'
+     * The column to store how many days ahead to include in the agenda; defaults to daysToLookAheadDefault
      */
+    daysToLookAheadColumnName?: string;
+    /**
+    * What to look for in the slide notes if the current slide is the agenda;
+    * default is 'Agenda'
+    */
     agendaSlideNotes?: string;
 };
 /**
@@ -95,37 +114,123 @@ declare type AgendaParams = {
  * Google Doc and a slide on a Google Slides
  *
  * ```javascript
+ * // Object to hold all of the date settings (all have default settings)
  * var dateParams = {
- *  titlePrefix: ' - ',
- *  dateDelim: '/',
- *  dateOrder: 'MD',
- *  noEventString: 'NONE',
+ *
+ *   // String that will go between the date and the title
+ *   titlePrefix: ' - ',
+ *
+ *   // Delimiter to go between the month and day of the date
+ *   dateDelim: '/',
+ *
+ *   // The order to display the date; can be MD or DM
+ *   dateOrder: 'MD',
  * };
- * var agendaArgs = {
- *  settingsName: 'Agenda',
- *  lessonColumnName: 'Lesson Column Number',
- *  agendaSlideshowIDColumnName: 'Agenda Slides ID',
- *  agendaSpreadsheetIDColumnName: 'Agenda Spreadsheet ID',
- *  lessonDateColumnName: 'Lesson Date Column Number',
- *  classroomCodeColumnName: 'Classroom Code',
- *  agendaFileName: 'Daily Class Agenda',
- *  templateName: 'Daily Class Agenda Template',
- *  timezoneOffset: -5,
- *  agendaSheetNameColumnName: 'Sheet Name',
- *  agendaDateColumnName: 'Date Column',
- *  agendaSheetDateColumnEnd: 'END',
- *  writeAgenda: true,
- *  displayAgenda: true,
- *  daysToLookAhead: 7,
- *  agendaSlideNotes: 'Agenda',
- *  agendaDateParams: dateParams,
- *  dataSheet: 'GSE Settings'
+ *
+ * // Object to hold all of the email settings (all have defaults)
+ * var emailArgs = {
+ *
+ *   // Subject of the e-mail
+ *   subject: "This Week's Agenda",
+ *
+ *   // Whether or not to send the agenda as an attached PDF
+ *   sendAsPDF: true,
+ *
+ *   // Whether or not to send the agenda in the body of the e-mail
+ *   sendInBody: true,
+ *
+ *   // Whether or not to send the link to the agenda Google Doc
+ *   sendDocLink: true,
+ *
+ *   // The text for the agenda Google Doc link
+ *   docsLinkText: "Click here to see the agenda in Google Docs",
+ *
+ *   // Whether or not to send the link to the associated Google Sites page
+ *   sendSitesLink: true,
+ *
+ *   // The text for the Google Sites link
+ *   sitesLinkText: "Click here to see the Google Site for this class"
  * }
+ *
+ * // Object to hold all of the agenda settings (all have defaults)
+ * var agendaArgs = {
+ *   // The Settings Spreadsheet name
+ *   dataSheet: 'gse-tools Settings',
+ *
+ *   // The sheet name within the Settings Spreadsheet that has settings
+ *   // for each class
+ *   settingsName: 'Agenda',
+ *
+ *   // Column in the Settings sheet that defines the sheet name on the Lesson
+ *   // Spreadsheet for this class
+ *   agendaSheetNameColumnName: 'Sheet Name',
+ *
+ *   // Column in the Settings sheet that defines the ID of the Lesson
+ *   // Spreadsheet for this class
+ *   agendaSpreadsheetIDColumnName: 'Agenda Spreadsheet ID',
+ *
+ *   // Column in the Settings sheet that defines which column in the Lesson
+ *   // Spreadsheet to look for the name of the lesson
+ *   lessonColumnName: 'Lesson Column Number',
+ *
+ *   // Column in the Settings sheet that defines which column in the Lesson
+ *   // Spreadsheet to look for the date of the lesson
+ *   agendaDateColumnName: 'Date Column',
+ *
+ *   // Useful string to define when the Lesson Spreadsheet no longer has valid
+ *   // entries (so the user can put other information in the sheet)
+ *   agendaSheetDateColumnEnd: 'END',
+ *
+ *   // Object that defines how to display the date
+ *   agendaDateParams: dateParams,
+ *
+ *   // Number of days ahead of today to display in the agenda
+ *   daysToLookAhead: 7,
+ *
+ *   // Set the current timezone
+ *   timezoneOffset: -5,
+ *
+ *   // Column in the Settings sheet that defines which column in the Lesson
+ *   // Spreadsheet to look for the Classroom enrollment code
+ *   classroomCodeColumnName: 'Classroom Code',
+ *
+ *   // Column in the Settings sheet that defines which column in the Lesson
+ *   // Spreadsheet to look for the Google Sites link
+ *   sitesLinkColumnName: 'Google Sites',
+ *
+ *   // Column in the Settings sheet that defines which column in the Lesson
+ *   // Spreadsheet to look for the Slideshow ID
+ *   agendaSlideshowIDColumnName: 'Agenda Slides ID',
+ *
+ *   // Whether or not to display the agenda
+ *   displayAgenda: true,
+ *
+ *   // When displaying the agenda on a Google Slide, put this string in the
+ *   // slide notes and it will recognize
+ *   agendaSlideNotes: 'Agenda',
+ *
+ *   // Whether or not to write the agenda to a Google Doc; must be true to
+ *   // send e-mails
+ *   writeAgenda: true,
+ *
+ *   // Name to use for all files created by this script; will add the name of
+ *   // the class
+ *   agendaFileName: 'Class Agenda',
+ *
+ *   // The template file to use for all of the files created by this script
+ *   templateName: 'Agenda Document Template',
+ *
+ *   // Object with all of the e-mail settings; if not specified, will not
+ *   // send e-mails
+ *   emailToParents: emailArgs
+ * }
+ *
+ * // Call the gse-tools function
  * gsetools.updateDailyAgenda(agendaArgs);
  * ```
  *
  * @param {AgendaParams} args the parameters to use
  * @return {true} returns true if successful
  */
-export declare function updateDailyAgenda(args?: AgendaParams): true;
+export declare function updateDailyAgenda(args?: AgendaParams, slideDisplayArgs?: SlideDisplayParams): true;
 export {};

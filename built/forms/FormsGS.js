@@ -271,24 +271,22 @@ export class FormsGS extends UiGS {
      */
     addItem(title, questionType, optionsList, mcGridRowsList) {
         if (title == null) {
-            throw new Error('Title of form question cannot be blank in ' +
-                'FormsGS.addItem()');
+            throw new Error('Title of form question cannot be blank in ' + 'FormsGS.addItem()');
         }
         if (questionType == null) {
-            throw new Error('Question type cannot be blank in ' +
-                'FormsGS.addItem()');
+            throw new Error('Question type cannot be blank in ' + 'FormsGS.addItem()');
         }
         switch (questionType) {
             case QuestionType.Paragraph:
                 this._form.addParagraphTextItem().setTitle(title);
                 break;
-            case QuestionType["True / False"]:
+            case QuestionType['True / False']:
                 this._form
                     .addMultipleChoiceItem()
                     .setTitle(title)
                     .setChoiceValues(['True', 'False']);
                 break;
-            case QuestionType["Multiple Choice"]:
+            case QuestionType['Multiple Choice']:
                 if (optionsList == undefined) {
                     throw new Error('Options list must be defined in FormsGS.addItem()');
                 }
@@ -298,7 +296,7 @@ export class FormsGS extends UiGS {
                 else
                     this.addMultipleChoice(title, optionsList);
                 break;
-            case QuestionType["Multiple Select"]:
+            case QuestionType['Multiple Select']:
                 this._form.addCheckboxItem().setTitle(title);
                 if (optionsList == undefined) {
                     throw new Error('Options list must be defined in FormsGS.addItem()');
@@ -309,11 +307,10 @@ export class FormsGS extends UiGS {
                 else
                     this.addMultipleCheck(title, optionsList);
                 break;
-            case QuestionType["MC Grid"]:
+            case QuestionType['MC Grid']:
                 const item = this._form.addGridItem().setTitle(title);
                 if (optionsList == undefined) {
-                    throw new Error('Options list must be ' +
-                        'defined in FormsGS.addItem()');
+                    throw new Error('Options list must be ' + 'defined in FormsGS.addItem()');
                 }
                 else if (typeof optionsList === 'string') {
                     item.setColumns(this.convertLinebreaksToList(optionsList));
@@ -321,8 +318,7 @@ export class FormsGS extends UiGS {
                 else
                     item.setColumns(optionsList);
                 if (mcGridRowsList == undefined) {
-                    throw new Error('Grid rows list must be defined in ' +
-                        'FormsGS.addItem()');
+                    throw new Error('Grid rows list must be defined in ' + 'FormsGS.addItem()');
                 }
                 else if (typeof mcGridRowsList === 'string') {
                     item.setRows(this.convertLinebreaksToList(mcGridRowsList));
@@ -330,11 +326,10 @@ export class FormsGS extends UiGS {
                 else
                     item.setRows(mcGridRowsList);
                 break;
-            case QuestionType["MS Grid"]:
+            case QuestionType['MS Grid']:
                 const gridItem = this._form.addCheckboxGridItem().setTitle(title);
                 if (optionsList == undefined) {
-                    throw new Error('Options list must be ' +
-                        'defined in FormsGS.addItem()');
+                    throw new Error('Options list must be ' + 'defined in FormsGS.addItem()');
                 }
                 else if (typeof optionsList === 'string') {
                     gridItem.setColumns(this.convertLinebreaksToList(optionsList));
@@ -342,8 +337,7 @@ export class FormsGS extends UiGS {
                 else
                     gridItem.setColumns(optionsList);
                 if (mcGridRowsList == undefined) {
-                    throw new Error('Grid rows list ' +
-                        'must be defined in FormsGS.addItem()');
+                    throw new Error('Grid rows list ' + 'must be defined in FormsGS.addItem()');
                 }
                 else if (typeof mcGridRowsList === 'string') {
                     gridItem.setRows(this.convertLinebreaksToList(mcGridRowsList));
@@ -475,8 +469,7 @@ export class FormsGS extends UiGS {
             this._form.addImageItem().setImage(file);
         }
         catch (e) {
-            console.log('WARNING: Could not add image to form in ' +
-                'FormsGS.addImage(): ' + e);
+            console.log('WARNING: Could not add image to form in ' + 'FormsGS.addImage(): ' + e);
         }
         return this;
     }
@@ -497,13 +490,11 @@ export class FormsGS extends UiGS {
                 this.addImage(imageBlob);
             }
             else {
-                console.log('WARNING: Could not find image in ' +
-                    'FormsGS.addImageFromId()');
+                console.log('WARNING: Could not find image in ' + 'FormsGS.addImageFromId()');
             }
         }
         catch (e) {
-            console.log('WARNING: Could not add image to form in ' +
-                'FormsGS.addImageFromId(): ' + e);
+            console.log('WARNING: Could not add image to form in ' + 'FormsGS.addImageFromId(): ' + e);
         }
         return this;
     }
@@ -589,8 +580,7 @@ export class FormsGS extends UiGS {
     deleteTriggers(functionName) {
         for (const t of ScriptApp.getProjectTriggers()) {
             if (t.getTriggerSourceId() == this._form.getId()) {
-                if ((functionName === undefined) ||
-                    (t.getHandlerFunction() == functionName))
+                if (functionName === undefined || t.getHandlerFunction() == functionName)
                     ScriptApp.deleteTrigger(t);
             }
         }

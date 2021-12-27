@@ -1,4 +1,3 @@
-import { MapGS } from './map/MapGS';
 /**
  * Class to hold settings in the PropertiesService
  */
@@ -16,9 +15,9 @@ export declare class Settings {
      * Gets the value for a particular key
      *
      * @param {string | Array<string>} key the key to retrieve
-     * @return {string | MapGS<string, string>} the value
+     * @return {string | Map<string, string>} the value
      */
-    get(key: string | Array<string>): string | MapGS<string, string>;
+    get(key: string | Array<string>): string | Map<string, string>;
     /**
      * Sets the value of a key
      *

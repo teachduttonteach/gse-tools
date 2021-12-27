@@ -101,8 +101,19 @@ export function setMailReplyTo(obj: EmailGS, replyTo: string): EmailGS {
  * @param fileId the file ID to attach
  * @returns the EmailGS object for chaining
  */
-export function attachMailFile(obj: EmailGS, fileId: string): EmailGS {
-  return obj.attachFile(fileId);
+export function attachMailFileAsPDF(obj: EmailGS, fileId: string): EmailGS {
+  return obj.attachFileAsPDF(fileId);
+}
+
+/**
+ * Attach a file  to the email
+ * 
+ * @param obj the EmailGS object
+ * @param fileId the file ID to attach
+ * @returns the EmailGS object for chaining
+ */
+ export function attachMailFile(obj: EmailGS, file: GoogleAppsScript.Base.BlobSource): EmailGS {
+  return obj.attachFile(file);
 }
 
 /**
@@ -140,19 +151,20 @@ export class EmailGS {
   /**
    * Send the email
    */
-  send() {
+  send(testing: boolean = true) {
     const toRecipients = this._recipients.to.join(",");
-    this._options.to = "john.dutton@campusinternationalschool.org";
-    this._options.cc = "leroysolay@gmail.com";
-    this._options.htmlBody += "<br>" + this._recipients.bcc.join("<br> - ");
-    this._options.bcc = "teachduttonteach@gmail.com";
-    //this._options.to = toRecipients;
-    //this._options.cc = this._recipients.cc.join(",");
-    //this._options.bcc = this._recipients.bcc.join(",");
+    if (testing) {
+      this._options.to = TESTING_EMAIL_TO;
+      this._options.cc = TESTING_EMAIL_CC;
+      this._options.htmlBody += "<br>" + this._recipients.bcc.join("<br> - ");
+      this._options.bcc = TESTING_EMAIL_BCC;
+    } else {
+      this._options.to = toRecipients;
+      this._options.cc = this._recipients.cc.join(",");
+      this._options.bcc = this._recipients.bcc.join(",");
+  }
     try {
-      MailApp.sendEmail("john.dutton@campusinternationalschool.org", this._subject, this._body, this._options);
-
-      //MailApp.sendEmail(toRecipients, this._subject, this._body, this._options);
+      MailApp.sendEmail(this._options.to, this._subject, this._body, this._options);
     } catch (e) {
       throw new Error("Error sending mail: " + e);
     }
@@ -240,12 +252,23 @@ export class EmailGS {
    * @param fileId the file ID to attach
    * @returns the EmailGS object for chaining
    */
-  attachFile(fileId: string): EmailGS {
+  attachFileAsPDF(fileId: string): EmailGS {
     const pdf = DriveApp.getFileById(fileId).getAs(MimeTypes.PDF);
     if (pdf === undefined) {
       throw new Error('Could not convert file to PDF');
     }
     this._options.attachments!.push(pdf);
+    return this;
+  }
+
+  /**
+   * Attach a file to the email
+   * 
+   * @param file the file ID to attach
+   * @returns the EmailGS object for chaining
+   */
+   attachFile(file: GoogleAppsScript.Base.BlobSource): EmailGS {
+    this._options.attachments!.push(file);
     return this;
   }
 }

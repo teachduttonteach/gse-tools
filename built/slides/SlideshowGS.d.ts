@@ -1,6 +1,44 @@
 /// <reference types="google-apps-script" />
 import { UiGS } from '../UiGS';
 import { SlideGS } from './SlideGS';
+import { QuestionType } from '../enums/QuestionType';
+import { LessonInfo } from '../samples/LessonInfo';
+export declare type SlideDisplayParams = {
+    /**
+     * A string in the Notes part of the slide to determine the one slide in the slideshow
+     */
+    findByGlobalSlideNotes?: string;
+    /**
+     * A string to find the column that contains specific Notes that determines the right slide for this class
+     */
+    findBySpecificSlideNotes?: string;
+    /**
+     * A string to find the column that contains specific info to determine where the text should be displayed, by the title of the alt text
+     */
+    findByAltText?: string;
+    /**
+     * String to display if there is no text available
+     */
+    noTitleText?: string;
+    /**
+     * Whether or not to display the linked text as the title of the slide
+     */
+    displayTextAsTitle?: boolean;
+};
+export declare type TextBoxSlideParams = {
+    /**
+     * Link to the image to display
+     */
+    imageLink?: string;
+    /**
+     * Options to display for a question
+     */
+    optionsToDisplay?: string;
+    /**
+     * Type of options to display (like multiple choice)
+     */
+    optionsType?: QuestionType;
+};
 /**
  * Class to access methods and properties of Google Presentations
  *
@@ -95,6 +133,17 @@ export declare function addSlide(obj: SlideshowGS, title: string, body: string, 
  */
 export declare function getSlideByNotes(obj: SlideshowGS, notes: string): SlideGS | null;
 /**
+ * Sets the textbox text in the presentation from the title of the textbox
+ *
+ * @param {SlideshowGS} obj the Slideshow object
+ * @param {string} title the title of the textbox
+ * @param {string} text the text in the textbox
+ * @param {boolean} multiple whether to display in multiple text boxes
+ *
+ * @return {SlideGS} the slide object
+ */
+export declare function setSlideTextByTitle(obj: SlideshowGS, title: string, text: string, multiple?: boolean): Array<SlideGS>;
+/**
  * Removes a slide from the presentation
  *
  * @param {SlideshowGS} obj the Slideshow object
@@ -141,7 +190,6 @@ export declare function setSlideTitleByType(obj: SlideshowGS, slideNotes: string
 export declare class SlideshowGS extends UiGS {
     private _presentation;
     private _allSlides;
-    _ui: GoogleAppsScript.Base.Ui;
     private _template;
     private _templateSlideUsed;
     /**
@@ -233,6 +281,16 @@ export declare class SlideshowGS extends UiGS {
      */
     getSlideByNotes(notes: string): SlideGS | null;
     /**
+     * Sets the text of the chosen text box in the presentation from the title of the alt text
+     *
+     * @param {string} title the alt text title on the slide
+     * @param {string} text the text to set
+     * @param {boolean} multiple allow multiple text boxes to be set
+     *
+     * @return {SlideGS} the slide object
+     */
+    setSlideTextByTitle(title: string, text: string, multiple?: boolean): Array<SlideGS>;
+    /**
      * Removes a slide from the presentation
      *
      * @param {string} id the id of the slide to remove
@@ -274,4 +332,5 @@ export declare class SlideshowGS extends UiGS {
      * @return {SlideshowGS} the object for chaining
      */
     setSlideTitleByType(slideNotes: string, title: string): SlideshowGS;
+    setTextBoxOrTitleOnSlide(args: SlideDisplayParams, textBoxSlideParams: TextBoxSlideParams, settingsRow: Map<string | Date, string | Date>, textToSet: string | Array<LessonInfo>): void;
 }

@@ -16,4 +16,5 @@ export var MimeTypes;
     MimeTypes["UNKNOWN"] = "application/vnd.google-apps.unknown";
     MimeTypes["VIDEO"] = "application/vnd.google-apps.video";
     MimeTypes["DRIVE_SDK"] = "application/vnd.google-apps.drive-sdk";
+    MimeTypes["PDF"] = "application/pdf";
 })(MimeTypes || (MimeTypes = {}));

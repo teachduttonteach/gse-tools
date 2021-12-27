@@ -22,3 +22,6 @@ export declare type DateParams = {
      */
     noEventString?: string;
 };
+export declare class DateUtilities {
+    formatTodaysDate(dateParams: DateParams | undefined, currentDate: Date): string;
+}
