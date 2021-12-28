@@ -529,10 +529,6 @@ function _writeAgendaToDoc(
     agendaDateParams = {} as DateParams,
   } = args;
 
-  const {
-    titlePrefix = ""
-  } = agendaDateParams;
-
   const agendaTitle: string = agendaFileName + ' ' + currentClass.getName();
   const agendaDoc = new DocsGS(new DriveGS().getOrCreateFileFromTemplateByName(agendaTitle, templateName).getId());
   agendaDoc.clearBody();
@@ -546,7 +542,10 @@ function _writeAgendaToDoc(
     let dueDate: string = dateUtilitiesInterface.formatTodaysDate(agendaDateParams, individualLesson.dueDate);
 ;
 
-    let textToAdd: string = titlePrefix + ' ' + individualLesson.title;
+    let textToAdd: string = individualLesson.title;
+    if ((agendaDateParams.titlePrefix !== undefined) && (agendaDateParams.titlePrefix !== null) && (agendaDateParams.titlePrefix != "")) {
+      textToAdd = agendaDateParams.titlePrefix + " " + textToAdd;
+    }
     if (lessonDate != dueDate) 
       textToAdd = lessonDate + ' ' + textToAdd;
 
@@ -590,7 +589,11 @@ function _writeAgendaToDoc(
     let dueDate: string = dateUtilitiesInterface.formatTodaysDate(agendaDateParams, individualLesson.dueDate);
 ;
 
-    let textToAdd: string = agendaDateParams.titlePrefix + ' ' + individualLesson.title;
+    let textToAdd: string = individualLesson.title;
+    if ((agendaDateParams.titlePrefix !== undefined) && (agendaDateParams.titlePrefix !== null) && (agendaDateParams.titlePrefix != "")) {
+      textToAdd = agendaDateParams.titlePrefix + " " + textToAdd;
+    }
+
     if (lessonDate != dueDate) 
       textToAdd = lessonDate + ' ' + textToAdd;
 

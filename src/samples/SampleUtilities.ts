@@ -109,7 +109,7 @@ export type ParentEmailInfo = {
     }
 
     _replaceNewLinesWithBRs(text: string): string {
-      return text.replace(/\n/, "<br>");
+      return text.replace(/\n/g, "<br>");
     }
     
     _parseDueDate(dueDateRaw: string): Date | undefined {
