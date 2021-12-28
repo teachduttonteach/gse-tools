@@ -529,7 +529,7 @@ export class SlideshowGS extends UiGS {
   setTextBoxOrTitleOnSlide(args: SlideDisplayParams,
     textBoxSlideParams: TextBoxSlideParams,
     textToSet: string | Array<LessonInfo>,
-    settingsRowOrSlideNotes: Map<string | Date, string | Date> | string,
+    settingsRowOrSlideNotes?: Map<string | Date, string | Date> | string,
   ) {
     const {
       findByGlobalSlideNotes,
@@ -554,7 +554,7 @@ export class SlideshowGS extends UiGS {
 
     if (typeof settingsRowOrSlideNotes === 'string') {
       currentSlide = this.setSlideTextByTitle(settingsRowOrSlideNotes, textToSet == "" ? noTitleText : textToSet)[0];
-    } else {
+    } else if (settingsRowOrSlideNotes !== undefined) {
       // If alt text is defined and present in the slideshow
       if (findByAltText !== undefined) {
         const thisAltText = settingsRowOrSlideNotes.get(findByAltText);

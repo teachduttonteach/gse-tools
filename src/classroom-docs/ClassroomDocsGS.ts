@@ -105,6 +105,10 @@ export class ClassroomDocsGS {
         this._displayCourseWork(courseWork, options);
       }
     }
+    if (docTitle == NO_TOPIC) {
+      thisBody.getChild(0).removeFromParent();
+    }
+
     return this;
   }
 

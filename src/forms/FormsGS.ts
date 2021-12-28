@@ -319,15 +319,12 @@ export class FormsGS extends UiGS {
    */
   addItem(
     title: string,
-    questionType: QuestionType,
+    questionType: QuestionType = QuestionType.Paragraph,
     optionsList?: string | Array<string>,
     mcGridRowsList?: string | Array<string>,
   ): FormsGS {
     if (title == null) {
       throw new Error('Title of form question cannot be blank in ' + 'FormsGS.addItem()');
-    }
-    if (questionType == null) {
-      throw new Error('Question type cannot be blank in ' + 'FormsGS.addItem()');
     }
 
     switch (questionType) {

@@ -91,7 +91,7 @@ export function updateClassroomFiles(args: ClassroomArgs): void {
 
     if (thisClassroomCode != '') {
       const currentClass = allClasses.getClass(thisClassroomCode);
-      updateGoogleClassroom(args, currentClass);
+      updateGoogleClassroom(currentClass, args);
     }
   });
 }
@@ -102,8 +102,12 @@ export function updateClassroomFiles(args: ClassroomArgs): void {
  * @param {ClassroomArgs} args the classroom parameters
  * @param {ClassGS} currentClass the current Google class
  */
-export function updateGoogleClassroom(args: ClassroomArgs, currentClass: ClassGS) {
+export function updateGoogleClassroom(currentClass: ClassGS | string, args: ClassroomArgs) {
   const { newFileName = 'Google Classroom Summary', templateName = 'Google Classroom Summary Template' } = args;
+
+  if (typeof currentClass === 'string') {
+    currentClass = new ClassroomGS().getClass(currentClass);
+  }
 
   const gDrive = new DriveGS();
   const theseTopics: Array<string> = currentClass.getTopics();

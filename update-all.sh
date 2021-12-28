@@ -18,7 +18,7 @@ cd ../sheets
 bash ./update.sh
 cd ../slides
 bash ./update.sh
-cd ../test
-bash ./update.sh
+#cd ../test
+#bash ./update.sh
 cd ../..
 clasp push

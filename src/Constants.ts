@@ -1,23 +1,32 @@
 /**
  * Agenda
  */
-const AGENDA_DOCS_LINK = "Click here to see the agenda on Google Docs.";
+ const AGENDA_SETTINGS_NAME = "Agenda";
+ const AGENDA_DOCS_LINK = "Click here to see the agenda on Google Docs.";
 const AGENDA_SITES_LINK = "Click here to see the Google Site for this class.";
-const AGENDA_SUBJECT = "This Week's Agenda";
-const AGENDA_FILE_NAME = "Class Agenda";
+const AGENDA_SUBJECT = "This Week's " + AGENDA_SETTINGS_NAME;
+const AGENDA_FILE_NAME = "Class " + AGENDA_SETTINGS_NAME;
 const AGENDA_DUE_PREFIX = "Due: ";
-const AGENDA_TEMPLATE_NAME = "Agenda Document Template";
-const AGENDA_SETTINGS_NAME = "Agenda";
+const AGENDA_TEMPLATE_NAME = AGENDA_SETTINGS_NAME + " Document Template";
 
+/**
+ * Questions
+ */
+const QUESTION_SETTINGS_NAME = "Bellwork";
+const QUESTION_END_DATE = "END";
 
 /**
  * Column Names
  */
 const SLIDESHOW_COLUMN = "Slideshow ID";
-const AGENDA_SLIDESHOW_COLUMN = "Agenda " + SLIDESHOW_COLUMN;
+const QUESTION_SLIDESHOW_ID_COLUMN = QUESTION_SETTINGS_NAME + " " + SLIDESHOW_COLUMN;
+const AGENDA_SLIDESHOW_COLUMN = AGENDA_SETTINGS_NAME + " " + SLIDESHOW_COLUMN;
 const AGENDA_SHEET_COLUMN = "Class Name";
 const SPREADSHEET_COLUMN = "Spreadsheet ID";
-const AGENDA_SPREADSHEET_COLUMN = "Agenda " + SPREADSHEET_COLUMN;
+const AGENDA_SPREADSHEET_COLUMN = AGENDA_SETTINGS_NAME + " " + SPREADSHEET_COLUMN;
+const QUESTION_SPREADSHEET_COLUMN = QUESTION_SETTINGS_NAME + " " + SPREADSHEET_COLUMN;
+const FORM_COLUMN = "Form ID";
+const QUESTION_FORM_COLUMN = QUESTION_SETTINGS_NAME + " " + FORM_COLUMN;
 const CLASSROOM_CODE_COLUMN = "Classroom Code";
 const CLASSROOM_BLURB_TOPIC_COLUMN = "Classroom Blurb Topic";
 const DAYS_TO_LOOK_AHEAD_COLUMN = "Days to Look Ahead";
@@ -32,6 +41,8 @@ const QUESTION_RESULTS_COLUMN = QUESTION_TITLE_COLUMN_NAME + " Results Sheet";
 const GRID_ROWS_COLUMN = 'Grid Rows Column Number';
 const IMAGE_COLUMN = "Image Column";
 const SITES_LINK_COLUMN = "Google Sites";
+const QUESTION_TYPE_COLUMN_NAME = "Question Type";
+const SHEET_NAME_COLUMN_NAME = "Sheet Name";
 
 const DATA_SHEET_NAME = "gse-tools Settings";
 const CLASSROOM_BLURB_TOPIC = "Weekly Announcements";

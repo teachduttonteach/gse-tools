@@ -154,7 +154,7 @@ export type ParentEmailInfo = {
         console.log(
           "WARNING: Question type '" +
             thisQuestionTypeString +
-            "' not a valid question type in Question.updateTodaysQuestion()",
+            "' not a valid question type in _getQuestionTypeString(). Defaulting to Paragraph.",
         );
         thisQuestionTypeString = QuestionType.Paragraph;
       }

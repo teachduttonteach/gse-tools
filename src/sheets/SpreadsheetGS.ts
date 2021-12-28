@@ -287,9 +287,9 @@ export class SpreadsheetGS extends UiGS {
    *
    * @return {SheetGS} the requested sheet
    */
-  getSheet(sheetName: string): SheetGS {
-    if (sheetName == null) {
-      throw new Error('Sheet name not defined in SpreadsheetGS.getSheet()');
+  getSheet(sheetName?: string): SheetGS {
+    if (sheetName == undefined) {
+      return new SheetGS(this._sheets[0]);
     }
     const sheet: SheetGS = (this._sheets as { [key: string]: any })[sheetName];
     if (sheet == null) {

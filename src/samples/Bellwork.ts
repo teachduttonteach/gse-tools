@@ -201,7 +201,10 @@ type QuestionArgs = {
    *  default is false
    */
   displayQuestionAsTitle?: boolean;
-
+  /**
+   * How many days ahead to include in the agenda; default is 7
+   */
+   daysToLookAheadDefault?: number;
   /**
    * Column name for the sheet column that contains the number of days to
    *  look ahead for upcoming events; default is "Days to Look Ahead"
@@ -238,6 +241,26 @@ type QuestionArgs = {
    *  Settings'
    */
   dataSheet?: string;
+  /**
+   * The ID of the spreadsheet holding the questions
+   */
+  questionSheetID?: string;
+  /**
+   * The name of the sheet holding the questions
+   */
+  questionSheetName?: string;
+  /**
+   * The ID of the slideshow
+   */
+  slideshowID?: string;
+  /**
+   * The ID of the Form
+   */
+  questionFormID?: string;
+  /**
+   * The classroom code to link to Google Classroom
+   */
+  classroomCode?: string;
 };
 
 /**
@@ -388,17 +411,17 @@ type QuestionArgs = {
  */
 export function updateQuestion(args: QuestionArgs = {}, slideDisplayArgs: SlideDisplayParams = {}): void {
   const {
-    settingsName = 'Bellwork',
-    questionFormIDColumnName = 'Bellwork Form ID',
+    settingsName = QUESTION_SETTINGS_NAME,
+    questionFormIDColumnName = QUESTION_FORM_COLUMN,
     onSubmitQuestionFunctionName = 'onSubmitQuestion',
-    questionSpreadsheetIDColumnName = 'Bellwork Spreadsheet ID',
-    questionSlideshowIDColumnName = 'Bellwork Slideshow ID',
+    questionSpreadsheetIDColumnName = QUESTION_SPREADSHEET_COLUMN,
+    questionSlideshowIDColumnName = QUESTION_SLIDESHOW_ID_COLUMN,
     dataSheet,
-    questionDateColumnName = 'Date',
-    questionSheetNameColumnName = 'Sheet Name',
-    questionSheetDateColumnEnd = 'END',
-    questionColumnName = 'Bellwork',
-    questionTypeColumnName = 'Question Type',
+    questionDateColumnName = DATE_COLUMN,
+    questionSheetNameColumnName = SHEET_NAME_COLUMN_NAME,
+    questionSheetDateColumnEnd = QUESTION_END_DATE,
+    questionColumnName = QUESTION_TITLE_COLUMN_NAME,
+    questionTypeColumnName = QUESTION_TYPE_COLUMN_NAME,
     displayQuestionOnForm = true,
     displayQuestionOnSlide = true,
     displayUpcomingDueDates = true,
@@ -423,9 +446,10 @@ export function updateQuestion(args: QuestionArgs = {}, slideDisplayArgs: SlideD
 
     // Get the spreadsheet that holds all of the questions
     const questionSheet: SheetGS = sampleUtils._getSecondarySheet(
-      thisRow, 
       questionSpreadsheetIDColumnName, 
-      questionSheetNameColumnName);
+      questionSheetNameColumnName,
+      thisRow
+      );
 
     // Get the current slideshow
     const slideShow: SlideshowGS | undefined = sampleUtils._getSlideshow(
@@ -456,19 +480,20 @@ export function updateQuestion(args: QuestionArgs = {}, slideDisplayArgs: SlideD
             if (thisQuestionForm !== undefined && typeof thisQuestionForm === 'string') {
                 const thisForm = new FormsGS(thisQuestionForm);
                 thisForm.replaceTrigger('S', onSubmitQuestionFunctionName);
-                showQuestionOnForm(
+                _showQuestionOnForm(
                   args, 
-                  thisRow, 
                   thisForm, 
                   questionRow, 
                   questionSheet, 
                   questionTitle, 
-                  thisQuestionTypeString);
+                  thisQuestionTypeString,
+                  thisRow, 
+                  );
             }
         }    
         
         if (updateSlideDate && slideShow !== undefined) {
-          updateDateOnSlide(
+          _updateDateOnSlide(
             args,
             dateToday,
             slideShow
@@ -477,22 +502,23 @@ export function updateQuestion(args: QuestionArgs = {}, slideDisplayArgs: SlideD
   
         if (displayQuestionOnSlide && slideShow !== undefined) {
 
-          showQuestionOnSlide(
+          _showQuestionOnSlide(
             args, 
-            thisRow, 
             questionRow, 
             questionSheet, 
             questionTitle,
             thisQuestionTypeString,
             slideShow,
-            slideDisplayArgs);        
+            slideDisplayArgs,
+            thisRow, 
+            );        
         } 
         
         if (displayUpcomingDueDates && slideShow !== undefined) {
-          showUpcomingDueDates(
+          _showUpcomingDueDates(
             args, 
-            thisRow, 
-            slideShow);
+            slideShow,
+            thisRow);
         }
         return true;
       }
@@ -502,7 +528,110 @@ export function updateQuestion(args: QuestionArgs = {}, slideDisplayArgs: SlideD
   });
 }
 
-function updateDateOnSlide(args: QuestionArgs, dateToday: Date, slideShow: SlideshowGS) {
+export function updateSingleQuestion(args: QuestionArgs = {}, slideDisplayArgs: SlideDisplayParams = {}): boolean {
+  const {
+    onSubmitQuestionFunctionName = 'onSubmitQuestion',
+    questionDateColumnName = DATE_COLUMN,
+    questionSheetDateColumnEnd = QUESTION_END_DATE,
+    questionColumnName = QUESTION_TITLE_COLUMN_NAME,
+    questionTypeColumnName = QUESTION_TYPE_COLUMN_NAME,
+    displayQuestionOnForm = true,
+    displayQuestionOnSlide = true,
+    displayUpcomingDueDates = true,
+    updateSlideDate = false,
+    timezoneOffset = -5,
+    questionSheetID,
+    questionSheetName,
+    slideshowID,
+    questionFormID,
+    classroomCode
+  } = args;
+
+  const utils = new Utilities();
+
+  const dateToday: Date = utils.getTodaysDate(timezoneOffset);
+  const sampleUtils = new SampleUtilities();
+
+  let questionSheet: SheetGS;
+  // Get the spreadsheet that holds all of the questions
+  const questionSpreadSheet = new SpreadsheetGS(questionSheetID);
+  if (questionSheetName === undefined) {
+    questionSheet = questionSpreadSheet.getSheet();
+  } else {
+    questionSheet = questionSpreadSheet.getSheet(questionSheetName);
+  }
+
+  // Get the current slideshow
+  let slideShow: SlideshowGS | undefined;
+  if (slideshowID !== undefined && (displayQuestionOnSlide || displayUpcomingDueDates)) {
+    slideShow = new SlideshowGS(slideshowID);
+  }
+
+  // The row of the question
+  let questionRow: number = 1; //questionSheet.skipBlankRows(1, +thisQuestionDateColumnName);
+
+  // As long as there are more questions
+  while (
+    questionRow <= questionSheet.getLastRow() &&
+    questionSheet.getValueFromColumnHeader(questionRow, questionDateColumnName) !== questionSheetDateColumnEnd
+  ) {
+
+    // Get the date inside the current cell
+    const dateInCell: Date = new Date(questionSheet.getValueFromColumnHeader(questionRow, questionDateColumnName));
+
+    // If this is today, then process
+    if (utils.areDatesEqual(dateToday, dateInCell, 'month')) {
+      const questionTitle: string = questionSheet.getValueFromColumnHeader(questionRow, questionColumnName).toString();
+
+      let thisQuestionTypeString = sampleUtils._getQuestionTypeString(questionSheet, questionRow, questionTypeColumnName);
+
+      if (displayQuestionOnForm && questionFormID !== undefined) {
+        const thisForm = new FormsGS(questionFormID);
+        thisForm.replaceTrigger('S', onSubmitQuestionFunctionName);
+        _showQuestionOnForm(
+          args, 
+          thisForm, 
+          questionRow, 
+          questionSheet, 
+          questionTitle, 
+          thisQuestionTypeString,
+          );
+      }    
+      
+      if (updateSlideDate && slideShow !== undefined) {
+        _updateDateOnSlide(
+          args,
+          dateToday,
+          slideShow
+        );
+      }
+
+      if (displayQuestionOnSlide && slideShow !== undefined) {
+
+        _showQuestionOnSlide(
+          args, 
+          questionRow, 
+          questionSheet, 
+          questionTitle,
+          thisQuestionTypeString,
+          slideShow,
+          slideDisplayArgs);        
+      } 
+      
+      if (displayUpcomingDueDates && slideShow !== undefined && classroomCode !== undefined) {
+        _showUpcomingDueDates(
+          args, 
+          slideShow,
+          classroomCode);
+      }
+      return true;
+    }
+    questionRow++;
+  }
+  return false;
+}
+
+function _updateDateOnSlide(args: QuestionArgs, dateToday: Date, slideShow: SlideshowGS) {
   const {
     slideDateTitle = "Date",
     displayDateParams = {} as DateParams,  
@@ -523,7 +652,7 @@ function updateDateOnSlide(args: QuestionArgs, dateToday: Date, slideShow: Slide
  * the current date
  * @param {SlideshowGS} slideShow the current slideshow
  */
-function showDailyImage(
+function _showDailyImage(
   args: QuestionArgs,
   settingsRow: Map<string | Date, string | Date>,
   slideShow: SlideshowGS,
@@ -549,10 +678,10 @@ function showDailyImage(
  * @param settingsRow 
  * @param slideShow 
  */
-function showUpcomingDueDates(
+function _showUpcomingDueDates(
   args: QuestionArgs,
-  settingsRow: Map<string | Date, string | Date>,
   slideShow: SlideshowGS,
+  settingsRow: Map<string | Date, string | Date> | string,
 ) {
   const {
     daysToLookAheadColumnName = DAYS_TO_LOOK_AHEAD_COLUMN,
@@ -560,17 +689,30 @@ function showUpcomingDueDates(
     dueDateParams = {} as DateParams,
     classroomCodeColumnName = CLASSROOM_CODE_COLUMN,
     timezoneOffset = -5,
+    daysToLookAheadDefault = DEFAULT_DAYS_TO_LOOK_AHEAD
   } = args;
 
   const allClasses: ClassroomGS = new ClassroomGS();
-  const thisClassroomCode = settingsRow.get(classroomCodeColumnName);
+  let thisClassroomCode;
+  if (typeof settingsRow !== 'string') {
+    thisClassroomCode = settingsRow.get(classroomCodeColumnName);
+  } else {
+    thisClassroomCode = settingsRow;
+  }
+  
   if (thisClassroomCode === undefined || typeof thisClassroomCode !== 'string') {
     throw new Error('Classroom code not found in showUpcomingDueDates()');
   }
   const currentClass = allClasses.getClass(thisClassroomCode);
 
-  const thisDaysToLookAhead = settingsRow.get(daysToLookAheadColumnName);
-  if (thisDaysToLookAhead == null) {
+  let thisDaysToLookAhead;
+  if (typeof settingsRow !== 'string') {
+    thisDaysToLookAhead = settingsRow.get(daysToLookAheadColumnName);
+  } else {
+    thisDaysToLookAhead = daysToLookAheadDefault;
+  }
+
+  if (thisDaysToLookAhead == undefined) {
     throw new Error('Could not find days to look ahead in showUpcomingDueDates()');
   }
   const upcomingEvents: string = new CalendarGS(currentClass.getCalendarId(), timezoneOffset).getUpcomingDueDates(
@@ -595,15 +737,15 @@ function showUpcomingDueDates(
  *  question text box
  * @param {SlideshowGS} slideShow the current slideshow
  */
-function showQuestionOnSlide(
+function _showQuestionOnSlide(
   args: QuestionArgs,
-  settingsRow: Map<string | Date, string | Date>,
   questionRow: number,
   questionSheet: SheetGS,
   questionTitle: string,
   questionType: QuestionType,
   slideShow: SlideshowGS,
   slideDisplayParams: SlideDisplayParams,
+  settingsRow?: Map<string | Date, string | Date>,
 ) {
   const {
     optionsColumnName = OPTIONS_COLUMN,
@@ -616,7 +758,7 @@ function showQuestionOnSlide(
     optionsType: questionType,
   };
 
-  slideShow.setTextBoxOrTitleOnSlide(slideDisplayParams, textBoxSlideParams, settingsRow, questionTitle);
+  slideShow.setTextBoxOrTitleOnSlide(slideDisplayParams, textBoxSlideParams, questionTitle, settingsRow);
 
 }
 
@@ -632,14 +774,14 @@ function showQuestionOnSlide(
  * @param {string} questionTitle the title of the question
  * @param {QuestionType} questionType the type of the question
  */
-function showQuestionOnForm(
+function _showQuestionOnForm(
   args: QuestionArgs,
-  row: Map<string | Date, string | Date>,
   questionForm: FormsGS,
   questionRow: number,
   questionSheet: SheetGS,
   questionTitle: string,
   questionType: QuestionType,
+  row?: Map<string | Date, string | Date>,
 ) {
   const {
     questionTitleColumnName = QUESTION_TITLE_COLUMN,
@@ -660,30 +802,36 @@ function showQuestionOnForm(
 
   const dateToday: Date = utils.getTodaysDate(timezoneOffset);
 
-  let thisQuestionTitleColumnName = row.get(questionTitleColumnName);
-  if (thisQuestionTitleColumnName == null || typeof thisQuestionTitleColumnName !== 'string') {
-    thisQuestionTitleColumnName = QUESTION_TITLE_COLUMN_NAME;
-  }
+  let thisQuestionTitle = QUESTION_TITLE_COLUMN_NAME;
+  if (row !== undefined) {
+    const tempQuestionTitle = row.get(questionTitleColumnName);
+    if (tempQuestionTitle !== undefined) {
+      thisQuestionTitle = tempQuestionTitle.toString();
+    }
+  } 
 
   if (dateInQuestionTitle) {
     const thisMonth = Number(dateToday.getUTCMonth()) + 1;
     const thisDay = dateToday.getUTCDate();
 
     if (dateOrder.indexOf('M') > dateOrder.indexOf('D')) {
-      thisQuestionTitleColumnName += ' ' + thisDay + dateDelim + thisMonth;
+      thisQuestionTitle += ' ' + thisDay + dateDelim + thisMonth;
     } else {
-      thisQuestionTitleColumnName += ' ' + thisMonth + dateDelim + thisDay;
+      thisQuestionTitle += ' ' + thisMonth + dateDelim + thisDay;
     }
   }
-  questionForm.deleteItems().setTitle(thisQuestionTitleColumnName);
+  questionForm.deleteItems().setTitle(thisQuestionTitle);
 
-  const theseGridRowsColumnName = row.get(gridRowsColumnName);
+  let theseGridRows;
+  if (row !== undefined) {
+    theseGridRows = row.get(gridRowsColumnName);
+  }
   let theseOptionsValue: string = questionSheet.getValueFromColumnHeader(questionRow, optionsColumnName).toString();
 
   if (theseOptionsValue != '') {
     let theseRowsValue: string = '';
-    if ((theseGridRowsColumnName !== undefined) && (theseGridRowsColumnName !== null)) {
-      theseRowsValue = questionSheet.getValue(questionRow, +theseGridRowsColumnName).toString();
+    if ((theseGridRows !== undefined) && (theseGridRows !== null)) {
+      theseRowsValue = questionSheet.getValue(questionRow, +theseGridRows).toString();
     }
     if (theseRowsValue != '') {
       questionForm.addItem(
@@ -699,7 +847,10 @@ function showQuestionOnForm(
     questionForm.addItem(questionTitle, questionType);
   }
 
-  const thisImageColumnNumber = row.get(imageColumnName);
+  let thisImageColumnNumber;
+  if (row !== undefined) {
+    thisImageColumnNumber = row.get(imageColumnName);
+  }
   if ((thisImageColumnNumber !== undefined) && (thisImageColumnNumber !== null)) {
     const imageFileID: string = questionSheet.getValue(questionRow, +thisImageColumnNumber).toString();
     if (imageFileID != '') {
