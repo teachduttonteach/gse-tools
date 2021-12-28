@@ -9,6 +9,10 @@ export type Work = {
    */
   title: string;
   /**
+   * creation date for the task
+   */
+  creationDate: Date;
+  /**
    * due date for the task
    */
   dueDate: string;

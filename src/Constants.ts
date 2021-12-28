@@ -13,11 +13,13 @@ const AGENDA_SETTINGS_NAME = "Agenda";
 /**
  * Column Names
  */
-const AGENDA_SLIDESHOW_COLUMN = "Agenda Slideshow ID";
+const SLIDESHOW_COLUMN = "Slideshow ID";
+const AGENDA_SLIDESHOW_COLUMN = "Agenda " + SLIDESHOW_COLUMN;
 const AGENDA_SHEET_COLUMN = "Class Name";
 const SPREADSHEET_COLUMN = "Spreadsheet ID";
 const AGENDA_SPREADSHEET_COLUMN = "Agenda " + SPREADSHEET_COLUMN;
 const CLASSROOM_CODE_COLUMN = "Classroom Code";
+const CLASSROOM_BLURB_TOPIC_COLUMN = "Classroom Blurb Topic";
 const DAYS_TO_LOOK_AHEAD_COLUMN = "Days to Look Ahead";
 const OPTIONS_COLUMN = "Options";
 const PICTURE_COLUMN = "Picture";
@@ -32,6 +34,7 @@ const IMAGE_COLUMN = "Image Column";
 const SITES_LINK_COLUMN = "Google Sites";
 
 const DATA_SHEET_NAME = "gse-tools Settings";
+const CLASSROOM_BLURB_TOPIC = "Weekly Announcements";
 
 const UPCOMING_DUE_DATES_SLIDE_NOTES = 'Upcoming Due Dates';
 
@@ -47,3 +50,7 @@ const TESTING_EMAIL_BCC = "teachduttonteach@gmail.com";
 
 const CHANGE_WORKING_STATUS_COLOR = "#DD0000";
 const CHANGE_WORKING_STATUS_CELL: [number, number] = [1, 1];
+
+const SPECIFIC_SLIDE_NOTES = "Slide Notes";
+const NO_TITLE_TEXT = "No Question Today";
+const NO_TOPIC = "None";

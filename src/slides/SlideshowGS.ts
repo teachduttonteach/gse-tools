@@ -528,14 +528,14 @@ export class SlideshowGS extends UiGS {
 
   setTextBoxOrTitleOnSlide(args: SlideDisplayParams,
     textBoxSlideParams: TextBoxSlideParams,
-    settingsRow: Map<string | Date, string | Date>,
     textToSet: string | Array<LessonInfo>,
-    ) {
+    settingsRowOrSlideNotes: Map<string | Date, string | Date> | string,
+  ) {
     const {
       findByGlobalSlideNotes,
-      findBySpecificSlideNotes = 'Slide Notes',
+      findBySpecificSlideNotes = SPECIFIC_SLIDE_NOTES,
       findByAltText,
-      noTitleText = 'No Question Today',
+      noTitleText = NO_TITLE_TEXT,
       displayTextAsTitle = false,
     } = args;
 
@@ -552,44 +552,52 @@ export class SlideshowGS extends UiGS {
       textToSet = textToSet.map(a => a.title).join('\n');;
     }    
 
-    // If alt text is defined and present in the slideshow
-    if (findByAltText !== undefined) {
-      const thisAltText = settingsRow.get(findByAltText);
-      if (thisAltText == null || typeof thisAltText !== 'string') {
-        throw new Error(
-          'Could not find alt text column name (' + thisAltText + ') in Question.updateTodaysQuestion()',
-        );
-      }
-
-      // Get the current slide
-      currentSlide = this.setSlideTextByTitle(thisAltText, textToSet == "" ? noTitleText : textToSet)[0];
+    if (typeof settingsRowOrSlideNotes === 'string') {
+      currentSlide = this.setSlideTextByTitle(settingsRowOrSlideNotes, textToSet == "" ? noTitleText : textToSet)[0];
     } else {
-      // If specific slide notes are defined and present in the slideshow
-      const theseSlideNotes = settingsRow.get(findBySpecificSlideNotes);
-      if (theseSlideNotes != null) {
-        const thisSlide = this.getSlideByNotes(theseSlideNotes.toString());
-        // Get the current slide
-        if (thisSlide !== null) 
-          currentSlide = thisSlide;
-      }
+      // If alt text is defined and present in the slideshow
+      if (findByAltText !== undefined) {
+        const thisAltText = settingsRowOrSlideNotes.get(findByAltText);
+        if (thisAltText == null || typeof thisAltText !== 'string') {
+          throw new Error(
+            'Could not find alt text column name (' + thisAltText + ') in Question.updateTodaysQuestion()',
+          );
+        }
 
-      // If generic slide notes are defined and present in the slideshow
-      if (currentSlide === undefined) {
-        if (findByGlobalSlideNotes !== undefined) {
-          const thisSlide = this.getSlideByNotes(findByGlobalSlideNotes);
+        // Get the current slide
+        currentSlide = this.setSlideTextByTitle(thisAltText, textToSet == "" ? noTitleText : textToSet)[0];
+      } else {
+        // If specific slide notes are defined and present in the slideshow
+        const theseSlideNotes = settingsRowOrSlideNotes.get(findBySpecificSlideNotes);
+        if (theseSlideNotes != null) {
+          const thisSlide = this.getSlideByNotes(theseSlideNotes.toString());
           // Get the current slide
-          if (thisSlide !== null) 
+          if (thisSlide !== null) {
             currentSlide = thisSlide;
+          }
+        }
+
+        // If generic slide notes are defined and present in the slideshow
+        if (currentSlide === undefined) {
+          if (findByGlobalSlideNotes !== undefined) {
+            const thisSlide = this.getSlideByNotes(findByGlobalSlideNotes);
+            // Get the current slide
+            if (thisSlide !== null) {
+              currentSlide = thisSlide;
+            }
+          }
         }
       }
 
       if (currentSlide !== undefined) {
         // Display as title if displayTextAsTitle is set
-        if (displayTextAsTitle) 
-        currentSlide.setTitle(textToSet == "" ? noTitleText : textToSet);
-      // Otherwise, display in body
-      else
-        currentSlide.setBody(textToSet == "" ? noTitleText : textToSet);
+        if (displayTextAsTitle) {
+          currentSlide.setTitle(textToSet == "" ? noTitleText : textToSet);
+        }
+        // Otherwise, display in body
+        else {
+          currentSlide.setBody(textToSet == "" ? noTitleText : textToSet);
+        }
       }
     }
 

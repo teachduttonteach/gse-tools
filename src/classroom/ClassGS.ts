@@ -5,6 +5,7 @@ import { TopicInfo } from './TopicInfo';
 import { TopicResource } from './TopicResource';
 import { CourseWorkGS } from './CourseWorkGS';
 import { CourseAnnouncementGS } from './CourseAnnouncementGS';
+import { Utilities } from '../utils/Utilities';
 
 /**
  * Class to access a single course in Google Classroom
@@ -228,6 +229,17 @@ export function getClassCalendarId(obj: ClassGS): string {
 }
 
 /**
+   * Retreive the TopicInfo object for the name of the topic
+   * 
+   * @param obj the ClassGS object
+   * @param topicName the name of the topic
+   * @returns the TopicInfo object
+   */
+ export function getClassTopicMaterialByName(obj: ClassGS, topicName: string): Array<Work> {
+  return obj.getTopicWorkByName(topicName);
+} 
+
+/**
  * Class to access a single course in Google Classroom
  */
 export class ClassGS {
@@ -304,9 +316,15 @@ export class ClassGS {
 
       // Get all of the topics into the appropriate Map
       this._topics = new Map<string, TopicInfo>();
+      let topic: GoogleAppsScript.Classroom.Schema.Topic;
+      this._topics.set(NO_TOPIC, {
+        level: 2,
+        name: NO_TOPIC,
+        work: [],
+      });
+
       if (theseClassroomTopics != undefined) {
         // Add each topic
-        let topic: GoogleAppsScript.Classroom.Schema.Topic;
         for (topic of theseClassroomTopics) {
           if ((topic.topicId !== undefined) && (topic.name !== undefined)) {
             this._topics.set(topic.topicId, {
@@ -337,6 +355,14 @@ export class ClassGS {
           objWork.dueDate = this._getDueDate(courseWork.dueDate, args);
         }
 
+        if (courseWork.scheduledTime !== undefined) {
+          objWork.creationDate = new Date(courseWork.scheduledTime);
+        } else if (courseWork.updateTime !== undefined) {
+          objWork.creationDate = new Date(courseWork.updateTime);
+        } else if (courseWork.creationTime !== undefined) {
+          objWork.creationDate = new Date(courseWork.creationTime);
+        }
+
         if (courseWork.description != undefined) {
           objWork.description = courseWork.description;
         }
@@ -351,6 +377,49 @@ export class ClassGS {
         const thisTopicId = courseWork.topicId;
         if (thisTopicId != null) {
           this._topics.get(thisTopicId)?.work.push(objWork);
+        } else {
+          this._topics.get(NO_TOPIC)?.work.push(objWork);
+        }
+      }
+    }
+
+    // Get the lists of classwork, announcements, and topics
+    const thisClassroomMaterials = theseClassroomCourses.CourseWorkMaterials;
+    if (thisClassroomMaterials !== undefined) {
+      const thisClassroomMaterialsList = thisClassroomMaterials.list(course.id, { orderBy: 'dueDate asc' }).courseWorkMaterial;
+
+      if (thisClassroomMaterialsList != undefined) {
+        // Loop through each task and add to coursework
+        let courseWorkMaterial: GoogleAppsScript.Classroom.Schema.CourseWorkMaterial;
+        for (courseWorkMaterial of thisClassroomMaterialsList) {
+          let objWork: Work = {} as Work;
+
+          // Get title, due date and description of the current task
+          objWork.title = courseWorkMaterial.title == undefined ? '' : courseWorkMaterial.title;
+
+          if (courseWorkMaterial.scheduledTime !== undefined) {
+            objWork.creationDate = new Date(courseWorkMaterial.scheduledTime);
+          } else if (courseWorkMaterial.updateTime !== undefined) {
+            objWork.creationDate = new Date(courseWorkMaterial.updateTime);
+          } else if (courseWorkMaterial.creationTime !== undefined) {
+            objWork.creationDate = new Date(courseWorkMaterial.creationTime);
+          }
+
+          if (courseWorkMaterial.description != undefined) {
+            objWork.description = courseWorkMaterial.description;
+          }
+
+          // Get the materials from the course work
+          if (courseWorkMaterial.materials != undefined) {
+            objWork = this._addCourseMaterials(courseWorkMaterial.materials, objWork);
+          }
+
+          // Add the course work to the array
+          // @ts-ignore
+          const thisTopicId = courseWorkMaterial.topicId;
+          if (thisTopicId != null) {
+            this._topics.get(thisTopicId)?.work.push(objWork);
+          }
         }
       }
     }
@@ -424,18 +493,46 @@ export class ClassGS {
    *
    * @param {string} topicId the topic id
    *
-   * @return {CouseWork} the object for chaining
+   * @return {TopicInfo} the object containing the topic information
    */
   getTopicInfo(topicId: string): TopicInfo {
     if (topicId == undefined) {
-      throw new Error('Topic name ' + topicId + ' undefined in Topic.getTopicInfo()');
+      throw new Error('Topic name ' + topicId + ' undefined in getTopicInfo()');
     }
     const thisTopicInfo = this._topics.get(topicId);
 
     if (thisTopicInfo == undefined) {
-      throw new Error('Could not find course work in ' + topicId + ' in ClassGS.getTopicInfo()');
+      throw new Error('Could not find course work in ' + topicId + ' in getTopicInfo()');
     }
     return thisTopicInfo;
+  }
+
+  findWorkForToday(work: Array<Work>): Work | null {
+    const utilitiesInterface = new Utilities();
+    for (let thisWork of work) {
+      if (thisWork.creationDate !== undefined) {
+        if (utilitiesInterface.areDatesEqual(new Date(), thisWork.creationDate, 'YEAR')) {
+          return thisWork;
+        }
+      }
+    }
+    return null;
+  }
+
+  /**
+   * Retreive the TopicInfo object for the name of the topic
+   * 
+   * @param topicName the name of the topic
+   * @returns the TopicInfo object
+   */
+  getTopicWorkByName(topicName: string): Array<Work> {
+    ;
+    const theseTopicInfo = this._topics.values();
+    for (let topic of theseTopicInfo) {
+      if (topic.name == topicName) return topic.work;
+    }
+    console.log("WARNING: Could not find topic named '" + topicName + "' for class '" + this._course.name + "'in getTopicInfoByName()");
+    return [];
   }
 
   /**
@@ -678,14 +775,14 @@ export class ClassGS {
     const userProfiles = Classroom.UserProfiles;
     if (userProfiles == undefined || userProfiles == null) {
       throw new Error(
-        'Could not retrieve user profiles in ' + 'ClassGS.getParents(). Make sure you have access to the class.',
+        'Could not retrieve user profiles in _getParentProfiles(). Make sure you have access to the class.',
       );
     }
 
     const theseGuardians = userProfiles.Guardians;
     if (theseGuardians == undefined || theseGuardians == null) {
       throw new Error(
-        'Could not retrieve guardians in ' + 'ClassGS.getParents(). Make sure you have access to the guardians.',
+        'Could not retrieve guardians in _getParentProfiles(). Make sure you have access to the guardians.',
       );
     }
 
@@ -717,10 +814,10 @@ export class ClassGS {
    */
   addCourseWork(work: CourseWorkGS): ClassGS {
     if (Classroom.Courses == undefined) {
-      throw new Error('Could not find ' + 'Courses in Classroom');
+      throw new Error('Could not find Courses in Classroom in addCourseWork()');
     }
     if (Classroom.Courses.CourseWork == undefined) {
-      throw new Error('Could ' + 'not find Classwork in Classroom.Courses');
+      throw new Error('Could not find Classwork in Courses in addCourseWork()');
     }
     Classroom.Courses.CourseWork.create(work.getResource(), this._id);
     return this;

@@ -42,31 +42,41 @@ export type ParentEmailInfo = {
      *  see the Google Site for this class."
      */
     sitesLinkText?: string;
+      /**
+      * The link to use for Google Sites
+      */
+    sitesLink?: string;
+
   };
   
   export class SampleUtilities {
     _getSlideshow(
-      thisRow: Map<string | Date, string | Date>, 
-      display: boolean, 
-      slideshowIDColumnName: string) {
+      thisRow: Map<string | Date, string | Date> | string, 
+      display: boolean = true, 
+      slideshowIDColumnName: string = SLIDESHOW_COLUMN): SlideshowGS | undefined {
 
+      if (typeof thisRow === 'string') {
+        return new SlideshowGS(thisRow);
+      }
       if (display) {
         const thisSlideshowID = thisRow.get(slideshowIDColumnName);
-        if (thisSlideshowID == null || typeof thisSlideshowID !== 'string') {
-          throw new Error('Could not find slide show ID in _getSlideshow()');
+        if (thisSlideshowID == null || typeof thisSlideshowID !== 'string' || thisSlideshowID == "") {
+          console.log('WARNING: Could not find slide show ID in _getSlideshow()');
+          return undefined;
         }
         return new SlideshowGS(thisSlideshowID);  
       }
     }  
 
     _getSecondarySheet(
-      thisRow: Map<string | Date, string | Date>, 
       secondarySpreadsheetIDColumnName: string,
-      secondarySheetNameColumnName: string): SheetGS {
+      secondarySheetNameColumnName: string,
+      thisRow: Map<string | Date, string | Date>
+      ): SheetGS {
     
         // Get the spreadsheet that contains the data for this class
         const thisSpreadsheetID = thisRow.get(secondarySpreadsheetIDColumnName);
-        if (thisSpreadsheetID == null || typeof thisSpreadsheetID !== 'string') {
+        if (thisSpreadsheetID == null || typeof thisSpreadsheetID !== 'string' || thisSpreadsheetID == "") {
           throw new Error('Could not find spreadsheet column name in _getSecondarySheet()');
         }
         const thisSheetName = thisRow.get(secondarySheetNameColumnName);
@@ -79,8 +89,11 @@ export type ParentEmailInfo = {
     
     }
 
-    _getClass(row: Map<string | Date, string | Date>, classroomCodeColumnName: string, allClasses: ClassroomGS): ClassGS {
-      if (row == undefined || classroomCodeColumnName == undefined) {
+    _getClass(classroomCodeColumnName: string, allClasses: ClassroomGS, row?: Map<string | Date, string | Date>): ClassGS {
+      if (row === undefined) {
+        return allClasses.getClass(classroomCodeColumnName);
+      }
+      if (row == undefined || classroomCodeColumnName == undefined || typeof classroomCodeColumnName !== 'object') {
         throw new Error('Could not find row in classworkSettings in _getClass()');
       }
     
@@ -89,7 +102,14 @@ export type ParentEmailInfo = {
         throw new Error('Classroom code not found in _getClass()');
       }
     
+      if (allClasses === undefined) {
+        throw new Error("Cannot call getClass without list of all classes.");
+      }
       return allClasses.getClass(thisClassroomCode);
+    }
+
+    _replaceNewLinesWithBRs(text: string): string {
+      return text.replace(/\n/, "<br>");
     }
     
     _parseDueDate(dueDateRaw: string): Date | undefined {
@@ -98,11 +118,11 @@ export type ParentEmailInfo = {
       return new Date(dueDateRaw.substring(colon + 2));
     }
     
-    _getFutureDate(row: Map<string | Date, string | Date>, dateToday: Date, daysToLookAheadColumnName: string | undefined, daysToLookAheadDefault: number): Date {
+    _getFutureDate(dateToday: Date, daysToLookAheadColumnName: string | undefined, daysToLookAheadDefault: number, row?: Map<string | Date, string | Date>): Date {
       let futureDate: Date = new Date(dateToday);
       let daysToLookAhead: number = daysToLookAheadDefault;
     
-      if (daysToLookAheadColumnName !== undefined && daysToLookAheadColumnName != "") {
+      if (daysToLookAheadColumnName !== undefined && daysToLookAheadColumnName != "" && row !== undefined) {
         const thisDays = row.get(daysToLookAheadColumnName);
         if (thisDays !== undefined && thisDays != "") {
           daysToLookAhead = +thisDays;
