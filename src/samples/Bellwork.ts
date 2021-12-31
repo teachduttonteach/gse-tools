@@ -46,6 +46,15 @@ type TabulateParams = {
    *  header
    */
   columnDateParams?: DateParams;
+  /**
+   * ID for the question sheet
+   */
+  questionSheetID?: string; 
+  /**
+   * Name for the sheet to tabulate answers
+   */
+  questionSheetName?: string;
+
 };
 
 /**
@@ -918,6 +927,8 @@ function _showQuestionOnForm(
 export function tabulateAnswers(event: GoogleAppsScript.Events.FormsOnFormSubmit, args?: TabulateParams): boolean {
   const formEvent: FormEventGS = new FormEventGS(event);
   if (args == undefined) args = {} as TabulateParams;
+  let questionSheetName = undefined || args.questionSheetName;
+  let questionSheetID = undefined || args.questionSheetID;
   const {
     questionResultsColumn = QUESTION_RESULTS_COLUMN,
     dataSheet = DATA_SHEET_NAME,
@@ -930,7 +941,7 @@ export function tabulateAnswers(event: GoogleAppsScript.Events.FormsOnFormSubmit
   const formTitle = formEvent.getTitle();
   const response = formEvent.getItemResponse(0);
   if (response instanceof Array) {
-    throw new Error('Bellwork form response needs to have single values only in tabulateBellwork()');
+    throw new Error('Bellwork form response needs to have single values only in tabulateAnswers()');
   }
   const title = formEvent.getFullDate(columnDateParams) + '\n' + formEvent.getItemTitle(0);
   const fullName: [string, string] = formEvent.getNameFromEmail();
@@ -938,47 +949,46 @@ export function tabulateAnswers(event: GoogleAppsScript.Events.FormsOnFormSubmit
     throw new Error('Could not get name from email in tabulateAnswers()');
   }
 
-  const dataSheetInterface = new DataSheet();
+  if (questionSheetID === undefined) {
+    const dataSheetInterface = new DataSheet();
 
-  const allClasses = dataSheetInterface.getDataSheet(dataSheet, sheetName).getDataAsMap(sheetName);
+    const allClasses = dataSheetInterface.getDataSheet(dataSheet, sheetName).getDataAsMap(sheetName);
 
-  let destinationSheetName: string = '';
-  let questionSheetID: string = '';
+    for (const className of allClasses.keys()) {
+      const classData = allClasses.get(className);
+      if (classData != null && classData != undefined) {
+        const questionTitle = classData.get(questionTitleColumn);
+        if (questionTitle != null && questionTitle != undefined) {
+          if (formTitle.indexOf(questionTitle.toString()) == 0) {
+            const questionResultsSheetName = classData.get(questionResultsColumn);
+            if (questionResultsSheetName != null && questionResultsSheetName != undefined) {
+              questionSheetName = questionResultsSheetName.toString();
+            } else {
+              throw new Error(
+                'Could not find bellwork results sheet for class "' + className + '" in column "' + questionResultsColumn + '" for tabulateAnswers()',
+              );
+            }
 
-  for (const className of allClasses.keys()) {
-    const classData = allClasses.get(className);
-    if (classData != null && classData != undefined) {
-      const questionTitle = classData.get(questionTitleColumn);
-      if (questionTitle != null && questionTitle != undefined) {
-        if (formTitle.indexOf(questionTitle.toString()) == 0) {
-          const questionResultsSheetName = classData.get(questionResultsColumn);
-          if (questionResultsSheetName != null && questionResultsSheetName != undefined) {
-            destinationSheetName = questionResultsSheetName.toString();
-          } else {
-            throw new Error(
-              'Could not find bellwork results sheet for class "' + className + '" in column "' + questionResultsColumn + '" for tabulateAnswers()',
-            );
+            const spreadsheetID = classData.get(spreadsheetIDColumn);
+            if (spreadsheetID == null || spreadsheetID == undefined) {
+              throw new Error(
+                'Could not find bellwork results sheet ID for class "' + className + '" in column "' + spreadsheetIDColumn + '" for tabulateAnswers()',
+              );
+            }
+            questionSheetID = spreadsheetID.toString();
           }
-
-          const spreadsheetID = classData.get(spreadsheetIDColumn);
-          if (spreadsheetID == null || spreadsheetID == undefined) {
-            throw new Error(
-              'Could not find bellwork results sheet ID for class "' + className + '" in column "' + spreadsheetIDColumn + '" for tabulateAnswers()',
-            );
-          }
-          questionSheetID = spreadsheetID.toString();
+        } else {
+          throw new Error(
+            'Could not find question title for class "' + className + '" in column "' + questionTitleColumn + '" in tabulateAnswers()',
+          );
         }
       } else {
-        throw new Error(
-          'Could not find question title for class "' + className + '" in column "' + questionTitleColumn + '" in tabulateAnswers()',
-        );
+        throw new Error('Could not find data for class "' + className + '" in tabulateAnswers()');
       }
-    } else {
-      throw new Error('Could not find data for class "' + className + '" in tabulateAnswers()');
     }
   }
 
-  const responseSheet = new SpreadsheetGS(questionSheetID, destinationSheetName).getSheet(destinationSheetName);
+  const responseSheet = new SpreadsheetGS(questionSheetID, questionSheetName).getSheet(questionSheetName);
   if (responseSheet.getValue(1, 3) != title) {
     responseSheet.insertCol(3).setValue(title, 1, 3);
   }
