@@ -944,10 +944,10 @@ export function tabulateAnswers(event: GoogleAppsScript.Events.FormsOnFormSubmit
     throw new Error('Bellwork form response needs to have single values only in tabulateAnswers()');
   }
   const title = formEvent.getFullDate(columnDateParams) + '\n' + formEvent.getItemTitle(0);
-  const fullName: [string, string] = formEvent.getNameFromEmail();
-  if (fullName.length != 2) {
-    throw new Error('Could not get name from email in tabulateAnswers()');
-  }
+  formEvent.addEmailScheme("first.last","first last");
+  formEvent.addEmailScheme("first.last.#","first last");
+  formEvent.addEmailScheme("firstl#","first l");
+  const fullName = formEvent.getNameFromEmail();
 
   if (questionSheetID === undefined) {
     const dataSheetInterface = new DataSheet();
@@ -996,14 +996,14 @@ export function tabulateAnswers(event: GoogleAppsScript.Events.FormsOnFormSubmit
   let foundName: boolean = false;
   const lastRow: number = responseSheet.getLastRow();
   for (let i = 2; i <= lastRow; i++) {
-    if (responseSheet.getValue(i, 1) == fullName[0] && responseSheet.getValue(i, 2) == fullName[1]) {
+    if (responseSheet.getValue(i, 1) == fullName) {
       responseSheet.setValue(response, i, 3);
       foundName = true;
       break;
     }
   }
   if (!foundName) {
-    responseSheet.setValues([[fullName[0], fullName[1], response]], lastRow + 1, 1, 1, 3);
+    responseSheet.setValues([[fullName, response]], lastRow + 1, 1, 1, 2);
   }
 
   return true;
