@@ -248,13 +248,34 @@ export class DriveGS {
    * @return {GoogleAppsScript.Drive.File} the file as a Google object
    */
   getOrCreateFileByName(fileName: string, mimeType: string = MimeTypes.DOCS): GoogleAppsScript.Drive.File {
-    if (fileName == null) {
-      throw new Error('File name needs to be defined ' + 'for Drive.getOrCreateFileByName');
+    let file = this.getFileByName(fileName, mimeType);
+    if (file === undefined) {
+      this._createFile(fileName, mimeType);
+      return DriveApp.getFilesByName(fileName).next();
+    }
+    return file;
+  }
+
+  /**
+   * Gets a file by name (and by type, if needed)
+   *
+   * @param {string} fileName the name of the file
+   * @param {string} mimeType the MimeType of the file
+   *
+   * @return {GoogleAppsScript.Drive.File} the file as a Google object
+   */
+   getFileByName(fileName: string, MimeType: string = MimeTypes.DOCS): GoogleAppsScript.Drive.File | undefined {
+    if ((fileName == null) || (fileName == "")) {
+      throw new Error('File name needs to be defined for getFileByName()');
     }
     let fileObject: GoogleAppsScript.Drive.FileIterator = DriveApp.getFilesByName(fileName);
+
     if (!fileObject.hasNext()) {
-      this._createFile(fileName, mimeType);
-      fileObject = DriveApp.getFilesByName(fileName);
+      const fileById = DriveApp.getFileById(fileName);
+      if ((fileById === undefined) || (fileById == null)) {
+        throw new Error("Could not find file by name or id: " + fileName);
+      }
+      return fileById;
     }
     return fileObject.next();
   }
@@ -307,15 +328,33 @@ export class DriveGS {
     newFileName: string = 'Untitled',
     mimeType: string = MimeTypes.DOCS,
   ): GoogleAppsScript.Drive.File {
+    let fileObject = this.getFileById(fileId);
+
+    if (fileObject === undefined) {
+      return DriveApp.getFileById(this._createFile(newFileName, mimeType));
+    }
+    return fileObject;
+  }
+
+  /**
+   * Determines if a file (by id) exists and return it
+   *
+   * @param {string} fileId the id of the file
+   *
+   * @return {GoogleAppsScript.Drive.File} the file as a Google object
+   */
+   getFileById(
+    fileId: string,
+  ): GoogleAppsScript.Drive.File | undefined {
     if (fileId == null) {
-      throw new Error('File id and file name need to be defined for ' + 'Drive.getOrCreateFileById');
+      throw new Error('File id and file name need to be defined for getFileById()');
     }
 
     let fileObject: GoogleAppsScript.Drive.File;
     try {
       fileObject = DriveApp.getFileById(fileId);
     } catch (e) {
-      return DriveApp.getFileById(this._createFile(newFileName, mimeType));
+      return undefined;
     }
     return fileObject;
   }

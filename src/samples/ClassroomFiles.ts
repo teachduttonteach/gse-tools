@@ -63,17 +63,23 @@ type ClassroomArgs = {
  * ```
  * @param {ClassroomArgs} args the parameters to use
  */
-export function updateClassroomFiles(args: ClassroomArgs): void {
+export function updateClassroomFiles(args: ClassroomArgs): boolean {
   if (args == null) args = {} as ClassroomArgs;
   const {
-    settingsName = 'Classroom',
+    settingsName = CLASSROOM_COLUMN,
     classroomCodeColumnName = CLASSROOM_CODE_COLUMN,
-    dataSheet = 'gse-tools Settings',
+    dataSheet = DATA_SHEET_NAME,
   } = args;
 
   const dataSheetInterface = new DataSheet();
 
-  const settings: SpreadsheetGS = dataSheetInterface.getDataSheet(dataSheet, settingsName);
+  const settings = dataSheetInterface.getDataSheet(dataSheet, settingsName);
+
+  if (settings === undefined) {
+    console.log("WARNING: Could not find data sheet from name/id '" + dataSheet + "' in updateClassroomFiles()");
+    return false;
+  }  
+  
   const classworkSettings: Map<string | Date, Map<string | Date, string | Date>> = settings.getDataAsMap(
     settingsName,
   );
@@ -94,6 +100,8 @@ export function updateClassroomFiles(args: ClassroomArgs): void {
       updateGoogleClassroom(currentClass, args);
     }
   });
+
+  return true;
 }
 
 /**

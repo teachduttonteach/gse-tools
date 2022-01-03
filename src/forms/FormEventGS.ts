@@ -2,7 +2,7 @@ import { FormEventOptions } from './FormEventOptions';
 import { DateParams } from '../DateParams';
 import { isJsxOpeningElement, OutputFileType } from '../../node_modules/typescript/lib/typescript';
 
-type WholeScheme = {
+export type WholeScheme = {
   email: EmailScheme,
   output: NameScheme
 }

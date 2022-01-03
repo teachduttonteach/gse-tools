@@ -122,6 +122,10 @@ type AgendaParams = {
    */
    daysToLookAheadColumnName?: string;
    /**
+    * Column to look for the maximum number of items in the agenda
+    */
+   maximumItemsColumnName?: string;
+   /**
    * What to look for in the slide notes if the current slide is the agenda;
    * default is 'Agenda'
    */
@@ -142,6 +146,10 @@ type AgendaParams = {
    * The Classroom Topic to use to find the regular blurb
    */
   classroomBlurbTopic?: string;
+  /**
+   * The maximum number of items to display
+   */
+  maximumItemsDefault?: number;
 
 };
 
@@ -161,7 +169,7 @@ export function updateSingleDailyAgenda(
     slideshowID,
     spreadsheetID,
     sheetName,
-    classroomBlurbTopic = CLASSROOM_BLURB_TOPIC,
+    maximumItemsDefault = DEFAULT_MAXIMUM_ITEMS,
   } = args;
 
   const utils = new Utilities();
@@ -179,9 +187,9 @@ export function updateSingleDailyAgenda(
 
   let lessonTitles: Array<LessonInfo> = [];
   if (sheetName !== undefined)
-    lessonTitles = _getAgendaFromSheet(new SpreadsheetGS(spreadsheetID).getSheet(sheetName), agendaDateColumnName, lessonColumnName, dateToday, futureDate);
+    lessonTitles = _getAgendaFromSheet(new SpreadsheetGS(spreadsheetID).getSheet(sheetName), agendaDateColumnName, lessonColumnName, dateToday, futureDate, maximumItemsDefault);
   else 
-    lessonTitles = _getAgendaFromClass(dateToday, futureDate, currentClass);
+    lessonTitles = _getAgendaFromClass(dateToday, futureDate, maximumItemsDefault, currentClass);
 
   if (writeAgenda) {
     _writeAndEmailAgenda(lessonTitles, currentClass, args);
@@ -317,7 +325,7 @@ export function updateSingleDailyAgenda(
  * @param {AgendaParams} args the parameters to use
  * @return {true} returns true if successful
  */
-export function updateDailyAgenda(args: AgendaParams = {}, slideDisplayArgs?: SlideDisplayParams): boolean {
+export function updateDailyAgenda(args: AgendaParams = {}, slideDisplayArgs?: SlideDisplayParams, preview: string = ""): boolean {
 
   const {
     settingsName = AGENDA_SETTINGS_NAME,
@@ -326,15 +334,21 @@ export function updateDailyAgenda(args: AgendaParams = {}, slideDisplayArgs?: Sl
     dataSheet = DATA_SHEET_NAME,
     daysToLookAheadDefault = DEFAULT_DAYS_TO_LOOK_AHEAD,
     daysToLookAheadColumnName = DAYS_TO_LOOK_AHEAD_COLUMN,
+    maximumItemsColumnName = MAXIMUM_ITEMS_COLUMN,
     timezoneOffset = DEFAULT_TIMEZONE_OFFSET,
     getAgendaFromSheet = false,
     writeAgenda = false,
-    displayAgenda = false   
+    displayAgenda = false,
+    maximumItemsDefault = DEFAULT_MAXIMUM_ITEMS   
   } = args;
 
   const dataSheetInterface = new DataSheet();  
 
-  const settings: SpreadsheetGS = dataSheetInterface.getDataSheet(dataSheet);
+  const settings = dataSheetInterface.getDataSheet(dataSheet);
+  if (settings === undefined) {
+    console.log("WARNING: Could not find data sheet with name/id '" + dataSheet + "' in updateDailyAgenda()");
+    return false;
+  }
   const classworkSettings: Map<string | Date, Map<string | Date, string | Date>> = settings.getDataAsMap(
     settingsName,
   );
@@ -345,7 +359,7 @@ export function updateDailyAgenda(args: AgendaParams = {}, slideDisplayArgs?: Sl
 
   const sampleUtils = new SampleUtilities();
 
-  classworkSettings.forEach(function(thisRow, row) {
+  classworkSettings.forEach(function(thisRow) {
     // Get the current slideshow
     const slideShow: SlideshowGS | undefined = sampleUtils._getSlideshow(
       thisRow, 
@@ -355,15 +369,17 @@ export function updateDailyAgenda(args: AgendaParams = {}, slideDisplayArgs?: Sl
     const currentClass: ClassGS = sampleUtils._getClass(classroomCodeColumnName, allClasses, thisRow);
 
     const futureDate: Date = sampleUtils._getFutureDate(dateToday, daysToLookAheadColumnName, daysToLookAheadDefault, thisRow);
+
+    const maxItems: number = sampleUtils._getMaxItems(maximumItemsColumnName, maximumItemsDefault, thisRow);
   
     let lessonTitles: Array<LessonInfo> = [];
     if (getAgendaFromSheet)
-      lessonTitles = _getAgendaFromSpreadsheet(dateToday, futureDate, thisRow, args);
+      lessonTitles = _getAgendaFromSpreadsheet(dateToday, futureDate, maxItems, thisRow, args);
     else 
-      lessonTitles = _getAgendaFromClass(dateToday, futureDate, currentClass);
+      lessonTitles = _getAgendaFromClass(dateToday, futureDate, maxItems, currentClass);
 
     if (writeAgenda) {
-      _writeAndEmailAgenda(lessonTitles, currentClass, args, thisRow);
+      _writeAndEmailAgenda(lessonTitles, currentClass, args, thisRow, preview);
     }
     if (typeof slideDisplayArgs === 'object' && displayAgenda && slideShow !== undefined) {
       _displayAgendaOnSlide(lessonTitles, slideShow, slideDisplayArgs, thisRow);
@@ -377,7 +393,8 @@ function _writeAndEmailAgenda(
   lessonTitles: Array<LessonInfo>, 
   currentClass: ClassGS,
   args: AgendaParams = {}, 
-  thisRow?: Map<string | Date, string | Date>
+  thisRow?: Map<string | Date, string | Date>,
+  preview: string = ""
   ) {
   let classroomBlurbTopic = args.classroomBlurbTopic || CLASSROOM_BLURB_TOPIC;
   const {
@@ -411,7 +428,7 @@ function _writeAndEmailAgenda(
         if (emailToParents.sendInBody) {
           mailHTML += _writeAgendaToEmailHTML(args, lessonTitles, currentClass);
         }
-        _emailAgendaToParents(emailToParents, agendaDoc, currentClass, sitesLinkColumnName, mailHTML, thisRow);
+        _emailAgendaToParents(emailToParents, agendaDoc, currentClass, sitesLinkColumnName, mailHTML, thisRow, preview);
       }
     }
   }
@@ -428,6 +445,7 @@ function _writeAndEmailAgenda(
 function _getAgendaFromClass(
   dateToday: Date, 
   futureDate: Date, 
+  maximumItemsDefault: number,
   currentClass: ClassGS
   ): Array<LessonInfo> {
   let lessonTitles: Array<LessonInfo> = [];
@@ -450,13 +468,16 @@ function _getAgendaFromClass(
           }
         )
       }
+      if ((maximumItemsDefault != -1) && (lessonTitles.length >= maximumItemsDefault)) {
+        return lessonTitles;
+      }
     }
   }
 
   return lessonTitles;
 }
 
-function _getAgendaFromSheet(agendaSheet: SheetGS, agendaDateColumnName: string, lessonColumnName: string, dateToday: Date, futureDate: Date): Array<LessonInfo> {
+function _getAgendaFromSheet(agendaSheet: SheetGS, agendaDateColumnName: string, lessonColumnName: string, dateToday: Date, futureDate: Date, maximumItems: number): Array<LessonInfo> {
   let lessonRow: number = 1;
   const lessonTitles: Array<LessonInfo> = [];
   while (
@@ -472,6 +493,11 @@ function _getAgendaFromSheet(agendaSheet: SheetGS, agendaDateColumnName: string,
 
         lessonInfo.lessonDate = dateValue;
         lessonTitles.push(lessonInfo);
+
+        if ((maximumItems != -1) && (lessonTitles.length >= maximumItems)) {
+          return lessonTitles;
+        }
+  
       }
     }
     lessonRow++;
@@ -492,6 +518,7 @@ function _getAgendaFromSheet(agendaSheet: SheetGS, agendaDateColumnName: string,
 function _getAgendaFromSpreadsheet(
   dateToday: Date,
   futureDate: Date,
+  maxItems: number,
   row: Map<string | Date, string | Date>,
   args: AgendaParams
 ): Array<LessonInfo> {
@@ -503,11 +530,15 @@ function _getAgendaFromSpreadsheet(
     } = args;
 
   const sampleUtils = new SampleUtilities();
-  let agendaSheet: SheetGS;
 
-  agendaSheet = sampleUtils._getSecondarySheet(agendaSpreadsheetIDColumnName, agendaSheetNameColumnName, row);
+  let agendaSheet = sampleUtils._getSecondarySheet(agendaSpreadsheetIDColumnName, agendaSheetNameColumnName, row);
 
-  return _getAgendaFromSheet(agendaSheet, agendaDateColumnName, lessonColumnName, dateToday, futureDate);
+  if (agendaSheet === undefined) {
+    console.log("WARNING: Could not find agenda sheet from column '" + agendaSheetNameColumnName + "' in _getAgendaFromSpreadsheet()");
+    return [];
+  }  
+
+  return _getAgendaFromSheet(agendaSheet, agendaDateColumnName, lessonColumnName, dateToday, futureDate, maxItems);
 }
 
 /**
@@ -641,6 +672,7 @@ function _emailAgendaToParents(
   sitesLinkColumnName: string, 
   mailHTML: string,
   row?: Map<string | Date, string | Date>, 
+  preview: string = ""
   ) {
   if (emailToParents != undefined) {
     let sitesLink = emailToParents.sitesLink;
@@ -659,8 +691,12 @@ function _emailAgendaToParents(
     sendMail.setSubject(subject);
 
     const parentEmails = currentClass.getParentEmails();
-    for (let email of parentEmails) {
-      sendMail.addRecipient(email, RecipientType.BCC);
+    if (preview != "") {
+      sendMail.addRecipient(preview, RecipientType.TO);
+    } else {
+      for (let email of parentEmails) {
+        sendMail.addRecipient(email, RecipientType.BCC);
+      }
     }
     let mailBody = "";
     if (sendInBody)
@@ -682,7 +718,7 @@ function _emailAgendaToParents(
         mailBody += '<br><a href="' + sitesLink.toString() + '">' + sitesLinkText + '</a>';
     }
     sendMail.setBody(mailBody, true);
-    sendMail.send();
+    sendMail.send(false);
   }
 
 }

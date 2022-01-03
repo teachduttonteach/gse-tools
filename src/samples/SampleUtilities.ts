@@ -72,18 +72,19 @@ export type ParentEmailInfo = {
       secondarySpreadsheetIDColumnName: string,
       secondarySheetNameColumnName: string,
       thisRow: Map<string | Date, string | Date>
-      ): SheetGS {
+      ): SheetGS | undefined {
     
         // Get the spreadsheet that contains the data for this class
         const thisSpreadsheetID = thisRow.get(secondarySpreadsheetIDColumnName);
         if (thisSpreadsheetID == null || typeof thisSpreadsheetID !== 'string' || thisSpreadsheetID == "") {
-          throw new Error('Could not find spreadsheet column name in _getSecondarySheet()');
+          console.log("WARNING: Could not find spreadsheet column name in _getSecondarySheet()");
+          return undefined;
         }
         const thisSheetName = thisRow.get(secondarySheetNameColumnName);
         if (thisSheetName == null || typeof thisSheetName !== 'string') {
-          throw new Error(
-            'Could not find sheet name column name (' + secondarySheetNameColumnName + ') in _getSecondarySheet()',
+          console.log("WARNING: Could not find sheet name column name (" + secondarySheetNameColumnName + ") in _getSecondarySheet()",
           );
+          return undefined;
         }
         return new SpreadsheetGS(thisSpreadsheetID, thisSheetName).getSheet(thisSheetName);
     
@@ -93,7 +94,7 @@ export type ParentEmailInfo = {
       if (row === undefined) {
         return allClasses.getClass(classroomCodeColumnName);
       }
-      if (row == undefined || classroomCodeColumnName == undefined || typeof classroomCodeColumnName !== 'object') {
+      if (classroomCodeColumnName == undefined || classroomCodeColumnName == "") {
         throw new Error('Could not find row in classworkSettings in _getClass()');
       }
     
@@ -118,8 +119,12 @@ export type ParentEmailInfo = {
       return new Date(dueDateRaw.substring(colon + 2));
     }
     
-    _getFutureDate(dateToday: Date, daysToLookAheadColumnName: string | undefined, daysToLookAheadDefault: number, row?: Map<string | Date, string | Date>): Date {
-      let futureDate: Date = new Date(dateToday);
+    _getFutureDate(
+      dateToday: Date, 
+      daysToLookAheadColumnName: string | undefined, 
+      daysToLookAheadDefault: number, 
+      row?: Map<string | Date, string | Date>
+      ): Date {
       let daysToLookAhead: number = daysToLookAheadDefault;
     
       if (daysToLookAheadColumnName !== undefined && daysToLookAheadColumnName != "" && row !== undefined) {
@@ -128,11 +133,29 @@ export type ParentEmailInfo = {
           daysToLookAhead = +thisDays;
         }
       }
+    
+      return this.calculateFutureDate(dateToday, daysToLookAhead);
+    }
+
+    calculateFutureDate(dateToday: Date, daysToLookAhead: number): Date {
       const utils = new Utilities();
     
+      const futureDate = new Date(dateToday);
       futureDate.setMilliseconds(futureDate.getMilliseconds() + utils.getOneDay() * daysToLookAhead); 
     
       return futureDate;
+    }
+
+    _getMaxItems(
+      maximumItemsColumnName: string, 
+      maximumItemsDefault: number, 
+      row: Map<string | Date, string | Date>
+      ): number {
+        const maxItemsValue = row.get(maximumItemsColumnName);
+        if (maxItemsValue == undefined || typeof maxItemsValue !== 'string' || maxItemsValue == "") {
+          return maximumItemsDefault;
+        }
+        return +maxItemsValue;
     }
     
     /**

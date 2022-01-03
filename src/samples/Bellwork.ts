@@ -3,7 +3,7 @@ import { ClassroomGS } from '../classroom/ClassroomGS';
 import { DriveGS } from '../drive/DriveGS';
 import { DataSheet } from '../DataSheet';
 import { Utilities } from '../utils/Utilities';
-import { SheetGS } from '../sheets/SheetGS';
+import { getLastRow, SheetGS } from '../sheets/SheetGS';
 import { SlideDisplayParams, SlideshowGS, TextBoxSlideParams } from '../slides/SlideshowGS';
 import { FormsGS } from '../forms/FormsGS';
 import { DateParams, DateUtilities } from '../DateParams';
@@ -11,6 +11,12 @@ import { CalendarGS } from '../calendar/CalendarGS';
 import { QuestionType } from '../enums/QuestionType';
 import { FormEventGS } from '../forms/FormEventGS';
 import { SampleUtilities } from './SampleUtilities';
+import { EmailGS, RecipientType } from '../email/EmailGS';
+
+type EmailPatterns = {
+  emailScheme: string;
+  outputScheme: string;
+}
 
 /**
  * All of the arguments used by the tabulateQuestion function
@@ -54,7 +60,10 @@ type TabulateParams = {
    * Name for the sheet to tabulate answers
    */
   questionSheetName?: string;
-
+  /**
+   * To hold the email schemes
+   */
+  emailSchemes?: Array<EmailPatterns>;
 };
 
 /**
@@ -418,7 +427,7 @@ type QuestionArgs = {
  *
  * @param {QuestionArgs} args the parameters
  */
-export function updateQuestion(args: QuestionArgs = {}, slideDisplayArgs: SlideDisplayParams = {}): void {
+export function updateQuestion(args: QuestionArgs = {}, slideDisplayArgs: SlideDisplayParams = {}): boolean {
   const {
     settingsName = QUESTION_SETTINGS_NAME,
     questionFormIDColumnName = QUESTION_FORM_COLUMN,
@@ -440,7 +449,13 @@ export function updateQuestion(args: QuestionArgs = {}, slideDisplayArgs: SlideD
 
   const dataSheetInterface = new DataSheet();
 
-  const settings: SpreadsheetGS = dataSheetInterface.getDataSheet(dataSheet, settingsName);
+  const settings = dataSheetInterface.getDataSheet(dataSheet, settingsName);
+  
+  if (settings === undefined) {
+    console.log("Could not find data sheet for name/id '" + dataSheet + "' in updateQuestion()");
+    return false;
+  }
+
   const questionSettings: Map<string | Date, Map<string | Date, string | Date>> = settings.getDataAsMap(
     settingsName,
   );
@@ -454,11 +469,13 @@ export function updateQuestion(args: QuestionArgs = {}, slideDisplayArgs: SlideD
   questionSettings.forEach(function(thisRow) {
 
     // Get the spreadsheet that holds all of the questions
-    const questionSheet: SheetGS = sampleUtils._getSecondarySheet(
+    const questionSheet: SheetGS | undefined = sampleUtils._getSecondarySheet(
       questionSpreadsheetIDColumnName, 
       questionSheetNameColumnName,
       thisRow
       );
+    
+    if (questionSheet === undefined) return;
 
     // Get the current slideshow
     const slideShow: SlideshowGS | undefined = sampleUtils._getSlideshow(
@@ -535,6 +552,8 @@ export function updateQuestion(args: QuestionArgs = {}, slideDisplayArgs: SlideD
     }
     return false;
   });
+
+  return false;
 }
 
 export function updateSingleQuestion(args: QuestionArgs = {}, slideDisplayArgs: SlideDisplayParams = {}): boolean {
@@ -936,6 +955,7 @@ export function tabulateAnswers(event: GoogleAppsScript.Events.FormsOnFormSubmit
     questionTitleColumn = QUESTION_TITLE_COLUMN,
     spreadsheetIDColumn = SPREADSHEET_COLUMN,
     columnDateParams = {} as DateParams,
+    emailSchemes = [] as Array<EmailPatterns>,
   } = args;
 
   const formTitle = formEvent.getTitle();
@@ -943,16 +963,23 @@ export function tabulateAnswers(event: GoogleAppsScript.Events.FormsOnFormSubmit
   if (response instanceof Array) {
     throw new Error('Bellwork form response needs to have single values only in tabulateAnswers()');
   }
-  const title = formEvent.getFullDate(columnDateParams) + '\n' + formEvent.getItemTitle(0);
-  formEvent.addEmailScheme("first.last","first last");
-  formEvent.addEmailScheme("first.last.#","first last");
-  formEvent.addEmailScheme("firstl#","first l");
+  const date = formEvent.getFullDate(columnDateParams);
+  const title = formEvent.getItemTitle(0);
+  for (const scheme of emailSchemes) {
+    formEvent.addEmailScheme(scheme.emailScheme, scheme.outputScheme);
+  }
   const fullName = formEvent.getNameFromEmail();
+  const emailAddress = formEvent.getEmail();
 
   if (questionSheetID === undefined) {
-    const dataSheetInterface = new DataSheet();
+    const dataSheetInterface = new DataSheet().getDataSheet(dataSheet, sheetName);
 
-    const allClasses = dataSheetInterface.getDataSheet(dataSheet, sheetName).getDataAsMap(sheetName);
+    if (dataSheetInterface === undefined) {
+      console.log("WARNING: Could not find data sheet with name/id '" + dataSheet + "' in tabulateAnswers()");
+      return false;
+    }
+
+    const allClasses = dataSheetInterface.getDataAsMap(sheetName);
 
     for (const className of allClasses.keys()) {
       const classData = allClasses.get(className);
@@ -964,46 +991,148 @@ export function tabulateAnswers(event: GoogleAppsScript.Events.FormsOnFormSubmit
             if (questionResultsSheetName != null && questionResultsSheetName != undefined) {
               questionSheetName = questionResultsSheetName.toString();
             } else {
-              throw new Error(
-                'Could not find bellwork results sheet for class "' + className + '" in column "' + questionResultsColumn + '" for tabulateAnswers()',
+              console.log("WARNING: Could not find bellwork results sheet for class '" + className + "' in column '" + questionResultsColumn + "' for tabulateAnswers()"
               );
+              return false;
             }
 
             const spreadsheetID = classData.get(spreadsheetIDColumn);
             if (spreadsheetID == null || spreadsheetID == undefined) {
-              throw new Error(
-                'Could not find bellwork results sheet ID for class "' + className + '" in column "' + spreadsheetIDColumn + '" for tabulateAnswers()',
-              );
+              console.log("WARNING: Could not find bellwork results sheet ID for class '" + className + "' in column '" + spreadsheetIDColumn + "' for tabulateAnswers()");
+              return false;
             }
             questionSheetID = spreadsheetID.toString();
           }
         } else {
-          throw new Error(
-            'Could not find question title for class "' + className + '" in column "' + questionTitleColumn + '" in tabulateAnswers()',
-          );
+          console.log("WARNING: Could not find question title for class '" + className + "' in column '" + questionTitleColumn + "' in tabulateAnswers()");
+          return false;
         }
       } else {
-        throw new Error('Could not find data for class "' + className + '" in tabulateAnswers()');
+        console.log("WARNING: Could not find date for class '" + className + "' in tabulateAnswers()");
+        return false;
       }
     }
   }
 
   const responseSheet = new SpreadsheetGS(questionSheetID, questionSheetName).getSheet(questionSheetName);
-  if (responseSheet.getValue(1, 3) != title) {
-    responseSheet.insertCol(3).setValue(title, 1, 3);
+  if (responseSheet.getValue(TABULATE_ANSWERS_DATE_ROW, TABULATE_ANSWERS_FIRST_RESULTS_COLUMN) != date) {
+    responseSheet.insertCol(TABULATE_ANSWERS_FIRST_RESULTS_COLUMN).setValues([date, title], TABULATE_ANSWERS_DATE_ROW, TABULATE_ANSWERS_FIRST_RESULTS_COLUMN, 2, 1);
   }
 
-  let foundName: boolean = false;
   const lastRow: number = responseSheet.getLastRow();
-  for (let i = 2; i <= lastRow; i++) {
-    if (responseSheet.getValue(i, 1) == fullName) {
-      responseSheet.setValue(response, i, 3);
-      foundName = true;
-      break;
+  for (let i = TABULATE_ANSWERS_FIRST_ANSWERS_ROW; i <= lastRow; i++) {
+    if (responseSheet.getValue(i, TABULATE_ANSWERS_EMAIL_COLUMN) == emailAddress) {
+      responseSheet.setValue(response, i, TABULATE_ANSWERS_FIRST_RESULTS_COLUMN);
+      return true;
     }
   }
-  if (!foundName) {
-    responseSheet.setValues([[fullName, response]], lastRow + 1, 1, 1, 2);
+
+  responseSheet.setValues([[fullName, emailAddress, response]], lastRow + 1, TABULATE_ANSWERS_NAME_COLUMN, 1, 3);
+  responseSheet.hideColumn(TABULATE_ANSWERS_EMAIL_COLUMN).sortByColumn(TABULATE_ANSWERS_NAME_COLUMN);
+
+  return true;
+}
+
+export function sendRespondentAnswers(daysToSummarize: number, args?: TabulateParams, preview: string = ""): boolean {
+  if (args == undefined) args = {} as TabulateParams;
+  let questionSheetName = undefined || args.questionSheetName;
+  let questionSheetID = undefined || args.questionSheetID;
+  const {
+    questionResultsColumn = QUESTION_RESULTS_COLUMN,
+    dataSheet = DATA_SHEET_NAME,
+    sheetName = QUESTION_SHEET_NAME,
+    questionTitleColumn = QUESTION_TITLE_COLUMN,
+    spreadsheetIDColumn = SPREADSHEET_COLUMN,
+  } = args;
+
+  let currentClassName = questionSheetName;
+
+  // TODO: Allow for dataSheetID as well (globally)
+
+  // Get relevant question sheet
+  if (questionSheetID === undefined) {
+    const dataSheetInterface = new DataSheet().getDataSheet(dataSheet, sheetName);
+
+    if (dataSheetInterface === undefined) {
+      console.log("WARNING: Data sheet not found for name/id '" + dataSheet + "' in sendRespondentAnswers()");
+      return false;
+    }
+
+    const allClasses = dataSheetInterface.getDataAsMap(sheetName);
+
+    for (const className of allClasses.keys()) {
+      const classData = allClasses.get(className);
+      if (classData != null && classData != undefined) {
+        const questionTitle = classData.get(questionTitleColumn);
+        if (questionTitle != null && questionTitle != undefined) {
+          const questionResultsSheetName = classData.get(questionResultsColumn);
+          if (questionResultsSheetName != undefined && questionResultsSheetName != null && questionResultsSheetName != "") {
+            questionSheetName = questionResultsSheetName.toString();
+          } else {
+            console.log("WARNING: Could not find bellwork results sheet for class '" + className + "' in column '" + questionResultsColumn + "' for tabulateAnswers()"
+            );
+            continue;
+          }
+
+          const spreadsheetID = classData.get(spreadsheetIDColumn);
+          if (spreadsheetID == undefined || spreadsheetID == null || spreadsheetID == "") {
+            console.log("WARNING: Could not find bellwork results sheet ID for class '" + className + "' in column '" + spreadsheetIDColumn + "' for tabulateAnswers()");
+            continue;
+          }
+          questionSheetID = spreadsheetID.toString();
+          currentClassName = className.toString();
+          _sendRespondentEmails(questionSheetID, questionSheetName, daysToSummarize, currentClassName, preview);
+        } else {
+          console.log("WARNING: Could not find question title for class '" + className + "' in column '" + questionTitleColumn + "' in tabulateAnswers()");
+          continue;
+        }
+      } else {
+        console.log("WARNING: Could not find date for class '" + className + "' in tabulateAnswers()");
+        continue;
+      }
+    }
+  }
+  return true;
+}
+
+function _sendRespondentEmails(questionSheetID: string, questionSheetName: string, daysToSummarize: number, currentClassName: string, preview: string = ""): boolean {
+  const responseSheet = new SpreadsheetGS(questionSheetID, questionSheetName).getSheet(questionSheetName);
+
+  // Find start column and end column for days to summarize
+  const futureDate: Date = new SampleUtilities().calculateFutureDate(new Date(), 0 - daysToSummarize);
+
+  const utils = new Utilities();
+  for (let studentRow = TABULATE_ANSWERS_FIRST_ANSWERS_ROW; studentRow <= responseSheet.getLastRow(); studentRow++) {
+    let qAndA = [];
+    let count = 0;
+
+    for (let dateColumn = TABULATE_ANSWERS_FIRST_RESULTS_COLUMN; utils.compareDates(responseSheet.getValue(TABULATE_ANSWERS_DATE_ROW, dateColumn), futureDate, true, true, 'YEAR'); dateColumn++) {
+      const answer = responseSheet.getValue(studentRow, dateColumn)
+      qAndA.push({
+        question: responseSheet.getValue(TABULATE_ANSWERS_QUESTION_ROW, dateColumn),
+        answer: answer
+      });
+      answer != "" ? count++ : 0;
+    }
+
+    // For each student, send a summary
+    const email = new EmailGS();
+    email.setSubject(TABULATE_ANSWERS_STUDENT_EMAIL + currentClassName);
+    // Include a total for the week
+    let body = "<h4>Total answers: " + count + "</h4><ul>";
+    // Include the questions and answers
+    for (const question of qAndA) {
+      body += "<li>" + question.question + ": <b>" + question.answer + "</li>";
+    }
+    body += "</ul>";
+    email.setBody(body);
+    if (preview != "") {
+      email.addRecipient(preview, RecipientType.TO);
+      email.send(false);
+      return true;      
+    }
+    email.addRecipient(responseSheet.getValue(studentRow, TABULATE_ANSWERS_EMAIL_COLUMN).toString(), RecipientType.TO);
+    email.send(false);
   }
 
   return true;

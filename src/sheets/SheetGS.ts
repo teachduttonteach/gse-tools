@@ -554,6 +554,7 @@ export function setSheetBackground(obj: SheetGS, row: number, col: number, color
  * Sets the designated value at the specified column if all of the passed
  *  columnsToMatch names and values match for a row
  *
+ * @param {SheetGS} obj the object itself
  * @param {string | Date} value the new value at the found location
  * @param {string | Date | number} column the column to place the value
  * @param {Array<{name: string | Date, value: string | Date}>} columnsToMatch the
@@ -570,6 +571,42 @@ export function setValueWithMatchingColumns(
   reset: boolean = true,
 ): SheetGS | null {
   return obj.setValueWithMatchingColumns(value, column, columnsToMatch, reset);
+}
+
+/**
+ * Hides a particular column
+ * 
+ * @param {SheetGS} obj the object itself
+ * @param {number} col the column to hid3
+ * @returns {SheetGS} the object for chaining
+ */
+export function hideSheetColumn(
+  obj: SheetGS,
+  col: number
+): SheetGS {
+  return obj.hideColumn(col);
+}
+
+/**
+ * Hides a particular row
+ * 
+ * @param {SheetGS} obj the object itself
+ * @param {number} row the row to hid3
+ * @returns {SheetGS} the object for chaining
+ */
+export function hideSheetRow(obj: SheetGS, row: number): SheetGS {
+  return obj.hideRow(row);
+}
+
+/**
+ * Sort sheet by a particular column or columns
+ * 
+ * @param {SheetGS} obj the object itself
+ * @param {number | Array<number>} col the column or columns to sort by
+ * @returns {SheetGS} the object for chaining
+ */
+export function sortBySheetColumn(obj: SheetGS, col: number | Array<number>): SheetGS {
+  return obj.sortByColumn(col);
 }
 
 /**
@@ -1589,4 +1626,44 @@ export class SheetGS {
     this._sheet.getRange(row, col).setBackground(color);
     return this;
   }
+
+  /**
+   * Hides a particular column
+   * 
+   * @param {number} col the column to hid3
+   * @returns {SheetGS} the object for chaining
+   */
+  hideColumn(col: number): SheetGS {
+    this._sheet.hideColumn(this._sheet.getRange(1, col));
+    return this;
+  }
+
+  /**
+   * Hides a particular row
+   * 
+   * @param {number} row the row to hid3
+   * @returns {SheetGS} the object for chaining
+   */
+   hideRow(row: number): SheetGS {
+    this._sheet.hideRow(this._sheet.getRange(row, 1));
+    return this;
+  }
+
+  /**
+   * Sort sheet by a particular column or columns
+   * 
+   * @param {number | Array<number>} col the column or columns to sort by
+   * @returns {SheetGS} the object for chaining
+   */
+  sortByColumn(col: number | Array<number>): SheetGS {
+    if (typeof col === 'number') {
+      this._sheet.sort(col);
+    } else if (typeof col === 'object') {
+      for (const column of col) {
+        this._sheet.sort(column);
+      }
+    }
+    return this;
+  }
 }
+

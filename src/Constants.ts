@@ -33,6 +33,7 @@ const DAYS_TO_LOOK_AHEAD_COLUMN = "Days to Look Ahead";
 const OPTIONS_COLUMN = "Options";
 const PICTURE_COLUMN = "Picture";
 const LESSON_COLUMN = "Lesson";
+const CLASSROOM_COLUMN = "Classroom";
 const DATE_COLUMN = "Date";
 const QUESTION_TITLE_COLUMN_NAME = "Bellwork";
 const QUESTION_SHEET_NAME = QUESTION_TITLE_COLUMN_NAME;
@@ -43,6 +44,7 @@ const IMAGE_COLUMN = "Image Column";
 const SITES_LINK_COLUMN = "Google Sites";
 const QUESTION_TYPE_COLUMN_NAME = "Question Type";
 const SHEET_NAME_COLUMN_NAME = "Sheet Name";
+const MAXIMUM_ITEMS_COLUMN = "Maximum Items";
 
 const DATA_SHEET_NAME = "gse-tools Settings";
 const CLASSROOM_BLURB_TOPIC = "Weekly Announcements";
@@ -55,6 +57,8 @@ const DEFAULT_TIMEZONE_OFFSET = -5;
 const DEFAULT_DAYS_TO_LOOK_AHEAD = 7;
 const DEFAULT_DATE_COMPARE_LEVEL = 'YEAR';
 
+const DEFAULT_MAXIMUM_ITEMS = -1;
+
 const TESTING_EMAIL_TO = "john.dutton@campusinternationalschool.org";
 const TESTING_EMAIL_CC = "leroysolay@gmail.com";
 const TESTING_EMAIL_BCC = "teachduttonteach@gmail.com";
@@ -65,3 +69,11 @@ const CHANGE_WORKING_STATUS_CELL: [number, number] = [1, 1];
 const SPECIFIC_SLIDE_NOTES = "Slide Notes";
 const NO_TITLE_TEXT = "No Question Today";
 const NO_TOPIC = "None";
+
+const TABULATE_ANSWERS_DATE_ROW = 1;
+const TABULATE_ANSWERS_QUESTION_ROW = 2;
+const TABULATE_ANSWERS_FIRST_ANSWERS_ROW = 3;
+const TABULATE_ANSWERS_NAME_COLUMN = 1;
+const TABULATE_ANSWERS_EMAIL_COLUMN = 2;
+const TABULATE_ANSWERS_FIRST_RESULTS_COLUMN = 3;
+const TABULATE_ANSWERS_STUDENT_EMAIL = "Your Warm-Up responses this week for ";
